@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SmartCode.WordsConverter
+{
+    public class PascalCaseConverter : IWordsConverter
+    {
+        public String Convert(IEnumerable<string> words)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var word in words)
+            {
+                string firstChar = word.Substring(0, 1).ToUpper();
+                stringBuilder.Append(firstChar);
+                string leftChar = word.Substring(1).ToLower();
+                stringBuilder.Append(leftChar);
+            }
+            return stringBuilder.ToString();
+        }
+    }
+}

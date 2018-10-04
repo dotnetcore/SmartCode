@@ -1,0 +1,9 @@
+﻿@using RazorLight
+@using SmartCode
+@inherits TemplatePage<BuildContext>
+@{
+    DisableEncoding = true;
+    var project = Model.Project;
+}
+
+@Model.Build

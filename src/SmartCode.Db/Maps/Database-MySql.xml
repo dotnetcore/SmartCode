@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SmartSqlMap Scope="Database-MySql"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <Statements>
+    <Statement Id="QueryTable">
+      SELECT
+      T.TABLE_NAME Name,
+      ( CASE WHEN T.TABLE_TYPE = 'VIEW' THEN 'V' ELSE 'T' END ) AS TypeName
+      FROM
+      Information_Schema.TABLES AS T
+      WHERE
+      T.Table_Schema = ?DBName;
+    </Statement>
+    <Statement Id="QueryColumn">
+      SELECT
+      Col.Column_Name AS `Name`,
+      Col.Data_Type AS DbType,
+      ( CASE WHEN Col.Numeric_Precision Is Not Null THEN (Col.Numeric_Precision+1)
+      When Col.Character_Maximum_Length Is Not Null Then Col.Character_Maximum_Length
+      Else Null END
+      ) AS DataLength,
+      ( CASE WHEN Col.Is_Nullable = 'NO' THEN 0 ELSE 1 END ) AS IsNullable,
+      ( CASE WHEN Col.Column_Key = 'PRI' THEN 1 ELSE 0 END ) AS IsPrimaryKey,
+      ( CASE WHEN Col.Extra = 'auto_increment' THEN 1 ELSE 0 END ) AS AutoIncrement,
+      Col.Column_Comment AS `Description`
+      FROM
+      Information_Schema.COLUMNS AS Col
+      Where Table_Schema=?DBName and Table_Name=?TableName;
+    </Statement>
+  </Statements>
+</SmartSqlMap>

@@ -1,0 +1,34 @@
+﻿@using SmartCode
+@using SmartCode.CLI
+@using RazorLight
+
+@inherits TemplatePage<BuildContext>
+@{
+    DisableEncoding = true;
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+@{ await IncludeAsync("Copyright.cshtml", Model); }
+
+    using System;
+    namespace @(project.Module).@buildTask.Module
+    {
+    @("///<summary>")
+    @($"///{table.Description ?? table.ConvertedName}")
+    @("///</summary>")
+    public class @table.ConvertedName
+    {
+    @foreach (var column in table.Columns)
+    {
+        @("///<summary>")
+        @this.NewLine()
+        @($"///{column.Description ?? column.ConvertedName}")
+        @this.NewLine()
+        @("///</summary>")
+        @this.NewLine()
+        <text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
+        @this.NewLine();
+    }
+    }
+    }

@@ -1,0 +1,31 @@
+﻿@using RazorLight
+@using SmartCode
+@inherits TemplatePage<BuildContext>
+@{
+    DisableEncoding = true;
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var primaryKeyType = table.PKColumn?.LanguageType ?? "int";
+    var autoIncrement = table.AutoIncrement;
+}
+@{ await IncludeAsync("Copyright.cshtml", Model); }
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Text;
+    using SmartSql.Abstractions;
+    using SmartSql.DyRepository;
+    using @(project.Module).Entity;
+
+    namespace @(project.Module).@buildTask.Module
+    {
+    public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
+        {
+        @if (autoIncrement && primaryKeyType != "int")
+        {
+            <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @this.NewLine()
+        }
+        }
+        }
