@@ -9,8 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="SmartSql" Version="3.7.6" />
-    <PackageReference Include="YamlDotNet" Version="5.1.0" />
+    <PackageReference Include="YamlDotNet" Version="5.2.0" />
   </ItemGroup>
 
 </Project>
