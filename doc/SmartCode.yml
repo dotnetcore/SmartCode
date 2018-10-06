@@ -25,13 +25,6 @@ Build:
       Path: '.'
       Name: '{{Project.Module}}'
       Extension: '.sln'
-  Service:
-    Type: Project
-    Template: Proj.cshtml
-    Output:
-      Path: '{{Project.Module}}.Serivce'
-      Name: '{{Project.Module}}.Serivce'
-      Extension: '.csproj'
   SmartSqlConfig:
     Type: Project
     Template: SqlMapConfig.cshtml
@@ -39,6 +32,13 @@ Build:
       Path: '{{Project.Module}}.API'
       Name: 'SmartSqlMapConfig'
       Extension: '.xml'
+  Entity_Project:
+    Type: Project
+    Template: Proj.cshtml
+    Output:
+      Path: '{{Project.Module}}.Entity'
+      Name: '{{Project.Module}}.Entity'
+      Extension: '.csproj'
   Entity:
     Type: Table
     Module: Entity
@@ -71,7 +71,13 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
-
+  Repository_Project:
+    Type: Project
+    Template: Proj-Repository.cshtml
+    Output:
+      Path: '{{Project.Module}}.Repository'
+      Name: '{{Project.Module}}.Repository'
+      Extension: '.csproj'
   Repository:
     Type: Table
     Module: Repository

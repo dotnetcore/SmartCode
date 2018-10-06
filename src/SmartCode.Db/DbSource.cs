@@ -43,11 +43,11 @@ namespace SmartCode.Db
                     DbRepository = new DbRepository(_project, _loggerFactory);
                     _tables = DbRepository.QueryTable();
                     var dbTypeConvert = _pluginManager.Resolve<IDbTypeConverter>();
-                    foreach (var table in Tables)
+                    foreach (var table in _tables)
                     {
                         foreach (var col in table.Columns)
                         {
-                            dbTypeConvert.LanguageType(DbRepository.DbProvider, _project.Language, col.DbType);
+                            col.LanguageType = dbTypeConvert.LanguageType(DbRepository.DbProvider, _project.Language, col.DbType);
                         }
                     }
                 }

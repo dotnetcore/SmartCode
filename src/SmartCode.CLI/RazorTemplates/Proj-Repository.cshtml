@@ -1,0 +1,21 @@
+﻿@using RazorLight
+@using SmartCode
+@inherits TemplatePage<BuildContext>
+@{
+    DisableEncoding = true;
+    var project = Model.Project;
+}
+
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="SmartSql" Version="3.7.8" />
+        <PackageReference Include="SmartSql.DyRepository" Version="3.6.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\@(project.Module).Entity\@(project.Module).Entity.csproj" />
+    </ItemGroup>
+</Project>
+

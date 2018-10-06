@@ -5,9 +5,8 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon />
-    <OutputType>WinExe</OutputType>
     <StartupObject />
-    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +32,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="RazorTemplates\Copyright.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="RazorTemplates\Proj-Repository.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="RazorTemplates\Proj.cshtml">
