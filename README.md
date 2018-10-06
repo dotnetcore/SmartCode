@@ -137,7 +137,7 @@ Build:
   SqlMap:
     Type: Table
     Template: SqlMap-SqlServer.cshtml
-    Output: 
+    Output:
       Path: '{{Project.Module}}.API/Maps'
       Extension: .xml
     IgnoreTables: null
@@ -192,11 +192,15 @@ DbSource.Paramters 接受以下三个参数：
 
 #### Build 任务构建
 
-| 构建类型 | 说明 |
+| 参数名 | 说明 |
 | :--------- | --------:|
-| Clear | 用于清理目录s/文件s |
-| Project | 用于构建单文件，如：解决方案文件/项目文件.... |
-| Table | 用于构建以数据表为基础的文件，如：Entity,Repository文件... |
+| Type | 构建类型,Clear:用于清理目录s/文件s,Project:用于构建单文件，如：解决方案文件/项目文件,Table: 用于构建以数据表为基础的文件，如：Entity,Repository文件|
+| Template | 模板文件 |
+| Output | 输出 |
+| IncludeTables | 包括表名s |
+| IgnoreTables | 忽略表名s |
+| NamingConverter | 命名转换器 |
+| Paramters | 自定义构建参数 |
 
 #### NamingConverter 命名转换
 
