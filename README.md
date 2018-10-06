@@ -14,7 +14,7 @@
 
 ### Getting Started
 
-1. 下载
+1. 下载 [SmartCode-win64.7z](https://github.com/Ahoo-Wang/SmartCode/releases/download/v1.0.0/SmartCode-win64.7z)
 2. 解压
 3. 设置环境变量
 4. 编辑构建配置文件（默认：SmartCode.yml）
