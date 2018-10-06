@@ -27,6 +27,147 @@
 
 ### 构建配置文件
 
+``` yml
+Module: SmartSql.Starter
+Author: Ahoo Wang
+DataSource:
+  Name: Db
+  Paramters:
+    DbName: SmartSqlStarterDB
+    DbProvider: SqlServer
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True
+Language: CSharp
+TemplateEngine: Razor 
+Output: 
+  Type: File
+  Path: 'E://SmartSql-Starter'
+
+# 构建任务
+Build:
+  ClearDir:
+    Type: Clear
+    Paramters:
+      Dirs: '.'
+  Solution:
+    Type: Project
+    Template: Sln.cshtml
+    Output:
+      Path: '.'
+      Name: '{{Project.Module}}'
+      Extension: '.sln'
+  SmartSqlConfig:
+    Type: Project
+    Template: SqlMapConfig.cshtml
+    Output:
+      Path: '{{Project.Module}}.API'
+      Name: 'SmartSqlMapConfig'
+      Extension: '.xml'
+  Entity_Project:
+    Type: Project
+    Template: Proj.cshtml
+    Output:
+      Path: '{{Project.Module}}.Entity'
+      Name: '{{Project.Module}}.Entity'
+      Extension: '.csproj'
+  Entity:
+    Type: Table
+    Module: Entity
+    Template: Entity.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Default
+          Paramters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  Repository_Project:
+    Type: Project
+    Template: Proj-Repository.cshtml
+    Output:
+      Path: '{{Project.Module}}.Repository'
+      Name: '{{Project.Module}}.Repository'
+      Extension: '.csproj'
+  Repository:
+    Type: Table
+    Module: Repository
+    Template: Repository.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: 'I{{OutputName}}Repository'
+      Extension: .cs
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Default
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Default
+
+  SqlMap:
+    Type: Table
+    Template: SqlMap-SqlServer.cshtml
+    Output: 
+      Path: '{{Project.Module}}.API/Maps'
+      Extension: .xml
+    IgnoreTables: null
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Default
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Default
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Default
+```
+
 | 参数名 | 说明 |
 | :--------- | --------:|
 | Module | 根模块名 |
