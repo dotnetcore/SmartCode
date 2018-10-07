@@ -17,7 +17,7 @@
 1. Install from .NET Core Global Tool  
 
   ``` shell
-  dotnet tool install --global SmartCode.CLI --version 1.0.0
+  dotnet tool install --global SmartCode.CLI
   ```
 
 2. 编辑构建配置文件（默认：SmartCode.yml）
