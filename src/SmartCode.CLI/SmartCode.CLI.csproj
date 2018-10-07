@@ -1,12 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <LangVersion>latest</LangVersion>
-    <ApplicationIcon />
-    <StartupObject />
-    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>SmartCode</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Title>SmartCode.CLI</Title>
+    <Description>
+      SmartCode = IDataSource -> IBuildTask -> IOutput => Build Everything!!!
+    </Description>
+    <Authors>Ahoo Wang</Authors>
+    <Copyright>Ahoo Wang</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/Ahoo-Wang/SmartCode</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Ahoo-Wang/SmartCode</PackageProjectUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>SmartCode SmartSql</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,6 +84,12 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\doc\SmartCode.yml" Link="SmartCode.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

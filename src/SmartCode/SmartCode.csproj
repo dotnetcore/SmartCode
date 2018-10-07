@@ -2,8 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.1</LangVersion>
-    <AssemblyName>SmartCode</AssemblyName>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <LangVersion>latest</LangVersion>
+    <Title>SmartCode</Title>
+    <Description>
+      SmartCode = IDataSource -&gt; IBuildTask -&gt; IOutput =&gt; Build Everything!!!
+    </Description>
+    <Authors>Ahoo Wang</Authors>
+    <Copyright>Ahoo Wang</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/Ahoo-Wang/SmartCode</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+    <PackageTags>SmartCode</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/Ahoo-Wang/SmartCode</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

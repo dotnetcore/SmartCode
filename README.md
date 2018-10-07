@@ -14,16 +14,19 @@
 
 ### Getting Started
 
-1. 下载 [SmartCode-win64.7z](https://github.com/Ahoo-Wang/SmartCode/releases/download/v1.0.0/SmartCode-win64.7z)
-2. 解压
-3. 设置环境变量
-4. 编辑构建配置文件（默认：SmartCode.yml）
-5. 命令行执行SmartCode命令
-    - SmartCdoe
+1. Install from .NET Core Global Tool  
+
+  ``` shell
+  dotnet tool install --global SmartCode.CLI --version 1.0.0
+  ```
+
+2. 编辑构建配置文件（默认：SmartCode.yml）
+3. 命令行执行SmartCode命令
+    - SmartCode
     - 等待提示输入配置文件路径（可选：默认程序根目录下SmartCode.yml文件）
     - 回车执行命令
-6. 等待任务执行结束
-7. 查看输出目录结果
+4. 等待任务执行结束
+5. 查看输出目录结果
 
 ### 构建配置文件
 
