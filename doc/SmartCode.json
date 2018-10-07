@@ -1,0 +1,420 @@
+{
+    "Module": "SmartSql.Starter",
+    "Author": "Ahoo Wang",
+    "DataSource": {
+        "Name": "Db",
+        "Paramters": {
+            "DbName": "SmartSqlStarterDB",
+            "DbProvider": "SqlServer",
+            "ConnectionString": "Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True"
+        }
+    },
+    "TemplateEngine": "Razor",
+    "Language": "CSharp",
+    "Output": {
+        "Type": "File",
+        "Path": "E://SmartSql-Starter",
+        "Name": null,
+        "Extension": null
+    },
+    "Paramters": null,
+    "BuildTasks": {
+        "ClearDir": {
+            "Type": "Clear",
+            "Module": null,
+            "TemplateEngine": "Razor",
+            "Template": null,
+            "Output": null,
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                }
+            },
+            "Paramters": {
+                "Dirs": "."
+            }
+        },
+        "Solution": {
+            "Type": "Project",
+            "Module": null,
+            "TemplateEngine": "Razor",
+            "Template": "Sln.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": ".",
+                "Name": "{{Project.Module}}",
+                "Extension": ".sln"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                }
+            },
+            "Paramters": null
+        },
+        "SmartSqlConfig": {
+            "Type": "Project",
+            "Module": null,
+            "TemplateEngine": "Razor",
+            "Template": "SqlMapConfig.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": "{{Project.Module}}.API",
+                "Name": "SmartSqlMapConfig",
+                "Extension": ".xml"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                }
+            },
+            "Paramters": null
+        },
+        "Entity_Project": {
+            "Type": "Project",
+            "Module": null,
+            "TemplateEngine": "Razor",
+            "Template": "Proj.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": "{{Project.Module}}.Entity",
+                "Name": "{{Project.Module}}.Entity",
+                "Extension": ".csproj"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                }
+            },
+            "Paramters": null
+        },
+        "Entity": {
+            "Type": "Table",
+            "Module": "Entity",
+            "TemplateEngine": "Razor",
+            "Template": "Entity.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": "{{Project.Module}}.{{Build.Module}}",
+                "Name": null,
+                "Extension": ".cs"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "T_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Default",
+                        "Paramters": {}
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "V_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Pascal",
+                        "Paramters": null
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Pascal",
+                        "Paramters": null
+                    }
+                }
+            },
+            "Paramters": null
+        },
+        "Repository_Project": {
+            "Type": "Project",
+            "Module": null,
+            "TemplateEngine": "Razor",
+            "Template": "Proj-Repository.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": "{{Project.Module}}.Repository",
+                "Name": "{{Project.Module}}.Repository",
+                "Extension": ".csproj"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                }
+            },
+            "Paramters": null
+        },
+        "Repository": {
+            "Type": "Table",
+            "Module": "Repository",
+            "TemplateEngine": "Razor",
+            "Template": "Repository.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": "{{Project.Module}}.{{Build.Module}}",
+                "Name": "I{{OutputName}}Repository",
+                "Extension": ".cs"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "T_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Default",
+                        "Paramters": null
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "V_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Default",
+                        "Paramters": null
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    },
+                    "Converter": {
+                        "Type": "Defalut",
+                        "Paramters": {}
+                    }
+                }
+            },
+            "Paramters": null
+        },
+        "SqlMap": {
+            "Type": "Table",
+            "Module": null,
+            "TemplateEngine": "Razor",
+            "Template": "SqlMap-SqlServer.cshtml",
+            "Output": {
+                "Type": "File",
+                "Path": "{{Project.Module}}.API/Maps",
+                "Name": null,
+                "Extension": ".xml"
+            },
+            "IncludeTables": null,
+            "IgnoreTables": null,
+            "NamingConverter": {
+                "Table": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "T_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Default",
+                        "Paramters": null
+                    }
+                },
+                "View": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "V_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Default",
+                        "Paramters": null
+                    }
+                },
+                "Column": {
+                    "Tokenizer": {
+                        "Type": "Default",
+                        "Paramters": {
+                            "IgnorePrefix": "T_",
+                            "Delimiter": "_"
+                        }
+                    },
+                    "Converter": {
+                        "Type": "Default",
+                        "Paramters": null
+                    }
+                }
+            },
+            "Paramters": null
+        }
+    },
+    "OutputPath": "E://SmartSql-Starter"
+}

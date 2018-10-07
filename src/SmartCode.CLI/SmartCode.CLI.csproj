@@ -10,7 +10,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <Title>SmartCode.CLI</Title>
     <Description>
-      SmartCode = IDataSource -> IBuildTask -> IOutput => Build Everything!!!
+      SmartCode = IDataSource -&gt; IBuildTask -&gt; IOutput =&gt; Build Everything!!!
     </Description>
     <Authors>Ahoo Wang</Authors>
     <Copyright>Ahoo Wang</Copyright>
@@ -20,7 +20,14 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.1.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\doc\SmartCode.json" Link="SmartCode.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Handlebars.Net" Version="1.9.5" />
