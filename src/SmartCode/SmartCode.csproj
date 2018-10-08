@@ -16,6 +16,7 @@
     <PackageTags>SmartCode</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/Ahoo-Wang/SmartCode</PackageProjectUrl>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

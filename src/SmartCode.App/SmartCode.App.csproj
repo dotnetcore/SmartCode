@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
+    <Version>1.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Handlebars.Net" Version="1.9.5" />
