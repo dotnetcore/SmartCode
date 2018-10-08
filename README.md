@@ -1,4 +1,4 @@
-# SmartCode
+# SmartCode([English Document](./README.md))
 
 > SmartCode = IDataSource -> IBuildTask -> IOutput => Build Everything
 

@@ -1,12 +1,12 @@
-# SmartCode
+# SmartCode([Chinese Document](./README.md))
 
 > SmartCode = IDataSource -> IBuildTask -> IOutput => Build Everything
 
 ## Introduction
 
-![SmartCode](./doc/SmartCode.png)
+![SmartCode](./doc/SmartCode-EN.png)
 
-## SmartCode.Db (代码生成器)
+## SmartCode.Db (Code generator)
 
 ### Demo
 
@@ -20,15 +20,15 @@
   dotnet tool install --global SmartCode.CLI
   ```
 
-2. 编辑构建配置文件（默认：SmartCode.yml）
-3. 命令行执行SmartCode命令
-    - SmartCode
-    - 等待提示输入配置文件路径（可选：默认程序根目录下SmartCode.yml文件）
-    - 回车执行命令
-4. 等待任务执行结束
-5. 查看输出目录结果
+2. edit build configuration file (default: SmartCode.yml)
+3. the command line executes the SmartCode command.
+  - SmartCode
+  - wait for prompt to enter the configuration file path (optional: SmartCode.yml file in the default program root directory)
+  - carriage return execution command
+4. wait for the end of the task execution.
+5. View output directory results
 
-### 构建配置文件
+### Building configuration files
 
 ``` yml
 Module: SmartSql.Starter
@@ -45,7 +45,6 @@ Output:
   Type: File
   Path: 'E://SmartSql-Starter'
 
-# 构建任务
 Build:
   ClearDir:
     Type: Clear
@@ -171,54 +170,54 @@ Build:
           Type: Default
 ```
 
-| 参数名 | 说明 |
+| Parameter Name | Description |
 | :--------- | --------:|
-| Module | 根模块名 |
-| Author | 作者 |
-| DataSource | 数据源 |
-| Language | 语言：CSharp/Java/.... |
-| TemplateEngine | 模板引擎：目前内置：Razor/Handlebars |
-| Output | 输出 |
-| Build | 任务构建s |
+| Module | Root Module Name |
+| Author | Author |
+| DataSource | Data Source |
+| Language | Language: CSharp/Java/.... |
+| TemplateEngine | Template Engine: Currently Built: Razor/Handlebars |
+| Output | Output |
+| Build | Task Build |
 
-#### DataSource 数据源，Name:Db
+#### DataSource Data Source, Name: Db
 
-> 属性 Name:Db,使用DbSource插件作为数据源
+> Property Name: Db, using the DbSource plugin as a data source
 
-DbSource.Paramters 接受以下三个参数：
+DbSource.Paramters accepts the following three parameters:
 
-| 参数名 | 说明 |
+| Parameter Name | Description |
 | :--------- | --------:|
-| DbName | 数据库名称 |
-| DbProvider | 数据驱动提供者:MySql,MariaDB,PostgreSql,SqlServer,Oracle,SQLite |
-| ConnectionString | 连接字符串 |
+| DbName | Database Name |
+| DbProvider | Data Drivers: MySql, MariaDB, PostgreSql, SqlServer, Oracle, SQLite |
+| ConnectionString | Connection String |
 
-#### Build 任务构建
+#### Build Task Build
 
-| 参数名 | 说明 |
+| Parameter Name | Description |
 | :--------- | --------:|
-| Type | 构建类型,Clear:用于清理目录s/文件s,Project:用于构建单文件，如：解决方案文件/项目文件,Table: 用于构建以数据表为基础的文件，如：Entity,Repository文件|
-| Module | 构建模块名 |
-| TemplateEngine | 模板引擎，可选，默认使用根模块引擎 |
-| Template | 模板文件 |
-| Output | 输出 |
-| IncludeTables | 包括表名s |
-| IgnoreTables | 忽略表名s |
-| NamingConverter | 命名转换器 |
-| Paramters | 自定义构建参数 |
+| Type | Build type, Clear: used to clean up the directory s / file s, Project: used to build a single file, such as: solution file / project file, Table: used to build a data table-based file, such as: Entity , Repository file|
+| Module | Building Module Name |
+| TemplateEngine | Template Engine, optional, default to root module engine |
+| Template | Template File |
+| Output | Output |
+| IncludeTables | Include table name s |
+| IgnoreTables | Ignore table name s |
+| NamingConverter | Named Converter |
+| Paramters | Custom Build Parameters |
 
-#### NamingConverter 命名转换
+#### NamingConverter Name Conversion
 
-| 属性 | 说明 |
+| Attribute | Description |
 | :--------- | --------:|
-| 类型 | Table/View/Column |
-| Tokenizer | 分词器 |
-| Converter | 转换器：Camel/Pascal/None |
+| Type | Table/View/Column |
+| Tokenizer | Word Segmenter |
+| Converter | Converter: Camel/Pascal/None |
 
-##### NamingConverter.Tokenizer 分词器
+##### NamingConverter.Tokenizer Word Segmenter
 
-| 属性 | 说明 |
+| Attribute | Description |
 | :--------- | --------:|
 | Type | Default |
-| Paramters.IgnorePrefix | 忽略前缀字符 |
-| Paramters.Delimiter | 分隔符 |
+| Paramters.IgnorePrefix | Ignore prefix characters |
+| Paramters.Delimiter | Separator |
