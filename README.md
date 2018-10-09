@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="100"src="./doc/Logo.png"/>
+</p>
+
 # SmartCode([English Document](./README-EN.md))
 
 > SmartCode = IDataSource -> IBuildTask -> IOutput => Build Everything
