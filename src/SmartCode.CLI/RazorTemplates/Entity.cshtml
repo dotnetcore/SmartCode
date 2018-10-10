@@ -11,24 +11,20 @@
 }
 @{ await IncludeAsync("Copyright.cshtml", Model); }
 
-    using System;
-    namespace @(project.Module).@buildTask.Module
-    {
+using System;
+namespace @(project.Module).@buildTask.Module
+{
     @("///<summary>")
     @($"///{table.Description ?? table.ConvertedName}")
     @("///</summary>")
     public class @table.ConvertedName
     {
-    @foreach (var column in table.Columns)
-    {
-        @("///<summary>")
-        @this.NewLine()
-        @($"///{column.Description ?? column.ConvertedName}")
-        @this.NewLine()
-        @("///</summary>")
-        @this.NewLine()
-        <text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
-        @this.NewLine();
+        @foreach (var column in table.Columns)
+        {
+            @(this.PadLeft(8)+"///<summary>\r\n")
+            @(this.PadLeft(8)+$"///{column.Description ?? column.ConvertedName}\r\n")
+            @(this.PadLeft(8)+"///</summary>\r\n")
+            @this.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable&&column.LanguageType!="string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>@("\r\n")
+        }
     }
-    }
-    }
+}
