@@ -25,7 +25,7 @@ namespace SmartCode.Db.BuildTasks
 
         public abstract Task Build(BuildContext context);
 
-        public void Initialize(IDictionary<string, String> paramters)
+        public virtual void Initialize(IDictionary<string, String> paramters)
         {
             this.Initialized = true;
         }
@@ -34,6 +34,16 @@ namespace SmartCode.Db.BuildTasks
         {
             _logger.LogInformation($"FilterTable Build:{buildKey} Start!");
             IEnumerable<Table> buildTables = CopyTables(tables);
+            if (build.IgnoreNoPKTable)
+            {
+                _logger.LogInformation($"FilterTable Build:{buildKey} IgnoreNoPKTable!");
+                buildTables = tables.Where(m => m.PKColumn != null);
+            }
+            if (build.IgnoreView)
+            {
+                _logger.LogInformation($"FilterTable Build:{buildKey} IgnoreView!");
+                buildTables = tables.Where(m => m.Type != Table.TableType.View);
+            }
             if (build.IgnoreTables != null)
             {
                 _logger.LogInformation($"FilterTable Build:{buildKey} IgnoreTables: [{String.Join(",", build.IgnoreTables)}]!");

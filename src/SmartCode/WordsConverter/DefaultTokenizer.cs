@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SmartCode.WordsConverter
 {
@@ -9,8 +11,10 @@ namespace SmartCode.WordsConverter
     /// </summary>
     public class DefaultTokenizer : ITokenizer
     {
+        private readonly Regex _uppercaseSplit = new Regex("(?=[A-Z])");
         public const string IGNORE_PREFIX_KEY = nameof(IgnorePrefix);
         public const string DELIMITER_KEY = nameof(Delimiter);
+        public const string UPPERCASESPLIT_KEY = nameof(UppercaseSplit);
         /// <summary>
         /// 忽略前缀
         /// </summary>
@@ -19,16 +23,36 @@ namespace SmartCode.WordsConverter
         /// 分隔符
         /// </summary>
         public String Delimiter { get; set; }
+        /// <summary>
+        /// 开启大写字符分割
+        /// </summary>
+        public bool UppercaseSplit { get; set; } = true;
         public IEnumerable<string> Segment(string phrase)
         {
             if (!String.IsNullOrEmpty(IgnorePrefix) && phrase.StartsWith(IgnorePrefix))
             {
                 phrase = phrase.Substring(IgnorePrefix.Length);
             }
+            #region UppercaseSplit
+            if (UppercaseSplit)
+            {
+                var splitWords = _uppercaseSplit.Split(phrase).Where(m => !String.IsNullOrEmpty(m));
+                if (String.IsNullOrEmpty(Delimiter))
+                {
+                    return splitWords;
+                }
+                else
+                {
+                    phrase = String.Join(Delimiter, splitWords);
+                }
+            }
+            #endregion
+            #region Delimiter
             if (!String.IsNullOrEmpty(Delimiter))
             {
-                return phrase.Split(Delimiter.ToCharArray());
+                return phrase.Split(Delimiter.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             }
+            #endregion
             return new string[] { phrase };
         }
 
@@ -43,6 +67,11 @@ namespace SmartCode.WordsConverter
                 if (paramters.TryGetValue(DELIMITER_KEY, out string delimiter))
                 {
                     Delimiter = delimiter;
+                }
+                if (paramters.TryGetValue(UPPERCASESPLIT_KEY, out string upperSplitStr))
+                {
+                    Boolean.TryParse(upperSplitStr, out bool uppercaseSplit);
+                    UppercaseSplit = uppercaseSplit;
                 }
             }
         }

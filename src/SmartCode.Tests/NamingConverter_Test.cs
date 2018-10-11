@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Xunit;
 
 namespace SmartCode.Tests
@@ -25,6 +26,12 @@ namespace SmartCode.Tests
             var words = _defaultTokenizer.Segment(phrase);
             var convertedNaming = _namingConverter.Convert(words);
             Assert.Equal("SmartSqlGood", convertedNaming);
+        }
+        [Fact]
+        public void Segment()
+        {
+            string phrase = "T_smart_sql_good_GG";
+            var words = _defaultTokenizer.Segment(phrase);
         }
     }
 }

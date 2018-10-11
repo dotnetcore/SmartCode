@@ -11,7 +11,8 @@ namespace SmartCode.Db.BuildTasks
 {
     public class BuildTask : AbstractBuildTask
     {
-
+        public const String IGNORENOPKTABLE_KEY = nameof(IgnoreNoPKTable);
+        public bool IgnoreNoPKTable { get; set; }
         private readonly ILogger<BuildTask> _logger;
         private readonly IPluginManager _pluginManager;
 
@@ -36,6 +37,11 @@ namespace SmartCode.Db.BuildTasks
                 await _pluginManager.Resolve<IOutput>(context.Build.Output.Type).Output(context);
                 _logger.LogInformation($"BuildTable:{table.Name} End!");
             }
+        }
+
+        public override void Initialize(IDictionary<string, string> paramters)
+        {
+            base.Initialize(paramters);
         }
     }
 }

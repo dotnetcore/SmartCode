@@ -82,6 +82,8 @@ Build:
     Type: Table
     Module: Repository
     Template: Repository.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
     Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
       Name: 'I{{OutputName}}Repository'
@@ -110,7 +112,8 @@ Build:
     Output: 
       Path: '{{Project.Module}}.API/Maps'
       Extension: .xml
-    IgnoreTables: null
+    IgnoreNoPKTable: true
+    IgnoreView: true
     NamingConverter:
       Table:
         Tokenizer:

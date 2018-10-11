@@ -47,7 +47,17 @@ namespace SmartCode.Db
                     {
                         foreach (var col in table.Columns)
                         {
-                            col.LanguageType = dbTypeConvert.LanguageType(DbRepository.DbProvider, _project.Language, col.DbType);
+                            if ((DbRepository.DbProvider == Db.DbProvider.MySql || DbRepository.DbProvider == Db.DbProvider.MariaDB)
+                                && col.DbType == "char"
+                                && col.DataLength == 36
+                                && _project.Language == "CSharp")
+                            {
+                                col.LanguageType = "Guid";
+                            }
+                            else
+                            {
+                                col.LanguageType = dbTypeConvert.LanguageType(DbRepository.DbProvider, _project.Language, col.DbType);
+                            }
                         }
                     }
                 }
