@@ -206,6 +206,8 @@ DbSource.Paramters 接受以下三个参数：
 | TemplateEngine | 模板引擎，可选，默认使用根模块引擎 |
 | Template | 模板文件 |
 | Output | 输出 |
+| IgnoreNoPKTable | 忽略无主键表 |
+| IgnoreView | 忽略视图 |
 | IncludeTables | 包括表名s |
 | IgnoreTables | 忽略表名s |
 | NamingConverter | 命名转换器 |
@@ -226,3 +228,4 @@ DbSource.Paramters 接受以下三个参数：
 | Type | Default |
 | Paramters.IgnorePrefix | 忽略前缀字符 |
 | Paramters.Delimiter | 分隔符 |
+| Paramters.UppercaseSplit | 使用大写分隔，默认：true |

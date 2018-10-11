@@ -205,6 +205,8 @@ DbSource.Paramters accepts the following three parameters:
 | TemplateEngine | Template Engine, optional, default to root module engine |
 | Template | Template File |
 | Output | Output |
+| IgnoreNoPKTable | Ignore no PK Table |
+| IgnoreView | Ignore view |
 | IncludeTables | Include table name s |
 | IgnoreTables | Ignore table name s |
 | NamingConverter | Named Converter |
@@ -225,3 +227,4 @@ DbSource.Paramters accepts the following three parameters:
 | Type | Default |
 | Paramters.IgnorePrefix | Ignore prefix characters |
 | Paramters.Delimiter | Separator |
+| Paramters.UppercaseSplit | Using uppercase separation, default: true |
