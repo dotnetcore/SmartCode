@@ -30,6 +30,7 @@ namespace SmartCode.Db.Entity
             }
         }
         public Column PKColumn { get { return Columns.FirstOrDefault(m => m.IsPrimaryKey); } }
+        public bool HasColNameNotEqConvertedName { get { return Columns.Any(m => m.Name != m.ConvertedName); } }
         public bool AutoIncrement { get { return Columns.Any(m => m.AutoIncrement); } }
         /// <summary>
         /// 描述
