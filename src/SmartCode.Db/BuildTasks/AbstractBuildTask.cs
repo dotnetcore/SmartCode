@@ -37,22 +37,22 @@ namespace SmartCode.Db.BuildTasks
             if (build.IgnoreNoPKTable)
             {
                 _logger.LogInformation($"FilterTable Build:{buildKey} IgnoreNoPKTable!");
-                buildTables = tables.Where(m => m.PKColumn != null);
+                buildTables = buildTables.Where(m => m.PKColumn != null);
             }
             if (build.IgnoreView)
             {
                 _logger.LogInformation($"FilterTable Build:{buildKey} IgnoreView!");
-                buildTables = tables.Where(m => m.Type != Table.TableType.View);
+                buildTables = buildTables.Where(m => m.Type != Table.TableType.View);
             }
             if (build.IgnoreTables != null)
             {
                 _logger.LogInformation($"FilterTable Build:{buildKey} IgnoreTables: [{String.Join(",", build.IgnoreTables)}]!");
-                buildTables = tables.Where(m => !build.IgnoreTables.Contains(m.Name));
+                buildTables = buildTables.Where(m => !build.IgnoreTables.Contains(m.Name));
             }
             if (build.IncludeTables != null)
             {
                 _logger.LogInformation($"FilterTable Build:{buildKey} IncludeTables: [{String.Join(",", build.IncludeTables)}]!");
-                buildTables = tables.Where(m => build.IncludeTables.Contains(m.Name));
+                buildTables = buildTables.Where(m => build.IncludeTables.Contains(m.Name));
             }
             _logger.LogInformation($"FilterTable Build:{buildKey} End!");
             return buildTables;
