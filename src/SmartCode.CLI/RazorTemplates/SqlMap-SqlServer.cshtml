@@ -23,99 +23,99 @@
     @{await IncludeAsync("Copyright.cshtml", Model);}
 -->
 <SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
-    <Statements>
-        <Statement Id="QueryParams">
-            <Where>
-            </Where>
-        </Statement>
-        <!--新增-->
-        <Statement Id="Insert">
-            INSERT INTO @table.Name
-            (
-            @for (var i = 0; i < table.Columns.Count(); i++)
-            {
-                var col = table.Columns.ElementAt(i);
-                @if (!col.AutoIncrement)
-                {
-                    @col.Name@(i == table.Columns.Count() - 1 ? "" : ",")
-                }
-            }
-            )
-            VALUES
-            (
-            @for (var i = 0; i < table.Columns.Count(); i++)
-            {
-                var col = table.Columns.ElementAt(i);
-                @if (!col.AutoIncrement)
-                {
-                    @prefix@col.ConvertedName@(i == table.Columns.Count() - 1 ? "" : ",")
-                }
-            }
-            );
-            @if (autoIncrement)
-            {
-                <text>Select Scope_Identity();</text>
-            }
-        </Statement>
+  <Statements>
+    <Statement Id="QueryParams">
+      <Where>
+      </Where>
+    </Statement>
+    <!--新增-->
+    <Statement Id="Insert">
+      INSERT INTO @table.Name
+      (
+      @for (var i = 0; i < table.Columns.Count(); i++)
+      {
+      var col = table.Columns.ElementAt(i);
+      @if (!col.AutoIncrement)
+      {
+      @this.PadLeft(i>1?0:6)@col.Name@(i == table.Columns.Count() - 1 ? "\r\n" : "\r\n" + this.PadLeft(6) + ",")
+      }
+      }
+      )
+      VALUES
+      (
+      @for (var i = 0; i < table.Columns.Count(); i++)
+      {
+      var col = table.Columns.ElementAt(i);
+      @if (!col.AutoIncrement)
+      {
+      @this.PadLeft(i>1?0:6)@prefix@col.ConvertedName@(i == table.Columns.Count() - 1 ? "\r\n" : "\r\n"+ this.PadLeft(6)+",")
+      }
+      }
+      );
+      @if (autoIncrement)
+      {
+      @this.PadLeft(6)<text>Select Scope_Identity();</text>@("\r\n")
+      }
+    </Statement>
 
-        <!--删除-->
-        <Statement Id="Delete">
-            Delete @table.Name
-            Where @pkCol.Name=@pkCol.ConvertedName
-        </Statement>
+    <!--删除-->
+    <Statement Id="Delete">
+      Delete @table.Name
+      Where @pkCol.Name=@pkCol.ConvertedName
+    </Statement>
 
 
-        <!--更新-->
-        <Statement Id="Update">
-            UPDATE @table.Name
-            SET
-            <Dynamic>
-                @foreach (var col in table.Columns)
-                {
-                    if (col.IsPrimaryKey) { continue; }
-                    <IsProperty Prepend="," Property="@col.ConvertedName">
-                        @col.Name = @("@")@col.ConvertedName
-                    </IsProperty>
-                }
-            </Dynamic>
-            Where @pkCol.Name=@prefix@pkCol.ConvertedName
-        </Statement>
+    <!--更新-->
+    <Statement Id="Update">
+      UPDATE @table.Name
+      SET
+      <Dynamic>
+      @foreach (var col in table.Columns)
+      {
+        if (col.IsPrimaryKey) { continue; }
+        <IsProperty Prepend="," Property="@col.ConvertedName">
+          @col.Name = @("@")@col.ConvertedName
+        </IsProperty>
+      }
+      </Dynamic>
+      Where @pkCol.Name=@prefix@pkCol.ConvertedName
+    </Statement>
 
-        <!--获取数据列-->
-        <Statement Id="Query">
-            SELECT T.* From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-            Order By T.@pkCol.Name Desc
-        </Statement>
+    <!--获取数据列-->
+    <Statement Id="Query">
+      SELECT T.* From @table.Name T With(NoLock)
+      <Include RefId="QueryParams" />
+      Order By T.@pkCol.Name Desc
+    </Statement>
 
-        <!--获取分页数据-->
-        <Statement Id="QueryByPage">
-            Select TT.* From
-            (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />) TT
-            Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
-        </Statement>
+    <!--获取分页数据-->
+    <Statement Id="QueryByPage">
+      Select TT.* From
+      (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
+      <Include RefId="QueryParams" />) TT
+      Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
+    </Statement>
 
-        <!--获取记录数-->
-        <Statement Id="GetRecord">
-            Select Count(1) From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-        </Statement>
+    <!--获取记录数-->
+    <Statement Id="GetRecord">
+      Select Count(1) From @table.Name T With(NoLock)
+      <Include RefId="QueryParams" />
+    </Statement>
 
-        <!--获取表映射实体-->
-        <Statement Id="GetEntity">
-            Select Top 1 T.* From @table.Name T With(NoLock)
-            <Where>
-                <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                    T.@pkCol.Name=@prefix@pkCol.ConvertedName
-                </IsNotEmpty>
-            </Where>
-        </Statement>
+    <!--获取表映射实体-->
+    <Statement Id="GetEntity">
+      Select Top 1 T.* From @table.Name T With(NoLock)
+      <Where>
+        <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
+          T.@pkCol.Name=@prefix@pkCol.ConvertedName
+        </IsNotEmpty>
+      </Where>
+    </Statement>
 
-        <!--是否存在该记录-->
-        <Statement Id="IsExist">
-            Select Count(1) From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-        </Statement>
-    </Statements>
+    <!--是否存在该记录-->
+    <Statement Id="IsExist">
+      Select Count(1) From @table.Name T With(NoLock)
+      <Include RefId="QueryParams" />
+    </Statement>
+  </Statements>
 </SmartSqlMap>
