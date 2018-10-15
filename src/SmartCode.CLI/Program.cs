@@ -36,7 +36,7 @@ namespace SmartCode.CLI
                     configPath = DEFAULT_CONFIG_PATH;
                 }
             }
-            SmartCodeApp app = new SmartCodeApp(configPath);
+            SmartCodeApp app = new DefaultSmartCodeAppBuilder().Build(configPath);
             await app.Run();
             Console.ReadLine();
         }

@@ -20,7 +20,7 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.3.4</Version>
+    <Version>1.3.6</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
   </PropertyGroup>
 
@@ -31,12 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Handlebars.Net" Version="1.9.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
-    <PackageReference Include="RazorLight" Version="2.0.0-beta1" />
   </ItemGroup>
 
   <ItemGroup>

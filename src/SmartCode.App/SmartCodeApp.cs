@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -8,28 +6,23 @@ using SmartCode.Configuration;
 using System.IO;
 using SmartCode.Configuration.ConfigBuilders;
 using System.Reflection;
-using System.Linq;
 
 namespace SmartCode.App
 {
     public class SmartCodeApp
     {
-        const string APP_SETTINGS_PATH = "appsettings.json";
-        const string SMARTCODE_KEY = "SmartCode";
-        public IConfigurationRoot Configuration { get; private set; }
-        public SmartCodeOptions SmartCodeOptions { get; private set; }
+        public SmartCodeOptions SmartCodeOptions { get; }
         public String AppDirectory { get { return AppDomain.CurrentDomain.BaseDirectory; } }
         public IConfigBuilder ConfigBuilder { get; private set; }
-        public IServiceCollection Services { get; private set; }
+        public IServiceCollection Services { get { return SmartCodeOptions.Services; } }
         public IServiceProvider ServiceProvider { get; private set; }
         public Project Project { get; private set; }
-        public string ConfigPath { get; }
+        public string ConfigPath { get { return SmartCodeOptions.ConfigPath; } }
         public ILogger<SmartCodeApp> Logger { get; private set; }
-        public SmartCodeApp(String configPath)
+        public SmartCodeApp(SmartCodeOptions smartCodeOptions)
         {
-            ConfigPath = configPath;
+            SmartCodeOptions = smartCodeOptions;
             BuildProject();
-            InitConfig();
             RegisterServices();
         }
 
@@ -55,25 +48,11 @@ namespace SmartCode.App
             }
             Project = ConfigBuilder.Build();
         }
-        private void InitConfig()
-        {
-            var appSettingsbuilder = new ConfigurationBuilder()
-                    .SetBasePath(AppDirectory)
-                    .AddJsonFile(APP_SETTINGS_PATH, false, true);
-            Configuration = appSettingsbuilder.Build();
-            SmartCodeOptions = Configuration.GetSection(SMARTCODE_KEY).Get<SmartCodeOptions>();
-        }
 
         private void RegisterServices()
         {
-            Services = new ServiceCollection();
             Services.AddSingleton<SmartCodeOptions>(SmartCodeOptions);
             Services.AddSingleton<Project>(Project);
-            Services.AddLogging((loggerBuilder) =>
-            {
-                var loggingConfig = Configuration.GetSection("Logging");
-                loggerBuilder.AddConfiguration(loggingConfig).AddConsole();
-            });
             RegisterPlugins();
             Services.AddSingleton<IPluginManager, PluginManager>();
             Services.AddSingleton<IProjectBuilder, ProjectBuilder>();
