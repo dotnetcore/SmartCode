@@ -43,7 +43,7 @@
       Left Join pg_attribute a on a.attrelid=c.oid
       Left Join pg_type t on t.oid=a.atttypid
       Left Join pg_constraint cs on cs.conrelid=c.oid and cs.contype='p'
-      Where a.attnum>0 and c.relname=@TableName
+      Where a.attnum>0 and t.typname is not null and c.relname=@TableName
     </Statement>
   </Statements>
 </SmartSqlMap>
