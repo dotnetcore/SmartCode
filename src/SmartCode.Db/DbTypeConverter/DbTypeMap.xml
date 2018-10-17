@@ -94,6 +94,7 @@
   <Database DbProvider="PostgreSql"  Language="CSharp">
     <DbType Name="image" To="byte[]"/>
     <DbType Name="bool" To="bool"/>
+    <DbType Name="json" To="string"/>
     <DbType Name="uuid" To="Guid"/>
     <DbType Name="text" To="string"/>
     <DbType Name="ntext" To="string"/>
