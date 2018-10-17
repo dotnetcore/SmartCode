@@ -1,0 +1,25 @@
+﻿@using RazorLight
+@using SmartCode
+@using SmartCode.Db
+@using SmartCode.CLI
+@inherits TemplatePage<BuildContext>
+@{
+    DisableEncoding = true;
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
+    var resultMapName = $"{table.ConvertedName}ResultMap";
+}
+
+@if (table.HasColNameNotEqConvertedName)
+{
+    <ResultMaps>
+        <ResultMap Id="@resultMapName">
+            @foreach (var col in notEqCols)
+            {
+                <Result Column="@col.Name" Property="@col.ConvertedName" />
+            }
+        </ResultMap>
+    </ResultMaps>
+}

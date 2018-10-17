@@ -1,6 +1,7 @@
 ﻿@using RazorLight
 @using SmartCode
 @using SmartCode.Db
+@using SmartCode.CLI
 @inherits TemplatePage<BuildContext>
 @{
     DisableEncoding = true;
@@ -16,7 +17,6 @@
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
     var prefix = dbSource.DbProvider.ParameterPrefix;
-    var colIndex = 0;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? "" : $"ResultMap=\"{resultMapName}\"";
@@ -42,50 +42,39 @@
             <Where>
             </Where>
         </Statement>
-        <Statement Id="AllCols">
-            @{ colIndex = 0;}
-            @foreach (var col in table.Columns)
-            {
-                @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
-                colIndex++;
-            }
-        </Statement>
         <!--新增-->
         <Statement Id="Insert">
             INSERT INTO @table.Name
             (
-            @{ colIndex = 0;}
-            @foreach (var col in table.Columns)
+            @for (var i = 0; i < table.Columns.Count(); i++)
             {
+                var col = table.Columns.ElementAt(i);
                 @if (!col.AutoIncrement)
                 {
-                    @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+                    @this.PadLeft(i > 1 ? 0 : 6)@col.Name@(i == table.Columns.Count() - 1 ? "\r\n" : "\r\n" + this.PadLeft(6) + ",")
                 }
-                colIndex++;
             }
             )
             VALUES
             (
-            @{ colIndex = 0;}
-            @foreach (var col in table.Columns)
+            @for (var i = 0; i < table.Columns.Count(); i++)
             {
+                var col = table.Columns.ElementAt(i);
                 @if (!col.AutoIncrement)
                 {
-                    @prefix@col.ConvertedName@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+                    @this.PadLeft(i > 1 ? 0 : 6)@prefix@col.ConvertedName@(i == table.Columns.Count() - 1 ? "\r\n" : "\r\n" + this.PadLeft(6) + ",")
                 }
-                colIndex++;
             }
             );
-            @if (autoIncrement)
-            {
-                <text>Select Last_Insert_Id();</text>
-            }
         </Statement>
+
         <!--删除-->
         <Statement Id="Delete">
-            Delete FROM @table.Name
-            Where @pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
+            Delete @table.Name
+            Where @pkCol.Name=@pkCol.ConvertedName
         </Statement>
+
+
         <!--更新-->
         <Statement Id="Update">
             UPDATE @table.Name
@@ -93,30 +82,24 @@
             <Dynamic>
                 @foreach (var col in table.Columns)
                 {
-                    if (!col.IsPrimaryKey)
-                    {
-                        <IsProperty Prepend="," Property="@col.ConvertedName">
-                            @col.Name = @($"{prefix}{col.ConvertedName}")
-                        </IsProperty>
-                    }
+                    if (col.IsPrimaryKey) { continue; }
+                    <IsProperty Prepend="," Property="@col.ConvertedName">
+                        @col.Name = @(prefix)@col.ConvertedName
+                    </IsProperty>
                 }
             </Dynamic>
             Where @pkCol.Name=@prefix@pkCol.ConvertedName
         </Statement>
+
         <!--获取数据列-->
-        <Statement Id="Query" @(queryStatementResultMap)>
-            SELECT T.* From @table.Name T With(NoLock)
+        <Statement Id="Query" @queryStatementResultMap>
+            SELECT T.* From @table.Name T
             <Include RefId="QueryParams" />
             Order By T.@pkCol.Name Desc
-            <Switch Prepend="Order By" Property="OrderBy">
-                <Default>
-                    T.@pkCol.Name Desc
-                </Default>
-            </Switch>
-            <IsNotEmpty Prepend="Limit" Property="Taken">?Taken</IsNotEmpty>
         </Statement>
+
         <!--获取分页数据-->
-        <Statement Id="QueryByPage" @(queryStatementResultMap)>
+        <Statement Id="QueryByPage" @queryStatementResultMap>
             Select T.* From @table.Name As T
             <Include RefId="QueryParams" />
             <Switch Prepend="Order By" Property="OrderBy">
@@ -124,26 +107,28 @@
                     T.@pkCol.Name Desc
                 </Default>
             </Switch>
-            Limit ?Offset,?PageSize
+            Limit @("@PageSize") Offset @("@Offset")
         </Statement>
+
         <!--获取记录数-->
         <Statement Id="GetRecord">
-            Select Count(1) From @table.Name T With(NoLock)
+            Select Count(1) From @table.Name T
             <Include RefId="QueryParams" />
         </Statement>
+
         <!--获取表映射实体-->
-        <Statement Id="GetEntity" @(queryStatementResultMap)>
-            Select T.* From @table.Name As T
+        <Statement Id="GetEntity" @queryStatementResultMap>
+            Select Top 1 T.* From @table.Name T
             <Where>
                 <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                    T.@pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
+                    T.@pkCol.Name=@prefix@pkCol.ConvertedName
                 </IsNotEmpty>
             </Where>
-            Limit 1
         </Statement>
+
         <!--是否存在该记录-->
         <Statement Id="IsExist">
-            Select Count(1) From @table.Name T With(NoLock)
+            Select Count(1) From @table.Name T
             <Include RefId="QueryParams" />
         </Statement>
     </Statements>

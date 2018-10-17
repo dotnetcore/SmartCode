@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SmartSqlMap Scope="Database-PostgreSql"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <Statements>
+    <Statement Id="QueryTable">
+      (SELECT
+      T.tablename AS "Name",
+      'T' AS "TypeName"
+      FROM
+      pg_tables T
+      WHERE
+      schemaname = 'public')
+      UNION ALL
+      (SELECT
+      V.viewname AS "Name",
+      'V' AS "TypeName"
+      FROM
+      pg_views V
+      WHERE
+      schemaname = 'public')
+    </Statement>
+    <Statement Id="QueryColumn">
+      Select
+      a.attname as "Name",
+      t.typname as "DbType",
+      (
+      Case a.atttypmod
+      When -1 Then (a.attlen*c.relnatts)
+      Else (a.atttypmod-4) End
+      )As "DataLength",
+      (
+      Case a.attnotnull
+      When 't' Then 0
+      Else 1 End
+      ) AS "IsNullable",
+      (
+      Case a.attnum
+      When cs.conkey[1] Then 1
+      Else 0 End
+      ) As "IsPrimaryKey",
+      0 As "AutoIncrement",
+      col_description(a.attrelid,a.attnum) as "Description"
+      From pg_class c
+      Left Join pg_attribute a on a.attrelid=c.oid
+      Left Join pg_type t on t.oid=a.atttypid
+      Left Join pg_constraint cs on cs.conrelid=c.oid
+      Where a.attnum>0 and c.relname=@TableName
+    </Statement>
+  </Statements>
+</SmartSqlMap>

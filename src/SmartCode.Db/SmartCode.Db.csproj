@@ -24,6 +24,9 @@
     <None Update="DbTypeConverter\DbTypeMap.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Maps\Database-PostgreSql.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Maps\Database-MySql.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

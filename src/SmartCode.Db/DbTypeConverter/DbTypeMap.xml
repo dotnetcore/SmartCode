@@ -91,6 +91,56 @@
     <DbType Name="longtext" To="string" />
     <DbType Name="timestamp" To="DateTime" />
   </Database>
+  <Database DbProvider="PostgreSql"  Language="CSharp">
+    <DbType Name="image" To="byte[]"/>
+    <DbType Name="bool" To="bool"/>
+    <DbType Name="uuid" To="Guid"/>
+    <DbType Name="text" To="string"/>
+    <DbType Name="ntext" To="string"/>
+    <DbType Name="varchar" To="string"/>
+    <DbType Name="nvarchar" To="string" />
+    <DbType Name="varchar2" To="string" />
+    <DbType Name="nvarchar2" To="string" />
+    <DbType Name="xml" To="string"/>
+    <DbType Name="uniqueidentifier" To="Guid"/>
+    <DbType Name="date" To="DateTime"/>
+    <DbType Name="smalldatetime" To="DateTime"/>
+    <DbType Name="datetime" To="DateTime" />
+    <DbType Name="datetime2" To="DateTime"/>
+    <DbType Name="time" To="TimeSpan"/>
+    <DbType Name="datetimeoffset" To="DateTimeOffset"/>
+    <DbType Name="tinyint" To="byte"/>
+    <DbType Name="smallint" To="short"/>
+    <DbType Name="int" To="int"/>
+    <DbType Name="int2" To="short"/>
+    <DbType Name="int4" To="int"/>
+    <DbType Name="int8" To="long"/>
+    <DbType Name="bigint" To="long"/>
+    <DbType Name="bit" To="bool" />
+    <DbType Name="char" To="string" />
+    <DbType Name="nchar" To="string" />
+    <DbType Name="uniqueide" To="Guid" />
+    <DbType Name="numeric" To="decimal" />
+    <DbType Name="integer" To="int" />
+    <DbType Name="money" To="decimal" />
+    <DbType Name="real" To="decimal" />
+    <DbType Name="blob" To="byte[]" />
+    <DbType Name="ntext" To="string" />
+    <DbType Name="single" To="float" />
+    <DbType Name="smallmoney" To="decimal" />
+    <DbType Name="decimal" To="decimal" />
+    <DbType Name="bfile" To="byte[]" />
+    <DbType Name="float" To="float" />
+    <DbType Name="uniqueidentifier" To="Guid" />
+    <DbType Name="text" To="string" />
+    <DbType Name="binary" To="byte[]" />
+    <DbType Name="number" To="decimal" />
+    <DbType Name="varbinary" To="byte[]" />
+    <DbType Name="boolean" To="bool" />
+    <DbType Name="long" To="byte[]" />
+    <DbType Name="longtext" To="string" />
+    <DbType Name="timestamp" To="DateTime" />
+  </Database>
   <Database DbProvider="Oracle"  Language="CSharp">
     <DbType Name="image" To="byte[]"/>
     <DbType Name="text" To="string"/>

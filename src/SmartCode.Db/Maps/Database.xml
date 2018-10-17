@@ -9,9 +9,9 @@
       <Env DbProvider="MariaDB">
         <Include RefId="Database-MySql.QueryTable"/>
       </Env>
-      <!--<Env DbProvider="PostgreSQL">
-        <Include RefId="Database-PostgreSQL.QueryTable"/>
-      </Env>-->
+      <Env DbProvider="PostgreSql">
+        <Include RefId="Database-PostgreSql.QueryTable"/>
+      </Env>
       <Env DbProvider="SqlServer">
         <Include RefId="Database-SqlServer.QueryTable"/>
       </Env>
@@ -29,9 +29,9 @@
       <Env DbProvider="MariaDB">
         <Include RefId="Database-MySql.QueryColumn"/>
       </Env>
-      <!--<Env DbProvider="PostgreSQL">
-        <Include RefId="Database-PostgreSQL.QueryColumn"/>
-      </Env>-->
+      <Env DbProvider="PostgreSql">
+        <Include RefId="Database-PostgreSql.QueryColumn"/>
+      </Env>
       <Env DbProvider="SqlServer">
         <Include RefId="Database-SqlServer.QueryColumn"/>
       </Env>

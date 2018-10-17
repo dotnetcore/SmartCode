@@ -68,6 +68,9 @@
     <None Update="RazorTemplates\Repository.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="RazorTemplates\SqlMap-ResultMaps.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="RazorTemplates\SqlMap-Columns.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -75,6 +78,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="RazorTemplates\SqlMap-Oracle.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="RazorTemplates\SqlMap-PostgreSql.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="RazorTemplates\SqlMap-SqlServer.cshtml">
