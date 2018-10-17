@@ -24,7 +24,7 @@ namespace @(project.Module).@buildTask.Module
             @(this.PadLeft(8)+"///<summary>\r\n")
             @(this.PadLeft(8)+$"///{column.Description ?? column.ConvertedName}\r\n")
             @(this.PadLeft(8)+"///</summary>\r\n")
-            @this.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable&&column.LanguageType.ToLower()!="string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>@("\r\n")
+            @this.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable&&column.LanguageType!="string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>@("\r\n")
         }
     }
 }
