@@ -19,7 +19,7 @@
     var prefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
-    var queryStatementResultMap = table.HasColNameNotEqConvertedName ? "" : $"ResultMap=\"{resultMapName}\"";
+    var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
