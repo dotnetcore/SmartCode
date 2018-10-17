@@ -1,0 +1,33 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+    var autoIncrement = table.AutoIncrement;
+    var prefix = dbSource.DbProvider.ParameterPrefix;
+}
+
+<!--更新-->
+<Statement Id="Update">
+    UPDATE @table.Name
+    SET
+    <Dynamic>
+        @foreach (var col in table.Columns)
+        {
+            if (!col.IsPrimaryKey)
+            {
+                <IsProperty Prepend="," Property="@col.ConvertedName">
+                    @col.Name = @($"{prefix}{col.ConvertedName}")
+                </IsProperty>
+            }
+        }
+    </Dynamic>
+    Where @pkCol.Name=@prefix@pkCol.ConvertedName
+</Statement>

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.Db", "src\SmartCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.App", "src\SmartCode.App\SmartCode.App.csproj", "{7D237A9F-4A67-4885-9190-2F8073A11B4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCode.TemplateEngine", "src\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj", "{6AA5EF8A-9D31-4E41-A040-23289D4358E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.TemplateEngine", "src\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj", "{6AA5EF8A-9D31-4E41-A040-23289D4358E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

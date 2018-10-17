@@ -1,0 +1,48 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+    var autoIncrement = table.AutoIncrement;
+    var prefix = dbSource.DbProvider.ParameterPrefix;
+    int colIndex = 0;
+}
+
+<!--新增-->
+<Statement Id="Insert">
+    INSERT INTO @table.Name
+    (
+    @{ colIndex = 0;}
+    @foreach (var col in table.Columns)
+    {
+        @if (!col.AutoIncrement)
+        {
+            @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+        }
+        colIndex++;
+    }
+    )
+    VALUES
+    (
+    @{ colIndex = 0;}
+    @foreach (var col in table.Columns)
+    {
+        @if (!col.AutoIncrement)
+        {
+            @prefix@col.ConvertedName@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+        }
+        colIndex++;
+    }
+    );
+    @if (autoIncrement)
+    {
+        <text>Select Last_Insert_Id();</text>
+    }
+</Statement>

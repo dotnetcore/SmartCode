@@ -1,0 +1,28 @@
+﻿@using SmartCode
+
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    
+}
+@{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
+
+using System;
+namespace @(project.Module).@buildTask.Module
+{
+@Html.Raw("///<summary>")
+@Html.Raw($"///{table.Description ?? table.ConvertedName}")
+@Html.Raw("///</summary>")
+    public class @table.ConvertedName
+    {
+    @foreach (var column in table.Columns)
+    {
+        @Html.Raw("///<summary>\r\n")
+        @Html.Raw($"///{column.Description ?? column.ConvertedName}\r\n")
+        @Html.Raw("///</summary>\r\n")
+        <text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable && column.LanguageType != "string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>@Html.Raw("\r\n")
+    }
+    }
+    }
