@@ -36,7 +36,7 @@
                 var col = table.Columns.ElementAt(i);
                 @if (!col.AutoIncrement)
                 {
-                    @col.Name@(i == table.Columns.Count() - 1 ? "\r\n" : "\r\n" + this.PadLeft(6) + ",")
+                    @col.Name@(i == table.Columns.Count() - 1 ? Html.NewLine() : Html.NewLine(","))
                 }
             }
             )
@@ -47,7 +47,7 @@
                 var col = table.Columns.ElementAt(i);
                 @if (!col.AutoIncrement)
                 {
-                    @prefix@col.ConvertedName@(i == table.Columns.Count() - 1 ? "\r\n" : "\r\n" + this.PadLeft(6) + ",")
+                    @prefix@col.ConvertedName@(i == table.Columns.Count() - 1 ? Html.NewLine() : Html.NewLine(","))
                 }
             }
             );
@@ -77,14 +77,14 @@
         </Statement>
 
         <!--获取数据列-->
-        <Statement Id="Query" @queryStatementResultMap=queryStatementResultMap>
+        <Statement Id="Query" @queryStatementResultMap>
             SELECT T.* From @table.Name T
             <Include RefId="QueryParams" />
             Order By T.@pkCol.Name Desc
         </Statement>
 
         <!--获取分页数据-->
-        <Statement Id="QueryByPage" @queryStatementResultMap=queryStatementResultMap>
+        <Statement Id="QueryByPage" @queryStatementResultMap>
             Select T.* From @table.Name As T
             <Include RefId="QueryParams" />
             <Switch Prepend="Order By" Property="OrderBy">
@@ -102,7 +102,7 @@
         </Statement>
 
         <!--获取表映射实体-->
-        <Statement Id="GetEntity" @queryStatementResultMap=queryStatementResultMap>
+        <Statement Id="GetEntity" @queryStatementResultMap>
             Select Top 1 T.* From @table.Name T
             <Where>
                 <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">

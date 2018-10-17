@@ -47,10 +47,6 @@
                 }
             }
             );
-            @if (autoIncrement)
-            {
-                <text>Select Scope_Identity();</text>
-            }
         </Statement>
 
         <!--删除-->
@@ -58,7 +54,6 @@
             Delete @table.Name
             Where @pkCol.Name=@pkCol.ConvertedName
         </Statement>
-
 
         <!--更新-->
         <Statement Id="Update">

@@ -12,6 +12,10 @@ namespace Microsoft.AspNetCore.Mvc.Rendering
         {
             return htmlHelper.Raw(Environment.NewLine);
         }
+        public static IHtmlContent NewLine(this IHtmlHelper htmlHelper, string appendStr)
+        {
+            return htmlHelper.Raw(Environment.NewLine + appendStr);
+        }
 
         public static IHtmlContent PadLeft(this IHtmlHelper htmlHelper, int totalWidth)
         {

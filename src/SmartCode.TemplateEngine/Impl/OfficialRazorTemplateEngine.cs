@@ -68,20 +68,6 @@ namespace SmartCode.TemplateEngine.Impl
                 ApplicationName = Assembly.GetEntryAssembly().GetName().Name,
                 WebRootFileProvider = fileProvider,
             });
-            //services.Configure<WebEncoderOptions>(options =>
-            //      {
-            //          var txtEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            //          //txtEncoderSettings.Clear();
-            //          txtEncoderSettings.AllowCharacter('<');
-            //          txtEncoderSettings.AllowCharacter('>');
-            //          txtEncoderSettings.AllowCharacter('&');
-            //          txtEncoderSettings.AllowCharacter('\''); // can be used to escape attributes
-            //          txtEncoderSettings.AllowCharacter('\"'); // can be used to escape attributes
-            //          txtEncoderSettings.AllowCharacter('+');
-            //          options.TextEncoderSettings = txtEncoderSettings;
-            //      }
-            //    );
-
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.FileProviders.Clear();
