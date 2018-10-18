@@ -107,7 +107,6 @@
         <Statement Id="Query" @(queryStatementResultMap)>
             SELECT T.* From @table.Name T With(NoLock)
             <Include RefId="QueryParams" />
-            Order By T.@pkCol.Name Desc
             <Switch Prepend="Order By" Property="OrderBy">
                 <Default>
                     T.@pkCol.Name Desc
