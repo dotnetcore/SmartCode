@@ -68,43 +68,43 @@
     <None Update="OfficialRazorTemplates\Sln.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-GetEntity.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-GetEntity.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\_SqlMapLayout.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\_SqlMapLayout.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-Columns.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\SqlMap-Columns.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-Delete.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-Delete.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-GetRecord.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-GetRecord.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-Insert.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-Insert.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-IsExist.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-IsExist.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-MySql.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\SqlMap-MySql.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-PostgreSql.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\SqlMap-PostgreSql.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-Query.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-Query.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-ResultMaps.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\SqlMap-ResultMaps.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-SqlServer.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\SqlMap-SqlServer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-Update.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Partials\CURD\SqlMap-Update.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="OfficialRazorTemplates\SqlMap.cshtml">

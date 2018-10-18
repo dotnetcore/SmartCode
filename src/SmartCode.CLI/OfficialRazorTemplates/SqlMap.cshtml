@@ -10,4 +10,4 @@
 <!--
     @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 -->
-@{ await Html.RenderPartialAsync($"SqlMap-{dbSource.DbProvider.Name}.cshtml", Model); }
+@{ await Html.RenderPartialAsync($"./SqlMap-Partials/SqlMap-{dbSource.DbProvider.Name}.cshtml", Model); }
