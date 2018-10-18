@@ -18,7 +18,7 @@
     var prefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
-    var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
+    var queryStatementResultMap = Html.Raw(table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "");
 }
 
 @section QueryByPage

@@ -39,7 +39,7 @@
             @Html.NewLine()
         }
     }
-    );
+    )
     @if (autoIncrement)
     {
         @switch (dbSource.DbRepository.DbProvider)
@@ -47,12 +47,12 @@
             case DbProvider.MariaDB:
             case DbProvider.MySql:
                 {
-                    <text>Select Last_Insert_Id();</text>
+                    <text>;Select Last_Insert_Id();</text>
                     break;
                 }
             case DbProvider.SqlServer:
                 {
-                    <text>Select Scope_Identity();</text>
+                    <text>;Select Scope_Identity();</text>
                     break;
                 }
             case DbProvider.PostgreSql:
