@@ -1,0 +1,37 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+}
+
+<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+    @{ await Html.RenderPartialAsync("SqlMap-ResultMaps.cshtml", Model); }
+    <Statements>
+        <Statement Id="QueryParams">
+            <Where>
+            </Where>
+        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-Insert.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model); }
+
+        @RenderSection("QueryByPage", required: false)
+
+        @{ await Html.RenderPartialAsync("SqlMap-GetRecord.cshtml", Model); }
+
+        @RenderSection("GetEntity", required: false)
+
+        @{ await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model); }
+
+    </Statements>
+</SmartSqlMap>

@@ -2,6 +2,7 @@
 @using SmartCode.Db
 @model BuildContext
 @{
+    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
@@ -18,43 +19,30 @@
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
-
-<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
-    @{ await Html.RenderPartialAsync("SqlMap-ResultMaps.cshtml", Model); }
-    <Statements>
-        <Statement Id="QueryParams">
-            <Where>
-            </Where>
-        </Statement>
-        @{ await Html.RenderPartialAsync("SqlMap-Insert.cshtml", Model); }
-        @{ await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model); }
-        @{ await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model); }
-        @{ await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model); }
-
-        <!--获取分页数据-->
-        <Statement Id="QueryByPage" @(queryStatementResultMap)>
-            Select T.* From @table.Name As T
-            <Include RefId="QueryParams" />
-            <Switch Prepend="Order By" Property="OrderBy">
-                <Default>
-                    T.@pkCol.Name Desc
-                </Default>
-            </Switch>
-            Limit ?Offset,?PageSize
-        </Statement>
-        @{ await Html.RenderPartialAsync("SqlMap-GetRecord.cshtml", Model); }
-
-        <!--获取表映射实体-->
-        <Statement Id="GetEntity" @(queryStatementResultMap)>
-            Select T.* From @table.Name As T
-            <Where>
-                <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                    T.@pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
-                </IsNotEmpty>
-            </Where>
-            Limit 1
-        </Statement>
-        @{ await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model); }
-
-    </Statements>
-</SmartSqlMap>
+@section QueryByPage
+    {
+    <!--获取分页数据-->
+    <Statement Id="QueryByPage" @(queryStatementResultMap)>
+        Select T.* From @table.Name As T
+        <Include RefId="QueryParams" />
+        <Switch Prepend="Order By" Property="OrderBy">
+            <Default>
+                T.@pkCol.Name Desc
+            </Default>
+        </Switch>
+        Limit ?Offset,?PageSize
+    </Statement>
+}
+@section GetEntity
+    {
+    <!--获取表映射实体-->
+    <Statement Id="GetEntity" @(queryStatementResultMap)>
+        Select T.* From @table.Name As T
+        <Where>
+            <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
+                T.@pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
+            </IsNotEmpty>
+        </Where>
+        Limit 1
+    </Statement>
+}
