@@ -17,8 +17,7 @@
 <!--更新-->
 <Statement Id="Update">
     UPDATE @table.Name
-    SET
-    <Dynamic>
+    <Set>
         @foreach (var col in table.Columns)
         {
             if (!col.IsPrimaryKey)
@@ -28,6 +27,6 @@
                 </IsProperty>
             }
         }
-    </Dynamic>
+    </Set>
     Where @pkCol.Name=@prefix@pkCol.ConvertedName
 </Statement>

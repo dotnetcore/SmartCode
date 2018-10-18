@@ -12,9 +12,9 @@
 using System;
 namespace @(project.Module).@buildTask.Module
 {
-@Html.Raw("///<summary>")
-@Html.Raw($"///{table.Description ?? table.ConvertedName}")
-@Html.Raw("///</summary>")
+@Html.PadLeft(4)@Html.Raw("///<summary>")
+@Html.PadLeft(4)@Html.Raw($"///{table.Description ?? table.ConvertedName}")
+@Html.PadLeft(4)@Html.Raw("///</summary>")
     public class @table.ConvertedName
     {
     @foreach (var column in table.Columns)
@@ -23,10 +23,10 @@ namespace @(project.Module).@buildTask.Module
         @Html.PadLeft(8)@Html.NewLine()
         @Html.PadLeft(8)@Html.Raw($"///{column.Description ?? column.ConvertedName}")
         @Html.PadLeft(8)@Html.NewLine()
-        @Html.PadLeft(8) @Html.Raw("///</summary>")
+        @Html.PadLeft(8)@Html.Raw("///</summary>")
         @Html.PadLeft(8)@Html.NewLine()
-        @Html.PadLeft(8)@Html.PadLeft(6)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable && column.LanguageType != "string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
+        @Html.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable && column.LanguageType != "string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
         @Html.PadLeft(8)@Html.NewLine()
     }
     }
-    }
+}

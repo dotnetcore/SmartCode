@@ -9,6 +9,7 @@
 
 }
 @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,11 +21,11 @@ using @(project.Module).Entity;
 namespace @(project.Module).@buildTask.Module
 {
     public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
-        {
+    {
         @if (autoIncrement && primaryKeyType != "int")
         {
             @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
             @Html.NewLine()
         }
-        }
-        }
+    }
+}

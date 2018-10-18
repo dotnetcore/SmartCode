@@ -30,6 +30,7 @@
         @{ await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model); }
         @{ await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model); }
         @{ await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model); }
+
         <!--获取分页数据-->
         <Statement Id="QueryByPage" @(queryStatementResultMap)>
             Select T.* From @table.Name As T
@@ -54,5 +55,6 @@
             Limit 1
         </Statement>
         @{ await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model); }
+
     </Statements>
 </SmartSqlMap>

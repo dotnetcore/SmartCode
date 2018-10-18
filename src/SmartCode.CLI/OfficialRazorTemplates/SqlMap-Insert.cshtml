@@ -23,7 +23,7 @@
         var col = table.Columns.ElementAt(colIndex);
         @if (!col.AutoIncrement)
         {
-            @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @Html.PadLeft(6)@col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
             @Html.NewLine()
         }
     }
@@ -35,7 +35,7 @@
         var col = table.Columns.ElementAt(colIndex);
         @if (!col.AutoIncrement)
         {
-            @prefix@col.ConvertedName@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @Html.PadLeft(6)@prefix@col.ConvertedName@(colIndex == table.Columns.Count() - 1 ? "" : ",")
             @Html.NewLine()
         }
     }
