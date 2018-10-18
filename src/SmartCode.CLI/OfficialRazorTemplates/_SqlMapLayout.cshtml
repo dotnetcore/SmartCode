@@ -20,18 +20,78 @@
             <Where>
             </Where>
         </Statement>
-        @{ await Html.RenderPartialAsync("SqlMap-Insert.cshtml", Model); }
-        @{ await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model); }
-        @{ await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model); }
-        @{ await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model); }
 
-        @RenderSection("QueryByPage", required: false)
+        @if (IsSectionDefined("Insert"))
+        {
+            await RenderSectionAsync("Insert", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-Insert.cshtml", Model);
+        }
 
-        @{ await Html.RenderPartialAsync("SqlMap-GetRecord.cshtml", Model); }
+        @if (IsSectionDefined("Delete"))
+        {
+            await RenderSectionAsync("Delete", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model);
+        }
 
-        @RenderSection("GetEntity", required: false)
+        @if (IsSectionDefined("Update"))
+        {
+            await RenderSectionAsync("Update", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model);
+        }
 
-        @{ await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model); }
+        @if (IsSectionDefined("Query"))
+        {
+            await RenderSectionAsync("Query", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model);
+        }
+
+        @if (IsSectionDefined("QueryByPage"))
+        {
+            await RenderSectionAsync("QueryByPage", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-QueryByPage.cshtml", Model);
+        }
+
+        @if (IsSectionDefined("GetRecord"))
+        {
+            await RenderSectionAsync("GetRecord", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-GetRecord.cshtml", Model);
+        }
+
+        @if (IsSectionDefined("GetEntity"))
+        {
+            await RenderSectionAsync("GetEntity", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-GetEntity.cshtml", Model);
+        }
+
+        @if (IsSectionDefined("IsExist"))
+        {
+            await RenderSectionAsync("IsExist", required: false);
+        }
+        else
+        {
+            await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model);
+        }
 
     </Statements>
 </SmartSqlMap>

@@ -68,6 +68,9 @@
     <None Update="OfficialRazorTemplates\Sln.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="OfficialRazorTemplates\SqlMap-GetEntity.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="OfficialRazorTemplates\_SqlMapLayout.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

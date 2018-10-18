@@ -35,16 +35,4 @@
         Limit @("@PageSize") Offset @("@Offset")
     </Statement>
 }
-@section GetEntity
-    {
-    <!--获取表映射实体-->
-    <Statement Id="GetEntity" @queryStatementResultMap>
-        Select T.* From @table.Name T
-        <Where>
-            <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                T.@pkCol.Name=@prefix@pkCol.ConvertedName
-            </IsNotEmpty>
-        </Where>
-        Limit 1
-    </Statement>
-}
+

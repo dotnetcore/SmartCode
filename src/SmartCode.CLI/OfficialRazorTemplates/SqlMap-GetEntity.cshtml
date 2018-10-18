@@ -1,0 +1,24 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
+    var resultMapName = $"{table.ConvertedName}ResultMap";
+    var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
+}
+
+<!--获取表映射实体-->
+<Statement Id="GetEntity" @(queryStatementResultMap)>
+    Select T.* From @table.Name As T
+    <Where>
+        <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
+            T.@pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
+        </IsNotEmpty>
+    </Where>
+    Limit 1
+</Statement>
