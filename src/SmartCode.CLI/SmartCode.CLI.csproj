@@ -71,19 +71,34 @@
     <None Update="OfficialRazorTemplates\SqlMap-Columns.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="OfficialRazorTemplates\SqlMap-Delete.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="OfficialRazorTemplates\SqlMap-GetRecord.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="OfficialRazorTemplates\SqlMap-Insert.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="OfficialRazorTemplates\SqlMap-IsExist.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="OfficialRazorTemplates\SqlMap-MySql.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-Oracle.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-PostgreSql.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="OfficialRazorTemplates\SqlMap-PostgreSql.cshtml">
+    <None Update="OfficialRazorTemplates\SqlMap-Query.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="OfficialRazorTemplates\SqlMap-ResultMaps.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="OfficialRazorTemplates\SqlMap-SqlServer.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="OfficialRazorTemplates\SqlMap-Update.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="OfficialRazorTemplates\SqlMap.cshtml">

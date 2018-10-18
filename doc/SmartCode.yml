@@ -7,7 +7,7 @@ DataSource:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True
 Language: CSharp
-TemplateEngine: Razor 
+TemplateEngine: OfficialRazor 
 Output: 
   Type: File
   Path: 'E://SmartSql-Starter'
@@ -108,7 +108,7 @@ Build:
 
   SqlMap:
     Type: Table
-    Template: SqlMap-SqlServer.cshtml
+    Template: SqlMap.cshtml
     Output: 
       Path: '{{Project.Module}}.API/Maps'
       Extension: .xml

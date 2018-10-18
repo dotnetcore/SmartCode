@@ -12,37 +12,50 @@
     }
     var autoIncrement = table.AutoIncrement;
     var prefix = dbSource.DbProvider.ParameterPrefix;
-    int colIndex = 0;
 }
 
 <!--新增-->
 <Statement Id="Insert">
     INSERT INTO @table.Name
     (
-    @{ colIndex = 0;}
-    @foreach (var col in table.Columns)
+    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
+        var col = table.Columns.ElementAt(colIndex);
         @if (!col.AutoIncrement)
         {
             @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @Html.NewLine()
         }
-        colIndex++;
     }
     )
     VALUES
     (
-    @{ colIndex = 0;}
-    @foreach (var col in table.Columns)
+    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
+        var col = table.Columns.ElementAt(colIndex);
         @if (!col.AutoIncrement)
         {
             @prefix@col.ConvertedName@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @Html.NewLine()
         }
-        colIndex++;
     }
     );
     @if (autoIncrement)
     {
-        <text>Select Last_Insert_Id();</text>
+        @switch (dbSource.DbRepository.DbProvider)
+        {
+            case DbProvider.MariaDB:
+            case DbProvider.MySql:
+                {
+                    <text>Select Last_Insert_Id();</text>
+                    break;
+                }
+            case DbProvider.SqlServer:
+                {
+                    <text>Select Scope_Identity();</text>
+                    break;
+                }
+        }
+        @Html.NewLine()
     }
 </Statement>

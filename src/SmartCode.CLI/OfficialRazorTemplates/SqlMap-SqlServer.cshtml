@@ -27,51 +27,10 @@
             <Where>
             </Where>
         </Statement>
-        <!--新增-->
-        <Statement Id="Insert">
-            INSERT INTO @table.Name
-            (
-            @for (var i = 0; i < table.Columns.Count(); i++)
-            {
-                var col = table.Columns.ElementAt(i);
-                @if (!col.AutoIncrement)
-                {
-                    @col.Name@(i == table.Columns.Count() - 1 ? "" : ",")
-                }
-            }
-            )
-            VALUES
-            (
-            @for (var i = 0; i < table.Columns.Count(); i++)
-            {
-                var col = table.Columns.ElementAt(i);
-                @if (!col.AutoIncrement)
-                {
-                    @prefix@col.ConvertedName@(i == table.Columns.Count() - 1 ? "" : ",")
-                }
-            }
-            );
-            @if (autoIncrement)
-            {
-                <text>Select Scope_Identity();</text>
-                @Html.NewLine()
-            }
-        </Statement>
-
-        <!--删除-->
-        <Statement Id="Delete">
-            Delete @table.Name
-            Where @pkCol.Name=@pkCol.ConvertedName
-        </Statement>
-
+        @{ await Html.RenderPartialAsync("SqlMap-Insert.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model); }
         @{ await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model); }
-
-        <!--获取数据列-->
-        <Statement Id="Query" @queryStatementResultMap>
-            SELECT T.* From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-            Order By T.@pkCol.Name Desc
-        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model); }
 
         <!--获取分页数据-->
         <Statement Id="QueryByPage" @queryStatementResultMap>
@@ -81,11 +40,7 @@
             Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
         </Statement>
 
-        <!--获取记录数-->
-        <Statement Id="GetRecord">
-            Select Count(1) From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-GetRecord.cshtml", Model); }
 
         <!--获取表映射实体-->
         <Statement Id="GetEntity" @queryStatementResultMap>
@@ -96,11 +51,6 @@
                 </IsNotEmpty>
             </Where>
         </Statement>
-
-        <!--是否存在该记录-->
-        <Statement Id="IsExist">
-            Select Count(1) From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model); }
     </Statements>
 </SmartSqlMap>

@@ -14,7 +14,6 @@
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
     var prefix = dbSource.DbProvider.ParameterPrefix;
-    var colIndex = 0;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
@@ -27,79 +26,10 @@
             <Where>
             </Where>
         </Statement>
-        <Statement Id="AllCols">
-            @{ colIndex = 0;}
-            @foreach (var col in table.Columns)
-            {
-                @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
-                colIndex++;
-            }
-        </Statement>
-        <!--新增-->
-        <Statement Id="Insert">
-            INSERT INTO @table.Name
-            (
-            @{ colIndex = 0;}
-            @foreach (var col in table.Columns)
-            {
-                @if (!col.AutoIncrement)
-                {
-                    @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
-                }
-                colIndex++;
-            }
-            )
-            VALUES
-            (
-            @{ colIndex = 0;}
-            @foreach (var col in table.Columns)
-            {
-                @if (!col.AutoIncrement)
-                {
-                    @prefix@col.ConvertedName@(colIndex == table.Columns.Count() - 1 ? "" : ",")
-                }
-                colIndex++;
-            }
-            );
-            @if (autoIncrement)
-            {
-                <text>Select Last_Insert_Id();</text>
-            }
-        </Statement>
-        <!--删除-->
-        <Statement Id="Delete">
-            Delete FROM @table.Name
-            Where @pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
-        </Statement>
-        <!--更新-->
-        <Statement Id="Update">
-            UPDATE @table.Name
-            SET
-            <Dynamic>
-                @foreach (var col in table.Columns)
-                {
-                    if (!col.IsPrimaryKey)
-                    {
-                        <IsProperty Prepend="," Property="@col.ConvertedName">
-                            @col.Name = @($"{prefix}{col.ConvertedName}")
-                        </IsProperty>
-                    }
-                }
-            </Dynamic>
-            Where @pkCol.Name=@prefix@pkCol.ConvertedName
-        </Statement>
-        <!--获取数据列-->
-        <Statement Id="Query" @(queryStatementResultMap)>
-            SELECT T.* From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-            Order By T.@pkCol.Name Desc
-            <Switch Prepend="Order By" Property="OrderBy">
-                <Default>
-                    T.@pkCol.Name Desc
-                </Default>
-            </Switch>
-            <IsNotEmpty Prepend="Limit" Property="Taken">?Taken</IsNotEmpty>
-        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-Insert.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Delete.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Update.cshtml", Model); }
+        @{ await Html.RenderPartialAsync("SqlMap-Query.cshtml", Model); }
         <!--获取分页数据-->
         <Statement Id="QueryByPage" @(queryStatementResultMap)>
             Select T.* From @table.Name As T
@@ -111,11 +41,8 @@
             </Switch>
             Limit ?Offset,?PageSize
         </Statement>
-        <!--获取记录数-->
-        <Statement Id="GetRecord">
-            Select Count(1) From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-GetRecord.cshtml", Model); }
+
         <!--获取表映射实体-->
         <Statement Id="GetEntity" @(queryStatementResultMap)>
             Select T.* From @table.Name As T
@@ -126,10 +53,6 @@
             </Where>
             Limit 1
         </Statement>
-        <!--是否存在该记录-->
-        <Statement Id="IsExist">
-            Select Count(1) From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-        </Statement>
+        @{ await Html.RenderPartialAsync("SqlMap-IsExist.cshtml", Model); }
     </Statements>
 </SmartSqlMap>

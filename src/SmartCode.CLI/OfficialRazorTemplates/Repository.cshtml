@@ -23,7 +23,8 @@ namespace @(project.Module).@buildTask.Module
         {
         @if (autoIncrement && primaryKeyType != "int")
         {
-            <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @Html.NewLine()
         }
         }
         }

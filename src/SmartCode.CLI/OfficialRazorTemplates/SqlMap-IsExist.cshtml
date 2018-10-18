@@ -8,8 +8,8 @@
     var pkCol = table.PKColumn;
 }
 
-<!--删除-->
-<Statement Id="Delete">
-    Delete From @table.Name
-    Where @pkCol.Name=@pkCol.ConvertedName
+<!--是否存在该记录-->
+<Statement Id="IsExist">
+    Select Count(1) From @table.Name T
+    <Include RefId="QueryParams" />
 </Statement>
