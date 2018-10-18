@@ -1,15 +1,13 @@
-﻿@using RazorLight
-@using SmartCode
+﻿@using SmartCode
 @using SmartCode.Db
-@inherits TemplatePage<BuildContext>
+@model BuildContext
 @{
-    DisableEncoding = true;
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
 }
 
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-    @{await IncludeAsync("Copyright.cshtml", Model);}
+    @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 -->
-@{ await IncludeAsync($"SqlMap-{dbSource.DbProvider.Name}.cshtml", Model); }
+@{ await Html.RenderPartialAsync($"./SqlMap-Partials/SqlMap-{dbSource.DbProvider.Name}.cshtml", Model); }

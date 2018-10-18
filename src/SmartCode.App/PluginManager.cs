@@ -47,7 +47,7 @@ namespace SmartCode.App
                     _logger.LogWarning(errMsg);
                 }
             }
-            _logger.LogDebug($"GetPlugin Name:{name},PluginType:{typeof(TPlugin).FullName}!");
+            _logger.LogDebug($"GetPlugin Name:{name},PluginType:{typeof(TPlugin).FullName},ImplType:{plugin.GetType().FullName}!");
             return (TPlugin)plugin;
         }
 

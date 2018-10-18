@@ -1,9 +1,7 @@
-﻿@using RazorLight
-@using SmartCode
+﻿@using SmartCode
 @using SmartCode.Db
-@inherits TemplatePage<BuildContext>
+@model BuildContext
 @{
-    DisableEncoding = true;
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var dbProvider = dbSource.DbProvider;
@@ -11,7 +9,7 @@
 }
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-@{ await IncludeAsync("Copyright.cshtml", Model); }
+@{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 -->
 <SmartSqlMapConfig xmlns="http://SmartSql.net/schemas/SmartSqlMapConfig.xsd">
     <Settings IsWatchConfigFile="true" />

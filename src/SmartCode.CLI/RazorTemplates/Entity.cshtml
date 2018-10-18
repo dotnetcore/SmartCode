@@ -1,30 +1,32 @@
 ﻿@using SmartCode
-@using SmartCode.CLI
-@using RazorLight
 
-@inherits TemplatePage<BuildContext>
+@model BuildContext
 @{
-    DisableEncoding = true;
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
+
 }
-@{ await IncludeAsync("Copyright.cshtml", Model); }
+@{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 
 using System;
 namespace @(project.Module).@buildTask.Module
 {
-    @("///<summary>")
-    @($"///{table.Description ?? table.ConvertedName}")
-    @("///</summary>")
+@Html.PadLeft(4)@Html.Raw("///<summary>")
+@Html.PadLeft(4)@Html.Raw($"///{table.Description ?? table.ConvertedName}")
+@Html.PadLeft(4)@Html.Raw("///</summary>")
     public class @table.ConvertedName
     {
-        @foreach (var column in table.Columns)
-        {
-            @(this.PadLeft(8)+"///<summary>\r\n")
-            @(this.PadLeft(8)+$"///{column.Description ?? column.ConvertedName}\r\n")
-            @(this.PadLeft(8)+"///</summary>\r\n")
-            @this.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable&&column.LanguageType!="string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>@("\r\n")
-        }
+    @foreach (var column in table.Columns)
+    {
+        @Html.PadLeft(8)@Html.Raw("///<summary>")
+        @Html.PadLeft(8)@Html.NewLine()
+        @Html.PadLeft(8)@Html.Raw($"///{column.Description ?? column.ConvertedName}")
+        @Html.PadLeft(8)@Html.NewLine()
+        @Html.PadLeft(8)@Html.Raw("///</summary>")
+        @Html.PadLeft(8)@Html.NewLine()
+        @Html.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable && column.LanguageType != "string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
+        @Html.PadLeft(8)@Html.NewLine()
+    }
     }
 }

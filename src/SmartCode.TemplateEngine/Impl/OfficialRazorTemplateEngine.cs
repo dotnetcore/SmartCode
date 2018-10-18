@@ -24,8 +24,8 @@ namespace SmartCode.TemplateEngine.Impl
     public class OfficialRazorTemplateEngine : ITemplateEngine
     {
         public bool Initialized { get; private set; }
-        public string Name { get; private set; } = "OfficialRazor";
-        private string _root = AppPath.Relative("OfficialRazorTemplates");
+        public string Name { get; private set; } = "Razor";
+        private string _root = AppPath.Relative("RazorTemplates");
         private IServiceScopeFactory _scopeFactory;
         public void Initialize(IDictionary<string, string> paramters)
         {

@@ -7,7 +7,7 @@ DataSource:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True
 Language: CSharp
-TemplateEngine: OfficialRazor 
+TemplateEngine: Razor 
 Output: 
   Type: File
   Path: 'E://SmartSql-Starter'

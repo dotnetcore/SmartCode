@@ -64,7 +64,15 @@ namespace SmartCode.App
             foreach (var plugin in SmartCodeOptions.Plugins)
             {
                 var pluginType = Assembly.Load(plugin.AssemblyName).GetType(plugin.TypeName);
+                if (pluginType == null)
+                {
+                    throw new SmartCodeException($"Plugin.Type:{plugin.TypeName} can not find!");
+                }
                 var implType = Assembly.Load(plugin.ImplAssemblyName).GetType(plugin.ImplTypeName);
+                if (implType == null)
+                {
+                    throw new SmartCodeException($"Plugin.ImplType:{plugin.ImplTypeName} can not find!");
+                }
                 if (!pluginType.IsAssignableFrom(implType))
                 {
                     throw new SmartCodeException($"Plugin.ImplType:{implType.FullName} can not Impl Plugin.Type：{pluginType.FullName}!");

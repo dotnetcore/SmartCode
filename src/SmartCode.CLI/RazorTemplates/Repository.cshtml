@@ -1,15 +1,15 @@
-﻿@using RazorLight
-@using SmartCode
-@inherits TemplatePage<BuildContext>
+﻿@using SmartCode
+@model BuildContext
 @{
-    DisableEncoding = true;
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var primaryKeyType = table.PKColumn?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
+
 }
-@{ await IncludeAsync("Copyright.cshtml", Model); }
+@{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,8 +24,8 @@ namespace @(project.Module).@buildTask.Module
     {
         @if (autoIncrement && primaryKeyType != "int")
         {
-            @this.PadLeft(8)<text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
-            @this.NewLine()
+            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @Html.NewLine()
         }
     }
 }
