@@ -83,14 +83,20 @@ namespace SmartCode.Db
 
         private void InitSqlMapper()
         {
-            _dbProviders.TryGetValue(DbProviderName, out SmartSql.Configuration.DbProvider smartSqlDbProvider);
+            if (!_dbProviders.TryGetValue(DbProviderName, out SmartSql.Configuration.DbProvider smartSqlDbProvider))
+            {
+                var supportDbProviders = String.Join(",", _dbProviders.Select(m => m.Key));
+                var errMsg = $"Can not find DbProvider:{DbProviderName},SmartCode support DbProviders:{supportDbProviders}!";
+                _logger.LogError(errMsg);
+                throw new SmartCodeException(errMsg);
+            }
             SmartSqlConfigOptions smartSqlConfigOptions = new SmartSqlConfigOptions
             {
                 Settings = new SmartSql.Configuration.Settings
                 {
                     ParameterPrefix = "$"
                 },
-                Database = new SmartSql.Options.Database
+                Database = new Database
                 {
                     DbProvider = smartSqlDbProvider,
                     Write = new SmartSql.Configuration.WriteDataSource
