@@ -20,7 +20,7 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.4.3</Version>
+    <Version>1.4.6</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
   </PropertyGroup>
 

@@ -37,7 +37,10 @@
       When cs.conkey[1] Then 1
       Else 0 End
       ) As "IsPrimaryKey",
-      0 As "AutoIncrement",
+      (
+      Case When pg_get_serial_sequence(c.relname, a.attname) Is Null Then 0
+      Else 1 End
+      )As  "AutoIncrement",
       col_description(a.attrelid,a.attnum) as "Description"
       From pg_class c
       Left Join pg_attribute a on a.attrelid=c.oid

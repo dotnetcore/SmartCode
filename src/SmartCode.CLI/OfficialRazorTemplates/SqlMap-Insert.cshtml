@@ -55,6 +55,11 @@
                     <text>Select Scope_Identity();</text>
                     break;
                 }
+            case DbProvider.PostgreSql:
+                {
+                    <text>Returning @pkCol.Name;</text>
+                    break;
+                }
         }
         @Html.NewLine()
     }
