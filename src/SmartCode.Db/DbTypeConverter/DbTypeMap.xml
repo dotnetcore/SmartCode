@@ -117,7 +117,7 @@
     <DbType Name="bit(1)" To="bool"/>
     <DbType Name="bit(n)" To="BitArray"/>
     <DbType Name="varbit" To="BitArray"/>
-    <!--<DbType Name="hstore" To="<![CDATA[	IDictionary<string, string>]]>"/>-->
+    <DbType Name="hstore" To="IDictionary&lt;string, string&gt;"/>
     <DbType Name="uuid" To="Guid" />
     <DbType Name="cidr" To="NpgsqlInet" />
     <DbType Name="inet" To="IPAddress" />
@@ -138,6 +138,45 @@
     <DbType Name="char" To="byte" />
     <DbType Name="geometry" To="PostgisGeometry" />
     <DbType Name="record" To="object[]" />
+    <!--array type-->
+    <DbType Name="_bool" To="bool[]"/>
+    <DbType Name="_int2" To="short[]"/>
+    <DbType Name="_int4" To="int[]"/>
+    <DbType Name="_int8" To="long[]"/>
+    <DbType Name="_float4" To="float[]" />
+    <DbType Name="_float8" To="double[]" />
+    <DbType Name="_numeric" To="decimal[]"/>
+    <DbType Name="_money" To="decimal[]"/>
+    <DbType Name="_text" To="string[]"/>
+    <DbType Name="_varchar" To="string[]"/>
+    <DbType Name="_bpchar" To="string[]"/>
+    <DbType Name="_citext" To="string[]" />
+    <DbType Name="_json" To="string[]" />
+    <DbType Name="_jsonb" To="string[]" />
+    <DbType Name="_xml" To="string[]"/>
+    <DbType Name="_point" To="NpgsqlPoint[]"/>
+    <DbType Name="_lseg" To="NpgsqlLSeg[]"/>
+    <DbType Name="_path" To="NpgsqlPath[]"/>
+    <DbType Name="_polygon" To="NpgsqlPolygon[]" />
+    <DbType Name="_line" To="NpgsqlLine[]"/>
+    <DbType Name="_circle" To="NpgsqlCircle[]"/>
+    <DbType Name="_box" To="NpgsqlBox[]"/>
+    <DbType Name="_uuid" To="Guid[]" />
+    <DbType Name="_cidr" To="NpgsqlInet[]" />
+    <DbType Name="_inet" To="IPAddress[]" />
+    <DbType Name="_macaddr" To="PhysicalAddress[]" />
+    <DbType Name="_tsquery" To="NpgsqlTsQuery[]" />
+    <DbType Name="_tsvector" To="NpgsqlTsVector[]" />
+    <DbType Name="_date" To="DateTime[]" />
+    <DbType Name="_interval" To="TimeSpan[]" />
+    <DbType Name="_timestamp" To="DateTime[]" />
+    <DbType Name="_timestamptz" To="DateTime[]" />
+    <DbType Name="_time" To="TimeSpan[]" />
+    <DbType Name="_timetz" To="DateTimeOffset[]" />
+    <DbType Name="_oid" To="uint[]" />
+    <DbType Name="_xid" To="uint[]" />
+    <DbType Name="_cid" To="uint[]" />
+    <DbType Name="_geometry" To="PostgisGeometry[]" />
   </Database>
   <Database DbProvider="Oracle"  Language="CSharp">
     <DbType Name="image" To="byte[]"/>
@@ -184,4 +223,4 @@
     <DbType Name="longtext" To="string" />
     <DbType Name="timestamp" To="DateTime" />
   </Database>
-  </DbTypeMap>
+</DbTypeMap>
