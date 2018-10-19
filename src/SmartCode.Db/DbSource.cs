@@ -33,37 +33,7 @@ namespace SmartCode.Db
         public SmartSql.Configuration.Database Database { get { return SmartSqlContext.Database; } }
         public SmartSql.Configuration.DbProvider DbProvider { get { return Database.DbProvider; } }
         public SmartSql.Configuration.WriteDataSource WriteDataSource { get { return Database.WriteDataSource; } }
-        private IEnumerable<Table> _tables;
-        public IEnumerable<Table> Tables
-        {
-            get
-            {
-                if (_tables == null)
-                {
-                    DbRepository = new DbRepository(_project, _loggerFactory);
-                    _tables = DbRepository.QueryTable();
-                    var dbTypeConvert = _pluginManager.Resolve<IDbTypeConverter>();
-                    foreach (var table in _tables)
-                    {
-                        foreach (var col in table.Columns)
-                        {
-                            if ((DbRepository.DbProvider == Db.DbProvider.MySql || DbRepository.DbProvider == Db.DbProvider.MariaDB)
-                                && col.DbType == "char"
-                                && col.DataLength == 36
-                                && _project.Language == "CSharp")
-                            {
-                                col.LanguageType = "Guid";
-                            }
-                            else
-                            {
-                                col.LanguageType = dbTypeConvert.LanguageType(DbRepository.DbProvider, _project.Language, col.DbType);
-                            }
-                        }
-                    }
-                }
-                return _tables;
-            }
-        }
+        public IEnumerable<Table> Tables { get; private set; }
 
         public void Initialize(IDictionary<string, String> paramters)
         {
@@ -76,6 +46,30 @@ namespace SmartCode.Db
             }
 
             this.Initialized = true;
+        }
+
+        public void InitData()
+        {
+            DbRepository = new DbRepository(_project, _loggerFactory);
+            Tables = DbRepository.QueryTable();
+            var dbTypeConvert = _pluginManager.Resolve<IDbTypeConverter>();
+            foreach (var table in Tables)
+            {
+                foreach (var col in table.Columns)
+                {
+                    if ((DbRepository.DbProvider == Db.DbProvider.MySql || DbRepository.DbProvider == Db.DbProvider.MariaDB)
+                        && col.DbType == "char"
+                        && col.DataLength == 36
+                        && _project.Language == "CSharp")
+                    {
+                        col.LanguageType = "Guid";
+                    }
+                    else
+                    {
+                        col.LanguageType = dbTypeConvert.LanguageType(DbRepository.DbProvider, _project.Language, col.DbType);
+                    }
+                }
+            }
         }
     }
 }

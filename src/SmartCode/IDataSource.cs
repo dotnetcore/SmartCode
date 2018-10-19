@@ -6,6 +6,6 @@ namespace SmartCode
 {
     public interface IDataSource : IPlugin
     {
-
+        void InitData();
     }
 }

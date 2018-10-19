@@ -18,33 +18,25 @@ Build:
     Type: Clear
     Paramters:
       Dirs: '.'
-  Solution:
-    Type: Project
-    Template: Sln.cshtml
-    Output:
+
+  Scaffolding:
+    Type: MultiTemplate
+    Output: 
       Path: '.'
-      Name: '{{Project.Module}}'
-      Extension: '.sln'
-  SmartSqlConfig:
-    Type: Project
-    Template: SqlMapConfig.cshtml
-    Output:
-      Path: '{{Project.Module}}.API'
-      Name: 'SmartSqlMapConfig'
-      Extension: '.xml'
-  Entity_Project:
-    Type: Project
-    Template: Proj.cshtml
-    Output:
-      Path: '{{Project.Module}}.Entity'
-      Name: '{{Project.Module}}.Entity'
-      Extension: '.csproj'
+    Paramters:
+      Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
+        {Key: "Proj.cshtml",Output: {Path: '{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
+        {Key: "Proj-Repository.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
+        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
+        ]
+
   Entity:
     Type: Table
     Module: Entity
     Template: Entity.cshtml
     Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.cs'
     NamingConverter:
       Table:
@@ -71,13 +63,7 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
-  Repository_Project:
-    Type: Project
-    Template: Proj-Repository.cshtml
-    Output:
-      Path: '{{Project.Module}}.Repository'
-      Name: '{{Project.Module}}.Repository'
-      Extension: '.csproj'
+
   Repository:
     Type: Table
     Module: Repository
@@ -86,7 +72,7 @@ Build:
     IgnoreView: true
     Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
-      Name: 'I{{OutputName}}Repository'
+      Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
       Extension: .cs
     NamingConverter:
       Table:
@@ -111,6 +97,7 @@ Build:
     Template: SqlMap.cshtml
     Output: 
       Path: '{{Project.Module}}.API/Maps'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: .xml
     IgnoreNoPKTable: true
     IgnoreView: true

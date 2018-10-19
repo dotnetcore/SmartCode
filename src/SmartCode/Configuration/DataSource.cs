@@ -8,7 +8,7 @@ namespace SmartCode.Configuration
     public class DataSource
     {
         public String Name { get; set; }
-        public IDictionary<String, String> Paramters { get; set; }
+        public IDictionary<String, object> Paramters { get; set; }
     }
 
 

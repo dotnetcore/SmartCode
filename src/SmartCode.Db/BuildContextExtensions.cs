@@ -7,8 +7,8 @@ namespace SmartCode
 {
     public  static class BuildContextExtensions
     {
-        public const String CURRENT_ALL_TABLE = "Currnet_All_Table";
-        public const String CURRENT_TABLE = "Current_Table";
+        public const String CURRENT_ALL_TABLE = "CurrnetAllTable";
+        public const String CURRENT_TABLE = "CurrentTable";
         public static IEnumerable<Table> GetCurrentAllTable(this BuildContext context)
         {
             return context.GetItem<IEnumerable<Table>>(CURRENT_ALL_TABLE);
