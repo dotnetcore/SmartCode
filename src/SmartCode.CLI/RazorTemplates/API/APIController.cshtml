@@ -1,0 +1,33 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "../_CSharpLayout.cshtml";
+    var project = Model.Project;
+    var table = Model.GetCurrentTable();
+    var serviceName = $"{table.ConvertedName}Service";
+}
+
+@functions{
+    String CamelCase(string phrase)
+    {
+        string firstChar = phrase.Substring(0, 1).ToLower();
+        return firstChar + phrase.Substring(1);
+    }
+}
+using System;
+using Microsoft.AspNetCore.Mvc;
+using @(project.Module).Repository;
+using @(project.Module).Service;
+
+namespace @(project.Module).API.Controllers
+{
+    [Route("[controller]/[action]")]
+    public class @(table.ConvertedName)Controller : Controller
+    {
+    public @serviceName @serviceName { get; }
+    public @(table.ConvertedName)Controller(@serviceName @(CamelCase(serviceName)))
+    {
+    @serviceName = @CamelCase(serviceName);
+    }
+    }
+    }

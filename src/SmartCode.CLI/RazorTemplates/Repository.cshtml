@@ -1,6 +1,7 @@
 ﻿@using SmartCode
 @model BuildContext
 @{
+    Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -8,7 +9,6 @@
     var autoIncrement = table.AutoIncrement;
 
 }
-@{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 
 using System;
 using System.Collections.Generic;

@@ -1,0 +1,18 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    var project = Model.Project;
+}
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\@(project.Module).Entity\@(project.Module).Entity.csproj" />
+        <ProjectReference Include="..\@(project.Module).Repository\@(project.Module).Repository.csproj" />
+    </ItemGroup>
+
+</Project>

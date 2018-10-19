@@ -2,13 +2,11 @@
 
 @model BuildContext
 @{
+    Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
-
 }
-@{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
-
 using System;
 namespace @(project.Module).@buildTask.Module
 {

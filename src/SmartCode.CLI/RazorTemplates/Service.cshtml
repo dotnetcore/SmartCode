@@ -1,0 +1,34 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "_CSharpLayout.cshtml";
+    var project = Model.Project;
+    var table = Model.GetCurrentTable();
+    var serviceName = $"{table.ConvertedName}Service";
+    var repositoryName = $"{table.ConvertedName}Repository";
+}
+
+@functions{
+    String CamelCase(string phrase)
+    {
+        string firstChar = phrase.Substring(0, 1).ToLower();
+        return firstChar + phrase.Substring(1);
+    }
+}
+
+using System;
+using System.Linq;
+using @(project.Module).Entity;
+using @(project.Module).Repository;
+
+namespace @(project.Module).Service
+{
+    public class @serviceName
+    {
+    public I@(repositoryName) @repositoryName { get; }
+    public @serviceName (I@(repositoryName) @(CamelCase(repositoryName)))
+    {
+    @repositoryName = @(CamelCase(repositoryName));
+    }
+    }
+}

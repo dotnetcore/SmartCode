@@ -3,9 +3,9 @@ Author: Ahoo Wang
 DataSource:
   Name: Db
   Paramters:
-    DbName: SmartSqlStarterDB
+    DbName: SmartSqlDB
     DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
 Language: CSharp
 TemplateEngine: Razor 
 Output: 
@@ -25,8 +25,15 @@ Build:
       Path: '.'
     Paramters:
       Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
-        {Key: "Proj.cshtml",Output: {Path: '{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
+        {Key: "Proj-Entity.cshtml",Output: {Path: '{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
         {Key: "Proj-Repository.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
+        {Key: "Proj-Service.cshtml",Output: {Path: '{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
+        {Key: "Proj-API.cshtml",Output: {Path: '{{Project.Module}}.API',Name: '{{Project.Module}}.API',Extension: '.csproj'}},
+        {Key: "API/LaunchSettings.cshtml",Output: {Path: '{{Project.Module}}.API/Properties',Name: 'launchSettings',Extension: '.json'}},
+        {Key: "API/Program.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
+        {Key: "API/Startup.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
+        {Key: "API/AppSettings.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
+        {Key: "API/AppSettings-Development.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
         {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
         ]
 
@@ -83,11 +90,43 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
-      View:
+
+  Service:
+    Type: Table
+    Module: Service
+    Template: Service.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}Service'
+      Extension: .cs
+    NamingConverter:
+      Table:
         Tokenizer:
           Type: Default
           Paramters: 
-            IgnorePrefix: 'V_'
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+
+  APIController:
+    Type: Table
+    Module: API
+    Template: API/APIController.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}/Controllers'
+      Name: '{{Items.CurrentTable.ConvertedName}}Controller'
+      Extension: .cs
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
