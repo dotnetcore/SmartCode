@@ -8,22 +8,22 @@ namespace Microsoft.AspNetCore.Mvc.Rendering
 {
     public static class OfficialRazorExtensions
     {
-        public static IHtmlContent NewLine(this IHtmlHelper htmlHelper)
+        public static String NewLine(this IHtmlHelper htmlHelper)
         {
-            return htmlHelper.Raw(Environment.NewLine);
+            return Environment.NewLine;
         }
-        public static IHtmlContent NewLine(this IHtmlHelper htmlHelper, string appendStr)
+        public static String NewLine(this IHtmlHelper htmlHelper, string appendStr)
         {
-            return htmlHelper.Raw(Environment.NewLine + appendStr);
+            return Environment.NewLine + appendStr;
         }
 
-        public static IHtmlContent PadLeft(this IHtmlHelper htmlHelper, int totalWidth)
+        public static String PadLeft(this IHtmlHelper htmlHelper, int totalWidth)
         {
-            return htmlHelper.Raw(String.Empty.PadLeft(totalWidth));
+            return String.Empty.PadLeft(totalWidth);
         }
-        public static IHtmlContent PadRight(this IHtmlHelper htmlHelper, int totalWidth)
+        public static String PadRight(this IHtmlHelper htmlHelper, int totalWidth)
         {
-            return htmlHelper.Raw(String.Empty.PadRight(totalWidth));
+            return String.Empty.PadRight(totalWidth);
         }
     }
 }

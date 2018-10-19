@@ -5,6 +5,7 @@
 @{
     Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
+    var build = Model.Build;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -13,12 +14,21 @@
     {
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
+    //if (build.Paramters != null
+    //&& build.Paramters.TryGetValue("ColumnNameFormat", out string colNameFormatStr))
+    //{
+    //    var colNameFormat = HandlebarsDotNet.Handlebars.Compile(colNameFormatStr);
+    //    foreach (var col in table.Columns)
+    //    {
+    //        col.Name = colNameFormat(col);
+    //    }
+    //}
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
     var prefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
-    var queryStatementResultMap = Html.Raw(table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "");
+    var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
 
 @section QueryByPage
