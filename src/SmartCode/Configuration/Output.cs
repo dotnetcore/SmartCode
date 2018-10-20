@@ -18,6 +18,9 @@ namespace SmartCode.Configuration
         /// 文件创建模式
         /// </summary>
         public CreateMode Mode { get; set; } = CreateMode.None;
+        /// <summary>
+        /// 文件名
+        /// </summary>
         public String Name { get; set; }
         /// <summary>
         /// 文件扩展名

@@ -214,6 +214,8 @@ Build:
           Type: Pascal
 ```
 
+### 构建文件参数概览
+
 | 参数名 | 说明 |
 | :--------- | --------:|
 | Module | 根模块名 |
@@ -235,6 +237,16 @@ DbSource.Paramters 接受以下三个参数：
 | DbName | 数据库名称 |
 | DbProvider | 数据驱动提供者:MySql,MariaDB,PostgreSql,SqlServer,Oracle,SQLite |
 | ConnectionString | 连接字符串 |
+
+#### Output 输出
+
+| 参数名 | 说明 |
+| :--------- | --------:|
+| Type | File |
+| Path | 输出目录 |
+| Name | 文件名 |
+| Extension | 扩展名 |
+| Mode | 输出模式，默认：Incre。Incre:增量创建，如果文件存在则忽略 。Full：全量创建，如果存在则重新创建 |
 
 #### Build 任务构建
 
