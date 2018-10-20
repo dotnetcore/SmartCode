@@ -20,9 +20,9 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.6.9</Version>
+    <Version>1.7.0</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>add Output.Mode:Incre/Full,default Incre</PackageReleaseNotes>
+    <PackageReleaseNotes>support SQLite</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -94,6 +94,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="RazorTemplates\Copyright.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="RazorTemplates\SqlMap-Partials\CURD\SqlMap-QueryByPage.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="RazorTemplates\SqlMap-Partials\SqlMap-SQLite.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="RazorTemplates\_CSharpLayout.cshtml">
