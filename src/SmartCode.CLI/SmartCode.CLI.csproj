@@ -20,9 +20,9 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.6.8.1</Version>
+    <Version>1.6.9</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>构建整个解决方案，直接运行API项目进行Swagger调试！！！</PackageReleaseNotes>
+    <PackageReleaseNotes>add Output.Mode:Incre/Full,default Incre</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

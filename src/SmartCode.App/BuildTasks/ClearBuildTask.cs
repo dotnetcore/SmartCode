@@ -22,7 +22,6 @@ namespace SmartCode.App.BuildTasks
         {
             var paramters = context.Build.Paramters;
             if (paramters == null) { return Task.CompletedTask; ; }
-
             if (paramters.TryGetValue("Dirs", out object clearDirs))
             {
                 var _clearDirs = clearDirs.ToString().Split(',');

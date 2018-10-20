@@ -42,6 +42,7 @@ namespace SmartCode.App
                         Type = output.Type,
                         Path = output.Path,
                         Name = output.Name,
+                        Mode = output.Mode,
                         Extension = output.Extension
                     }
                 };

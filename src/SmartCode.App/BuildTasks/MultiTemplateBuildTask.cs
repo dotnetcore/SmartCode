@@ -57,6 +57,10 @@ namespace SmartCode.App.BuildTasks
                     {
                         context.Output.Path = outputPath.ToString();
                     }
+                    if (outputKVs.TryGetValue(nameof(Output.Mode), out object outputMode))
+                    {
+                        context.Output.Mode = (CreateMode)Enum.Parse(typeof(CreateMode), outputMode.ToString());
+                    }
                     if (String.IsNullOrEmpty(context.Output.Path))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Path!");
