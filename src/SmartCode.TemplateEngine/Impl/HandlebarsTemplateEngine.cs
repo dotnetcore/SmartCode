@@ -58,7 +58,6 @@ namespace SmartCode.TemplateEngine.Impl
 
         public void Initialize(IDictionary<string, String> paramters)
         {
-            Initialized = true;
             if (paramters == null) { return; }
             if (paramters.TryGetValue("Name", out string name))
             {
@@ -68,6 +67,8 @@ namespace SmartCode.TemplateEngine.Impl
             {
                 _root = root;
             }
+            Initialized = true;
         }
+
     }
 }

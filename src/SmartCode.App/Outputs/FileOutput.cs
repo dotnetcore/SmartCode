@@ -23,12 +23,12 @@ namespace SmartCode.App.Outputs
 
         public void Initialize(IDictionary<string, string> paramters)
         {
-            Initialized = true;
             if (paramters == null) { return; }
             if (paramters.TryGetValue("Name", out string name))
             {
                 Name = name;
             }
+            Initialized = true;
         }
 
         public async Task Output(BuildContext context)
@@ -50,5 +50,7 @@ namespace SmartCode.App.Outputs
             }
             _logger.LogInformation($"------ Output Build:{context.BuildKey} -> {filePath} End! ------");
         }
+
+
     }
 }
