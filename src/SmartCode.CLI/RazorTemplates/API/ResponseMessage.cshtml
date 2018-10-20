@@ -1,0 +1,28 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "../_CSharpLayout.cshtml";
+    var project = Model.Project;
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
+namespace @(project.Module).API.Messages
+{
+    public class ResponseMessage : ResponseMessageWrap@("<object>")
+    {
+    }
+    public class ResponseMessageWrap@("<TBody>")
+    {
+    public bool IsSuccess { get; set; } = true;
+    public String ErrorCode { get; set; } = "0000";
+    public String Message { get; set; }
+    public TBody Body { get; set; }
+    }
+    }
+
+

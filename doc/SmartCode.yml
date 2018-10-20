@@ -30,10 +30,19 @@ Build:
         {Key: "Proj-Service.cshtml",Output: {Path: '{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
         {Key: "Proj-API.cshtml",Output: {Path: '{{Project.Module}}.API',Name: '{{Project.Module}}.API',Extension: '.csproj'}},
         {Key: "API/LaunchSettings.cshtml",Output: {Path: '{{Project.Module}}.API/Properties',Name: 'launchSettings',Extension: '.json'}},
-        {Key: "API/Program.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
-        {Key: "API/Startup.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
         {Key: "API/AppSettings.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
         {Key: "API/AppSettings-Development.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
+        {Key: "API/Program.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
+        {Key: "API/Startup.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
+        {Key: "API/APIException.cshtml",Output: {Path: '{{Project.Module}}.API/Exceptions',Name: 'APIException',Extension: '.cs'}},
+        {Key: "API/GlobalExceptionFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalExceptionFilter',Extension: '.cs'}},
+        {Key: "API/GlobalValidateModelFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalValidateModelFilter',Extension: '.cs'}},
+        {Key: "API/QueryRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryRequest',Extension: '.cs'}},
+        {Key: "API/QueryByPageRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageRequest',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "API/QueryResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryResponse',Extension: '.cs'}},
+        {Key: "API/QueryByPageResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
         {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
         ]
 

@@ -31,8 +31,7 @@ namespace @(project.Module).API
                         .Build();
             return WebHost.CreateDefaultBuilder(args)
                   .UseConfiguration(config)
-                  .UseStartup<Startup>
-    ().Build();
+                  .UseStartup@("<Startup>")().Build();
     }
     }
     }

@@ -1,0 +1,36 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "../_CSharpLayout.cshtml";
+    var project = Model.Project;
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+
+namespace @(project.Module).API.Exceptions
+{
+    public class APIException : Exception
+    {
+        public APIException()
+        {
+            ErrorCode = "0001";
+        }
+        public String ErrorCode { get; set; }
+
+        public APIException(string errorCode) : base() { ErrorCode = errorCode; }
+
+        public APIException(string errorCode, string message) : base(message) { ErrorCode = errorCode; }
+
+        public APIException(string errorCode, SerializationInfo info, StreamingContext context) : base(info, context) { ErrorCode = errorCode; }
+
+        public APIException(string errorCode, string message, System.Exception innerException) : base(message, innerException) { ErrorCode = errorCode; }
+    }
+}
+
+
+
+

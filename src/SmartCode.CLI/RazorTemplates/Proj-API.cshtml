@@ -15,7 +15,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="@dbProviderName" Version="@dbProviderVersion" />
+        @if (dbSource.DbRepository.DbProvider != DbProvider.SqlServer)
+        {
+            <PackageReference Include="@dbProviderName" Version="@dbProviderVersion" />
+        }
         <PackageReference Include="SmartSql.TypeHandler" Version="3.0.1" />
         <PackageReference Include="SmartSql.DIExtension" Version="3.7.10" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
@@ -31,6 +34,9 @@
         <ProjectReference Include="..\@(project.Module).Service\@(project.Module).Service.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <None Update="Maps\*.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="SmartSqlMapConfig.xml">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

@@ -1,4 +1,5 @@
 ﻿@using SmartCode
+@using SmartCode.Db
 @model BuildContext
 @{
     Layout = "../_CSharpLayout.cshtml";
@@ -7,21 +8,24 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using @(project.Module).Service;
+using @(project.Module).API.Filters;
 
-namespace SmartSql.Starter.API
+namespace @(project.Module).API
 {
     public class Startup
     {
         const string SERVICE_NAME = "@(project.Module).API";
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+        Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -29,62 +33,71 @@ namespace SmartSql.Starter.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
-            RegisterRepository(services);
-            RegisterService(services);
-            RegisterSwagger(services);
+        services.AddMvc(options =>
+        {
+        options.Filters.Add@("<GlobalExceptionFilter>")();
+        options.Filters.Add@("<GlobalValidateModelFilter>")();
+        }).SetCompatibilityVersion(CompatibilityVersion.Latest);
+        RegisterRepository(services);
+        RegisterService(services);
+        RegisterSwagger(services);
         }
         private void RegisterRepository(IServiceCollection services)
         {
-            services.AddSmartSqlRepositoryFromAssembly((options) =>
-            {
-                options.AssemblyString = "SmartSql.Starter.Repository";
-            });
+        services.AddSmartSqlRepositoryFromAssembly((options) =>
+        {
+        options.AssemblyString = "@(project.Module).Repository";
+        });
         }
         private void RegisterService(IServiceCollection services)
         {
-
+        var assembly = Assembly.Load("@(project.Module).Service");
+        var allTypes = assembly.GetTypes();
+        foreach (var type in allTypes)
+        {
+        services.AddSingleton(type);
+        }
         }
         private void RegisterSwagger(IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Title = SERVICE_NAME,
-                    Version = "v1",
-                    Description = "https://github.com/Ahoo-Wang/SmartCode"
-                });
-                c.CustomSchemaIds((type) => type.FullName);
-                var filePath = Path.Combine(AppContext.BaseDirectory, $"{SERVICE_NAME}.xml");
-                if (File.Exists(filePath))
-                {
-                    c.IncludeXmlComments(filePath);
-                }
-            });
+        services.AddSwaggerGen(c =>
+        {
+        c.SwaggerDoc("v1", new Info
+        {
+        Title = SERVICE_NAME,
+        Version = "v1",
+        Description = "https://github.com/Ahoo-Wang/SmartCode"
+        });
+        c.CustomSchemaIds((type) => type.FullName);
+        var filePath = Path.Combine(AppContext.BaseDirectory, $"{SERVICE_NAME}.xml");
+        if (File.Exists(filePath))
+        {
+        c.IncludeXmlComments(filePath);
+        }
+        });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+        if (env.IsDevelopment())
+        {
+        app.UseDeveloperExceptionPage();
+        }
 
-            app.UseMvc();
-            ConfigureSwagger(app);
+        app.UseMvc();
+        ConfigureSwagger(app);
         }
         private void ConfigureSwagger(IApplicationBuilder app)
         {
-            app.UseSwagger(c =>
-            {
+        app.UseSwagger(c =>
+        {
 
-            });
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", SERVICE_NAME);
-            });
+        });
+        app.UseSwaggerUI(c =>
+        {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", SERVICE_NAME);
+        });
         }
-    }
-}
+        }
+        }
 

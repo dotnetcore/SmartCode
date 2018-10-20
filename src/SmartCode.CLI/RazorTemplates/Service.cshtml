@@ -4,16 +4,14 @@
     Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var table = Model.GetCurrentTable();
-    var serviceName = $"{table.ConvertedName}Service";
-    var repositoryName = $"{table.ConvertedName}Repository";
-}
 
-@functions{
-    String CamelCase(string phrase)
-    {
-        string firstChar = phrase.Substring(0, 1).ToLower();
-        return firstChar + phrase.Substring(1);
-    }
+    var pkType = table.PKColumn.LanguageType;
+    var insertRetType = table.AutoIncrement ? pkType : "int";
+    var entityName = table.ConvertedName;
+    var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
+    var serviceName = $"{table.ConvertedName}Service";
+    var serviceCamelName = NamingUtil.CamelCase(serviceName);
+    var repositoryName = $"{table.ConvertedName}Repository";
 }
 
 using System;
@@ -26,9 +24,26 @@ namespace @(project.Module).Service
     public class @serviceName
     {
     public I@(repositoryName) @repositoryName { get; }
-    public @serviceName (I@(repositoryName) @(CamelCase(repositoryName)))
+
+    public @serviceName (I@(repositoryName) @serviceCamelName)
     {
-    @repositoryName = @(CamelCase(repositoryName));
+    @repositoryName = @serviceCamelName;
+    }
+
+    public @insertRetType Insert(@entityName @entityCamelName)
+    {
+    return @(repositoryName).Insert(@entityCamelName);
+    }
+
+    public int DeleteById(@pkType id)
+    {
+    return  @(repositoryName).DeleteById(id);
+    }
+
+    public int Update(@entityName @entityCamelName)
+    {
+    return  @(repositoryName).Update(@entityCamelName);
+    }
+
     }
     }
-}
