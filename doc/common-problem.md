@@ -82,4 +82,4 @@ Razor 模板引擎使用的是官方版本，这一点上.NETer同学可以很�
 
 ## 代码生成器支持多少种数据库
 
-SmartCode获取数据源结构使用的是SmartSql，所以SmartCode支持所有ADO.NET驱动相关的数据库：MySql/PostgreSql/SqlServer/Oracle/SQLite 等
+SmartCode获取数据源结构使用的是[SmartSql](https://github.com/Ahoo-Wang/SmartSql)，所以SmartCode支持所有ADO.NET驱动相关的数据库：MySql/PostgreSql/SqlServer/Oracle/SQLite 等
