@@ -9,6 +9,7 @@ namespace SmartCode
     {
         public Project Project { get; set; }
         public IDataSource DataSource { get; set; }
+        public IPluginManager PluginManager { get; set; }
         #region Current
         public String BuildKey { get; set; }
         public Build Build { get; set; }

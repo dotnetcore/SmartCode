@@ -33,6 +33,7 @@ namespace SmartCode.App
                 var output = buildKV.Value.Output;
                 BuildContext buildContext = new BuildContext
                 {
+                    PluginManager = _pluginManager,
                     Project = _project,
                     DataSource = dataSource,
                     BuildKey = buildKV.Key,
