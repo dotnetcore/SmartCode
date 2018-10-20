@@ -14,7 +14,7 @@
 
 ### Demo
 
-![SmartCode](./doc/SmartCode-Db.gif)
+![SmartCode](./doc/SmartCode-Db-1.gif)
 
 ### Getting Started
 
