@@ -20,9 +20,9 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.7.0</Version>
+    <Version>1.7.1</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>support SQLite</PackageReleaseNotes>
+    <PackageReleaseNotes>u SmartSql.DIExtension version</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
