@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SmartSqlMap Scope="Database-SQLite"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <Statements>
+    <Statement Id="QueryTable">
+      SELECT
+      name As Name,
+      ( CASE WHEN upper(TYPE) = 'VIEW' THEN 'V' ELSE 'T' END ) AS TypeName,
+      '' AS Description
+      FROM
+      sqlite_master
+    </Statement>
+    <Statement Id="QueryColumn">
+      Select name as Name
+      ,Lower(type) AS DbType
+      ,[NotNull] AS IsNullable
+      , PK AS IsPrimaryKey
+      ,'' as Description
+      From  Pragma_Table_Info($TableName)
+    </Statement>
+  </Statements>
+</SmartSqlMap>

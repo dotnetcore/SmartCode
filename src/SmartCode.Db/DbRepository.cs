@@ -76,9 +76,9 @@ namespace SmartCode.Db
         private void InitDataSource()
         {
             var dataSource = _project.DataSource;
-            DbProviderName = dataSource.Paramters["DbProvider"];
-            DbName = dataSource.Paramters["DbName"];
-            ConnectionString = dataSource.Paramters["ConnectionString"];
+            DbProviderName = dataSource.Paramters["DbProvider"].ToString();
+            DbName = dataSource.Paramters["DbName"].ToString();
+            ConnectionString = dataSource.Paramters["ConnectionString"].ToString();
         }
 
         private void InitSqlMapper()

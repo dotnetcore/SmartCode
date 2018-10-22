@@ -9,10 +9,13 @@ namespace SmartCode
     {
         public Project Project { get; set; }
         public IDataSource DataSource { get; set; }
+        public IPluginManager PluginManager { get; set; }
+        #region Current
         public String BuildKey { get; set; }
         public Build Build { get; set; }
         public String Result { get; set; }
-        public String OutputName { get; set; }
+        public Output Output { get; set; }
+        #endregion
         public object this[string key] { get { return Items[key]; } set { Items[key] = value; } }
         public IDictionary<String, object> Items { get; set; } = new Dictionary<String, object>();
         public TItem GetItem<TItem>(string key)

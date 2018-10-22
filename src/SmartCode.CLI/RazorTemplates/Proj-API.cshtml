@@ -1,0 +1,44 @@
+﻿@using SmartCode
+@using SmartCode.Db;
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var dbFactory = dbSource.Database.DbProvider.Factory;
+    var dbProviderAssNames = dbFactory.GetType().Assembly.FullName.Split(',');
+    var dbProviderName = dbProviderAssNames[0];
+    var dbProviderVersion = dbProviderAssNames[1].Split('=')[1];
+}
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        @if (dbSource.DbRepository.DbProvider != DbProvider.SqlServer)
+        {
+            <PackageReference Include="@dbProviderName" Version="@dbProviderVersion" />
+        }
+        <PackageReference Include="SmartSql.TypeHandler" Version="3.0.1" />
+        <PackageReference Include="SmartSql.DIExtension" Version="3.7.11" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\@(project.Module).Entity\@(project.Module).Entity.csproj" />
+        <ProjectReference Include="..\@(project.Module).Repository\@(project.Module).Repository.csproj" />
+        <ProjectReference Include="..\@(project.Module).Service\@(project.Module).Service.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Maps\*.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SmartSqlMapConfig.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

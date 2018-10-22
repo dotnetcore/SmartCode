@@ -18,9 +18,9 @@
       <!--<Env DbProvider="Oracle">
         <Include RefId="Database-Oracle.QueryTable"/>
       </Env>-->
-      <!--<Env DbProvider="SQLite">
+      <Env DbProvider="SQLite">
         <Include RefId="Database-SQLite.QueryTable"/>
-      </Env>-->
+      </Env>
     </Statement>
     <Statement Id="QueryColumn">
       <Env DbProvider="MySql">
@@ -38,9 +38,9 @@
       <!--<Env DbProvider="Oracle">
         <Include RefId="Database-Oracle.QueryColumn"/>
       </Env>-->
-      <!--<Env DbProvider="SQLite">
+      <Env DbProvider="SQLite">
         <Include RefId="Database-SQLite.QueryColumn"/>
-      </Env>-->
+      </Env>
     </Statement>
   </Statements>
 </SmartSqlMap>

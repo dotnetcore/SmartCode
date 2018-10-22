@@ -3,9 +3,9 @@ Author: Ahoo Wang
 DataSource:
   Name: Db
   Paramters:
-    DbName: SmartSqlStarterDB
+    DbName: SmartSqlDB
     DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
 Language: CSharp
 TemplateEngine: Razor 
 Output: 
@@ -18,33 +18,41 @@ Build:
     Type: Clear
     Paramters:
       Dirs: '.'
-  Solution:
-    Type: Project
-    Template: Sln.cshtml
-    Output:
+
+  Scaffolding:
+    Type: MultiTemplate
+    Output: 
       Path: '.'
-      Name: '{{Project.Module}}'
-      Extension: '.sln'
-  SmartSqlConfig:
-    Type: Project
-    Template: SqlMapConfig.cshtml
-    Output:
-      Path: '{{Project.Module}}.API'
-      Name: 'SmartSqlMapConfig'
-      Extension: '.xml'
-  Entity_Project:
-    Type: Project
-    Template: Proj.cshtml
-    Output:
-      Path: '{{Project.Module}}.Entity'
-      Name: '{{Project.Module}}.Entity'
-      Extension: '.csproj'
+    Paramters:
+      Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
+        {Key: "Proj-Entity.cshtml",Output: {Path: '{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
+        {Key: "Proj-Repository.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
+        {Key: "Proj-Service.cshtml",Output: {Path: '{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
+        {Key: "Proj-API.cshtml",Output: {Path: '{{Project.Module}}.API',Name: '{{Project.Module}}.API',Extension: '.csproj'}},
+        {Key: "API/LaunchSettings.cshtml",Output: {Path: '{{Project.Module}}.API/Properties',Name: 'launchSettings',Extension: '.json'}},
+        {Key: "API/AppSettings.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
+        {Key: "API/AppSettings-Development.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
+        {Key: "API/Program.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
+        {Key: "API/Startup.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
+        {Key: "API/APIException.cshtml",Output: {Path: '{{Project.Module}}.API/Exceptions',Name: 'APIException',Extension: '.cs'}},
+        {Key: "API/GlobalExceptionFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalExceptionFilter',Extension: '.cs'}},
+        {Key: "API/GlobalValidateModelFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalValidateModelFilter',Extension: '.cs'}},
+        {Key: "API/QueryRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryRequest',Extension: '.cs'}},
+        {Key: "API/QueryByPageRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageRequest',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "API/QueryResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryResponse',Extension: '.cs'}},
+        {Key: "API/QueryByPageResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
+        ]
+
   Entity:
     Type: Table
     Module: Entity
     Template: Entity.cshtml
     Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.cs'
     NamingConverter:
       Table:
@@ -71,13 +79,7 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
-  Repository_Project:
-    Type: Project
-    Template: Proj-Repository.cshtml
-    Output:
-      Path: '{{Project.Module}}.Repository'
-      Name: '{{Project.Module}}.Repository'
-      Extension: '.csproj'
+
   Repository:
     Type: Table
     Module: Repository
@@ -86,7 +88,7 @@ Build:
     IgnoreView: true
     Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
-      Name: 'I{{OutputName}}Repository'
+      Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
       Extension: .cs
     NamingConverter:
       Table:
@@ -97,11 +99,43 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
-      View:
+
+  Service:
+    Type: Table
+    Module: Service
+    Template: Service.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}Service'
+      Extension: .cs
+    NamingConverter:
+      Table:
         Tokenizer:
           Type: Default
           Paramters: 
-            IgnorePrefix: 'V_'
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+
+  APIController:
+    Type: Table
+    Module: API
+    Template: API/APIController.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}/Controllers'
+      Name: '{{Items.CurrentTable.ConvertedName}}Controller'
+      Extension: .cs
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
@@ -111,6 +145,7 @@ Build:
     Template: SqlMap.cshtml
     Output: 
       Path: '{{Project.Module}}.API/Maps'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: .xml
     IgnoreNoPKTable: true
     IgnoreView: true

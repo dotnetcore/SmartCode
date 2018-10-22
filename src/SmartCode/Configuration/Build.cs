@@ -23,6 +23,6 @@ namespace SmartCode.Configuration
         /// <summary>
         /// 自定义构建参数
         /// </summary>
-        public IDictionary<String, String> Paramters { get; set; }
+        public IDictionary<String, object> Paramters { get; set; }
     }
 }

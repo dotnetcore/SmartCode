@@ -1,0 +1,101 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "../_CSharpLayout.cshtml";
+    var project = Model.Project;
+    var table = Model.GetCurrentTable();
+    var pkType = table.PKColumn.LanguageType;
+    var insertRetType = table.AutoIncrement ? pkType : "int";
+    var entityName = table.ConvertedName;
+    var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
+    var serviceName = $"{table.ConvertedName}Service";
+    var serviceCamelName = NamingUtil.CamelCase(serviceName);
+    var repositoryName = $"{table.ConvertedName}Repository";
+    var repositoryCamelName = NamingUtil.CamelCase(repositoryName);
+}
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using @(project.Module).Entity;
+using @(project.Module).Repository;
+using @(project.Module).Service;
+using @(project.Module).API.Messages;
+
+namespace @(project.Module).API.Controllers
+{
+    [ApiController]
+    [Route("[controller]/[action]")]
+    public class @(table.ConvertedName)Controller : Controller
+    {
+    public @serviceName @serviceName { get; }
+    public I@(repositoryName) @repositoryName { get; }
+    public @(table.ConvertedName)Controller(@serviceName @serviceCamelName,I@(repositoryName) @repositoryCamelName)
+    {
+    @serviceName = @serviceCamelName;
+    @repositoryName = @repositoryCamelName;
+    }
+    [HttpPost]
+    public ResponseMessageWrap@($"<{insertRetType}>") Insert([FromBody]@entityName @entityCamelName)
+    {
+    return new ResponseMessageWrap@($"<{insertRetType}>")
+    {
+    Body = @(serviceName).Insert(@entityCamelName)
+    };
+    }
+    [HttpPost]
+    public ResponseMessageWrap@("<int>") DeleteById([FromBody]@pkType id)
+    {
+    return new ResponseMessageWrap@("<int>")
+    {
+    Body = @(serviceName).DeleteById(id)
+    };
+    }
+    [HttpPost]
+    public ResponseMessageWrap@("<int>") Update([FromBody]@entityName @entityCamelName)
+    {
+    return new ResponseMessageWrap@("<int>")
+    {
+    Body = @(serviceName).Update(@entityCamelName)
+    };
+    }
+
+    [HttpPost]
+    public ResponseMessageWrap@($"<{entityName}>") GetById([FromBody]@pkType id)
+    {
+    var @entityCamelName = @(repositoryName).GetById(id);
+    return new ResponseMessageWrap@($"<{entityName}>")
+    {
+    Body = @entityCamelName
+    };
+    }
+    [HttpPost]
+    public ResponseMessageWrap@($"<QueryResponse<{entityName}>>") Query([FromBody]QueryRequest reqMsg)
+    {
+    var list = @(repositoryName).Query(reqMsg);
+    return new ResponseMessageWrap@($"<QueryResponse<{entityName}>>")
+    {
+    Body = new @($"QueryResponse<{entityName}>")
+    {
+    List = list
+    }
+    };
+    }
+    [HttpPost]
+    public ResponseMessageWrap@($"<QueryByPageResponse<{entityName}>>") QueryByPage([FromBody]QueryByPageRequest reqMsg)
+    {
+    var total = @(repositoryName).GetRecord(reqMsg);
+    var list = @(repositoryName).QueryByPage(reqMsg);
+    return new ResponseMessageWrap@($"<QueryByPageResponse<{entityName}>>")
+    {
+    Body = new @($"QueryByPageResponse<{entityName}>")
+    {
+    Total = total,
+    List = list
+    }
+    };
+    }
+
+    }
+    }

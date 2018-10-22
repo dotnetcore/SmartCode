@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using SmartCode.Utilities;
 using SmartCode.App;
+using System.Text;
 
 namespace SmartCode.CLI
 {

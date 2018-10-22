@@ -1,0 +1,49 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "_CSharpLayout.cshtml";
+    var project = Model.Project;
+    var table = Model.GetCurrentTable();
+
+    var pkType = table.PKColumn.LanguageType;
+    var insertRetType = table.AutoIncrement ? pkType : "int";
+    var entityName = table.ConvertedName;
+    var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
+    var serviceName = $"{table.ConvertedName}Service";
+    var serviceCamelName = NamingUtil.CamelCase(serviceName);
+    var repositoryName = $"{table.ConvertedName}Repository";
+}
+
+using System;
+using System.Linq;
+using @(project.Module).Entity;
+using @(project.Module).Repository;
+
+namespace @(project.Module).Service
+{
+    public class @serviceName
+    {
+    public I@(repositoryName) @repositoryName { get; }
+
+    public @serviceName (I@(repositoryName) @serviceCamelName)
+    {
+    @repositoryName = @serviceCamelName;
+    }
+
+    public @insertRetType Insert(@entityName @entityCamelName)
+    {
+    return @(repositoryName).Insert(@entityCamelName);
+    }
+
+    public int DeleteById(@pkType id)
+    {
+    return  @(repositoryName).DeleteById(id);
+    }
+
+    public int Update(@entityName @entityCamelName)
+    {
+    return  @(repositoryName).Update(@entityCamelName);
+    }
+
+    }
+    }

@@ -14,7 +14,7 @@
 
 ### Demo
 
-![SmartCode](./doc/SmartCode-Db.gif)
+![SmartCode](./doc/SmartCode-Db-1.gif)
 
 ### Getting Started
 
@@ -31,6 +31,7 @@
     - 回车执行命令
 4. 等待任务执行结束
 5. 查看输出目录结果
+6. 运行API项目，进行Swagger调试
 
 ### 构建配置文件
 
@@ -40,9 +41,9 @@ Author: Ahoo Wang
 DataSource:
   Name: Db
   Paramters:
-    DbName: SmartSqlStarterDB
+    DbName: SmartSqlDB
     DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
 Language: CSharp
 TemplateEngine: Razor 
 Output: 
@@ -55,48 +56,56 @@ Build:
     Type: Clear
     Paramters:
       Dirs: '.'
-  Solution:
-    Type: Project
-    Template: Sln.cshtml
-    Output:
+
+  Scaffolding:
+    Type: MultiTemplate
+    Output: 
       Path: '.'
-      Name: '{{Project.Module}}'
-      Extension: '.sln'
-  SmartSqlConfig:
-    Type: Project
-    Template: SqlMapConfig.cshtml
-    Output:
-      Path: '{{Project.Module}}.API'
-      Name: 'SmartSqlMapConfig'
-      Extension: '.xml'
-  Entity_Project:
-    Type: Project
-    Template: Proj.cshtml
-    Output:
-      Path: '{{Project.Module}}.Entity'
-      Name: '{{Project.Module}}.Entity'
-      Extension: '.csproj'
+    Paramters:
+      Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
+        {Key: "Proj-Entity.cshtml",Output: {Path: '{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
+        {Key: "Proj-Repository.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
+        {Key: "Proj-Service.cshtml",Output: {Path: '{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
+        {Key: "Proj-API.cshtml",Output: {Path: '{{Project.Module}}.API',Name: '{{Project.Module}}.API',Extension: '.csproj'}},
+        {Key: "API/LaunchSettings.cshtml",Output: {Path: '{{Project.Module}}.API/Properties',Name: 'launchSettings',Extension: '.json'}},
+        {Key: "API/AppSettings.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
+        {Key: "API/AppSettings-Development.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
+        {Key: "API/Program.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
+        {Key: "API/Startup.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
+        {Key: "API/APIException.cshtml",Output: {Path: '{{Project.Module}}.API/Exceptions',Name: 'APIException',Extension: '.cs'}},
+        {Key: "API/GlobalExceptionFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalExceptionFilter',Extension: '.cs'}},
+        {Key: "API/GlobalValidateModelFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalValidateModelFilter',Extension: '.cs'}},
+        {Key: "API/QueryRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryRequest',Extension: '.cs'}},
+        {Key: "API/QueryByPageRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageRequest',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "API/QueryResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryResponse',Extension: '.cs'}},
+        {Key: "API/QueryByPageResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
+        ]
+
   Entity:
     Type: Table
     Module: Entity
     Template: Entity.cshtml
-    Output:
+    Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.cs'
     NamingConverter:
       Table:
-        Tokenizer:
+        Tokenizer: 
           Type: Default
-          Paramters:
+          Paramters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
-          Type: Default
+          Type: Pascal
           Paramters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters:
+          Paramters: 
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -108,46 +117,37 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
-  Repository_Project:
-    Type: Project
-    Template: Proj-Repository.cshtml
-    Output:
-      Path: '{{Project.Module}}.Repository'
-      Name: '{{Project.Module}}.Repository'
-      Extension: '.csproj'
+
   Repository:
     Type: Table
     Module: Repository
     Template: Repository.cshtml
-    Output:
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
-      Name: 'I{{OutputName}}Repository'
+      Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
       Extension: .cs
     NamingConverter:
       Table:
         Tokenizer:
           Type: Default
-          Paramters:
+          Paramters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
-          Type: Default
-      View:
-        Tokenizer:
-          Type: Default
-          Paramters: 
-            IgnorePrefix: 'V_'
-            Delimiter: '_'
-        Converter:
-          Type: Default
+          Type: Pascal
 
-  SqlMap:
+  Service:
     Type: Table
-    Template: SqlMap-SqlServer.cshtml
-    Output:
-      Path: '{{Project.Module}}.API/Maps'
-      Extension: .xml
-    IgnoreTables: null
+    Module: Service
+    Template: Service.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}Service'
+      Extension: .cs
     NamingConverter:
       Table:
         Tokenizer:
@@ -156,7 +156,46 @@ Build:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
+          Type: Pascal
+
+  APIController:
+    Type: Table
+    Module: API
+    Template: API/APIController.cshtml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}/Controllers'
+      Name: '{{Items.CurrentTable.ConvertedName}}Controller'
+      Extension: .cs
+    NamingConverter:
+      Table:
+        Tokenizer:
           Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+
+  SqlMap:
+    Type: Table
+    Template: SqlMap.cshtml
+    Output: 
+      Path: '{{Project.Module}}.API/Maps'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
+      Extension: .xml
+    IgnoreNoPKTable: true
+    IgnoreView: true
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
       View:
         Tokenizer:
           Type: Default
@@ -164,7 +203,7 @@ Build:
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
-          Type: Default
+          Type: Pascal
       Column:
         Tokenizer:
           Type: Default
@@ -172,8 +211,10 @@ Build:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
-          Type: Default
+          Type: Pascal
 ```
+
+### 构建文件参数概览
 
 | 参数名 | 说明 |
 | :--------- | --------:|
@@ -197,11 +238,21 @@ DbSource.Paramters 接受以下三个参数：
 | DbProvider | 数据驱动提供者:MySql,MariaDB,PostgreSql,SqlServer,Oracle,SQLite |
 | ConnectionString | 连接字符串 |
 
+#### Output 输出
+
+| 参数名 | 说明 |
+| :--------- | --------:|
+| Type | File |
+| Path | 输出目录 |
+| Name | 文件名 |
+| Extension | 扩展名 |
+| Mode | 输出模式，默认：Incre。Incre:增量创建，如果文件存在则忽略 。Full：全量创建，如果存在则重新创建 |
+
 #### Build 任务构建
 
 | 参数名 | 说明 |
 | :--------- | --------:|
-| Type | 构建类型,Clear:用于清理目录s/文件s,Project:用于构建单文件，如：解决方案文件/项目文件,Table: 用于构建以数据表为基础的文件，如：Entity,Repository文件|
+| Type | 构建类型,Clear:用于清理目录s/文件s,Project:用于构建单文件，如：解决方案文件/项目文件,MultiTemplate:多模板构建多个文件。,Table: 用于构建以数据表为基础的文件，如：Entity,Repository文件|
 | Module | 构建模块名 |
 | TemplateEngine | 模板引擎，可选，默认使用根模块引擎 |
 | Template | 模板文件 |

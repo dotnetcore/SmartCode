@@ -16,11 +16,22 @@ namespace SmartCode.Configuration.ConfigBuilders
             {
                 Project.Output.Type = "File";
             }
+            if (Project.Output.Mode == CreateMode.None)
+            {
+                Project.Output.Mode = CreateMode.Incre;
+            }
             foreach (var buildTask in Project.BuildTasks.Values)
             {
-                if (buildTask.Output != null && String.IsNullOrEmpty(buildTask.Output.Type))
+                if (buildTask.Output != null)
                 {
-                    buildTask.Output.Type = Project.Output.Type;
+                    if (String.IsNullOrEmpty(buildTask.Output.Type))
+                    {
+                        buildTask.Output.Type = Project.Output.Type;
+                    }
+                    if (buildTask.Output.Mode == CreateMode.None)
+                    {
+                        buildTask.Output.Mode = Project.Output.Mode;
+                    }
                 }
                 if (String.IsNullOrEmpty(buildTask.TemplateEngine))
                 {

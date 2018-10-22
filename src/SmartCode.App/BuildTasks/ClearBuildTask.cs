@@ -22,10 +22,9 @@ namespace SmartCode.App.BuildTasks
         {
             var paramters = context.Build.Paramters;
             if (paramters == null) { return Task.CompletedTask; ; }
-
-            if (paramters.TryGetValue("Dirs", out string clearDirs))
+            if (paramters.TryGetValue("Dirs", out object clearDirs))
             {
-                var _clearDirs = clearDirs.Split(',');
+                var _clearDirs = clearDirs.ToString().Split(',');
                 foreach (var dir in _clearDirs)
                 {
                     var fullDir = Path.Combine(context.Project.OutputPath, dir);
@@ -37,9 +36,9 @@ namespace SmartCode.App.BuildTasks
                     _logger.LogInformation($"ClearBuildTask Delete directory:{fullDir} End!");
                 }
             }
-            if (paramters.TryGetValue("Files", out string clearFiles))
+            if (paramters.TryGetValue("Files", out object clearFiles))
             {
-                var _clearFiles = clearFiles.Split(',');
+                var _clearFiles = clearFiles.ToString().Split(',');
                 foreach (var file in _clearFiles)
                 {
                     var fullfile = Path.Combine(context.Project.OutputPath, file);

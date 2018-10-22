@@ -1,4 +1,23 @@
-﻿{
+# SmartCode 常见问题
+
+## SmartCode 能干什么？
+
+> SmartCode = IDataSource -> IBuildTask -> IOutput => Build Everything
+
+SmartCode的执行流是 数据源->构建任务->输出，也就是说应用场景非常广泛。
+
+1. 从DB读取数据结构，最终生成整个解决方案=代码生成器（SmartCode.Db）
+2. ETL，其实很显然SmartCode执行流跟ETL很像，做一些相应的扩展便可支持ETL
+3. Mode First，从Model类结构解析出数据源，最终生成SQL脚本，执行生成DB结构，并生成整个解决方案
+4. 静态文档生成器
+5. 还有很多等待你去发掘
+
+## SmartCode 扩展性如何
+
+SmartCode 插件机制拥有非常灵活的扩展能力，SmartCode 中一切都是插件。只要继承IPlugin接口即可，然后配置到appsettings.json，然后通过IPluginManager获取插件实例。
+
+``` json
+{
   "Logging": {
     "IncludeScopes": false,
     "Console": {
@@ -53,3 +72,14 @@
     ]
   }
 }
+
+```
+
+## 如何自定义模板
+
+目前SmartCode支持俩种模板引擎 **Razor** & **Handlebars** 。
+Razor 模板引擎使用的是官方版本，这一点上.NETer同学可以很轻松的自定义SmartCode模板，需要注意的是Razor模板的Model为BuildContext,具体方法可以参考源代码中的模板。编写完成之后放到RazorTemplates，构建时指定好即可。
+
+## 代码生成器支持多少种数据库
+
+SmartCode获取数据源结构使用的是[SmartSql](https://github.com/Ahoo-Wang/SmartSql)，所以SmartCode支持所有ADO.NET驱动相关的数据库：MySql/PostgreSql/SqlServer/Oracle/SQLite 等

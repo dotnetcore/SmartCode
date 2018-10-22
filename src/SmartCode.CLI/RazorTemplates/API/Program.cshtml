@@ -1,0 +1,37 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "../_CSharpLayout.cshtml";
+    var project = Model.Project;
+}
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace @(project.Module).API
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                        .AddCommandLine(args)
+                        .Build();
+            return WebHost.CreateDefaultBuilder(args)
+                  .UseConfiguration(config)
+                  .UseStartup@("<Startup>")().Build();
+    }
+    }
+    }

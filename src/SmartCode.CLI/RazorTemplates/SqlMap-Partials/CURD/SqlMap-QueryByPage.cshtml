@@ -1,12 +1,9 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@using SmartCode.CLI
 @model BuildContext
 @{
-    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
-    var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var pkCol = table.PKColumn;
     if (pkCol == null)
@@ -25,39 +22,13 @@
     {
     <!--获取分页数据-->
     <Statement Id="QueryByPage" @queryStatementResultMap>
-        Select TT.* From
-        (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
-        <Include RefId="QueryParams" />) TT
-        Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
-    </Statement>
-}
-@section GetEntity
-    {
-    <!--获取表映射实体-->
-    <Statement Id="GetEntity" @queryStatementResultMap>
-        Select Top 1 T.* From @table.Name T With(NoLock)
-        <Where>
-            <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                T.@pkCol.Name=@prefix@pkCol.ConvertedName
-            </IsNotEmpty>
-        </Where>
-    </Statement>
-}
-
-@section Query
-    {
-    <!--获取数据列-->
-    <Statement Id="Query" @queryStatementResultMap>
-        SELECT 
-        <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(prefix)Taken)
-        </IsNotEmpty>
-        T.* From @table.Name T
+        Select T.* From @table.Name As T
         <Include RefId="QueryParams" />
         <Switch Prepend="Order By" Property="OrderBy">
             <Default>
                 T.@pkCol.Name Desc
             </Default>
         </Switch>
+        Limit @("@PageSize") Offset @("@Offset")
     </Statement>
 }

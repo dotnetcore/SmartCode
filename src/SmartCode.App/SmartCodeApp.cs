@@ -6,6 +6,7 @@ using SmartCode.Configuration;
 using System.IO;
 using SmartCode.Configuration.ConfigBuilders;
 using System.Reflection;
+using HandlebarsDotNet;
 
 namespace SmartCode.App
 {
@@ -83,11 +84,21 @@ namespace SmartCode.App
 
         public async Task Run()
         {
+            Handlebars.Configuration.TextEncoder = NullTextEncoder.Instance;
             var logger = ServiceProvider.GetRequiredService<ILogger<SmartCodeApp>>();
             var projectBuilder = ServiceProvider.GetRequiredService<IProjectBuilder>();
             logger.LogInformation($"------- Build ConfigPath:{ConfigPath} Start! --------");
             await projectBuilder.Build();
             logger.LogInformation($"-------- Build ConfigPath:{ConfigPath},Output:{Project.OutputPath} End! --------");
+        }
+
+        public class NullTextEncoder : ITextEncoder
+        {
+            public static NullTextEncoder Instance = new NullTextEncoder();
+            public string Encode(string value)
+            {
+                return value;
+            }
         }
     }
 }
