@@ -229,3 +229,12 @@ DbSource.Paramters 接受以下三个参数：
 | Paramters.IgnorePrefix | 忽略前缀字符 |
 | Paramters.Delimiter | 分隔符 |
 | Paramters.UppercaseSplit | 使用大写分隔，默认：true |
+
+### 如何贡献模板
+
+>为了让更多人参与到SmartCode模板建设中来，故有以下模板规范：
+
+1. 模板作者在 src/SmartCode.CLI/RazorTemplates 中新建目录，并以作者英文名为目录名称
+2. 把模板放置到作者目录
+3. 作者目录下必须包括 README.md 文件，以说明模板的用途场景以及使用方式
+4. 提交PR
