@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using SmartCode.Utilities;
 using SmartCode.App;
 using System.Text;
+using System.Threading;
+using System.IO;
 
 namespace SmartCode.CLI
 {
@@ -39,6 +41,10 @@ namespace SmartCode.CLI
             }
             SmartCodeApp app = new DefaultSmartCodeAppBuilder().Build(configPath);
             await app.Run();
+            Thread.Sleep(200);//Wait for Logger
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"------------ SmartCode Build End! Output:[{app.Project.OutputPath}] --------------");
+            Console.ResetColor();
         }
     }
 }

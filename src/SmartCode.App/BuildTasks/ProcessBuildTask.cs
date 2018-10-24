@@ -29,14 +29,13 @@ namespace SmartCode.App.BuildTasks
             {
                 throw new SmartCodeException($"Build:{context.BuildKey},Can not find Paramter:{FILE_NAME}!");
             }
-            var fileName = fileNameObj.ToString();
             if (!context.Build.Paramters.TryGetValue(ARGS, out object argsObj))
             {
                 throw new SmartCodeException($"Build:{context.BuildKey},Can not find Paramter:{ARGS}!");
             }
-            var args = argsObj.ToString();
-            var startInfo = new ProcessStartInfo(fileName, args);
-
+            var process = new Process();
+            var startInfo = process.StartInfo;
+            //startInfo.CreateNoWindow = true;
             var timeOut = DEFAULT_TIME_OUT;
             if (context.Build.Paramters.TryGetValue(TIMEOUT, out object timeoutObj))
             {
@@ -45,24 +44,25 @@ namespace SmartCode.App.BuildTasks
                     timeOut = _timeout;
                 }
             }
+            startInfo.FileName = fileNameObj.ToString();
+            startInfo.Arguments = argsObj.ToString();
             if (context.Build.Paramters.TryGetValue(WORKING_DIRECTORY, out object workingDicObj))
             {
                 startInfo.WorkingDirectory = workingDicObj.ToString();
             }
-            _logger.LogDebug($"--------Process.FileName:{fileName},Args:{args} Start--------");
-            var process = Process.Start(startInfo);
+            _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} Start--------");
+            process.ErrorDataReceived += Process_ErrorDataReceived;
+            process.OutputDataReceived += Process_OutputDataReceived;
             try
             {
-                process.ErrorDataReceived += Process_ErrorDataReceived;
-                process.OutputDataReceived += Process_OutputDataReceived;
+                process.Start();
                 process.WaitForExit(timeOut);
-                _logger.LogDebug($"--------Process.FileName:{fileName},Args:{args} End--------");
+                _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} End--------");
             }
             finally
             {
                 process.Dispose();
             }
-            
             return Task.CompletedTask;
         }
 
