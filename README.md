@@ -252,7 +252,7 @@ DbSource.Paramters 接受以下三个参数：
 
 | 参数名 | 说明 |
 | :--------- | --------:|
-| Type | 构建类型,Clear:用于清理目录s/文件s,Project:用于构建单文件，如：解决方案文件/项目文件,MultiTemplate:多模板构建多个文件。,Table: 用于构建以数据表为基础的文件，如：Entity,Repository文件|
+| Type | 构建类型,Clear:用于清理目录s/文件s, Project:用于构建单文件，如：解决方案文件/项目文件, MultiTemplate:多模板构建多个文件, Table: 用于构建以数据表为基础的文件，如：Entity,Repository文件, Process: 启动新进程|
 | Module | 构建模块名 |
 | TemplateEngine | 模板引擎，可选，默认使用根模块引擎 |
 | Template | 模板文件 |
