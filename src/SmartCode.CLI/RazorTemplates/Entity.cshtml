@@ -1,5 +1,5 @@
 ﻿@using SmartCode
-
+@using SmartCode.Db
 @model BuildContext
 @{
     Layout = "_CSharpLayout.cshtml";
@@ -7,6 +7,28 @@
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
 }
+
+@functions {
+public string ConvertLangType(SmartCode.Db.Entity.Column column)
+{
+    if (String.IsNullOrEmpty(column.LanguageType))
+    {
+        return "NAType";
+    }
+    if (!column.IsNullable)
+    {
+        return column.LanguageType;
+    }
+
+    if (column.LanguageType.Contains("[]") || column.LanguageType.ToLower() == "string")
+    {
+        return column.LanguageType;
+    }
+    return $"{column.LanguageType}?";
+}
+
+}
+
 using System;
 namespace @(project.Module).@buildTask.Module
 {
@@ -23,7 +45,7 @@ namespace @(project.Module).@buildTask.Module
         @Html.PadLeft(8)@Html.NewLine()
         @Html.PadLeft(8)@("///</summary>")
         @Html.PadLeft(8)@Html.NewLine()
-        @Html.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(column.IsNullable && column.LanguageType != "string" ? "?" : "")</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
+        @Html.PadLeft(8)<text>public</text> <text>@column.LanguageType</text><text>@(ConvertLangType(column))</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
         @Html.PadLeft(8)@Html.NewLine()
     }
     }
