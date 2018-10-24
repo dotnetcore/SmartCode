@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace SmartCode.Db.BuildTasks
 {
-    public abstract class AbstractBuildTask : IBuildTask
+    public abstract class AbstractDbBuildTask : IBuildTask
     {
         private readonly ILogger _logger;
 
-        public AbstractBuildTask(string name, ILogger logger)
+        public AbstractDbBuildTask(string name, ILogger logger)
         {
             Name = name;
             _logger = logger;

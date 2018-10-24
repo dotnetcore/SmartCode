@@ -8,10 +8,10 @@
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
-    <PackageReference Include="MySql.Data" Version="8.0.12" />
+    <PackageReference Include="MySql.Data" Version="8.0.13" />
     <PackageReference Include="Npgsql" Version="4.0.3" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />
-    <PackageReference Include="SmartSql" Version="3.7.13" />
+    <PackageReference Include="SmartSql" Version="3.7.15-rc4" />
     <PackageReference Include="SmartSql.Options" Version="1.4.1" />
   </ItemGroup>
 

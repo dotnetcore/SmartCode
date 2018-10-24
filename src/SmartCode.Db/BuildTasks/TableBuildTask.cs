@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace SmartCode.Db.BuildTasks
 {
-    public class BuildTask : AbstractBuildTask
+    public class TableBuildTask : AbstractDbBuildTask
     {
         public const String IGNORENOPKTABLE_KEY = nameof(IgnoreNoPKTable);
         public bool IgnoreNoPKTable { get; set; }
-        private readonly ILogger<BuildTask> _logger;
+        private readonly ILogger<TableBuildTask> _logger;
         private readonly IPluginManager _pluginManager;
 
-        public BuildTask(IPluginManager pluginManager
-            , ILogger<BuildTask> logger) : base("Table", logger)
+        public TableBuildTask(IPluginManager pluginManager
+            , ILogger<TableBuildTask> logger) : base("Table", logger)
         {
             _pluginManager = pluginManager;
             _logger = logger;

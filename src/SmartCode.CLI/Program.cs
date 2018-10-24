@@ -39,7 +39,6 @@ namespace SmartCode.CLI
             }
             SmartCodeApp app = new DefaultSmartCodeAppBuilder().Build(configPath);
             await app.Run();
-            Console.ReadLine();
         }
     }
 }
