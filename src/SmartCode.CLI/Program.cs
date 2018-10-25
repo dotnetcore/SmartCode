@@ -39,12 +39,22 @@ namespace SmartCode.CLI
                     configPath = DEFAULT_CONFIG_PATH;
                 }
             }
-            SmartCodeApp app = new DefaultSmartCodeAppBuilder().Build(configPath);
-            await app.Run();
-            Thread.Sleep(200);//Wait for Logger
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"------------ SmartCode Build End! Output:[{app.Project.OutputPath}] --------------");
-            Console.ResetColor();
+            try
+            {
+                SmartCodeApp app = new DefaultSmartCodeAppBuilder().Build(configPath);
+                await app.Run();
+                Thread.Sleep(200);//Wait for Logger
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"------------ SmartCode Build End! Output:[{app.Project.OutputPath}] --------------");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                Console.ResetColor();
+            }
         }
     }
 }

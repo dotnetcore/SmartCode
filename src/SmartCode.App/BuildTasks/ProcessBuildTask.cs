@@ -9,12 +9,14 @@ namespace SmartCode.App.BuildTasks
 {
     public class ProcessBuildTask : IBuildTask
     {
+        const string CREATE_NO_WINDOW = "CreateNoWindow";
         const string WORKING_DIRECTORY = "WorkingDirectory";
         const string FILE_NAME = "FileName";
         const string ARGS = "Args";
         const string TIMEOUT = "Timeout";
         private readonly ILogger<ProcessBuildTask> _logger;
         const int DEFAULT_TIME_OUT = 30 * 1000;
+        const bool DEFAULT_CREATE_NO_WINDOW = true;
         public bool Initialized => true;
 
         public string Name => "Process";
@@ -35,20 +37,19 @@ namespace SmartCode.App.BuildTasks
             }
             var process = new Process();
             var startInfo = process.StartInfo;
-            //startInfo.CreateNoWindow = true;
-            var timeOut = DEFAULT_TIME_OUT;
-            if (context.Build.Paramters.TryGetValue(TIMEOUT, out object timeoutObj))
-            {
-                if (int.TryParse(timeoutObj.ToString(), out int _timeout))
-                {
-                    timeOut = _timeout;
-                }
-            }
+            startInfo.CreateNoWindow = DEFAULT_CREATE_NO_WINDOW;
             startInfo.FileName = fileNameObj.ToString();
             startInfo.Arguments = argsObj.ToString();
             if (context.Build.Paramters.TryGetValue(WORKING_DIRECTORY, out object workingDicObj))
             {
                 startInfo.WorkingDirectory = workingDicObj.ToString();
+            }
+            if (context.Build.Paramters.TryGetValue(CREATE_NO_WINDOW, out object createNoWinObj))
+            {
+                if (bool.TryParse(createNoWinObj.ToString(), out bool createNoWin))
+                {
+                    startInfo.CreateNoWindow = createNoWin;
+                }
             }
             _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} Start--------");
             process.ErrorDataReceived += Process_ErrorDataReceived;
@@ -56,6 +57,14 @@ namespace SmartCode.App.BuildTasks
             try
             {
                 process.Start();
+                var timeOut = DEFAULT_TIME_OUT;
+                if (context.Build.Paramters.TryGetValue(TIMEOUT, out object timeoutObj))
+                {
+                    if (int.TryParse(timeoutObj.ToString(), out int _timeout))
+                    {
+                        timeOut = _timeout;
+                    }
+                }
                 process.WaitForExit(timeOut);
                 _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} End--------");
             }
