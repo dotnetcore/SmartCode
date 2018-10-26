@@ -6,7 +6,10 @@
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
-    var primaryKeyType = table.PKColumn?.LanguageType ?? "int";
+    var pkCol = table.PKColumn;
+    var primaryKeyType = pkCol?.LanguageType ?? "int";
+    var pkColConvertName = pkCol?.ConvertedName ?? "Id";
+    var isNamedId = pkColConvertName == "Id";
     var autoIncrement = table.AutoIncrement;
     var dbSource = Model.GetDataSource<DbSource>();
 }
@@ -22,18 +25,30 @@ using @(project.Module).Entity;
 namespace @(project.Module).@buildTask.Module
 {
     public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
-        {
-        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql
-&& autoIncrement)
-        {
-            <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
-            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
-            @Html.NewLine()
-        }
-        else if (autoIncrement && primaryKeyType != "int")
-        {
-            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
-            @Html.NewLine()
-        }
-        }
-        }
+    {
+    @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql && autoIncrement)
+    {
+        @Html.PadLeft(8) <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
+        @Html.NewLine()
+        @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+        @Html.NewLine()
+    }
+    else if (autoIncrement && primaryKeyType != "int")
+    {
+        @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+        @Html.NewLine()
+    }
+
+    @if (!isNamedId)
+    {
+        @Html.PadLeft(8) <text>[Statement(Id = "GetEntity")]</text>
+        @Html.NewLine()
+        @Html.PadLeft(8) <text>new @(table.ConvertedName) GetById([Param("@(pkColConvertName)")]long id);</text>
+        @Html.NewLine()
+        @Html.PadLeft(8) <text>[Statement(Id = "Delete")]</text>
+        @Html.NewLine()
+        @Html.PadLeft(8) <text>new int DeleteById([Param("@(pkColConvertName)")]long id);</text>
+        @Html.NewLine()
+    }
+    }
+    }
