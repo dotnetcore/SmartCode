@@ -1,4 +1,4 @@
-﻿using SmartCode.Db.Entity;
+﻿using SmartCode.Generator.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartCode.App\SmartCode.App.csproj" />
     <ProjectReference Include="..\SmartCode.Db\SmartCode.Db.csproj" />
+    <ProjectReference Include="..\SmartCode.Generator\SmartCode.Generator.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
   </ItemGroup>
 

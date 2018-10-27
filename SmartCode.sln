@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.App", "src\SmartC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.TemplateEngine", "src\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj", "{6AA5EF8A-9D31-4E41-A040-23289D4358E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generator", "Code Generator", "{7CAB5427-3BDA-4F40-82DA-9B8380101739}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCode.Generator", "src\SmartCode.Generator\SmartCode.Generator.csproj", "{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +49,16 @@ Global
 		{6AA5EF8A-9D31-4E41-A040-23289D4358E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA5EF8A-9D31-4E41-A040-23289D4358E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA5EF8A-9D31-4E41-A040-23289D4358E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C} = {7CAB5427-3BDA-4F40-82DA-9B8380101739}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A45CDB0-E532-4F55-84C6-B82C98BE5F38}

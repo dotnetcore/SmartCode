@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
-using SmartCode.Db.Entity;
+using SmartCode.Generator.Entity;
 using SmartCode.TemplateEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SmartCode.Db.BuildTasks
+namespace SmartCode.Generator.BuildTasks
 {
     public class TableBuildTask : AbstractDbBuildTask
     {
@@ -25,7 +25,7 @@ namespace SmartCode.Db.BuildTasks
 
         public override async Task Build(BuildContext context)
         {
-            var filterTables = FilterTable(context.GetDataSource<DbSource>().Tables, context.BuildKey, context.Build);
+            var filterTables = FilterTable(context.GetDataSource<DbTableSource>().Tables, context.BuildKey, context.Build);
             context.SetCurrentAllTable(filterTables);
             foreach (var table in filterTables)
             {
@@ -38,7 +38,7 @@ namespace SmartCode.Db.BuildTasks
             }
         }
 
-        public override void Initialize(IDictionary<string, string> paramters)
+        public override void Initialize(IDictionary<string, object> paramters)
         {
             base.Initialize(paramters);
         }

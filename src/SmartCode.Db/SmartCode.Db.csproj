@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.0</Version>
+    <Version>1.8.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,27 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="DbTypeConverter\DbTypeMap.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Maps\Database-SQLite.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Maps\Database-PostgreSql.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Maps\Database-MySql.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Maps\Database-SqlServer.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Maps\Database.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartCode.Db.Entity
+namespace SmartCode.Generator.Entity
 {
     public interface IConvertedName
     {

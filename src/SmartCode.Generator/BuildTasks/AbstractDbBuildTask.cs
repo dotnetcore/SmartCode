@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
-using SmartCode.Db.Entity;
+using SmartCode.Generator.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartCode.Db.BuildTasks
+namespace SmartCode.Generator.BuildTasks
 {
     public abstract class AbstractDbBuildTask : IBuildTask
     {
@@ -25,7 +25,7 @@ namespace SmartCode.Db.BuildTasks
 
         public abstract Task Build(BuildContext context);
 
-        public virtual void Initialize(IDictionary<string, String> paramters)
+        public virtual void Initialize(IDictionary<string, object> paramters)
         {
             this.Initialized = true;
         }

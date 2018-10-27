@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
-using SmartCode.Db.Entity;
+using SmartCode.Generator.Entity;
 
-namespace SmartCode.Db
+namespace SmartCode.Generator
 {
     public class TableNamingConverter : INamingConverter
     {
@@ -42,7 +42,7 @@ namespace SmartCode.Db
             }
         }
 
-        public void Initialize(IDictionary<string, string> paramters)
+        public void Initialize(IDictionary<string, object> paramters)
         {
             this.Initialized = true;
         }

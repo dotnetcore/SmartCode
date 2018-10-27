@@ -13,7 +13,7 @@ namespace SmartCode.Tests
         IWordsConverter _namingConverter = new PascalCaseConverter();
         public NamingConverter_Test()
         {
-            var paramters = new Dictionary<String, String> {
+            var paramters = new Dictionary<String, object> {
                 {DefaultTokenizer.IGNORE_PREFIX_KEY,"T_" },
                 { DefaultTokenizer.DELIMITER_KEY,"_"}
             };

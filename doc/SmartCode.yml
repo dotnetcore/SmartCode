@@ -1,7 +1,7 @@
 Module: SmartSql.Starter
 Author: Ahoo Wang
 DataSource:
-  Name: Db
+  Name: DbTable
   Paramters:
     DbName: SmartSqlDB
     DbProvider: SqlServer

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SmartCode.Db.Entity
+namespace SmartCode.Generator.Entity
 {
     public class Table : IConvertedName
     {

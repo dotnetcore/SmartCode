@@ -5,8 +5,9 @@ using System.Text;
 using SmartCode.Utilities;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using SmartCode.Db;
 
-namespace SmartCode.Db.DbTypeConverter
+namespace SmartCode.Generator.DbTypeConverter
 {
     public class DefaultDbTypeConverter : IDbTypeConverter
     {
@@ -61,11 +62,11 @@ namespace SmartCode.Db.DbTypeConverter
             return dbTypeMap?.To;
         }
 
-        public void Initialize(IDictionary<string, string> paramters)
+        public void Initialize(IDictionary<string, object> paramters)
         {
             if (paramters != null)
             {
-                if (paramters.TryGetValue("XmlPath", out string xmlPath))
+                if (paramters.Value("XmlPath", out string xmlPath))
                 {
                     _xmlPath = xmlPath;
                 }

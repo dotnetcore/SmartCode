@@ -22,7 +22,7 @@ namespace SmartCode.App.BuildTasks
 
         public abstract Task Build(BuildContext context);
 
-        public virtual void Initialize(IDictionary<string, String> paramters)
+        public virtual void Initialize(IDictionary<string, object> paramters)
         {
             Initialized = true;
         }

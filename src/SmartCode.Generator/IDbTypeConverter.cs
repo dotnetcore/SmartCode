@@ -1,8 +1,9 @@
-﻿using System;
+﻿using SmartCode.Db;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartCode.Db
+namespace SmartCode.Generator
 {
     public interface IDbTypeConverter : IPlugin
     {

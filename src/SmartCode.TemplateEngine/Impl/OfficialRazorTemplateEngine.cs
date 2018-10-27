@@ -23,16 +23,16 @@ namespace SmartCode.TemplateEngine.Impl
         public string Name { get; private set; } = "Razor";
         private string _root = AppPath.Relative("RazorTemplates");
         private IServiceScopeFactory _scopeFactory;
-        public void Initialize(IDictionary<string, string> paramters)
+        public void Initialize(IDictionary<string, object> paramters)
         {
             Initialized = true;
             if (paramters != null)
             {
-                if (paramters.TryGetValue("Name", out string name))
+                if (paramters.Value("Name", out string name))
                 {
                     Name = name;
                 }
-                if (paramters.TryGetValue("Root", out string root))
+                if (paramters.Value("Root", out string root))
                 {
                     _root = root;
                 }

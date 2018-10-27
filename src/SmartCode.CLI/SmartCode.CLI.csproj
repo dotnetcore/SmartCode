@@ -20,7 +20,7 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.8.1</Version>
+    <Version>1.9.0</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>fix PkColumn.Name is not Id problem for Repository.cshtml </PackageReleaseNotes>
   </PropertyGroup>
@@ -34,17 +34,12 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartCode.App\SmartCode.App.csproj" />
     <ProjectReference Include="..\SmartCode.Db\SmartCode.Db.csproj" />
+    <ProjectReference Include="..\SmartCode.Generator\SmartCode.Generator.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="HandlebarsTemplates\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="RazorTemplates\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\doc\SmartCode.yml" Link="SmartCode.yml">

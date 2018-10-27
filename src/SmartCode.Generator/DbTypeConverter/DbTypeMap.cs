@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SmartCode.Db;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SmartCode.Db.DbTypeConverter
+namespace SmartCode.Generator.DbTypeConverter
 {
     public class DbTypeMap
     {

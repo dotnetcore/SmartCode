@@ -36,10 +36,10 @@ namespace SmartCode.Configuration
         public static Tokenizer Default = new Tokenizer
         {
             Type = "Defalut",
-            Paramters = new Dictionary<String, String>()
+            Paramters = new Dictionary<String, object>()
         };
         public String Type { get; set; }
-        public IDictionary<String, String> Paramters { get; set; }
+        public IDictionary<String, object> Paramters { get; set; }
     }
     /// <summary>
     /// 词转换器

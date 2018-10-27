@@ -1,0 +1,39 @@
+﻿@using SmartCode
+@using SmartCode.Db;
+@model BuildContext
+@{
+    Layout = "_CSharpLayout.cshtml";
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var primaryKeyType = table.PKColumn?.LanguageType ?? "int";
+    var autoIncrement = table.AutoIncrement;
+    var dbSource = Model.GetDataSource<DbSource>();
+}
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using SmartSql.Abstractions;
+using SmartSql.DyRepository;
+using @(project.Module).Entity;
+
+namespace @(project.Module).@buildTask.Module
+{
+    public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
+        {
+        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql
+&& autoIncrement)
+        {
+            <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
+            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @Html.NewLine()
+        }
+        else if (autoIncrement && primaryKeyType != "int")
+        {
+            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @Html.NewLine()
+        }
+        }
+        }

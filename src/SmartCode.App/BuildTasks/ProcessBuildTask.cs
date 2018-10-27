@@ -27,29 +27,26 @@ namespace SmartCode.App.BuildTasks
 
         public Task Build(BuildContext context)
         {
-            if (!context.Build.Paramters.TryGetValue(FILE_NAME, out object fileNameObj))
+            if (!context.Build.Paramters.Value(FILE_NAME, out string fileName))
             {
                 throw new SmartCodeException($"Build:{context.BuildKey},Can not find Paramter:{FILE_NAME}!");
             }
-            if (!context.Build.Paramters.TryGetValue(ARGS, out object argsObj))
+            if (!context.Build.Paramters.Value(ARGS, out string args))
             {
                 throw new SmartCodeException($"Build:{context.BuildKey},Can not find Paramter:{ARGS}!");
             }
             var process = new Process();
             var startInfo = process.StartInfo;
             startInfo.CreateNoWindow = DEFAULT_CREATE_NO_WINDOW;
-            startInfo.FileName = fileNameObj.ToString();
-            startInfo.Arguments = argsObj.ToString();
-            if (context.Build.Paramters.TryGetValue(WORKING_DIRECTORY, out object workingDicObj))
+            startInfo.FileName = fileName;
+            startInfo.Arguments = args;
+            if (context.Build.Paramters.Value(WORKING_DIRECTORY, out string workingDic))
             {
-                startInfo.WorkingDirectory = workingDicObj.ToString();
+                startInfo.WorkingDirectory = workingDic;
             }
-            if (context.Build.Paramters.TryGetValue(CREATE_NO_WINDOW, out object createNoWinObj))
+            if (context.Build.Paramters.Value(CREATE_NO_WINDOW, out bool createNoWin))
             {
-                if (bool.TryParse(createNoWinObj.ToString(), out bool createNoWin))
-                {
-                    startInfo.CreateNoWindow = createNoWin;
-                }
+                startInfo.CreateNoWindow = createNoWin;
             }
             _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} Start--------");
             process.ErrorDataReceived += Process_ErrorDataReceived;
@@ -58,12 +55,9 @@ namespace SmartCode.App.BuildTasks
             {
                 process.Start();
                 var timeOut = DEFAULT_TIME_OUT;
-                if (context.Build.Paramters.TryGetValue(TIMEOUT, out object timeoutObj))
+                if (context.Build.Paramters.Value(TIMEOUT, out int _timeout))
                 {
-                    if (int.TryParse(timeoutObj.ToString(), out int _timeout))
-                    {
-                        timeOut = _timeout;
-                    }
+                    timeOut = _timeout;
                 }
                 process.WaitForExit(timeOut);
                 _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} End--------");
@@ -85,7 +79,7 @@ namespace SmartCode.App.BuildTasks
             _logger.LogDebug(e.Data);
         }
 
-        public void Initialize(IDictionary<string, string> paramters)
+        public void Initialize(IDictionary<string, object> paramters)
         {
 
         }
