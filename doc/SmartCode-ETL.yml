@@ -1,0 +1,23 @@
+Author: Ahoo Wang
+DataSource:
+  Name: Extract
+  Paramters:
+    DbProvider: SqlServer
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    Query: SELECT  [UserName] As username,[Pwd] as pwd,[Status] as status,[LastLoginTime] as lastlogintime,[CreationTime] as creationtime,[Deleted] as deleted FROM [T_User]
+
+Build:
+
+  Transform:
+    Type: Transform
+    Paramters:
+      Script: 
+
+  Load2PostgreSql: 
+    Type: Load
+    Paramters:
+      DbProvider: PostgreSql
+      ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=SmartSqlStarterDB;
+      Table: t_user
+      ColumnMapping: {UserName: username,Pwd: pwd,LastLoginTime: lastlogintime,CreationTime: creationtime,Deleted: deleted}
+      

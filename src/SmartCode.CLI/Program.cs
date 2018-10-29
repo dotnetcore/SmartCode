@@ -45,7 +45,7 @@ namespace SmartCode.CLI
                 await app.Run();
                 Thread.Sleep(200);//Wait for Logger
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"------------ SmartCode Build End! Output:[{app.Project.OutputPath}] --------------");
+                Console.WriteLine($"------------ SmartCode Build End! Output:[{app.Project.Output?.Path}] --------------");
             }
             catch (Exception ex)
             {

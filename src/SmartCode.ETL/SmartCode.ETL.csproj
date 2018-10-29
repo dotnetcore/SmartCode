@@ -4,4 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SmartSql" Version="3.8.0" />
+    <PackageReference Include="SmartSql.Batch.MySql" Version="1.2.0" />
+    <PackageReference Include="SmartSql.Batch.PostgreSql" Version="1.2.0" />
+    <PackageReference Include="SmartSql.Batch.SqlServer" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartCode.Db\SmartCode.Db.csproj" />
+    <ProjectReference Include="..\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj" />
+    <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
+  </ItemGroup>
+
 </Project>

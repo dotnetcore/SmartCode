@@ -91,7 +91,7 @@ namespace SmartCode.App
                 var projectBuilder = ServiceProvider.GetRequiredService<IProjectBuilder>();
                 Logger.LogInformation($"------- Build ConfigPath:{ConfigPath} Start! --------");
                 await projectBuilder.Build();
-                Logger.LogInformation($"-------- Build ConfigPath:{ConfigPath},Output:{Project.OutputPath} End! --------");
+                Logger.LogInformation($"-------- Build ConfigPath:{ConfigPath},Output:{Project.Output?.Path} End! --------");
             }
             catch (SmartCodeException scEx)
             {

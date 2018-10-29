@@ -20,9 +20,9 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.9.0</Version>
+    <Version>1.10.0</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>fix PkColumn.Name is not Id problem for Repository.cshtml </PackageReleaseNotes>
+    <PackageReleaseNotes>add SmartCode.ETL</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartCode.App\SmartCode.App.csproj" />
     <ProjectReference Include="..\SmartCode.Db\SmartCode.Db.csproj" />
+    <ProjectReference Include="..\SmartCode.ETL\SmartCode.ETL.csproj" />
     <ProjectReference Include="..\SmartCode.Generator\SmartCode.Generator.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
   </ItemGroup>

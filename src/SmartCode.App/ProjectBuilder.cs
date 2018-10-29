@@ -26,7 +26,7 @@ namespace SmartCode.App
         public async Task Build()
         {
             var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
-            dataSource.InitData();
+            await dataSource.InitData();
             foreach (var buildKV in _project.BuildTasks)
             {
                 _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");

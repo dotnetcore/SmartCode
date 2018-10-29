@@ -11,7 +11,6 @@ namespace SmartCode.Db
 {
     public class DbRepository : IDbRepository
     {
-        private readonly IDictionary<string, SmartSql.Configuration.DbProvider> _dbProviders = new Dictionary<string, SmartSql.Configuration.DbProvider>();
         private readonly DataSource _dataSource;
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<DbRepository> _logger;
@@ -21,7 +20,7 @@ namespace SmartCode.Db
         public DbProvider DbProvider { get { return (DbProvider)Enum.Parse(typeof(DbProvider), DbProviderName); } }
         public string DbName { get; private set; }
         public string ConnectionString { get; private set; }
-        public String MapPath { get; private set; } = "Maps";
+        public String SqlMapPath { get; private set; } = "Maps";
         public DbRepository(
             DataSource dataSource
             , ILoggerFactory loggerFactory)
@@ -38,48 +37,25 @@ namespace SmartCode.Db
             DbProviderName = dataSource.Paramters["DbProvider"].ToString();
             DbName = dataSource.Paramters["DbName"].ToString();
             ConnectionString = dataSource.Paramters["ConnectionString"].ToString();
-            if (dataSource.Paramters.Value("MapPath", out string mapPath))
+            if (dataSource.Paramters.Value("SqlMapPath", out string mapPath))
             {
-                MapPath = mapPath;
+                SqlMapPath = mapPath;
             }
         }
 
         private void InitSqlMapper()
         {
-            var smartSqlDbProvider = DbProviders.GetDbProvider(DbProviderName);
-            SmartSqlConfigOptions smartSqlConfigOptions = new SmartSqlConfigOptions
+            SqlMapper = SmartSqlMapperFactory.Create(new SmartSqlMapperFactory.CreateSmartSqlMapperOptions
             {
-                Settings = new SmartSql.Configuration.Settings
+                DataSource = new SmartSql.Configuration.WriteDataSource
                 {
-                    ParameterPrefix = "$"
+                    Name = DbName,
+                    ConnectionString = ConnectionString
                 },
-                Database = new Database
-                {
-                    DbProvider = smartSqlDbProvider,
-                    Write = new SmartSql.Configuration.WriteDataSource
-                    {
-                        Name = DbName,
-                        ConnectionString = ConnectionString
-                    },
-                    Read = new List<SmartSql.Configuration.ReadDataSource>()
-                },
-                SmartSqlMaps = new List<SmartSql.Configuration.SmartSqlMapSource> {
-                          new SmartSql.Configuration.SmartSqlMapSource
-                          {
-                               Path= MapPath,
-                               Type= SmartSql.Configuration.SmartSqlMapSource.ResourceType.Directory
-                          }
-                     },
-                TypeHandlers = new List<SmartSql.Configuration.TypeHandler>()
-            };
-
-            var _configLoader = new OptionConfigLoader(smartSqlConfigOptions, _loggerFactory);
-            var smartsqlOptions = new SmartSqlOptions
-            {
-                ConfigPath = "SmartSql",
-                ConfigLoader = _configLoader
-            };
-            SqlMapper = MapperContainer.Instance.GetSqlMapper(smartsqlOptions);
+                LoggerFactory = _loggerFactory,
+                ProviderName = DbProviderName,
+                SqlMapPath = SqlMapPath
+            });
         }
     }
 }

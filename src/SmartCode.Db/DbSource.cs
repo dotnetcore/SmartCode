@@ -3,6 +3,7 @@ using SmartCode.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SmartCode.Db
 {
@@ -46,9 +47,10 @@ namespace SmartCode.Db
             this.Initialized = true;
         }
 
-        public virtual void InitData()
+        public virtual Task InitData()
         {
             DbRepository = new DbRepository(Project.DataSource, LoggerFactory);
+            return Task.CompletedTask;
         }
     }
 }

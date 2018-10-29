@@ -12,14 +12,18 @@ namespace SmartCode.Configuration.ConfigBuilders
 
         protected void InitDefault()
         {
-            if (String.IsNullOrEmpty(Project.Output.Type))
+            if (Project.Output != null)
             {
-                Project.Output.Type = "File";
+                if (String.IsNullOrEmpty(Project.Output.Type))
+                {
+                    Project.Output.Type = "File";
+                }
+                if (Project.Output?.Mode == CreateMode.None)
+                {
+                    Project.Output.Mode = CreateMode.Incre;
+                }
             }
-            if (Project.Output.Mode == CreateMode.None)
-            {
-                Project.Output.Mode = CreateMode.Incre;
-            }
+
             foreach (var buildTask in Project.BuildTasks.Values)
             {
                 if (buildTask.Output != null)

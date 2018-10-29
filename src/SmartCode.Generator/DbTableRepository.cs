@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
 using SmartCode.Generator.Entity;
@@ -19,14 +20,14 @@ namespace SmartCode.Db
         {
             _logger = loggerFactory.CreateLogger<DbTableRepository>();
         }
-        public IEnumerable<Table> QueryTable()
+        public async Task<IEnumerable<Table>> QueryTable()
         {
             _logger.LogInformation($"----Db:{DbName} Provider:{DbProviderName}, QueryTable Start! ----");
             IEnumerable<Table> tables;
             try
             {
                 SqlMapper.BeginSession();
-                tables = SqlMapper.Query<Table>(new RequestContext
+                tables = await SqlMapper.QueryAsync<Table>(new RequestContext
                 {
                     Scope = Scope,
                     SqlId = "QueryTable",
@@ -34,7 +35,7 @@ namespace SmartCode.Db
                 });
                 foreach (var table in tables)
                 {
-                    table.Columns = SqlMapper.Query<Column>(new RequestContext
+                    table.Columns = await SqlMapper.QueryAsync<Column>(new RequestContext
                     {
                         Scope = Scope,
                         SqlId = "QueryColumn",
