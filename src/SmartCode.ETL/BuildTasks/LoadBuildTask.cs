@@ -44,7 +44,7 @@ namespace SmartCode.ETL.BuildTasks
             {
                 await sqlMapper.ExecuteAsync(new RequestContext
                 {
-                    RealSql = PRE_COMMAND
+                    RealSql = preCmd
                 });
             }
             using (IBatchInsert batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider))

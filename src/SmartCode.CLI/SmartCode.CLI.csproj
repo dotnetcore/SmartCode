@@ -20,9 +20,9 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.11.0</Version>
+    <Version>1.12.0</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>add SmartCode.ETL.ITransformEngine</PackageReleaseNotes>
+    <PackageReleaseNotes>fix PreCommand</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
