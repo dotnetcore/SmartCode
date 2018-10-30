@@ -3,6 +3,7 @@ using SmartCode.Db;
 using SmartSql.Abstractions;
 using SmartSql.Batch;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -15,6 +16,9 @@ namespace SmartCode.ETL.BuildTasks
     {
         private const string TABLE_NAME = "Table";
         private const string DB_PROVIDER = "DbProvider";
+        private const string COLUMN_MAPPING = "ColumnMapping";
+        private const string PRE_COMMAND = "PreCommand";
+        private const string POST_COMMAND = "PostCommand";
         private readonly ILoggerFactory _loggerFacotry;
         private readonly ILogger<LoadBuildTask> _logger;
 
@@ -31,16 +35,34 @@ namespace SmartCode.ETL.BuildTasks
         {
             context.Build.Paramters.EnsureValue(TABLE_NAME, out string tableName);
             context.Build.Paramters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
+
             var dataSource = context.GetDataSource<ExtractDataSource>();
             var batchTable = dataSource.TransformData;
             batchTable.Name = tableName;
             var sqlMapper = GetSqlMapper(context);
-            IBatchInsert batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider);
-            batchInsert.Table = batchTable;
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            await batchInsert.InsertAsync();
-            stopwatch.Stop();
-            _logger.LogWarning($"Build:{context.BuildKey},BatchInsert.Size:{batchTable.Rows.Count},Taken:{stopwatch.ElapsedMilliseconds}ms!");
+            if (context.Build.Paramters.Value(PRE_COMMAND, out string preCmd) && !String.IsNullOrEmpty(preCmd))
+            {
+                await sqlMapper.ExecuteAsync(new RequestContext
+                {
+                    RealSql = PRE_COMMAND
+                });
+            }
+            using (IBatchInsert batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider))
+            {
+                InitColumnMapping(batchInsert, context);
+                batchInsert.Table = batchTable;
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                await batchInsert.InsertAsync();
+                stopwatch.Stop();
+                _logger.LogWarning($"Build:{context.BuildKey},BatchInsert.Size:{batchTable.Rows.Count},Taken:{stopwatch.ElapsedMilliseconds}ms!");
+            }
+            if (context.Build.Paramters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
+            {
+                await sqlMapper.ExecuteAsync(new RequestContext
+                {
+                    RealSql = postCmd
+                });
+            }
         }
 
         public void Initialize(IDictionary<string, object> paramters)
@@ -48,7 +70,25 @@ namespace SmartCode.ETL.BuildTasks
 
         }
 
-
+        private void InitColumnMapping(IBatchInsert batchInsert, BuildContext context)
+        {
+            if (context.Build.Paramters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
+            {
+                foreach (IDictionary<object, object> colMappingKV in colMapps)
+                {
+                    colMappingKV.EnsureValue("Column", out string colName);
+                    colMappingKV.EnsureValue("Mapping", out string mapping);
+                    colMappingKV.Value("DataTypeName", out string dataTypeName);
+                    var colMapping = new ColumnMapping
+                    {
+                        Column = colName,
+                        Mapping = mapping,
+                        DataTypeName = dataTypeName
+                    };
+                    batchInsert.AddColumnMapping(colMapping);
+                }
+            }
+        }
         private ISmartSqlMapper GetSqlMapper(BuildContext context)
         {
             var smartSqlOptions = InitCreateSmartSqlMapperOptions(context);

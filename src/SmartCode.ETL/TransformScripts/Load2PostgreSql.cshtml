@@ -1,0 +1,8 @@
+﻿@using SmartCode
+@using SmartCode.ETL;
+@model BuildContext
+@{
+    var dataSource = Model.GetDataSource<ExtractDataSource>();
+    var data = dataSource.Data;
+    dataSource.TransformData = data;
+}
