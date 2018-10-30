@@ -28,7 +28,20 @@ namespace SmartCode.Db
                     Read = new List<SmartSql.Configuration.ReadDataSource>()
                 },
                 SmartSqlMaps = new List<SmartSql.Configuration.SmartSqlMapSource>(),
-                TypeHandlers = new List<SmartSql.Configuration.TypeHandler>()
+                TypeHandlers = new List<SmartSql.Configuration.TypeHandler> {
+                    new SmartSql.Configuration.TypeHandler
+                    {
+                          Name="Json", Type="SmartSql.TypeHandler.JsonTypeHandler,SmartSql.TypeHandler"
+                    },
+                    new SmartSql.Configuration.TypeHandler
+                    {
+                          Name="PGJson", Type="SmartSql.TypeHandler.PostgreSql.JsonTypeHandler,SmartSql.TypeHandler.PostgreSql"
+                    },
+                    new SmartSql.Configuration.TypeHandler
+                    {
+                          Name="PGJsonb", Type="SmartSql.TypeHandler.PostgreSql.JsonbTypeHandler,SmartSql.TypeHandler.PostgreSql"
+                    }
+                }
             };
             if (!String.IsNullOrEmpty(options.SqlMapPath))
             {
@@ -43,7 +56,8 @@ namespace SmartCode.Db
             {
                 Alias = options.Alias,
                 ConfigPath = options.Alias,
-                ConfigLoader = _configLoader
+                ConfigLoader = _configLoader,
+                LoggerFactory = options.LoggerFactory
             };
             return MapperContainer.Instance.GetSqlMapper(smartsqlOptions);
         }

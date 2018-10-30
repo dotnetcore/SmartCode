@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
+using SmartCode.Configuration;
 using SmartCode.TemplateEngine;
 using SmartCode.TemplateEngine.Impl;
 using SmartCode.Utilities;
@@ -20,12 +21,7 @@ namespace SmartCode.ETL.TransformEngine
 {
     public class RazorTransformEngine : ITransformEngine
     {
-        private readonly IPluginManager _pluginManager;
         private const String SCRIPT = "Script";
-        public RazorTransformEngine(IPluginManager pluginManager)
-        {
-            _pluginManager = pluginManager;
-        }
         public async Task Transform(BuildContext context)
         {
             if (context.Build.Paramters.Value(SCRIPT, out string script) && !String.IsNullOrEmpty(script))

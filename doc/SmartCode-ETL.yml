@@ -4,8 +4,13 @@ DataSource:
   Paramters:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
-    Query: SELECT  [UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User]
+    Query: SELECT [Id],[UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User] Where Id>@LastMaxId And CreationTime>@LastQueryTime
+    PKColumn: Id
 
+Paramters:
+  ETLCode: SmartCode.ETL.Test
+  ETLRepository: PG
+  
 Build:
 
   Transform:

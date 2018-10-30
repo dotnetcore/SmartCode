@@ -48,6 +48,7 @@ namespace SmartCode.App
                     }
             }
             Project = ConfigBuilder.Build();
+            Project.ConfigPath = ConfigPath;
         }
 
         private void RegisterServices()
