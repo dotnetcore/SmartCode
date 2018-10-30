@@ -39,7 +39,7 @@
 Module: SmartSql.Starter
 Author: Ahoo Wang
 DataSource:
-  Name: Db
+  Name: DbTable
   Paramters:
     DbName: SmartSqlDB
     DbProvider: SqlServer
@@ -52,6 +52,7 @@ Output:
 
 # 构建任务
 Build:
+
   ClearDir:
     Type: Clear
     Paramters:
