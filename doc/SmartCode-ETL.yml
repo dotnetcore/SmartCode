@@ -25,4 +25,6 @@ Build:
       ,{Column: LastLoginTime,Mapping: lastlogintime}
       ,{Column: CreationTime,Mapping: creationtime}
       ,{Column: Deleted,Mapping: deleted}]
+      PreCommand: 
+      PostCommand: 
       
