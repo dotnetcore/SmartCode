@@ -10,7 +10,7 @@
 
 ![SmartCode](./doc/SmartCode-EN.png)
 
-## SmartCode.Db (Code generator)
+## SmartCode.Generator (Code generator)
 
 ### Demo
 
@@ -214,7 +214,8 @@ Build:
         Converter:
           Type: Pascal
 ```
-### 构建文件参数概览
+
+### Build file parameter overview
 
 | Parameter Name | Description |
 | :--------- | --------:|
@@ -270,3 +271,53 @@ DbSource.Paramters accepts the following three parameters:
 | Paramters.IgnorePrefix | Ignore prefix characters |
 | Paramters.Delimiter | Separator |
 | Paramters.UppercaseSplit | Using uppercase separation, default: true |
+
+### How to contribute a template
+
+>In order to allow more people to participate in the construction of SmartCode templates, there are the following template specifications:
+
+1. The template author creates a new directory in src/SmartCode.Generator/RazorTemplates and names it in the author's English name.
+2. Place the template in the author directory
+3. The README.md file must be included in the author directory to illustrate the purpose of the template and how it is used.
+4. Submit PR
+
+## SmartCode.ETL(Extract-Transform-Load)
+
+### ETL Building configuration files
+
+``` yml
+Author: Ahoo Wang
+DataSource:
+  Name: Extract
+  Paramters:
+    DbProvider: SqlServer
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    Query: SELECT [Id],[UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User] Where Id>@LastMaxId And CreationTime>@LastQueryTime
+    PKColumn: Id
+
+Paramters:
+  ETLCode: SmartCode.ETL.Test
+  ETLRepository: PG
+  
+Build:
+
+  Transform:
+    Type: Transform
+    Paramters:
+      Script: Load2PostgreSql.cshtml
+
+  Load2PostgreSql: 
+    Type: Load
+    Paramters:
+      DbProvider: PostgreSql
+      ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartsql_db;
+      Table: t_user
+      ColumnMapping: [{Column: UserName,Mapping: user_name}
+      ,{Column: Pwd,Mapping: pwd}
+      ,{Column: Status,Mapping: status}
+      ,{Column: LastLoginTime,Mapping: lastlogintime}
+      ,{Column: CreationTime,Mapping: creationtime}
+      ,{Column: Deleted,Mapping: deleted}]
+      PreCommand: 
+      PostCommand: 
+```

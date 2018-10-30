@@ -10,7 +10,7 @@
 
 ![SmartCode](./doc/SmartCode.png)
 
-## SmartCode.Db (代码生成器)
+## SmartCode.Generator (代码生成器)
 
 ### Demo
 
@@ -286,7 +286,48 @@ DbSource.Paramters 接受以下三个参数：
 
 >为了让更多人参与到SmartCode模板建设中来，故有以下模板规范：
 
-1. 模板作者在 src/SmartCode.CLI/RazorTemplates 中新建目录，并以作者英文名为目录名称
+1. 模板作者在 src/SmartCode.Generator/RazorTemplates 中新建目录，并以作者英文名为目录名称
 2. 把模板放置到作者目录
 3. 作者目录下必须包括 README.md 文件，以说明模板的用途场景以及使用方式
 4. 提交PR
+
+## SmartCode.ETL(Extract-Transform-Load)
+
+### ETL 构建配置
+
+``` yml
+Author: Ahoo Wang
+DataSource:
+  Name: Extract
+  Paramters:
+    DbProvider: SqlServer
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    Query: SELECT [Id],[UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User] Where Id>@LastMaxId And CreationTime>@LastQueryTime
+    PKColumn: Id
+
+Paramters:
+  ETLCode: SmartCode.ETL.Test
+  ETLRepository: PG
+  
+Build:
+
+  Transform:
+    Type: Transform
+    Paramters:
+      Script: Load2PostgreSql.cshtml
+
+  Load2PostgreSql: 
+    Type: Load
+    Paramters:
+      DbProvider: PostgreSql
+      ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartsql_db;
+      Table: t_user
+      ColumnMapping: [{Column: UserName,Mapping: user_name}
+      ,{Column: Pwd,Mapping: pwd}
+      ,{Column: Status,Mapping: status}
+      ,{Column: LastLoginTime,Mapping: lastlogintime}
+      ,{Column: CreationTime,Mapping: creationtime}
+      ,{Column: Deleted,Mapping: deleted}]
+      PreCommand: 
+      PostCommand: 
+```
