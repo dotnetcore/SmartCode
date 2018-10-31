@@ -111,10 +111,13 @@ namespace SmartCode.ETL
             extractEntity.QuerySize = TransformData.Rows.Count;
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
             _logger.LogWarning($"InitData,Data.Size:{extractEntity.QuerySize},Taken:{extractEntity.QueryCommand.Taken}ms!");
+            bool pkIsNumeric = true;
+            _project.Paramters?.Value("PkIsNumeric", out pkIsNumeric);
 
-            if (!String.IsNullOrEmpty(pkColumn) && extractEntity.QuerySize > 0)
+            if (!String.IsNullOrEmpty(pkColumn) && pkIsNumeric && extractEntity.QuerySize > 0)
             {
-                extractEntity.MaxId = (long)TransformData.Rows.Max(m => m.Cells[pkColumn].Value);
+                var maxId = TransformData.Rows.Max(m => m.Cells[pkColumn].Value);
+                extractEntity.MaxId = Convert.ToInt64(maxId);
             }
             else
             {

@@ -7,10 +7,29 @@
     var buildTask = Model.Build;
     var loadDbProvider = "";
     var loadConnectionString = "";
-    buildTask.Paramters?.Value("LoadDbProvider", out loadDbProvider);
-    buildTask.Paramters?.Value("LoadConnectionString", out loadConnectionString);
+    string extractMode = "QueryTime";//Last: MaxId,QueryTime
+    Model.Project.Paramters?.Value("ExtractMode", out extractMode);
+    bool extractModeIsLastQueryTime = extractMode == "QueryTime";
+    project.Paramters?.Value("LoadDbProvider", out loadDbProvider);
+    project.Paramters?.Value("LoadConnectionString", out loadConnectionString);
     var table = Model.GetCurrentTable();
-    var loadTableTemp = $"{table.ConvertedName}__temp";
+    var loadTable = extractModeIsLastQueryTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
+    var PKColumn = Model.GetCurrentTable()?.PKColumn;
+}
+
+@functions{
+    string GetExtractWhere()
+    {
+        string extractMode = String.Empty;
+        Model.Project.Paramters?.Value("ExtractMode", out extractMode);
+        if (extractMode == "MaxId")
+        {
+            return $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
+        }
+        string modifyTime = String.Empty;
+        Model.Project.Paramters?.Value("ModifyTime", out modifyTime);
+        return $"{modifyTime}>@LastQueryTime";
+    }
 }
 
 Author: Ahoo Wang
@@ -19,26 +38,27 @@ DataSource:
   Paramters:
     DbProvider: @dbSource.DbRepository.DbProviderName
     ConnectionString: "@dbSource.Database.WriteDataSource.ConnectionString"
-    Query: 'Select * From @table.Name  With(NoLock) Where MotifyTime>@@LastQueryTime And Id>@@LastMaxId'
-    PKColumn: Id
+    Query: 'Select * From @table.Name  With(NoLock) Where @GetExtractWhere()'
+    PKColumn: @PKColumn.Name
+    PkIsNumeric: true
 
 Paramters:
-  ETLCode: @(buildTask.Module).@table.Name
+  ETLCode: @(project.Module).@table.Name
   ETLRepository: PG
 
 Build:
 
   Transform:
     Type: Transform
-    Paramters:
-      Script:
+      Paramters:
+       Script:
 
   Load:
     Type: Load
-    Paramters:
+      Paramters:
       DbProvider: @loadDbProvider
       ConnectionString: "@loadConnectionString"
-      Table: @loadTableTemp
+      Table: @loadTable
       ColumnMapping: [
     @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
@@ -46,12 +66,15 @@ Build:
         <text>{Column: @col.Name,Mapping: @col.ConvertedName}</text>
         if (colIndex < table.Columns.Count() - 1)
         {@(",")}
-        @Html.NewLine()
+    @Html.NewLine()
 }
     ]
-      PreCommand: CREATE TABLE @(loadTableTemp)( LIKE @table.ConvertedName );
-      PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTableTemp) temp where temp.id=source.id);
-      Insert Into @table.ConvertedName  SELECT * From @loadTableTemp;
-      Drop Table @loadTableTemp;"
-
-
+    @if (extractModeIsLastQueryTime)
+    {
+        <text>
+       PreCommand: CREATE TABLE @(loadTable)( LIKE @table.ConvertedName );
+       PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTable) temp where temp.@(PKColumn.ConvertedName)=source.@(PKColumn.ConvertedName));
+            Insert Into @table.ConvertedName  SELECT * From @loadTable;
+            Drop Table @loadTable;"
+        </text>
+    }
