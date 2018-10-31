@@ -15,9 +15,9 @@
       <Env DbProvider="SqlServer">
         <Include RefId="Database-SqlServer.QueryTable"/>
       </Env>
-      <!--<Env DbProvider="Oracle">
+      <Env DbProvider="Oracle">
         <Include RefId="Database-Oracle.QueryTable"/>
-      </Env>-->
+      </Env>
       <Env DbProvider="SQLite">
         <Include RefId="Database-SQLite.QueryTable"/>
       </Env>
@@ -35,9 +35,9 @@
       <Env DbProvider="SqlServer">
         <Include RefId="Database-SqlServer.QueryColumn"/>
       </Env>
-      <!--<Env DbProvider="Oracle">
+      <Env DbProvider="Oracle">
         <Include RefId="Database-Oracle.QueryColumn"/>
-      </Env>-->
+      </Env>
       <Env DbProvider="SQLite">
         <Include RefId="Database-SQLite.QueryColumn"/>
       </Env>
