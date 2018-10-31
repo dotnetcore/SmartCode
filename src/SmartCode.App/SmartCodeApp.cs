@@ -44,7 +44,7 @@ namespace SmartCode.App
                     }
                 default:
                     {
-                        throw new SmartCodeException($"未知扩展名：{pathExtension}");
+                        throw new SmartCodeException($"ConfigPath:{ConfigPath},未知扩展名：{pathExtension}");
                     }
             }
             Project = ConfigBuilder.Build();
