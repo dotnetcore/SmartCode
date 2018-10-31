@@ -111,8 +111,11 @@ namespace SmartCode.ETL
             extractEntity.QuerySize = TransformData.Rows.Count;
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
             _logger.LogWarning($"InitData,Data.Size:{extractEntity.QuerySize},Taken:{extractEntity.QueryCommand.Taken}ms!");
-            bool pkIsNumeric = true;
-            _project.Paramters?.Value("PkIsNumeric", out pkIsNumeric);
+
+            if (!dataSource.Paramters.Value("PkIsNumeric", out bool pkIsNumeric))
+            {
+                pkIsNumeric = true;
+            }
 
             if (!String.IsNullOrEmpty(pkColumn) && pkIsNumeric && extractEntity.QuerySize > 0)
             {
