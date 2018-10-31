@@ -297,4 +297,37 @@
     <DbType Name="varchar2" To="ansistring" />
     <DbType Name="yesno" To="boolean" />
   </Database>
+
+  <Database DbProvider="SqlServer" Language="PostgreSql">
+    <DbType Name="text" To="text"/>
+    <DbType Name="varchar" To="varchar"/>
+    <DbType Name="nvarchar" To="varchar"/>
+    <DbType Name="uniqueidentifier" To="char(36)"/>
+    <DbType Name="date" To="timestamp"/>
+    <DbType Name="smalldatetime" To="timestamp"/>
+    <DbType Name="datetime" To="timestamp" />
+    <DbType Name="datetime2" To="timestamp"/>
+    <DbType Name="time" To="timestamp"/>
+    <DbType Name="datetimeoffset" To="timestamp"/>
+    <DbType Name="tinyint" To="byte"/>
+    <DbType Name="smallint" To="int2"/>
+    <DbType Name="int" To="int4"/>
+    <DbType Name="bigint" To="int8"/>
+    <DbType Name="bit" To="bool" />
+    <DbType Name="char" To="char" />
+    <DbType Name="uniqueide" To="char(36)" />
+    <DbType Name="numeric" To="numeric" />
+    <DbType Name="integer" To="int4" />
+    <DbType Name="money" To="money" />
+    <DbType Name="real" To="money" />
+    <DbType Name="single" To="int2" />
+    <DbType Name="smallmoney" To="decimal" />
+    <DbType Name="decimal" To="decimal" />
+    <DbType Name="float" To="float" />
+    <DbType Name="number" To="decimal" />
+    <DbType Name="boolean" To="bool" />
+    <DbType Name="long" To="int8" />
+    <DbType Name="longtext" To="text" />
+    <DbType Name="timestamp" To="timestamp" />
+  </Database>
 </DbTypeMap>

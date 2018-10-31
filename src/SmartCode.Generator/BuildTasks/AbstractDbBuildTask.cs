@@ -77,7 +77,8 @@ namespace SmartCode.Generator.BuildTasks
                     ConvertedName = c.ConvertedName,
                     IsNullable = c.IsNullable,
                     IsPrimaryKey = c.IsPrimaryKey,
-                    LanguageType = c.LanguageType
+                    LanguageType = c.LanguageType,
+                    DataLength = c.DataLength
                 }).ToList()
             }).ToList();
         }

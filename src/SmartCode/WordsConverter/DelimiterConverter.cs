@@ -7,8 +7,10 @@ namespace SmartCode.WordsConverter
 {
     public class DelimiterConverter : IWordsConverter
     {
+        private const string PREFIX = "Prefix";
         private const string DELIMITER = "Delimiter";
         private const string CONVERT_MODE = "Mode";
+        private string _prefix = string.Empty;
         private string _delimiter = "_";
         private ConvertMode _convertMode = ConvertMode.None;
         public DelimiterConverter(IDictionary<String, String> paramters)
@@ -22,18 +24,24 @@ namespace SmartCode.WordsConverter
             {
                 _convertMode = ConvertMode.None;
             }
+            if (!paramters.Value(PREFIX, out _prefix))
+            {
+                _prefix = string.Empty;
+            }
         }
         public string Convert(IEnumerable<string> words)
         {
+            var phrase = String.Empty;
             switch (_convertMode)
             {
                 case ConvertMode.AllLower:
                     {
-                        return String.Join(_delimiter, words).ToLower();
+                        phrase = String.Join(_delimiter, words).ToLower();
+                        break;
                     }
                 case ConvertMode.AllUpper:
                     {
-                        return String.Join(_delimiter, words).ToUpper();
+                        phrase = String.Join(_delimiter, words).ToUpper(); break;
                     }
                 case ConvertMode.FirstUpper:
                     {
@@ -43,17 +51,18 @@ namespace SmartCode.WordsConverter
                               string leftChar = word.Substring(1).ToLower();
                               return firstChar + leftChar;
                           });
-                        return String.Join(_delimiter, firstUpperWords);
+                        phrase = String.Join(_delimiter, firstUpperWords); break;
                     }
                 case ConvertMode.None:
                     {
-                        return String.Join(_delimiter, words);
+                        phrase = String.Join(_delimiter, words); break;
                     }
                 default:
                     {
                         throw new SmartCodeException($"can not support ConvertMode:{_convertMode}");
                     }
             }
+            return _prefix + phrase;
         }
         public enum ConvertMode
         {
