@@ -23,32 +23,56 @@ namespace SmartCode.App
             _pluginManager = pluginManager;
             _logger = logger;
         }
+        public event OnProjectBuildStartupHandler OnStartup;
+        public event OnProjectBuildSucceedHandler OnSucceed;
+        public event OnProjectBuildFailedHandler OnFailed;
+
+
         public async Task Build()
         {
-            var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
-            dataSource.InitData();
-            foreach (var buildKV in _project.BuildTasks)
+            BuildContext buildContext = null;
+            try
             {
-                _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
-                var output = buildKV.Value.Output;
-                BuildContext buildContext = new BuildContext
+                var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
+                await OnStartup?.Invoke(this, new OnProjectBuildStartupEventArgs { Project = _project });
+                await dataSource.InitData();
+                foreach (var buildKV in _project.BuildTasks)
                 {
-                    PluginManager = _pluginManager,
-                    Project = _project,
-                    DataSource = dataSource,
-                    BuildKey = buildKV.Key,
-                    Build = buildKV.Value,
-                    Output = output == null ? null : new Output
+                    _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
+                    var output = buildKV.Value.Output;
+                    buildContext = new BuildContext
                     {
-                        Type = output.Type,
-                        Path = output.Path,
-                        Name = output.Name,
-                        Mode = output.Mode,
-                        Extension = output.Extension
-                    }
-                };
-                await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
-                _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
+                        PluginManager = _pluginManager,
+                        Project = _project,
+                        DataSource = dataSource,
+                        BuildKey = buildKV.Key,
+                        Build = buildKV.Value,
+                        Output = output == null ? null : new Output
+                        {
+                            Type = output.Type,
+                            Path = output.Path,
+                            Name = output.Name,
+                            Mode = output.Mode,
+                            Extension = output.Extension
+                        }
+                    };
+                    await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
+                    _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
+                }
+                await OnSucceed?.Invoke(this, new OnProjectBuildSucceedEventArgs
+                {
+                    Project = _project
+                });
+            }
+            catch (Exception ex)
+            {
+                await OnFailed?.Invoke(this, new OnProjectBuildFailedEventArgs
+                {
+                    Project = _project,
+                    Context = buildContext,
+                    ErrorException = ex
+                });
+                throw ex;
             }
         }
 

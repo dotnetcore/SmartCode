@@ -1,0 +1,54 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@using SmartCode.Generator
+@model BuildContext
+@{
+    var all_table = Model.GetCurrentAllTable();
+}
+@functions {
+String GetPGSqlType(SmartCode.Generator.Entity.Column col)
+{
+    var sqlDbType = col.LanguageType;
+    if (sqlDbType.StartsWith("varchar"))
+    {
+        return $"varchar({col.DataLength})";
+    }
+    return sqlDbType;
+}
+
+}
+
+@foreach (var table in all_table)
+{
+    <text>
+        /*==============================================================*/
+        /* Table: @table.ConvertedName                                  */
+        /*==============================================================*/
+        create table @table.ConvertedName  (
+
+        @foreach (var col in table.Columns)
+        {
+            @col.ConvertedName @Html.PadLeft(4) @GetPGSqlType(col) @Html.PadLeft(4) @(col.IsNullable ? "null" : "not null") @(",")
+            @Html.NewLine()
+        }
+        @if (table.PKColumn != null)
+        {
+            <text>constraint PK_@table.ConvertedName primary key (@table.PKColumn.ConvertedName)</text>
+}
+        );
+
+        @if (!String.IsNullOrEmpty(table.Description))
+        {
+            <text>comment on table @table.ConvertedName is '@table.Description';</text>
+        }
+        @Html.NewLine()
+        @foreach (var col in table.Columns)
+        {
+            @if (!String.IsNullOrEmpty(col.Description))
+            {
+                <text>comment on column @($"{table.ConvertedName}.{col.ConvertedName}") is '@col.Description';</text>
+            }
+            @Html.NewLine()
+        }
+        </text>
+    }

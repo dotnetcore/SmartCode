@@ -20,6 +20,10 @@ namespace SmartCode
                     {
                         return new PascalCaseConverter();
                     }
+                case "Delimiter":
+                    {
+                        return new DelimiterConverter(wordsConverter.Paramters);
+                    }
                 default:
                     {
                         return new NoneConverter();

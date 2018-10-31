@@ -56,22 +56,21 @@ namespace SmartCode.WordsConverter
             return new string[] { phrase };
         }
 
-        public void Initialize(IDictionary<string, String> paramters)
+        public void Initialize(IDictionary<string, object> paramters)
         {
             if (paramters != null)
             {
-                if (paramters.TryGetValue(IGNORE_PREFIX_KEY, out string ignorePre))
+                if (paramters.Value(IGNORE_PREFIX_KEY, out string ignorePre))
                 {
                     IgnorePrefix = ignorePre;
                 }
-                if (paramters.TryGetValue(DELIMITER_KEY, out string delimiter))
+                if (paramters.Value(DELIMITER_KEY, out string delimiter))
                 {
                     Delimiter = delimiter;
                 }
-                if (paramters.TryGetValue(UPPERCASESPLIT_KEY, out string upperSplitStr))
+                if (paramters.Value(UPPERCASESPLIT_KEY, out bool upperSplit))
                 {
-                    Boolean.TryParse(upperSplitStr, out bool uppercaseSplit);
-                    UppercaseSplit = uppercaseSplit;
+                    UppercaseSplit = upperSplit;
                 }
             }
         }

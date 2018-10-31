@@ -1,5 +1,6 @@
 ﻿using SmartCode.Db;
-using SmartCode.Db.DbTypeConverter;
+using SmartCode.Generator;
+using SmartCode.Generator.DbTypeConverter;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace SmartCode.Tests
         {
             var logger = SmartSql.Logging.NoneLoggerFactory.Instance.CreateLogger<DefaultDbTypeConverter>();
             var xmlPath = @"E:\Ahoo\SmartCode\src\SmartCode\DbTypeConverter\DbTypeMap.xml";
-            var patamters = new Dictionary<string, string> {
+            var patamters = new Dictionary<string, object> {
                 { "XmlPath",xmlPath}
             };
             IDbTypeConverter convert = new DefaultDbTypeConverter(logger);

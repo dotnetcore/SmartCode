@@ -44,10 +44,11 @@ namespace SmartCode.App
                     }
                 default:
                     {
-                        throw new SmartCodeException($"未知扩展名：{pathExtension}");
+                        throw new SmartCodeException($"ConfigPath:{ConfigPath},未知扩展名：{pathExtension}");
                     }
             }
             Project = ConfigBuilder.Build();
+            Project.ConfigPath = ConfigPath;
         }
 
         private void RegisterServices()
@@ -58,6 +59,7 @@ namespace SmartCode.App
             Services.AddSingleton<IPluginManager, PluginManager>();
             Services.AddSingleton<IProjectBuilder, ProjectBuilder>();
             ServiceProvider = Services.BuildServiceProvider();
+            Logger = ServiceProvider.GetRequiredService<ILogger<SmartCodeApp>>();
         }
 
         private void RegisterPlugins()
@@ -84,12 +86,18 @@ namespace SmartCode.App
 
         public async Task Run()
         {
-            Handlebars.Configuration.TextEncoder = NullTextEncoder.Instance;
-            var logger = ServiceProvider.GetRequiredService<ILogger<SmartCodeApp>>();
-            var projectBuilder = ServiceProvider.GetRequiredService<IProjectBuilder>();
-            logger.LogInformation($"------- Build ConfigPath:{ConfigPath} Start! --------");
-            await projectBuilder.Build();
-            logger.LogInformation($"-------- Build ConfigPath:{ConfigPath},Output:{Project.OutputPath} End! --------");
+            try
+            {
+                Handlebars.Configuration.TextEncoder = NullTextEncoder.Instance;
+                var projectBuilder = ServiceProvider.GetRequiredService<IProjectBuilder>();
+                Logger.LogInformation($"------- Build ConfigPath:{ConfigPath} Start! --------");
+                await projectBuilder.Build();
+                Logger.LogInformation($"-------- Build ConfigPath:{ConfigPath},Output:{Project.Output?.Path} End! --------");
+            }
+            catch (SmartCodeException scEx)
+            {
+                Logger.LogError(new EventId(scEx.HResult), scEx, scEx.Message);
+            }
         }
 
         public class NullTextEncoder : ITextEncoder

@@ -15,6 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.App", "src\SmartC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.TemplateEngine", "src\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj", "{6AA5EF8A-9D31-4E41-A040-23289D4358E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generator", "Code Generator", "{7CAB5427-3BDA-4F40-82DA-9B8380101739}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.Generator", "src\SmartCode.Generator\SmartCode.Generator.csproj", "{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ETL", "ETL", "{EE2194B6-5B23-42C0-AF6A-EC86331E3E08}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL", "src\SmartCode.ETL\SmartCode.ETL.csproj", "{95071030-0C10-4771-B093-4F2626A39F9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL.PostgreSql", "src\SmartCode.ETL.PostgreSql\SmartCode.ETL.PostgreSql.csproj", "{60B49703-2352-477B-8F18-98CC229EEFDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,9 +55,26 @@ Global
 		{6AA5EF8A-9D31-4E41-A040-23289D4358E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA5EF8A-9D31-4E41-A040-23289D4358E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA5EF8A-9D31-4E41-A040-23289D4358E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95071030-0C10-4771-B093-4F2626A39F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95071030-0C10-4771-B093-4F2626A39F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95071030-0C10-4771-B093-4F2626A39F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95071030-0C10-4771-B093-4F2626A39F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60B49703-2352-477B-8F18-98CC229EEFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60B49703-2352-477B-8F18-98CC229EEFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60B49703-2352-477B-8F18-98CC229EEFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60B49703-2352-477B-8F18-98CC229EEFDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C} = {7CAB5427-3BDA-4F40-82DA-9B8380101739}
+		{95071030-0C10-4771-B093-4F2626A39F9F} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
+		{60B49703-2352-477B-8F18-98CC229EEFDA} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A45CDB0-E532-4F55-84C6-B82C98BE5F38}

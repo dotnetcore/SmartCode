@@ -10,6 +10,4 @@ namespace SmartCode.Configuration
         public String Name { get; set; }
         public IDictionary<String, object> Paramters { get; set; }
     }
-
-
 }

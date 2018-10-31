@@ -32,19 +32,18 @@ namespace SmartCode.App.BuildTasks
         }
         public async Task Build(BuildContext context)
         {
-            if (context.Build.Paramters.TryGetValue(TEMPLATES_KEY, out object templates))
+            if (context.Build.Paramters.Value(TEMPLATES_KEY, out IEnumerable templates))
             {
-                var _templates = templates as IEnumerable;
-                foreach (var templateKVs in _templates)
+                foreach (var templateKVs in templates)
                 {
                     var _templateKVs = (Dictionary<object, object>)templateKVs;
-                    if (!_templateKVs.TryGetValue(TEMPLATE_KEY, out object templateKey))
+                    if (!_templateKVs.Value(TEMPLATE_KEY, out string templateKey))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Can not find TemplateKey!");
                     }
-                    context.Build.Template = templateKey.ToString();
+                    context.Build.Template = templateKey;
                     context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine).Render(context);
-                    if (!_templateKVs.TryGetValue(TEMPLATE_OUTPUT_KEY, out object output))
+                    if (!_templateKVs.Value(TEMPLATE_OUTPUT_KEY, out Dictionary<object, object> outputKVs))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Can not find Output!");
                     }
@@ -52,37 +51,36 @@ namespace SmartCode.App.BuildTasks
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Output can not be null!");
                     }
-                    var outputKVs = (Dictionary<object, object>)output;
-                    if (outputKVs.TryGetValue(nameof(Output.Path), out object outputPath))
+                    if (outputKVs.Value(nameof(Output.Path), out string outputPath))
                     {
-                        context.Output.Path = outputPath.ToString();
+                        context.Output.Path = outputPath;
                     }
-                    if (outputKVs.TryGetValue(nameof(Output.Mode), out object outputMode))
+                    if (outputKVs.Value(nameof(Output.Mode), out CreateMode outputMode))
                     {
-                        context.Output.Mode = (CreateMode)Enum.Parse(typeof(CreateMode), outputMode.ToString());
+                        context.Output.Mode = outputMode;
                     }
                     if (String.IsNullOrEmpty(context.Output.Path))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Path!");
                     }
-                    if (!outputKVs.TryGetValue(nameof(Output.Name), out object outputName))
+                    if (!outputKVs.Value(nameof(Output.Name), out string outputName))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Name!");
                     }
-                    context.Output.Name = outputName.ToString();
+                    context.Output.Name = outputName;
 
-                    if (!outputKVs.TryGetValue(nameof(Output.Extension), out object extension))
+                    if (!outputKVs.Value(nameof(Output.Extension), out string extension))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Extension!");
                     }
-                    context.Output.Extension = extension.ToString();
+                    context.Output.Extension = extension;
 
                     await _pluginManager.Resolve<IOutput>(context.Output.Type).Output(context);
                 }
             }
         }
 
-        public void Initialize(IDictionary<string, string> paramters)
+        public void Initialize(IDictionary<string, object> paramters)
         {
 
         }
