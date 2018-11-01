@@ -13,7 +13,7 @@
     project.Paramters.Value("LoadConnectionString", out string loadConnectionString);
     var table = Model.GetCurrentTable();
     var loadTable = extractModeIsLastQueryTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
-    var PKColumn = Model.GetCurrentTable()?.PKColumn;
+    var PKColumn = Model.GetCurrentTable().PKColumn;
 }
 
 @functions{
@@ -23,20 +23,19 @@
         Model.Project.Paramters.Value("ExtractMode", out string extractMode);
         switch (extractMode)
         {
-            case "MaxId":
-                {
-                    sql = $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
-                    break;
-                }
+            case "Full": { return ""; }
+            case "ModifyTime":
             case "QueryTime":
                 {
                     Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
                     sql = $"{modifyTime}>@LastQueryTime";
                     break;
                 }
+            case "MaxId":
             default:
                 {
-                    return "";
+                    sql = $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
+                    break;
                 }
         }
         return $"Where {sql}";
@@ -51,7 +50,7 @@ DataSource:
     ConnectionString: "@extractConnectionString"
     Query: 'Select * From @table.Name  With(NoLock) @GetExtractWhere()'
     PKColumn: @PKColumn.Name
-    PkIsNumeric: true
+    AutoIncrement: @(PKColumn.AutoIncrement?"true":"false")
 
 Paramters:
   ETLCode: @(project.Module).@table.Name
@@ -69,16 +68,6 @@ Build:
       DbProvider: @loadDbProvider
       ConnectionString: "@loadConnectionString"
       Table: @loadTable
-      ColumnMapping: [
-    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
-    {
-        var col = table.Columns.ElementAt(colIndex);
-        <text>{Column: @col.Name,Mapping: @col.ConvertedName}</text>
-        if (colIndex < table.Columns.Count() - 1)
-        {@(",")}
-    @Html.NewLine()
-}
-    ]
     @switch (extractMode)
     {
         case "QueryTime":
@@ -99,3 +88,14 @@ Build:
                 break;
             }
     }
+
+      ColumnMapping: [
+    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+    {
+        var col = table.Columns.ElementAt(colIndex);
+        <text>{Column: @col.Name,Mapping: @col.ConvertedName}</text>
+        if (colIndex < table.Columns.Count() - 1)
+        {@(",")}
+    @Html.NewLine()
+}
+    ]

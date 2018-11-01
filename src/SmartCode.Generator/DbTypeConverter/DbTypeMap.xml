@@ -302,7 +302,7 @@
     <DbType Name="text" To="text"/>
     <DbType Name="varchar" To="varchar"/>
     <DbType Name="nvarchar" To="varchar"/>
-    <DbType Name="uniqueidentifier" To="char(36)"/>
+    <DbType Name="uniqueidentifier" To="uuid"/>
     <DbType Name="date" To="timestamp"/>
     <DbType Name="smalldatetime" To="timestamp"/>
     <DbType Name="datetime" To="timestamp" />

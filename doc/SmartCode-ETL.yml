@@ -6,6 +6,7 @@ DataSource:
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
     Query: SELECT [Id],[UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User] Where Id>@LastMaxId And CreationTime>@LastQueryTime
     PKColumn: Id
+    AutoIncrement: true
 
 Paramters:
   ETLCode: SmartCode.ETL.Test
@@ -16,7 +17,7 @@ Build:
   Transform:
     Type: Transform
     Paramters:
-      Script: Load2PostgreSql.cshtml
+      Script: 
 
   Load2PostgreSql: 
     Type: Load

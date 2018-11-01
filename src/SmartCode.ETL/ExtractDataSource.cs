@@ -112,12 +112,12 @@ namespace SmartCode.ETL
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
             _logger.LogWarning($"InitData,Data.Size:{extractEntity.QuerySize},Taken:{extractEntity.QueryCommand.Taken}ms!");
 
-            if (!dataSource.Paramters.Value("PkIsNumeric", out bool pkIsNumeric))
-            {
-                pkIsNumeric = true;
-            }
+            dataSource.Paramters.Value("PkIsNumeric", out bool pkIsNumeric);
+            dataSource.Paramters.Value("AutoIncrement", out bool autoIncrement);
 
-            if (!String.IsNullOrEmpty(pkColumn) && pkIsNumeric && extractEntity.QuerySize > 0)
+            if (!String.IsNullOrEmpty(pkColumn)
+                && (pkIsNumeric || autoIncrement)
+                && extractEntity.QuerySize > 0)
             {
                 var maxId = TransformData.Rows.Max(m => m.Cells[pkColumn].Value);
                 extractEntity.MaxId = Convert.ToInt64(maxId);
