@@ -6,15 +6,18 @@
     var all_table = Model.GetCurrentAllTable();
 }
 @functions {
-String GetPGSqlType(SmartCode.Generator.Entity.Column col)
-{
-    var sqlDbType = col.LanguageType;
-    if (sqlDbType.StartsWith("varchar"))
+    String GetPGSqlType(SmartCode.Generator.Entity.Column col)
     {
-        return $"varchar({col.DataLength})";
+        var sqlDbType = col.LanguageType;
+        if (sqlDbType.StartsWith("varchar"))
+        {
+            if (col.DataLength == -1) {
+                return "text";
+            }
+            return $"varchar({col.DataLength})";
+        }
+        return sqlDbType;
     }
-    return sqlDbType;
-}
 
 }
 

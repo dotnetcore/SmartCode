@@ -5,13 +5,12 @@
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
-    var loadDbProvider = "";
-    var loadConnectionString = "";
-    string extractMode = "QueryTime";//Last: MaxId,QueryTime
-    Model.Project.Paramters?.Value("ExtractMode", out extractMode);
+    project.Paramters.Value("ExtractMode", out string extractMode);//Last: MaxId,QueryTime,Full
     bool extractModeIsLastQueryTime = extractMode == "QueryTime";
-    project.Paramters?.Value("LoadDbProvider", out loadDbProvider);
-    project.Paramters?.Value("LoadConnectionString", out loadConnectionString);
+    project.Paramters.Value("ExtractConnectionString", out string extractConnectionString);
+    extractConnectionString = extractConnectionString ?? dbSource.Database.WriteDataSource.ConnectionString;
+    project.Paramters.Value("LoadDbProvider", out string loadDbProvider);
+    project.Paramters.Value("LoadConnectionString", out string loadConnectionString);
     var table = Model.GetCurrentTable();
     var loadTable = extractModeIsLastQueryTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
     var PKColumn = Model.GetCurrentTable()?.PKColumn;
@@ -20,15 +19,27 @@
 @functions{
     string GetExtractWhere()
     {
-        string extractMode = String.Empty;
-        Model.Project.Paramters?.Value("ExtractMode", out extractMode);
-        if (extractMode == "MaxId")
+        string sql = String.Empty;
+        Model.Project.Paramters.Value("ExtractMode", out string extractMode);
+        switch (extractMode)
         {
-            return $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
+            case "MaxId":
+                {
+                    sql = $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
+                    break;
+                }
+            case "QueryTime":
+                {
+                    Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
+                    sql = $"{modifyTime}>@LastQueryTime";
+                    break;
+                }
+            default:
+                {
+                    return "";
+                }
         }
-        string modifyTime = String.Empty;
-        Model.Project.Paramters?.Value("ModifyTime", out modifyTime);
-        return $"{modifyTime}>@LastQueryTime";
+        return $"Where {sql}";
     }
 }
 
@@ -37,8 +48,8 @@ DataSource:
   Name: Extract
   Paramters:
     DbProvider: @dbSource.DbRepository.DbProviderName
-    ConnectionString: "@dbSource.Database.WriteDataSource.ConnectionString"
-    Query: 'Select * From @table.Name  With(NoLock) Where @GetExtractWhere()'
+    ConnectionString: "@extractConnectionString"
+    Query: 'Select * From @table.Name  With(NoLock) @GetExtractWhere()'
     PKColumn: @PKColumn.Name
     PkIsNumeric: true
 
@@ -47,15 +58,14 @@ Paramters:
   ETLRepository: PG
 
 Build:
-
   Transform:
     Type: Transform
-      Paramters:
-       Script:
+    Paramters:
+      Script:
 
   Load:
     Type: Load
-      Paramters:
+    Paramters:
       DbProvider: @loadDbProvider
       ConnectionString: "@loadConnectionString"
       Table: @loadTable
@@ -69,12 +79,23 @@ Build:
     @Html.NewLine()
 }
     ]
-    @if (extractModeIsLastQueryTime)
+    @switch (extractMode)
     {
-        <text>
-       PreCommand: CREATE TABLE @(loadTable)( LIKE @table.ConvertedName );
-       PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTable) temp where temp.@(PKColumn.ConvertedName)=source.@(PKColumn.ConvertedName));
-            Insert Into @table.ConvertedName  SELECT * From @loadTable;
-            Drop Table @loadTable;"
-        </text>
+        case "QueryTime":
+            {
+                <text>
+      PreCommand: CREATE TABLE @(loadTable)( LIKE @table.ConvertedName );
+      PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTable) temp where temp.@(PKColumn.ConvertedName)=source.@(PKColumn.ConvertedName));
+                    Insert Into @table.ConvertedName  SELECT * From @loadTable;
+                    Drop Table @loadTable;"
+                </text>
+                break;
+            }
+        case "Full":
+            {
+                <text>
+      PreCommand: TRUNCATE TABLE  @(loadTable);
+                </text>
+                break;
+            }
     }

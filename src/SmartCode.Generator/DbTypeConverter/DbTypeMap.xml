@@ -309,7 +309,7 @@
     <DbType Name="datetime2" To="timestamp"/>
     <DbType Name="time" To="timestamp"/>
     <DbType Name="datetimeoffset" To="timestamp"/>
-    <DbType Name="tinyint" To="byte"/>
+    <DbType Name="tinyint" To="int2"/>
     <DbType Name="smallint" To="int2"/>
     <DbType Name="int" To="int4"/>
     <DbType Name="bigint" To="int8"/>
