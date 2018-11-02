@@ -12,7 +12,7 @@
       EPObj.value As [Description]
       From Sys.Objects Obj
       Left Join Sys.Extended_Properties EPObj On EPObj.major_id=Obj.object_id And EPObj.minor_id=0 And EPObj.name='MS_Description'
-      Where Obj.type In('U','V')
+      Where Obj.type In('U','V') And Obj.is_ms_shipped=0
     </Statement>
     <Statement Id="QueryColumn">
       Select Col.column_id As Id

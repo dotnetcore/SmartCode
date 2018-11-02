@@ -5,12 +5,41 @@
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
-    var loadDbProvider = "";
-    var loadConnectionString = "";
-    buildTask.Paramters?.Value("LoadDbProvider", out loadDbProvider);
-    buildTask.Paramters?.Value("LoadConnectionString", out loadConnectionString);
+    project.Paramters.Value("ExtractMode", out string extractMode);//Last: MaxId,QueryTime,Full
+    bool extractModeIsLastQueryTime = extractMode == "QueryTime";
+    project.Paramters.Value("ExtractConnectionString", out string extractConnectionString);
+    extractConnectionString = extractConnectionString ?? dbSource.Database.WriteDataSource.ConnectionString;
+    project.Paramters.Value("LoadDbProvider", out string loadDbProvider);
+    project.Paramters.Value("LoadConnectionString", out string loadConnectionString);
     var table = Model.GetCurrentTable();
-    var loadTableTemp = $"{table.ConvertedName}__temp";
+    var loadTable = extractModeIsLastQueryTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
+    var PKColumn = Model.GetCurrentTable().PKColumn;
+}
+
+@functions{
+    string GetExtractWhere()
+    {
+        string sql = String.Empty;
+        Model.Project.Paramters.Value("ExtractMode", out string extractMode);
+        switch (extractMode)
+        {
+            case "Full": { return ""; }
+            case "ModifyTime":
+            case "QueryTime":
+                {
+                    Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
+                    sql = $"{modifyTime}>@LastQueryTime";
+                    break;
+                }
+            case "MaxId":
+            default:
+                {
+                    sql = $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
+                    break;
+                }
+        }
+        return $"Where {sql}";
+    }
 }
 
 Author: Ahoo Wang
@@ -18,16 +47,16 @@ DataSource:
   Name: Extract
   Paramters:
     DbProvider: @dbSource.DbRepository.DbProviderName
-    ConnectionString: "@dbSource.Database.WriteDataSource.ConnectionString"
-    Query: 'Select * From @table.Name  With(NoLock) Where MotifyTime>@@LastQueryTime And Id>@@LastMaxId'
-    PKColumn: Id
+    ConnectionString: "@extractConnectionString"
+    Query: 'Select * From @table.Name  With(NoLock) @GetExtractWhere()'
+    PKColumn: @PKColumn.Name
+    AutoIncrement: @(PKColumn.AutoIncrement?"true":"false")
 
 Paramters:
-  ETLCode: @(buildTask.Module).@table.Name
+  ETLCode: @(project.Module).@table.Name
   ETLRepository: PG
 
 Build:
-
   Transform:
     Type: Transform
     Paramters:
@@ -38,7 +67,28 @@ Build:
     Paramters:
       DbProvider: @loadDbProvider
       ConnectionString: "@loadConnectionString"
-      Table: @loadTableTemp
+      Table: @loadTable
+    @switch (extractMode)
+    {
+        case "QueryTime":
+            {
+                <text>
+      PreCommand: CREATE TABLE @(loadTable)( LIKE @table.ConvertedName );
+      PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTable) temp where temp.@(PKColumn.ConvertedName)=source.@(PKColumn.ConvertedName));
+                    Insert Into @table.ConvertedName  SELECT * From @loadTable;
+                    Drop Table @loadTable;"
+                </text>
+                break;
+            }
+        case "Full":
+            {
+                <text>
+      PreCommand: TRUNCATE TABLE  @(loadTable);
+                </text>
+                break;
+            }
+    }
+
       ColumnMapping: [
     @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
@@ -46,12 +96,6 @@ Build:
         <text>{Column: @col.Name,Mapping: @col.ConvertedName}</text>
         if (colIndex < table.Columns.Count() - 1)
         {@(",")}
-        @Html.NewLine()
+    @Html.NewLine()
 }
     ]
-      PreCommand: CREATE TABLE @(loadTableTemp)( LIKE @table.ConvertedName );
-      PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTableTemp) temp where temp.id=source.id);
-      Insert Into @table.ConvertedName  SELECT * From @loadTableTemp;
-      Drop Table @loadTableTemp;"
-
-
