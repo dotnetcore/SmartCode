@@ -38,6 +38,7 @@
     <ProjectReference Include="..\SmartCode.ETL\SmartCode.ETL.csproj" />
     <ProjectReference Include="..\SmartCode.Generator\SmartCode.Generator.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
+    <ProjectReference Include="..\SmartSql.TypeHandler.Oracle\SmartSql.TypeHandler.Oracle.csproj" />
   </ItemGroup>
 
   <ItemGroup>

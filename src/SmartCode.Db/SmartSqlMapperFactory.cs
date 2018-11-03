@@ -40,6 +40,10 @@ namespace SmartCode.Db
                     new SmartSql.Configuration.TypeHandler
                     {
                           Name="PGJsonb", Type="SmartSql.TypeHandler.PostgreSql.JsonbTypeHandler,SmartSql.TypeHandler.PostgreSql"
+                    },
+                    new SmartSql.Configuration.TypeHandler
+                    {
+                          Name="OracleBoolean", Type="SmartSql.TypeHandler.Oracle.BooleanTypeHandler,SmartSql.TypeHandler.Oracle"
                     }
                 }
             };

@@ -12,12 +12,13 @@ namespace SmartCode.Db
     public class DbTableRepository : DbRepository
     {
         private ILogger<DbTableRepository> _logger;
-        public String Scope => "Database";
+        public String Scope { get; set; }
 
         public DbTableRepository(
             DataSource dataSource
             , ILoggerFactory loggerFactory) : base(dataSource, loggerFactory)
         {
+            Scope = $"Database-{DbProviderName}";
             _logger = loggerFactory.CreateLogger<DbTableRepository>();
         }
         public async Task<IEnumerable<Table>> QueryTable()
