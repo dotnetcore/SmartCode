@@ -22,7 +22,10 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Version>1.16.13</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>fix Ignore system tables by is_ms_shipped</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      1. add support Oralce for Generator
+      2. fix SqlServer.IsPrimaryKey bug
+    </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
