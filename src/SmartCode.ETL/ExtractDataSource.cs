@@ -70,6 +70,7 @@ namespace SmartCode.ETL
             dataSource.Paramters.EnsureValue("DbProvider", out string dbProvider);
             dataSource.Paramters.EnsureValue("ConnectionString", out string connString);
             dataSource.Paramters.Value("PKColumn", out string pkColumn);
+            dataSource.Paramters.Value("ModifyTime", out string modifyTime);
             dataSource.Paramters.EnsureValue("Query", out string queryCmd);
             #region CreateSqlMapper
             var smartSqlOptions = new CreateSmartSqlMapperOptions
@@ -91,6 +92,7 @@ namespace SmartCode.ETL
             {
                 { "LastMaxId",lastExtract.MaxId},
                 { "LastQueryTime",lastExtract.QueryTime},
+                { "LastMaxModifyTime",lastExtract.MaxModifyTime},
             };
             var extractEntity = new ETLExtract
             {
@@ -126,6 +128,14 @@ namespace SmartCode.ETL
             {
                 extractEntity.MaxId = lastExtract.MaxId;
             }
+
+            if (!String.IsNullOrEmpty(modifyTime))
+            {
+                var maxModifyTime = TransformData.Rows.Max(m => m.Cells[modifyTime].Value);
+                extractEntity.MaxModifyTime = Convert.ToDateTime(maxModifyTime);
+            }
+
+
             await _etlRepository.Extract(_project.GetETKTaskId(), extractEntity);
         }
 

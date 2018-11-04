@@ -20,11 +20,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.16.13</Version>
+    <Version>1.16.15</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>
-      1. add support Oralce for Generator
-      2. fix SqlServer.IsPrimaryKey bug
+      1. add support ETLExtract.MaxModifyTime
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
