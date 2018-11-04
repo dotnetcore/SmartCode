@@ -129,10 +129,15 @@ namespace SmartCode.ETL
                 extractEntity.MaxId = lastExtract.MaxId;
             }
 
-            if (!String.IsNullOrEmpty(modifyTime))
+            if (!String.IsNullOrEmpty(modifyTime)
+                && extractEntity.QuerySize > 0)
             {
                 var maxModifyTime = TransformData.Rows.Max(m => m.Cells[modifyTime].Value);
                 extractEntity.MaxModifyTime = Convert.ToDateTime(maxModifyTime);
+            }
+            else
+            {
+                extractEntity.MaxModifyTime = lastExtract.MaxModifyTime;
             }
 
 

@@ -87,6 +87,10 @@ namespace SmartCode.ETL.PostgreSql
             {
                 return ETLExtract.Default;
             }
+            if (etlTaskEntity.Extract.MaxModifyTime == DateTime.MinValue)
+            {
+                etlTaskEntity.Extract.MaxModifyTime = ETLExtract.MinDateTime;
+            }
             return etlTaskEntity.Extract;
         }
 
