@@ -14,6 +14,7 @@ namespace SmartCode.ETL.Entity
         };
         public string PKColumn { get; set; }
         public long MaxId { get; set; }
+        public DateTime MaxModifyTime { get; set; }
         public DateTime QueryTime { get; set; }
         public ETLDbCommand QueryCommand { get; set; }
         public int QuerySize { get; set; }
