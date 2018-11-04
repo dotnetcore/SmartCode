@@ -303,14 +303,14 @@
     <DbType Name="text" To="text"/>
     <DbType Name="varchar" To="varchar"/>
     <DbType Name="nvarchar" To="varchar"/>
-    <DbType Name="uniqueidentifier" To="char(36)"/>
+    <DbType Name="uniqueidentifier" To="uuid"/>
     <DbType Name="date" To="timestamp"/>
     <DbType Name="smalldatetime" To="timestamp"/>
     <DbType Name="datetime" To="timestamp" />
     <DbType Name="datetime2" To="timestamp"/>
     <DbType Name="time" To="timestamp"/>
     <DbType Name="datetimeoffset" To="timestamp"/>
-    <DbType Name="tinyint" To="byte"/>
+    <DbType Name="tinyint" To="int2"/>
     <DbType Name="smallint" To="int2"/>
     <DbType Name="int" To="int4"/>
     <DbType Name="bigint" To="int8"/>

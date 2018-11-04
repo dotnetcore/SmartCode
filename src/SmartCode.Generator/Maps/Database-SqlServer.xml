@@ -27,7 +27,6 @@
       From Sys.Columns Col
       Left Join Sys.Extended_Properties EPCol On EPCol.major_id=Col.object_id And EPCol.minor_id=Col.column_id
       Left Join Sys.Types Tp On Tp.system_type_id= Col.system_type_id
-      Left Join Sys.SysIndexKeys IdxK On IdxK.id=Col.object_id And IdxK.colid=Col.column_id
       Where TP.name != 'sysname' And Col.object_id= @TableId
       Order By Col.column_id Asc
     </Statement>

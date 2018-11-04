@@ -20,7 +20,7 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.16.12</Version>
+    <Version>1.16.13</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>fix Ignore system tables by is_ms_shipped</PackageReleaseNotes>
   </PropertyGroup>
@@ -38,7 +38,6 @@
     <ProjectReference Include="..\SmartCode.ETL\SmartCode.ETL.csproj" />
     <ProjectReference Include="..\SmartCode.Generator\SmartCode.Generator.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
-    <ProjectReference Include="..\SmartSql.TypeHandler.Oracle\SmartSql.TypeHandler.Oracle.csproj" />
   </ItemGroup>
 
   <ItemGroup>
