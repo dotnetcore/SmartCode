@@ -52,7 +52,7 @@ namespace SmartCode.Generator
             var tokenizer = TokenizerFactory.Create(tokenizerMapConverter.Tokenizer);
             var words = tokenizer.Segment(phrase);
             var wordsConvert = WordsConverterFactory.Create(tokenizerMapConverter.Converter);
-            return wordsConvert.Convert(words);
+            return NamingUtil.ToSingular(wordsConvert.Convert(words));
         }
     }
 }
