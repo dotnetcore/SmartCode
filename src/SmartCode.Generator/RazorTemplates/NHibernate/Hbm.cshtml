@@ -1,0 +1,53 @@
+@using System.Globalization
+@using System.Xml
+@using System.Xml.Linq
+@using SmartCode
+@using SmartCode.Db
+@using SmartCode.Generator.Entity
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCols = table.Columns.Where(col => col.IsPrimaryKey);
+    var normalCols = table.Columns.Where(col => !col.IsPrimaryKey);
+    var namespaceName = $"{project.Module}.{buildTask.Module}.Entities";
+    var assemblyName = $"{project.Module}.{buildTask.Module}";
+}
+@functions {
+
+    private string GetGeneratorClass(Column col) {
+        if (col.LanguageType == "int") {
+            return "sequence";
+        }
+        if (col.LanguageType == "long") {
+            return "trigger-identity";
+        }
+        return "assigned";
+    }
+
+}
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="@assemblyName" namespace="@namespaceName">
+    
+    <class name="@table.ConvertedName" table="@table.Name">
+
+    @if (pkCols.Count() == 1) {
+        <id name="@pkCols.First().ConvertedName" column="@pkCols.First().Name" type="@pkCols.First().LanguageType">
+            <generator class="@GetGeneratorClass(pkCols.First())"></generator>
+        </id>
+    }
+    else {
+        <composite-id>
+        @foreach (var col in pkCols) {
+            <key-property name="@col.ConvertedName" column="@col.Name" type="@col.LanguageType" />
+        }
+        </composite-id>
+    }
+
+    @foreach (var col in normalCols) {
+        <property name="@col.ConvertedName" column="@col.Name" type="@col.LanguageType" length="@col.DataLength" />
+    }
+    </class>
+    
+</hibernate-mapping>

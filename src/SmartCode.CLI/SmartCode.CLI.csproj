@@ -50,6 +50,9 @@
     <None Include="..\..\doc\SmartCode.yml" Link="SmartCode.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\doc\SmartCode-NHibernate.yml" Link="SmartCode-NHibernate.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="..\..\doc\SmartCode.json" Link="SmartCode.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,0 +1,86 @@
+Module: HuiTian.SampleProject
+Author: Ahoo Wang
+DataSource:
+  Name: DbTable
+  Paramters:
+    DbName: sde_pg_10_3
+    DbProvider: PostgreSql
+    ConnectionString: server=docker703.gdepb.gov.cn;port=2932;database=sde_pg_10_3;user id=postgres;password=pgsql_93;
+Language: CSharp
+TemplateEngine: Razor
+Output:
+  Type: File
+  Path: '/Users/zhang/Desktop/sample-project'
+
+Build:
+
+  Entities:
+    Type: Table
+    Module: Data
+    IncludeTables: ["om3_ps_info"]
+    IgnoreTables: ["water_source"]
+    Template: NHibernate/Entity.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}/Entities'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Paramters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  Hbm:
+    Type: Table
+    Module: Data
+    IncludeTables: ["om3_ps_info"]
+    IgnoreTables: ["water_source"]
+    Template: NHibernate/Hbm.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}/Entities'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
+      Extension: '.hbm.xml'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Paramters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
