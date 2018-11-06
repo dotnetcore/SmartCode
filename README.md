@@ -291,7 +291,7 @@ DbSource.Paramters 接受以下三个参数：
 3. 作者目录下必须包括 README.md 文件，以说明模板的用途场景以及使用方式
 4. 提交PR
 
-## SmartCode.ETL(Extract-Transform-Load)（[Doc](./doc/SmartCode.ETL.md)）
+## SmartCode.ETL(Extract-Transform-Load)（[SmartCode.ETL-Doc](./doc/SmartCode.ETL.md)）
 
 ### ETL 构建配置
 
