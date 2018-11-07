@@ -18,6 +18,7 @@ namespace SmartCode.Db
                 Settings = new SmartSql.Configuration.Settings
                 {
                     ParameterPrefix = "$",
+                    IgnoreParameterCase = true,
                     IsWatchConfigFile = false,
                     IsCacheEnabled = false,
                 },

@@ -20,6 +20,17 @@ namespace SmartCode.Db
         {
             Scope = $"Database-{DbProviderName}";
             _logger = loggerFactory.CreateLogger<DbTableRepository>();
+            switch (DbProvider)
+            {
+                case DbProvider.PostgreSql:
+                    {
+                        if (String.IsNullOrEmpty(DbSchema))
+                        {
+                            DbSchema = "public";
+                        }
+                        break;
+                    }
+            }
         }
         public async Task<IEnumerable<Table>> QueryTable()
         {
@@ -32,7 +43,7 @@ namespace SmartCode.Db
                 {
                     Scope = Scope,
                     SqlId = "QueryTable",
-                    Request = new { DBName = DbName }
+                    Request = new { DbName, DbSchema }
                 });
                 foreach (var table in tables)
                 {
@@ -40,7 +51,7 @@ namespace SmartCode.Db
                     {
                         Scope = Scope,
                         SqlId = "QueryColumn",
-                        Request = new { DBName = DbName, TableId = table.Id, TableName = table.Name }
+                        Request = new { DbName, DbSchema, TableId = table.Id, TableName = table.Name }
                     });
                 }
             }

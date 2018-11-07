@@ -20,10 +20,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.16.15</Version>
+    <Version>1.16.16</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>
-      1. add support ETLExtract.MaxModifyTime
+      1. fix https://github.com/Ahoo-Wang/SmartCode/issues/16
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
