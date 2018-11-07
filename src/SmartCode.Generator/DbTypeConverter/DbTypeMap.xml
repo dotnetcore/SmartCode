@@ -222,7 +222,7 @@
     <DbType Name="LONG" To="byte[]" />
     <DbType Name="LONGTEXT" To="string" />
     <DbType Name="TIMESTAMP" To="DateTime" />
-    <DbType Name="SDO_GEOMETRY" To="stirng" />
+    <DbType Name="SDO_GEOMETRY" To="string" />
   </Database>
   <Database DbProvider="SQLite"  Language="CSharp">
     <DbType Name="bigint" To="int64" />

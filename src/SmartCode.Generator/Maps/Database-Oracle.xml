@@ -25,21 +25,21 @@
     </Statement>
     <Statement Id="QueryColumn" ResultMap="ColResultMap">
       SELECT
-        C.COLUMN_ID AS "Id",
-        C.TABLE_NAME AS "TableId",
-        C.COLUMN_NAME AS "Name",
-        C.DATA_TYPE AS "DbType",
-        C.DATA_LENGTH AS "DataLength",
-        NVL(CC.COMMENTS,C.COLUMN_NAME) AS "Description",
-        to_number(CASE C.NULLABLE WHEN 'N' THEN '1' ELSE '0' END) AS "IsNullable",
-        to_number('0') AS "AutoIncrement",
-        to_number(CASE P.COLUMN_NAME WHEN 'P' THEN '1' ELSE '0' END) AS "IsPrimaryKey"
+      C.COLUMN_ID AS "Id",
+      C.TABLE_NAME AS "TableId",
+      C.COLUMN_NAME AS "Name",
+      C.DATA_TYPE AS "DbType",
+      C.DATA_LENGTH AS "DataLength",
+      NVL(CC.COMMENTS,C.COLUMN_NAME) AS "Description",
+      to_number(CASE C.NULLABLE WHEN 'N' THEN '1' ELSE '0' END) AS "IsNullable",
+      to_number('0') AS "AutoIncrement",
+      to_number(CASE WHEN P.COLUMN_NAME = C.COLUMN_NAME THEN '1' ELSE '0' END) AS "IsPrimaryKey"
       FROM USER_TAB_COLUMNS C
       LEFT JOIN USER_COL_COMMENTS CC ON C.TABLE_NAME = CC.TABLE_NAME AND C.COLUMN_NAME = CC.COLUMN_NAME
       LEFT JOIN (
-        SELECT CU.COLUMN_NAME FROM USER_CONS_COLUMNS CU
-        LEFT JOIN USER_CONSTRAINTS AU ON CU.CONSTRAINT_NAME = AU.CONSTRAINT_NAME
-        WHERE CU.TABLE_NAME = :TableName AND AU.CONSTRAINT_TYPE='P'
+      SELECT CU.COLUMN_NAME FROM USER_CONS_COLUMNS CU
+      LEFT JOIN USER_CONSTRAINTS AU ON CU.CONSTRAINT_NAME = AU.CONSTRAINT_NAME
+      WHERE CU.TABLE_NAME = :TableName AND AU.CONSTRAINT_TYPE='P'
       )P ON C.COLUMN_NAME = P.COLUMN_NAME
       WHERE C.TABLE_NAME = :TableName ORDER BY C.COLUMN_ID
     </Statement>
