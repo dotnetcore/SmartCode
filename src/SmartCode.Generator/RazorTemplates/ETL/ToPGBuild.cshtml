@@ -25,12 +25,14 @@
         {
             case "Full": { return ""; }
             case "ModifyTime":
+            case "LastQueryTime":
             case "QueryTime":
                 {
                     Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
                     sql = $"{modifyTime}>@LastQueryTime";
                     break;
                 }
+            case "LastMaxId":
             case "MaxId":
             default:
                 {

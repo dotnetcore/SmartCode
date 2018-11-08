@@ -8,7 +8,7 @@
       FROM
       pg_tables T
       WHERE
-      schemaname = 'public')
+      schemaname = @DbSchema)
       UNION ALL
       (SELECT
       V.viewname AS "Name",
@@ -16,37 +16,32 @@
       FROM
       pg_views V
       WHERE
-      schemaname = 'public')
+      schemaname = @DbSchema)
     </Statement>
     <Statement Id="QueryColumn">
-      Select
-      a.attname as "Name",
-      t.typname as "DbType",
-      (
-      Case a.atttypmod
-      When -1 Then (a.attlen*c.relnatts)
-      Else (a.atttypmod-4) End
-      )As "DataLength",
-      (
-      Case a.attnotnull
-      When 't' Then 0
-      Else 1 End
-      ) AS "IsNullable",
-      (
-      Case a.attnum
-      When cs.conkey[1] Then 1
-      Else 0 End
-      ) As "IsPrimaryKey",
-      (
-      Case When pg_get_serial_sequence(c.relname, a.attname) Is Null Then 0
-      Else 1 End
-      )As  "AutoIncrement",
-      col_description(a.attrelid,a.attnum) as "Description"
-      From pg_class c
-      Left Join pg_attribute a on a.attrelid=c.oid
-      Left Join pg_type t on t.oid=a.atttypid
-      Left Join pg_constraint cs on cs.conrelid=c.oid and cs.contype='p'
-      Where a.attnum>0 and t.typname is not null and c.relname=@TableName
+      SELECT
+      a.attname AS "Name",
+      col.udt_name AS "DbType",
+      COALESCE ( col.character_maximum_length, col.numeric_precision,- 1 ) AS "DataLength",
+      col.numeric_scale AS "Scale",
+      ( CASE a.attnotnull WHEN 't' THEN 0 ELSE 1 END ) AS "IsNullable",
+      ( CASE a.attnum WHEN cs.conkey [ 1 ] THEN 1 ELSE 0 END ) AS "IsPrimaryKey",
+      ( CASE WHEN position( 'nextval' IN col.column_default ) > 0 THEN 1 ELSE 0 END ) AS "AutoIncrement",
+      col_description ( a.attrelid, a.attnum ) AS "Description"
+      FROM
+      pg_attribute a
+      LEFT JOIN pg_class c ON a.attrelid = c.oid
+      LEFT JOIN pg_constraint cs ON cs.conrelid = c.oid
+      AND cs.contype = 'p'
+      LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+      LEFT JOIN information_schema.COLUMNS col ON col.table_schema = n.nspname
+      AND col.table_name = c.relname
+      AND col.column_name = a.attname
+      WHERE
+      a.attnum > 0
+      AND c.relname = @TableName
+      AND n.nspname = @DbSchema
+      order by a.attnum asc
     </Statement>
   </Statements>
 </SmartSqlMap>

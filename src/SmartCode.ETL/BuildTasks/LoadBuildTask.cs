@@ -62,6 +62,7 @@ namespace SmartCode.ETL.BuildTasks
             {
                 { "LastMaxId",lastExtract.MaxId},
                 { "LastQueryTime",lastExtract.QueryTime},
+                { "LastMaxModifyTime",lastExtract.MaxModifyTime},
             };
             Stopwatch stopwatch = Stopwatch.StartNew();
             var loadEntity = new Entity.ETLLoad

@@ -19,6 +19,7 @@ namespace SmartCode.Db
         public string DbProviderName { get; private set; }
         public DbProvider DbProvider { get { return (DbProvider)Enum.Parse(typeof(DbProvider), DbProviderName); } }
         public string DbName { get; private set; }
+        public string DbSchema { get; protected set; }
         public string ConnectionString { get; private set; }
         public String SqlMapPath { get; private set; } = "Maps";
         public DbRepository(
@@ -34,9 +35,16 @@ namespace SmartCode.Db
         private void InitDataSource()
         {
             var dataSource = _dataSource;
-            DbProviderName = dataSource.Paramters["DbProvider"].ToString();
-            DbName = dataSource.Paramters["DbName"].ToString();
-            ConnectionString = dataSource.Paramters["ConnectionString"].ToString();
+            dataSource.Paramters.EnsureValue("DbProvider", out string dbProvider);
+            DbProviderName = dbProvider;
+            dataSource.Paramters.EnsureValue("DbName", out string dbName);
+            DbName = dbName;
+            dataSource.Paramters.EnsureValue("ConnectionString", out string connectionString);
+            ConnectionString = connectionString;
+            if (dataSource.Paramters.Value("DbSchema", out string dbSchema))
+            {
+                DbSchema = dbSchema;
+            }
             if (dataSource.Paramters.Value("SqlMapPath", out string mapPath))
             {
                 SqlMapPath = mapPath;
