@@ -29,7 +29,7 @@
 }
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="@assemblyName" namespace="@namespaceName">
-    
+
     <class name="@table.ConvertedName" table="@table.Name">
 
     @if (pkCols.Count() == 1) {
@@ -46,8 +46,8 @@
     }
 
     @foreach (var col in normalCols) {
-        <property name="@col.ConvertedName" column="@col.Name" type="@col.LanguageType" length="@col.DataLength" />
+        <property name="@col.ConvertedName" column="@col.Name" type="@col.LanguageType" @if (col.LanguageType == "string") { <text>length="@col.DataLength" </text> }/>
     }
     </class>
-    
+
 </hibernate-mapping>

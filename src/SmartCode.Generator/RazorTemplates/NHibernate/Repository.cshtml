@@ -1,0 +1,21 @@
+@using SmartCode
+@using SmartCode.Db
+@using SmartCode.Generator.Entity
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCols = table.Columns.Where(col => col.IsPrimaryKey);
+    var normalCols = table.Columns.Where(col => !col.IsPrimaryKey);
+    var newLine = Environment.NewLine;
+}
+using System;
+using namespace @(project.Module).@(buildTask.Module).Entities;
+
+namespace @(project.Module).@(buildTask.Module).Repository {
+
+    public interface @($"I{table.ConvertedName}Repository") extends IRepository<Tkey, TEntity> {
+    }
+
+}

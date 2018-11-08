@@ -32,7 +32,7 @@ using System;
 namespace @(project.Module).@(buildTask.Module).Entities {
 
     @($"/// <summary>{table.Description ?? table.ConvertedName}</summary>")
-    public class @table.ConvertedName {
+    public partial class @table.ConvertedName {
 
     @foreach (var col in pkCols) {
         @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
@@ -41,7 +41,7 @@ namespace @(project.Module).@(buildTask.Module).Entities {
 
     @foreach (var col in normalCols) {
         @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
-        @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")                                                                                  
+        @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
     }
 
     }
