@@ -14,7 +14,7 @@
     <PackageReference Include="MySql.Data" Version="8.0.13" />
     <PackageReference Include="Npgsql" Version="4.0.3" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />
-    <PackageReference Include="SmartSql" Version="3.8.2" />
+    <PackageReference Include="SmartSql" Version="3.8.4" />
     <PackageReference Include="SmartSql.Options" Version="3.7.18" />
   </ItemGroup>
 
