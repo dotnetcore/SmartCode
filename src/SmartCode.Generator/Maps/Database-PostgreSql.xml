@@ -4,17 +4,21 @@
     <Statement Id="QueryTable">
       (SELECT
       T.tablename AS "Name",
-      'T' AS "TypeName"
+      'T' AS "TypeName",
+      obj_description(C.oid) As "Description"
       FROM
       pg_tables T
+      left join pg_class C on C.relname = T.tablename and C.relkind = 'r'
       WHERE
       schemaname = @DbSchema)
       UNION ALL
       (SELECT
       V.viewname AS "Name",
-      'V' AS "TypeName"
+      'V' AS "TypeName",
+      obj_description(C.oid) as "Description"
       FROM
       pg_views V
+      left join pg_class C on C.relname = V.viewname and C.relkind = 'v'
       WHERE
       schemaname = @DbSchema)
     </Statement>
