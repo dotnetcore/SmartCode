@@ -29,13 +29,18 @@
     }
 
 }
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Beginor.AppFx.Repository.Hibernate;
 using NHibernate;
+using NHibernate.Linq;
 using @(project.Module).@(buildTask.Module).Entities;
 
 namespace @(project.Module).@(buildTask.Module).Repositories {
 
-    public partial class @(table.ConvertedName)Repository : HibernateRepository<@(table.ConvertedName)Entity, @(ConvertLangType(firstPk))> {
+    public partial class @(table.ConvertedName)Repository : HibernateRepository<@(table.ConvertedName)Entity, @(ConvertLangType(firstPk))>, I@(table.ConvertedName)Repository {
 
         public @(table.ConvertedName)Repository(ISessionFactory sessionFactory) : base(sessionFactory) {
 
