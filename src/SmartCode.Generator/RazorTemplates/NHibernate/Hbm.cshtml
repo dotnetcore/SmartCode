@@ -34,7 +34,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="@assemblyName" namespace="@namespaceName">
 
-    <class name="@table.ConvertedName" table="@table.Name" @if (!string.IsNullOrEmpty(schema)) { <text>schema="@schema"</text> }>
+    <class name="@($"{table.ConvertedName}Entity")" table="@table.Name" @if (!string.IsNullOrEmpty(schema)) { <text>schema="@schema"</text> }>
 
     @if (pkCols.Count() == 1) {
         <id name="Id" column="@pkCols.First().Name" type="@pkCols.First().LanguageType">

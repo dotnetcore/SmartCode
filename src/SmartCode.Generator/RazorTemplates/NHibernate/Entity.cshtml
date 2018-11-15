@@ -35,7 +35,7 @@ using Beginor.AppFx.Core;
 namespace @(project.Module).@(buildTask.Module).Entities {
 
     @($"/// <summary>{table.Description ?? table.ConvertedName}</summary>")
-    public partial class @table.ConvertedName @if (pkCount == 1) { <text>: BaseEntity<@firstPk.LanguageType> </text> } {
+    public partial class @(table.ConvertedName + "Entity") @if (pkCount == 1) { <text>: BaseEntity<@firstPk.LanguageType> </text> } {
 
     @if (pkCount > 1) {
         @foreach (var col in pkCols) {

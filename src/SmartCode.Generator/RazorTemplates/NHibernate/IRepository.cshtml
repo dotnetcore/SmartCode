@@ -29,17 +29,12 @@
     }
 
 }
-using Beginor.AppFx.Repository.Hibernate;
-using NHibernate;
+using Beginor.AppFx.Core;
 using @(project.Module).@(buildTask.Module).Entities;
 
 namespace @(project.Module).@(buildTask.Module).Repositories {
 
-    public partial class @(table.ConvertedName)Repository : HibernateRepository<@(table.ConvertedName)Entity, @(ConvertLangType(firstPk))> {
-
-        public @(table.ConvertedName)Repository(ISessionFactory sessionFactory) : base(sessionFactory) {
-
-        }
+    public partial interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName)Entity, @(ConvertLangType(firstPk))> {
 
     }
 

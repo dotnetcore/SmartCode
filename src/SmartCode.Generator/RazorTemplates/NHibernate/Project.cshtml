@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Beginor.AppFx.Core" Version="2.2.0" />
+    <PackageReference Include="Beginor.AppFx.Repository.Hibernate" Version="2.2.0" />
+    <PackageReference Include="NHibernate" Version="5.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Entities\*.hbm.xml" />
+    <EmbeddedResource Include="Entities\*.hbm.xml" />
+  </ItemGroup>
+
+</Project>

@@ -1,5 +1,5 @@
 Module: DvdRental
-Author: Beginor
+Author: Beginor (https://github.com/beginor/SmartCode)
 DataSource:
   Name: DbTable
   Paramters:
@@ -15,16 +15,23 @@ Output:
   Mode: Full
 
 Build:
-
+  Scaffolding:
+    Type: MultiTemplate
+    Output:
+      Path: '.'
+    Paramters:
+      Templates: [
+          { Key: "NHibernate/Project.cshtml", Output: { Path: '{{Project.Module}}.Data', Name: '{{Project.Module}}.Data', Extension: '.csproj' } },
+        ]
   Entities:
     Type: Table
     Module: Data
-    IncludeTables: ["actor", "address", "category", "city", "country", "customer", "film", "film_actor", "film_category", "inventory", "language", "payment", "rental", "staff", "store"]
-    IgnoreTables: ["film_actor", "film_category"]
+    IncludeTables: ["actor", "category"]
+    IgnoreTables: []
     Template: NHibernate/Entity.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'
-      Name: '{{Items.CurrentTable.ConvertedName}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}Entity'
       Extension: '.cs'
     NamingConverter:
       Table:
@@ -54,13 +61,83 @@ Build:
   Hbm:
     Type: Table
     Module: Data
-    IncludeTables: ["actor", "address", "category", "city", "country", "customer", "film", "film_actor", "film_category", "inventory", "language", "payment", "rental", "staff", "store"]
-    IgnoreTables: ["film_actor", "film_category"]
+    IncludeTables: ["actor", "category"]
+    IgnoreTables: []
     Template: NHibernate/Hbm.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.hbm.xml'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Paramters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  IRepository:
+    Type: Table
+    Module: Data
+    IncludeTables: ["actor", "category"]
+    IgnoreTables: []
+    Template: NHibernate/IRepository.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}/Repositories'
+      Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Paramters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  Repository:
+    Type: Table
+    Module: Data
+    IncludeTables: ["actor", "category"]
+    IgnoreTables: []
+    Template: NHibernate/Repository.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}/Repositories'
+      Name: '{{Items.CurrentTable.ConvertedName}}Repository'
+      Extension: '.cs'
     NamingConverter:
       Table:
         Tokenizer:
