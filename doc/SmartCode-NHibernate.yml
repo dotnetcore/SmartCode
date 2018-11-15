@@ -1,24 +1,26 @@
-Module: HuiTian.SampleProject
-Author: Ahoo Wang
+Module: DvdRental
+Author: Beginor
 DataSource:
   Name: DbTable
   Paramters:
-    DbName: sde_pg_10_3
+    DbName: test_db
     DbProvider: PostgreSql
-    ConnectionString: server=docker703.gdepb.gov.cn;port=2932;database=sde_pg_10_3;user id=postgres;password=pgsql_93;
+    ConnectionString: server=127.0.0.1;port=5432;database=dvd_rental;user id=postgres;password=1a2b3c4D;
+    DbSchema: public
 Language: CSharp
 TemplateEngine: Razor
 Output:
   Type: File
-  Path: '/Users/zhang/Desktop/sample-project'
+  Path: '/Users/zhang/Projects/smart-code-sample-project'
+  Mode: Full
 
 Build:
 
   Entities:
     Type: Table
     Module: Data
-    IncludeTables: ["om3_ps_info"]
-    IgnoreTables: ["water_source"]
+    IncludeTables: ["actor", "address", "category", "city", "country", "customer", "film", "film_actor", "film_category", "inventory", "language", "payment", "rental", "staff", "store"]
+    IgnoreTables: ["film_actor", "film_category"]
     Template: NHibernate/Entity.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'
@@ -52,8 +54,8 @@ Build:
   Hbm:
     Type: Table
     Module: Data
-    IncludeTables: ["om3_ps_info"]
-    IgnoreTables: ["water_source"]
+    IncludeTables: ["actor", "address", "category", "city", "country", "customer", "film", "film_actor", "film_category", "inventory", "language", "payment", "rental", "staff", "store"]
+    IgnoreTables: ["film_actor", "film_category"]
     Template: NHibernate/Hbm.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'

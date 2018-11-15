@@ -6,7 +6,9 @@
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
-    var pkCols = table.Columns.Where(col => col.IsPrimaryKey);
+    var pkCols = table.Columns.Where(col => col.IsPrimaryKey).ToArray();
+    var pkCount = pkCols.Count();
+    var firstPk = pkCols.First();
     var normalCols = table.Columns.Where(col => !col.IsPrimaryKey);
     var newLine = Environment.NewLine;
 }
@@ -28,20 +30,52 @@
 
 }
 using System;
+using Beginor.AppFx.Core;
 
 namespace @(project.Module).@(buildTask.Module).Entities {
 
     @($"/// <summary>{table.Description ?? table.ConvertedName}</summary>")
-    public partial class @table.ConvertedName {
+    public partial class @table.ConvertedName @if (pkCount == 1) { <text>: BaseEntity<@firstPk.LanguageType> </text> } {
 
-    @foreach (var col in pkCols) {
-        @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
-        @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
+    @if (pkCount > 1) {
+        @foreach (var col in pkCols) {
+            @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
+            @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
+        }
     }
 
     @foreach (var col in normalCols) {
         @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
         @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
+    }
+
+    @if (pkCount > 1) {
+        @(Html.PadLeft(8) + $"public bool Equals({table.ConvertedName} other) {{{newLine}")
+        @(Html.PadLeft(12) + $"unchecked {{{newLine}")
+        @(Html.PadLeft(16) + $"int hashCode;{newLine}")
+        @for (var i = 0; i < pkCols.Length; i++) {
+            if (i == 0) {
+                @(Html.PadLeft(16) + $"hashCode = {pkCols[i].ConvertedName}.GetHashCode();{newLine}")
+            }
+            else {
+                @(Html.PadLeft(16) + $"hashCode = (hashCode * 397) ^ {pkCols[i].ConvertedName}.GetHashCode();{newLine}")
+            }
+        }
+        @(Html.PadLeft(16) + $"return hashCode;{newLine}")
+        @(Html.PadLeft(12) + $"}}{newLine}")
+        @(Html.PadLeft(8) + $"}}{newLine}{newLine}")
+        @(Html.PadLeft(8) + $"public override bool Equals(object obj) {{{newLine}")
+        @(Html.PadLeft(12) + $"if (ReferenceEquals(null, obj)) {{{newLine}")
+        @(Html.PadLeft(16) + $"return false;{newLine}")
+        @(Html.PadLeft(12) + $"}}{newLine}")
+        @(Html.PadLeft(12) + $"if (ReferenceEquals(this, obj)) {{{newLine}")
+        @(Html.PadLeft(16) + $"return true;{newLine}")
+        @(Html.PadLeft(12) + $"}}{newLine}")
+        @(Html.PadLeft(12) + $"if (obj.GetType() != this.GetType()) {{{newLine}")
+        @(Html.PadLeft(16) + $"return false;{newLine}")
+        @(Html.PadLeft(12) + $"}}{newLine}")
+        @(Html.PadLeft(12) + $"return Equals(({table.ConvertedName})obj);{newLine}")
+        @(Html.PadLeft(8) + $"}}{newLine}")
     }
 
     }

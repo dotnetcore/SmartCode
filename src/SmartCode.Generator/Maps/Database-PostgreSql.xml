@@ -29,7 +29,14 @@
       COALESCE ( col.character_maximum_length, col.numeric_precision,- 1 ) AS "DataLength",
       col.numeric_scale AS "Scale",
       ( CASE a.attnotnull WHEN 't' THEN 0 ELSE 1 END ) AS "IsNullable",
-      ( CASE a.attnum WHEN cs.conkey [ 1 ] THEN 1 ELSE 0 END ) AS "IsPrimaryKey",
+      ( select
+      count(kcu.column_name) > 0
+      from information_schema.table_constraints tc
+      inner join information_schema.key_column_usage kcu on tc.constraint_name = kcu.constraint_name
+      where tc.table_schema = n.nspname
+      and tc.table_name = c.relname
+      and tc.constraint_type = 'PRIMARY KEY' and kcu.column_name = a.attname
+      ) AS "IsPrimaryKey",
       ( CASE WHEN position( 'nextval' IN col.column_default ) > 0 THEN 1 ELSE 0 END ) AS "AutoIncrement",
       col_description ( a.attrelid, a.attnum ) AS "Description"
       FROM
