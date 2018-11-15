@@ -5,7 +5,7 @@ DataSource:
   Paramters:
     DbName: test_db
     DbProvider: PostgreSql
-    ConnectionString: server=127.0.0.1;port=5432;database=dvd_rental;user id=postgres;password=1a2b3c4D;
+    ConnectionString: server=127.0.0.1;port=5432;database=dvd_rental;user id=postgres;password=YOUR_PASSWORD;
     DbSchema: public
 Language: CSharp
 TemplateEngine: Razor
