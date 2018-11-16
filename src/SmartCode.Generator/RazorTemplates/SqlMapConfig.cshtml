@@ -20,8 +20,16 @@
     </Database>
 
     <TypeHandlers>
-        <TypeHandler Name="Json" Type="SmartSql.TypeHandler.JsonTypeHandler,SmartSql.TypeHandler" />
-        <TypeHandler Name="Xml" Type="SmartSql.TypeHandler.XmlTypeHandler,SmartSql.TypeHandler" />
+        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
+        {
+            <TypeHandler Name="Json" Type="SmartSql.TypeHandler.PostgreSql.JsonTypeHandler,SmartSql.TypeHandler.PostgreSql" />
+            <TypeHandler Name="Jsonb" Type="SmartSql.TypeHandler.PostgreSql.JsonbTypeHandler,SmartSql.TypeHandler.PostgreSql" />
+        }
+        else
+        {
+            <TypeHandler Name="Json" Type="SmartSql.TypeHandler.JsonTypeHandler,SmartSql.TypeHandler" />
+            <TypeHandler Name="Xml" Type="SmartSql.TypeHandler.XmlTypeHandler,SmartSql.TypeHandler" />
+        }
     </TypeHandlers>
     <SmartSqlMaps>
         <SmartSqlMap Path="Maps" Type="Directory"></SmartSqlMap>
