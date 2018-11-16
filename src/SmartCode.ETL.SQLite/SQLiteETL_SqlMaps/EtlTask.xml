@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+//*******************************
+// Create By Ahoo Wang
+// Date 2018-10-30 23:09
+// Code Generate By SmartCode
+// Code Generate Github : https://github.com/Ahoo-Wang/SmartCode
+//*******************************-->
+
+<SmartSqlMap Scope="EtlTask" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+  <ResultMaps>
+    <ResultMap Id="EtlTaskResultMap">
+      <Result Column="id" Property="Id" />
+      <Result Column="code" Property="Code" />
+      <Result Column="config_path" Property="ConfigPath" />
+      <Result Column="start_time" Property="StartTime" />
+      <Result Column="extract" Property="Extract"  TypeHandler="Json"/>
+      <Result Column="transform" Property="Transform"  TypeHandler="Json"/>
+      <Result Column="load" Property="Load"  TypeHandler="Json"/>
+      <Result Column="extend_data" Property="ExtendData" TypeHandler="Json"/>
+      <Result Column="status" Property="Status" />
+      <Result Column="version" Property="Version" />
+      <Result Column="completed_time" Property="CompletedTime" />
+      <Result Column="modify_time" Property="ModifyTime" />
+      <Result Column="create_time" Property="CreateTime" />
+    </ResultMap>
+  </ResultMaps>
+  <ParameterMaps>
+    <ParameterMap Id="EtlTaskParameterMap">
+      <Parameter Property="Extract"  TypeHandler="Json"/>
+      <Parameter Property="Transform"  TypeHandler="Json"/>
+      <Parameter Property="Load"  TypeHandler="Json"/>
+      <Parameter Property="ExtendData"  TypeHandler="Json"/>
+    </ParameterMap>
+  </ParameterMaps>
+  <Statements>
+    <Statement Id="QueryParams">
+      <Where>
+        <IsNotEmpty Prepend="And" Property="ConfigPath">
+          config_path=$ConfigPath
+        </IsNotEmpty>
+      </Where>
+    </Statement>
+
+    <!--新增-->
+    <Statement Id="Insert" ParameterMap="EtlTaskParameterMap">
+      INSERT INTO etl_task
+      (
+      code,
+      config_path,
+      start_time,
+      extract,
+      transform,
+      load,
+      extend_data,
+      status,
+      version,
+      completed_time,
+      modify_time,
+      create_time
+      )
+      VALUES
+      (
+      $Code,
+      $ConfigPath,
+      $StartTime,
+      $Extract,
+      $Transform,
+      $Load,
+      $ExtendData,
+      $Status,
+      $Version,
+      $CompletedTime,
+      $ModifyTime,
+      $CreateTime
+      );
+      select last_insert_rowid() From etl_task;
+    </Statement>
+
+    <!--删除-->
+    <Statement Id="Delete">
+      Delete From etl_task
+      Where id=$Id
+    </Statement>
+
+    <!--更新-->
+    <Statement Id="Update" ParameterMap="EtlTaskParameterMap">
+      UPDATE etl_task
+      <Set>
+        modify_time=datetime('now'),
+        version = version+1
+        <IsProperty Prepend="," Property="Code">
+          code = $Code
+        </IsProperty>
+        <IsProperty Prepend="," Property="ConfigPath">
+          config_path = $ConfigPath
+        </IsProperty>
+        <IsProperty Prepend="," Property="StartTime">
+          start_time = $StartTime
+        </IsProperty>
+        <IsProperty Prepend="," Property="Extract">
+          extract = $Extract
+        </IsProperty>
+        <IsProperty Prepend="," Property="Transform">
+          transform = $Transform
+        </IsProperty>
+        <IsProperty Prepend="," Property="Load">
+          load = $Load
+        </IsProperty>
+        <IsProperty Prepend="," Property="ExtendData">
+          extend_data = $ExtendData
+        </IsProperty>
+        <IsProperty Prepend="," Property="Status">
+          status = status|$Status
+        </IsProperty>
+        <IsProperty Prepend="," Property="CompletedTime">
+          completed_time = $CompletedTime
+        </IsProperty>
+        <IsProperty Prepend="," Property="CreateTime">
+          create_time = $CreateTime
+        </IsProperty>
+      </Set>
+      Where id=$Id
+    </Statement>
+
+    <!--获取数据列-->
+    <Statement Id="Query" ResultMap="EtlTaskResultMap">
+      SELECT T.* From etl_task T
+      <Include RefId="QueryParams" />
+      <Switch Prepend="Order By" Property="OrderBy">
+        <Default>
+          T.id Desc
+        </Default>
+      </Switch>
+      <IsNotEmpty Prepend="Limit" Property="Taken">$Taken</IsNotEmpty>
+    </Statement>
+
+    <!--获取分页数据-->
+    <Statement Id="QueryByPage" ResultMap="EtlTaskResultMap">
+      Select T.* From etl_task As T
+      <Include RefId="QueryParams" />
+      <Switch Prepend="Order By" Property="OrderBy">
+        <Default>
+          T.id Desc
+        </Default>
+      </Switch>
+      Limit $PageSize Offset $Offset
+    </Statement>
+
+
+    <!--获取记录数-->
+    <Statement Id="GetRecord">
+      Select Count(1) From etl_task T
+      <Include RefId="QueryParams" />
+    </Statement>
+
+    <!--获取表映射实体-->
+    <Statement Id="GetEntity" ResultMap="EtlTaskResultMap">
+      Select T.* From etl_task As T
+      <Where>
+        <IsNotEmpty Prepend="And" Property="Id">
+          T.id= $Id
+        </IsNotEmpty>
+      </Where>
+      Order By Id Desc
+      Limit 1
+    </Statement>
+    <Statement Id="GetLastTask" ResultMap="EtlTaskResultMap">
+      Select T.* From etl_task As T
+      <Where>
+        code=$Code
+      </Where>
+      Order By Id Desc
+      Limit 1
+    </Statement>
+    <Statement Id="GetLastExtract" ResultMap="EtlTaskResultMap">
+      Select T.extract From etl_task As T
+      <Where>
+        code=$Code and <![CDATA[status&4=4]]>
+      </Where>
+      Order By Id Desc
+      Limit 1
+    </Statement>
+    <!--是否存在该记录-->
+    <Statement Id="IsExist">
+      Select Count(1) From etl_task T
+      <Include RefId="QueryParams" />
+    </Statement>
+
+
+  </Statements>
+</SmartSqlMap>

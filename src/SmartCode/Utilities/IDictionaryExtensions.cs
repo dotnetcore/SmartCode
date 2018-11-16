@@ -10,6 +10,7 @@ namespace System.Collections.Generic
         public static bool Value<TKey, TValue, TTypedValue>(this IDictionary<TKey, TValue> dic, TKey key, out TTypedValue value)
         {
             value = default;
+            if (dic == null) { return false; }
             if (!dic.TryGetValue(key, out TValue val))
             {
                 return false;
