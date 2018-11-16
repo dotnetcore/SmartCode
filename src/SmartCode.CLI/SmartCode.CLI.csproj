@@ -20,10 +20,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.16.18</Version>
+    <Version>1.16.19</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>
-      1. fix https://github.com/Ahoo-Wang/SmartCode/issues/19
+      1. support for Sqlserver paging syntax By [Offset Fetch]
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

@@ -1,11 +1,19 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@using SmartCode.CLI
+@using System.Text.RegularExpressions
 @model BuildContext
 @{
     Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
+    var versionNo = 2008;
+    var sqlServerVersion = dbSource.DbRepository.SqlMapper.ExecuteScalar<String>(new SmartSql.Abstractions.RequestContext
+    {
+        RealSql = "Select @@Version;"
+    });
+    var versionRegex = new Regex(@"^Microsoft SQL Server (\d*)", RegexOptions.Singleline);
+    var versionNoStr = versionRegex.Match(sqlServerVersion).Groups[1].Value;
+    int.TryParse(versionNoStr, out versionNo);
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var pkCol = table.PKColumn;
@@ -25,10 +33,23 @@
     {
     <!--获取分页数据-->
     <Statement Id="QueryByPage" @queryStatementResultMap>
-        Select TT.* From
-        (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
-        <Include RefId="QueryParams" />) TT
-        Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
+        @if (versionNo > 2012)
+        {
+            <text>
+                Select T.* From @table.Name T With(NoLock)
+                Order By T.@pkCol.Name Desc
+                Offset ((@@PageIndex-1)*@@PageSize) Rows Fetch Next @@PageSize Rows Only;
+            </text>
+        }
+        else
+        {
+            <text>
+                Select TT.* From
+                (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
+                <Include RefId="QueryParams" />) TT
+                Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize);
+            </text>
+        }
     </Statement>
 }
 @section GetEntity
@@ -48,7 +69,7 @@
     {
     <!--获取数据列-->
     <Statement Id="Query" @queryStatementResultMap>
-        SELECT 
+        SELECT
         <IsNotEmpty Prepend="Top" Property="Taken">
             (@(prefix)Taken)
         </IsNotEmpty>

@@ -1,6 +1,5 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@using SmartCode.CLI
 @model BuildContext
 @{
     Layout = "_SqlMapLayout.cshtml";
@@ -14,15 +13,6 @@
     {
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
-    //if (build.Paramters != null
-    //&& build.Paramters.TryGetValue("ColumnNameFormat", out string colNameFormatStr))
-    //{
-    //    var colNameFormat = HandlebarsDotNet.Handlebars.Compile(colNameFormatStr);
-    //    foreach (var col in table.Columns)
-    //    {
-    //        col.Name = colNameFormat(col);
-    //    }
-    //}
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
     var prefix = dbSource.DbProvider.ParameterPrefix;
