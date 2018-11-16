@@ -173,7 +173,7 @@ Build:
 | 参数名        | 说明                           |
 | :------------ | -----------------------------: |
 | ETLCode       | ETL任务Code,区分任务类型，唯一 |
-| ETLRepository | ETL任务持久化仓储，None/PG     |
+| ETLRepository | ETL任务持久化仓储，None/PG/SQLite|
 
 ### DataSource 参数说明
 

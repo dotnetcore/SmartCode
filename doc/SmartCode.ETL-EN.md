@@ -173,7 +173,7 @@ Build:
 | Parameter Name | Description |
 | :------------ | -----------------------------: |
 | ETLCode | ETL Task Code, distinguishing task types, unique |
-| ETLRepository | ETL Task Persistence Warehousing, None/PG |
+| ETLRepository | ETL Task Persistence Repository, None/PG/SQLite |
 
 ### DataSource Parameter Description
 
