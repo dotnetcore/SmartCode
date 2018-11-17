@@ -1,5 +1,4 @@
 @using SmartCode
-@using SmartCode.Db
 @using SmartCode.Generator.Entity
 @model BuildContext
 @{
@@ -13,8 +12,7 @@
     var newLine = Environment.NewLine;
 }
 @functions {
-
-    public string ConvertLangType(Column column) {
+    string ConvertLangType(Column column) {
         if (String.IsNullOrEmpty(column.LanguageType)) {
             return "NAType";
         }
@@ -27,7 +25,6 @@
         }
         return $"{column.LanguageType}?";
     }
-
 }
 using System;
 using Beginor.AppFx.Core;
@@ -38,7 +35,7 @@ namespace @(project.Module).@(buildTask.Module).Entities {
     public partial class @(table.ConvertedName + "Entity") @if (pkCount == 1) { <text>: BaseEntity<@firstPk.LanguageType> </text> } {
 
     @if (pkCount > 1) {
-        @foreach (var col in pkCols) {
+        foreach (var col in pkCols) {
             @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
             @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
         }
@@ -53,7 +50,7 @@ namespace @(project.Module).@(buildTask.Module).Entities {
         @(Html.PadLeft(8) + $"public bool Equals({table.ConvertedName} other) {{{newLine}")
         @(Html.PadLeft(12) + $"unchecked {{{newLine}")
         @(Html.PadLeft(16) + $"int hashCode;{newLine}")
-        @for (var i = 0; i < pkCols.Length; i++) {
+        for (var i = 0; i < pkCols.Length; i++) {
             if (i == 0) {
                 @(Html.PadLeft(16) + $"hashCode = {pkCols[i].ConvertedName}.GetHashCode();{newLine}")
             }

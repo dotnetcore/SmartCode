@@ -1,7 +1,16 @@
+@model SmartCode.BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var assemblyName = $"{project.Module}.{buildTask.Module}";
+    var rootNamespace = $"{project.Module}.{buildTask.Module}";
+}
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+      <TargetFramework>netstandard2.0</TargetFramework>
+      <AssemblyName>@assemblyName</AssemblyName>
+      <RootNamespace>@rootNamespace</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

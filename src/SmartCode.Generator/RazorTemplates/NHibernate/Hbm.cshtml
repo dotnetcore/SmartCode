@@ -1,8 +1,4 @@
-@using System.Globalization
-@using System.Xml
-@using System.Xml.Linq
 @using SmartCode
-@using SmartCode.Db
 @using SmartCode.Generator.Entity
 @model BuildContext
 @{
@@ -19,8 +15,7 @@
     var assemblyName = $"{project.Module}.{buildTask.Module}";
 }
 @functions {
-
-    private string GetGeneratorClass(Column col) {
+    string GetGeneratorClass(Column col) {
         if (col.LanguageType == "int") {
             return "sequence";
         }
@@ -29,7 +24,6 @@
         }
         return "assigned";
     }
-
 }
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="@assemblyName" namespace="@namespaceName">

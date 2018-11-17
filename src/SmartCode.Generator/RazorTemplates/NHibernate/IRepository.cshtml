@@ -1,5 +1,4 @@
 @using SmartCode
-@using SmartCode.Db
 @using SmartCode.Generator.Entity
 @model BuildContext
 @{
@@ -7,10 +6,7 @@
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var pkCols = table.Columns.Where(col => col.IsPrimaryKey).ToArray();
-    var pkCount = pkCols.Count();
     var firstPk = pkCols.First();
-    var normalCols = table.Columns.Where(col => !col.IsPrimaryKey);
-    var newLine = Environment.NewLine;
 }
 @functions {
 
