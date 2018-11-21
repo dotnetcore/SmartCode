@@ -10,13 +10,15 @@
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var pkCols = table.Columns.Where(col => col.IsPrimaryKey);
+    var firstPk = pkCols.FirstOrDefault();
     var normalCols = table.Columns.Where(col => !col.IsPrimaryKey);
     var namespaceName = $"{project.Module}.{buildTask.Module}.Entities";
     var assemblyName = $"{project.Module}.{buildTask.Module}";
+    var newLine = Environment.NewLine;
 }
 @functions {
     string GetGeneratorClass(Column col) {
-        if (col.LanguageType == "int") {
+        if (col.LanguageType == "int" && col.AutoIncrement) {
             return "sequence";
         }
         if (col.LanguageType == "long") {
@@ -31,8 +33,12 @@
     <class name="@($"{table.ConvertedName}Entity")" table="@table.Name" @if (!string.IsNullOrEmpty(schema)) { <text>schema="@schema"</text> }>
 
     @if (pkCols.Count() == 1) {
-        <id name="Id" column="@pkCols.First().Name" type="@pkCols.First().LanguageType">
-            <generator class="@GetGeneratorClass(pkCols.First())"></generator>
+        <id name="Id" column="@firstPk.Name" type="@firstPk.LanguageType">
+            <generator class="@GetGeneratorClass(firstPk)">
+            @if (firstPk.LanguageType == "int" && firstPk.AutoIncrement) {
+                @(Html.PadLeft(16) + $"<param name=\"sequence\">{table.Name}_{firstPk.Name}_seq\"</param>{newLine}")
+            }
+            </generator>
         </id>
     }
     else {
