@@ -20,10 +20,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.16.18</Version>
+    <Version>1.18.1</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>
-      1. fix https://github.com/Ahoo-Wang/SmartCode/issues/19
+      1. add support SmartCode.ETL.SQLite
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartCode.ETL.SQLite\SmartCode.ETL.SQLite.csproj" />
     <ProjectReference Include="..\SmartCode.App\SmartCode.App.csproj" />
     <ProjectReference Include="..\SmartCode.Db\SmartCode.Db.csproj" />
     <ProjectReference Include="..\SmartCode.ETL.PostgreSql\SmartCode.ETL.PostgreSql.csproj" />
@@ -45,6 +46,9 @@
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\doc\smartcode-etl.db" Link="smartcode-etl.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\..\doc\SmartCode-ETL.yml" Link="SmartCode-ETL.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

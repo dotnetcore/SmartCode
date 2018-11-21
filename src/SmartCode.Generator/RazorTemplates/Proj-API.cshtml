@@ -19,8 +19,16 @@
         {
             <PackageReference Include="@dbProviderName" Version="@dbProviderVersion" />
         }
-        <PackageReference Include="SmartSql.TypeHandler" Version="3.7.15" />
-        <PackageReference Include="SmartSql.DIExtension" Version="3.7.15" />
+        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
+        {
+            <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="1.0.0" />
+        }
+        else
+        {
+            <PackageReference Include="SmartSql.TypeHandler" Version="3.7.15" />
+        }
+
+        <PackageReference Include="SmartSql.DIExtension" Version="3.7.16" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
     </ItemGroup>
 

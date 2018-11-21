@@ -11,7 +11,7 @@ DataSource:
 
 Paramters:
   ETLCode: SmartCode.ETL.Test
-  ETLRepository: PG
+  ETLRepository: SQLite
   
 Build:
 

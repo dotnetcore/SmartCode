@@ -50,6 +50,7 @@
       AND col.column_name = a.attname
       WHERE
       a.attnum > 0
+      AND col.udt_name IS NOT NULL
       AND c.relname = @TableName
       AND n.nspname = @DbSchema
       order by a.attnum asc

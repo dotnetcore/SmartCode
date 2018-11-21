@@ -27,6 +27,7 @@ namespace @(project.Module).@buildTask.Module
 && autoIncrement)
         {
             <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
+            @Html.NewLine()
             @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
             @Html.NewLine()
         }

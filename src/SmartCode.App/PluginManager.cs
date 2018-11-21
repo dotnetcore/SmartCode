@@ -39,7 +39,7 @@ namespace SmartCode.App
             }
             else
             {
-                plugin = plugins.FirstOrDefault(m => m.Name == name);
+                plugin = plugins.FirstOrDefault(m => String.Equals(m.Name, name, StringComparison.CurrentCultureIgnoreCase));
                 if (plugin == null)
                 {
                     plugin = plugins.First();

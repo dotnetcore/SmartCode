@@ -1,39 +1,46 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using SmartCode.Db;
+using SmartCode.ETL.Entity;
+using SmartCode.Utilities;
+using SmartSql.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SmartCode.ETL.Entity;
-using SmartCode.Db;
-using Microsoft.Extensions.Logging;
-using SmartSql.Abstractions;
 
-namespace SmartCode.ETL.PostgreSql
+namespace SmartCode.ETL.SQLite
 {
-    public class PGETLRepository : IETLRepository
+    public class SQLiteETLRepository : IETLRepository
     {
         private const string CONNECTION_STRING = "ConnectionString";
+        private const string DB_NAME = "smartcode-etl.db";
         private readonly ILoggerFactory _loggerFactory;
-        private const string DEFAULT_SQLMAP_PATH = "PGETL_SqlMaps";
+        private const string DEFAULT_SQLMAP_PATH = "SQLiteETL_SqlMaps";
         public bool Initialized { get; private set; }
-        public string Name => "PG";
+        public string Name => "SQLite";
         public string Scope => "EtlTask";
         public ISmartSqlMapper SqlMapper { get; set; }
-        public PGETLRepository(ILoggerFactory loggerFactory)
+        public SQLiteETLRepository(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }
         public void Initialize(IDictionary<string, object> paramters)
         {
-            paramters.EnsureValue(CONNECTION_STRING, out string connectionString);
+            var connectionString = $"Data Source={AppPath.Relative(DB_NAME)};Version=3;";
+            if (paramters.Value(CONNECTION_STRING, out string connStr))
+            {
+                connectionString = connStr;
+            }
+
             SqlMapper = SmartSqlMapperFactory.Create(new SmartSqlMapperFactory.CreateSmartSqlMapperOptions
             {
-                Alias = "PGETLRepository",
+                Alias = "SQLiteETLRepository",
                 LoggerFactory = _loggerFactory,
-                ProviderName = "PostgreSql",
+                ProviderName = "SQLite",
                 SqlMapPath = DEFAULT_SQLMAP_PATH,
                 DataSource = new SmartSql.Configuration.WriteDataSource
                 {
                     ConnectionString = connectionString,
-                    Name = "PGETL"
+                    Name = "SQLiteETL"
                 }
             });
             Initialized = true;

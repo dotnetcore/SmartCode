@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL", "src\SmartC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL.PostgreSql", "src\SmartCode.ETL.PostgreSql\SmartCode.ETL.PostgreSql.csproj", "{60B49703-2352-477B-8F18-98CC229EEFDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCode.ETL.SQLite", "src\SmartCode.ETL.SQLite\SmartCode.ETL.SQLite.csproj", "{BB00F470-7D25-4F82-A410-1DB8BD458A5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{60B49703-2352-477B-8F18-98CC229EEFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60B49703-2352-477B-8F18-98CC229EEFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60B49703-2352-477B-8F18-98CC229EEFDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB00F470-7D25-4F82-A410-1DB8BD458A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB00F470-7D25-4F82-A410-1DB8BD458A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB00F470-7D25-4F82-A410-1DB8BD458A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB00F470-7D25-4F82-A410-1DB8BD458A5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{686D9B68-EE1F-426A-8AB2-70E8731C6E4C} = {7CAB5427-3BDA-4F40-82DA-9B8380101739}
 		{95071030-0C10-4771-B093-4F2626A39F9F} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
 		{60B49703-2352-477B-8F18-98CC229EEFDA} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
+		{BB00F470-7D25-4F82-A410-1DB8BD458A5E} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A45CDB0-E532-4F55-84C6-B82C98BE5F38}

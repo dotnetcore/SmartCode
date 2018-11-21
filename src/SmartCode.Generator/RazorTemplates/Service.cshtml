@@ -10,8 +10,8 @@
     var entityName = table.ConvertedName;
     var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
     var serviceName = $"{table.ConvertedName}Service";
-    var serviceCamelName = NamingUtil.CamelCase(serviceName);
     var repositoryName = $"{table.ConvertedName}Repository";
+    var repositoryCamelName = NamingUtil.CamelCase(repositoryName);
 }
 
 using System;
@@ -25,9 +25,9 @@ namespace @(project.Module).Service
     {
     public I@(repositoryName) @repositoryName { get; }
 
-    public @serviceName (I@(repositoryName) @serviceCamelName)
+    public @serviceName (I@(repositoryName) @repositoryCamelName)
     {
-    @repositoryName = @serviceCamelName;
+    @repositoryName = @repositoryCamelName;
     }
 
     public @insertRetType Insert(@entityName @entityCamelName)

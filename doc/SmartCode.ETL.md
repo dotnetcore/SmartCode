@@ -173,7 +173,7 @@ Build:
 | 参数名        | 说明                           |
 | :------------ | -----------------------------: |
 | ETLCode       | ETL任务Code,区分任务类型，唯一 |
-| ETLRepository | ETL任务持久化仓储，None/PG     |
+| ETLRepository | ETL任务持久化仓储，None/PG/SQLite|
 
 ### DataSource 参数说明
 
@@ -271,6 +271,6 @@ LastMaxModifyTime 即上一次抽取的数据最大ModifyTime值(第一次抽取
 
 ------
 
-目前 SmartCode.ETL 已经落地到我们的生产环境了（11-01上线截至目前执行了 26069 次同步任务，暂无error日志抛出）
+目前 SmartCode.ETL 已经落地到我们的生产环境了（11-01上线截至 2018-11-16 16：50 执行了 65520 次同步任务，暂无error日志抛出）
 
 > PS： 虽然 SmartCode.ETL 只花了周末俩天时间完成扩展，但已经可以满足我们至少90%的应用场景。这足以见得 SmartCode 扩展能力是多么令人意外了。当然SmartCode的其他能力还得后续等各位一起发掘！！！

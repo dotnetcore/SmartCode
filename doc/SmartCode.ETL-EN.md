@@ -173,7 +173,7 @@ Build:
 | Parameter Name | Description |
 | :------------ | -----------------------------: |
 | ETLCode | ETL Task Code, distinguishing task types, unique |
-| ETLRepository | ETL Task Persistence Warehousing, None/PG |
+| ETLRepository | ETL Task Persistence Repository, None/PG/SQLite |
 
 ### DataSource Parameter Description
 
@@ -271,6 +271,7 @@ The following is the data loading performance, the amount of bulk insert data is
 
 ------
 
-At present, SmartCode.ETL has been put into our production environment (11-01 has been running 26069 synchronization tasks so far, no error log is thrown)
+At present, SmartCode.ETL has been put into our production environment (2018-11-01 went online, as of 2018-11-16 16:50 executed 65520 synchronization tasks, no error log was thrown
+)
 
 > PS: Although SmartCode.ETL only took two days to complete the expansion on the weekend, it can already meet at least 90% of our application scenarios. This is enough to see how amazing the SmartCode expansion capabilities are. Of course, other capabilities of SmartCode have to be followed up and explored! ! !
