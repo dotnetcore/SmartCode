@@ -2,15 +2,11 @@
 @{
     var project = Model.Project;
     var buildTask = Model.Build;
-    var assemblyName = $"{project.Module}.{buildTask.Module}";
-    var rootNamespace = $"{project.Module}.{buildTask.Module}";
 }
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-      <TargetFramework>netstandard2.0</TargetFramework>
-      <AssemblyName>@assemblyName</AssemblyName>
-      <RootNamespace>@rootNamespace</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
