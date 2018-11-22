@@ -20,10 +20,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.18.1</Version>
+    <Version>1.18.2</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>
-      1. add support SmartCode.ETL.SQLite
+      1. optimize SmartCode.ETL
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

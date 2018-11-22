@@ -249,7 +249,8 @@ LastMaxModifyTime 即上一次抽取的数据最大ModifyTime值(第一次抽取
         "Command": "Select * From T_ProductSearchLog  With(NoLock) Where Id>@LastMaxId",
         "Paramters": {
             "LastMaxId": -1,
-            "LastQueryTime": "1970-01-01T08:00:00"
+            "LastQueryTime": "1970-01-01T08:00:00",
+            "LastMaxModifyTime": "1970-01-01T08:00:00"
         }
     }
 }
