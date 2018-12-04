@@ -26,7 +26,7 @@ namespace SmartCode.ETL.BuildTasks
         }
         public async Task Build(BuildContext context)
         {
-            var etlRepository = _pluginManager.Resolve<IETLRepository>(_project.GetETLRepository());
+            var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
             Stopwatch stopwatch = Stopwatch.StartNew();
             var dataSource = context.GetDataSource<ExtractDataSource>();
             if (dataSource.TransformData.Rows.Count > 0)

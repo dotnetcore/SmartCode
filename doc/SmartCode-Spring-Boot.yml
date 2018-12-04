@@ -1,0 +1,59 @@
+Module: smartcode.starter
+Author: Ahoo Wang
+DataSource:
+  Name: DbTable
+  Paramters:
+    DbName: SmartSqlDB
+    DbProvider: SqlServer
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+Language: Java
+TemplateEngine: 
+   Name: Razor
+   Root: Java
+Output: 
+  Type: File
+  Path: 'E://SmartSql-Java'
+
+# 构建任务
+Build:
+
+  ClearDir:
+    Type: Clear
+    Paramters:
+      Dirs: '.'
+
+
+  Entity:
+    Type: Table
+    Module: entity
+    TemplateEngine: 
+      Path: Entity.cshtml
+    Output: 
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
+      Extension: '.java'
+    NamingConverter:
+      Table:
+        Tokenizer: 
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Paramters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Paramters: 
+            Delimiter: '_'
+        Converter:
+          Type: Camel

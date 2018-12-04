@@ -42,7 +42,7 @@ namespace SmartCode.ETL.BuildTasks
         {
             context.Build.Paramters.EnsureValue(TABLE_NAME, out string tableName);
             context.Build.Paramters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
-            var etlRepository = _pluginManager.Resolve<IETLRepository>(_project.GetETLRepository());
+            var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
             var dataSource = context.GetDataSource<ExtractDataSource>();
             if (dataSource.TransformData.Rows.Count == 0)
             {

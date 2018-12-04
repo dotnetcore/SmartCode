@@ -32,7 +32,7 @@ namespace SmartCode.Generator.BuildTasks
                 _logger.LogInformation($"BuildTable:{table.Name} Start!");
                 context.SetCurrentTable(table);
                 _pluginManager.Resolve<INamingConverter>().Convert(context);
-                context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine).Render(context);
+                context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name).Render(context);
                 await _pluginManager.Resolve<IOutput>(context.Build.Output.Type).Output(context);
                 _logger.LogInformation($"BuildTable:{table.Name} End!");
             }

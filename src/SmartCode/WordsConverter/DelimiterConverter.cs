@@ -13,22 +13,11 @@ namespace SmartCode.WordsConverter
         private string _prefix = string.Empty;
         private string _delimiter = "_";
         private ConvertMode _convertMode = ConvertMode.None;
-        public DelimiterConverter(IDictionary<String, String> paramters)
-        {
-            if (paramters == null) { return; }
-            if (!paramters.Value(DELIMITER, out _delimiter))
-            {
-                _delimiter = "_";
-            }
-            if (!paramters.Value(CONVERT_MODE, out _convertMode))
-            {
-                _convertMode = ConvertMode.None;
-            }
-            if (!paramters.Value(PREFIX, out _prefix))
-            {
-                _prefix = string.Empty;
-            }
-        }
+
+        public bool Initialized { get; private set; }
+
+        public string Name => "Delimiter";
+
         public string Convert(IEnumerable<string> words)
         {
             var phrase = String.Empty;
@@ -64,6 +53,27 @@ namespace SmartCode.WordsConverter
             }
             return _prefix + phrase;
         }
+
+        public void Initialize(IDictionary<string, object> paramters)
+        {
+            if (paramters != null)
+            {
+                if (!paramters.Value(DELIMITER, out _delimiter))
+                {
+                    _delimiter = "_";
+                }
+                if (!paramters.Value(CONVERT_MODE, out _convertMode))
+                {
+                    _convertMode = ConvertMode.None;
+                }
+                if (!paramters.Value(PREFIX, out _prefix))
+                {
+                    _prefix = string.Empty;
+                }
+            }
+            Initialized = true;
+        }
+
         public enum ConvertMode
         {
             None,

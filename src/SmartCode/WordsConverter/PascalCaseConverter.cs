@@ -6,6 +6,10 @@ namespace SmartCode.WordsConverter
 {
     public class PascalCaseConverter : IWordsConverter
     {
+        public bool Initialized => true;
+
+        public string Name => "Pascal";
+
         public String Convert(IEnumerable<string> words)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -17,6 +21,11 @@ namespace SmartCode.WordsConverter
                 stringBuilder.Append(leftChar);
             }
             return stringBuilder.ToString();
+        }
+
+        public void Initialize(IDictionary<string, object> paramters)
+        {
+           
         }
     }
 }

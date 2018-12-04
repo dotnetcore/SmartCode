@@ -6,7 +6,7 @@ using SmartCode.ETL.Entity;
 
 namespace SmartCode.ETL
 {
-    public class NoneETLRepository : IETLRepository
+    public class NoneETLTaskRepository : IETLTaskRepository
     {
         public bool Initialized => true;
 

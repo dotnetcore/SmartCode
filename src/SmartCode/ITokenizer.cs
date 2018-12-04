@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SmartCode
 {
-    public interface ITokenizer : IInitialize
+    public interface ITokenizer : IPlugin
     {
         IEnumerable<String> Segment(string phrase);
     }

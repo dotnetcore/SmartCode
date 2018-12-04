@@ -60,7 +60,7 @@ namespace SmartCode.ETL.TransformEngine
             using (var serviceScope = _scopeFactory.CreateScope())
             {
                 var helper = serviceScope.ServiceProvider.GetRequiredService<OfficialRazorViewToStringRenderer>();
-                return helper.RenderViewToStringAsync(context.Build.Template, context);
+                return helper.RenderViewToStringAsync(context.Build.TemplateEngine.FullPath, context);
             }
         }
 

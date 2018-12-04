@@ -6,6 +6,10 @@ namespace SmartCode.WordsConverter
 {
     public class CamelCaseConverter : IWordsConverter
     {
+        public bool Initialized { get; private set; }
+
+        public string Name => "Camel";
+
         public String Convert(IEnumerable<string> words)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -19,6 +23,11 @@ namespace SmartCode.WordsConverter
                 stringBuilder.Append(leftChar);
             }
             return stringBuilder.ToString();
+        }
+
+        public void Initialize(IDictionary<string, object> paramters)
+        {
+            Initialized = true;
         }
     }
 }

@@ -8,7 +8,7 @@ using SmartSql.Abstractions;
 
 namespace SmartCode.ETL.PostgreSql
 {
-    public class PGETLRepository : IETLRepository
+    public class PGETLTaskRepository : IETLTaskRepository
     {
         private const string CONNECTION_STRING = "ConnectionString";
         private readonly ILoggerFactory _loggerFactory;
@@ -17,7 +17,7 @@ namespace SmartCode.ETL.PostgreSql
         public string Name => "PG";
         public string Scope => "EtlTask";
         public ISmartSqlMapper SqlMapper { get; set; }
-        public PGETLRepository(ILoggerFactory loggerFactory)
+        public PGETLTaskRepository(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }

@@ -1,6 +1,4 @@
 ﻿@using SmartCode
-@using SmartCode.Db
-@using SmartCode.Generator
 @model BuildContext
 @{
     var all_table = Model.GetCurrentAllTable();
@@ -18,7 +16,6 @@
         }
         return sqlDbType;
     }
-
 }
 
 @foreach (var table in all_table)

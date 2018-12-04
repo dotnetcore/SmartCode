@@ -6,7 +6,7 @@ using SmartCode.ETL.Entity;
 
 namespace SmartCode.ETL
 {
-    public interface IETLRepository : IPlugin
+    public interface IETLTaskRepository : IPlugin
     {
         Task<long> Startup(string configPath, string code);
         Task Extract(long etlTaskId, ETLExtract extract);

@@ -26,7 +26,7 @@ namespace SmartCode.ETL
         public string Name => "Extract";
         public DbSet DbSet { get; set; }
         public DbTable TransformData { get; set; }
-        IETLRepository _etlRepository;
+        IETLTaskRepository _etlRepository;
         public ExtractDataSource(Project project
             , ILoggerFactory loggerFactory
             , ILogger<ExtractDataSource> logger
@@ -38,7 +38,7 @@ namespace SmartCode.ETL
             _logger = logger;
             _projectBuilder = projectBuilder;
             _pluginManager = pluginManager;
-            _etlRepository = _pluginManager.Resolve<IETLRepository>(_project.GetETLRepository());
+            _etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
 
         }
         private void InitProjectBuilderEvent()

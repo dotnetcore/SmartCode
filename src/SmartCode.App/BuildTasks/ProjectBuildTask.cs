@@ -16,7 +16,7 @@ namespace SmartCode.App.BuildTasks
         }
         public override async Task Build(BuildContext context)
         {
-            context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine).Render(context);
+            context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name).Render(context);
             await _pluginManager.Resolve<IOutput>(context.Build.Output.Type).Output(context);
         }
     }
