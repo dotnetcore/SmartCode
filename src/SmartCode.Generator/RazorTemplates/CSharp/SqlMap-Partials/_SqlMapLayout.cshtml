@@ -4,6 +4,7 @@
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var pkCol = table.PKColumn;
@@ -18,6 +19,12 @@
     <Statements>
         <Statement Id="QueryParams">
             <Where>
+                @foreach (var col in table.Columns)
+                {
+                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                        T.@col.Name = @dbPrefix@col.ConvertedName
+                    </IsNotEmpty>
+                }
             </Where>
         </Statement>
 

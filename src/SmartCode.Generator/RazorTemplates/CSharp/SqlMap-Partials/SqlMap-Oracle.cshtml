@@ -14,7 +14,7 @@
     }
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
-    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
@@ -38,7 +38,7 @@
         <Where>
             ROWNUM = 1
             <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                T.@pkCol.Name=@prefix@pkCol.ConvertedName
+                T.@pkCol.Name=@dbPrefix@pkCol.ConvertedName
             </IsNotEmpty>
         </Where>
     </Statement>
@@ -50,7 +50,7 @@
     <Statement Id="Query" @queryStatementResultMap>
         SELECT
         <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(prefix)Taken)
+            (@(dbPrefix)Taken)
         </IsNotEmpty>
         T.* From @table.Name T
         <Include RefId="QueryParams" />

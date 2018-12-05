@@ -11,7 +11,7 @@
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
     var autoIncrement = table.AutoIncrement;
-    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
@@ -26,5 +26,5 @@
             T.@pkCol.Name Desc
         </Default>
     </Switch>
-    <IsNotEmpty Prepend="Limit" Property="Taken">@(prefix)Taken</IsNotEmpty>
+    <IsNotEmpty Prepend="Limit" Property="Taken">@(dbPrefix)Taken</IsNotEmpty>
 </Statement>

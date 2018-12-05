@@ -12,7 +12,7 @@
     }
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
-    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
@@ -29,6 +29,6 @@
                 T.@pkCol.Name Desc
             </Default>
         </Switch>
-        Limit @("@PageSize") Offset @("@Offset")
+        Limit  @(dbPrefix)PageSize Offset @(dbPrefix)Offset
     </Statement>
 }
