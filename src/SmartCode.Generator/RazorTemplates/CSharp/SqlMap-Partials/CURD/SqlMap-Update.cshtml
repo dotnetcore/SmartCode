@@ -11,7 +11,7 @@
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
     var autoIncrement = table.AutoIncrement;
-    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
 }
 
 <!--更新-->
@@ -23,10 +23,10 @@
             if (!col.IsPrimaryKey)
             {
                 <IsProperty Prepend="," Property="@col.ConvertedName">
-                    @col.Name = @($"{prefix}{col.ConvertedName}")
+                    @col.Name = @($"{dbPrefix}{col.ConvertedName}")
                 </IsProperty>
             }
         }
     </Set>
-    Where @pkCol.Name=@prefix@pkCol.ConvertedName
+    Where @pkCol.Name=@dbPrefix@pkCol.ConvertedName
 </Statement>

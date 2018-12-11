@@ -12,8 +12,7 @@ namespace SmartCode.Configuration
         /// </summary>
         public String Type { get; set; }
         public String Module { get; set; }
-        public String TemplateEngine { get; set; } 
-        public String Template { get; set; }
+        public TemplateEngine TemplateEngine { get; set; } 
         public Output Output { get; set; }
         public IEnumerable<String> IncludeTables { get; set; }
         public IEnumerable<String> IgnoreTables { get; set; }

@@ -37,10 +37,26 @@ namespace SmartCode.Configuration.ConfigBuilders
                         buildTask.Output.Mode = Project.Output.Mode;
                     }
                 }
-                if (String.IsNullOrEmpty(buildTask.TemplateEngine))
+                if (buildTask.TemplateEngine == null)
                 {
                     buildTask.TemplateEngine = Project.TemplateEngine;
                 }
+                else
+                {
+                    if (String.IsNullOrEmpty(buildTask.TemplateEngine.Name))
+                    {
+                        buildTask.TemplateEngine.Name = Project.TemplateEngine.Name;
+                    }
+                    if (String.IsNullOrEmpty(buildTask.TemplateEngine.Root))
+                    {
+                        buildTask.TemplateEngine.Root = Project.TemplateEngine.Root;
+                    }
+                    if (String.IsNullOrEmpty(buildTask.TemplateEngine.Path))
+                    {
+                        buildTask.TemplateEngine.Path = Project.TemplateEngine.Path;
+                    }
+                }
+
                 if (buildTask.NamingConverter == null)
                 {
                     buildTask.NamingConverter = NamingConverter.Defalut;

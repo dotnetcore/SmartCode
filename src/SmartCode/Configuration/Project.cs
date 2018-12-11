@@ -12,7 +12,7 @@ namespace SmartCode.Configuration
         public String Module { get; set; }
         public String Author { get; set; }
         public DataSource DataSource { get; set; }
-        public String TemplateEngine { get; set; } = "Razor";
+        public TemplateEngine TemplateEngine { get; set; } = TemplateEngine.Default;
         public String Language { get; set; } = "CSharp";
         public Output Output { get; set; }
         public IDictionary<String, object> Paramters { get; set; } = new Dictionary<String, object>();

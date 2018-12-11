@@ -50,7 +50,7 @@ namespace SmartCode.TemplateEngine.Impl
         public Task<string> Render(BuildContext context)
         {
             _logger.LogDebug($"------ Render Build:{context.BuildKey} Start! ------");
-            var template = GetTemplate(context.Build.Template);
+            var template = GetTemplate(context.Build.TemplateEngine.FullPath);
             context.Result = template(context);
             _logger.LogDebug($"------ Render Build:{context.BuildKey} End! ------");
             return Task.FromResult(context.Result);

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SmartCode
 {
-    public interface IWordsConverter
+    public interface IWordsConverter : IPlugin
     {
         String Convert(IEnumerable<string> words);
     }

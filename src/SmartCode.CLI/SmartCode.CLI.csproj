@@ -20,10 +20,10 @@
     <RepositoryType>Github</RepositoryType>
     <PackageTags>SmartCode SmartSql</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.18.1</Version>
+    <Version>1.20.0</Version>
     <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
     <PackageReleaseNotes>
-      1. add support SmartCode.ETL.SQLite
+
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
@@ -53,6 +53,7 @@
     <None Include="..\..\doc\SmartCode-ETL.yml" Link="SmartCode-ETL.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\doc\SmartCode-Spring-Boot.yml" Link="SmartCode-Spring-Boot.yml" />
     <None Include="..\..\doc\SmartCode.yml" Link="SmartCode.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

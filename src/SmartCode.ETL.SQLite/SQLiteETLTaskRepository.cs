@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmartCode.ETL.SQLite
 {
-    public class SQLiteETLRepository : IETLRepository
+    public class SQLiteETLTaskRepository : IETLTaskRepository
     {
         private const string CONNECTION_STRING = "ConnectionString";
         private const string DB_NAME = "smartcode-etl.db";
@@ -19,7 +19,7 @@ namespace SmartCode.ETL.SQLite
         public string Name => "SQLite";
         public string Scope => "EtlTask";
         public ISmartSqlMapper SqlMapper { get; set; }
-        public SQLiteETLRepository(ILoggerFactory loggerFactory)
+        public SQLiteETLTaskRepository(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }

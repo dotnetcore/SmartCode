@@ -27,6 +27,11 @@ namespace SmartCode.WordsConverter
         /// 开启大写字符分割
         /// </summary>
         public bool UppercaseSplit { get; set; } = true;
+
+        public bool Initialized { get; private set; }
+
+        public string Name => "Default";
+
         public IEnumerable<string> Segment(string phrase)
         {
             if (!String.IsNullOrEmpty(IgnorePrefix) && phrase.StartsWith(IgnorePrefix))
@@ -73,6 +78,7 @@ namespace SmartCode.WordsConverter
                     UppercaseSplit = upperSplit;
                 }
             }
+            Initialized = true;
         }
     }
 }

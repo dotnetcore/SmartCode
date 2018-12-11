@@ -1,0 +1,64 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    Layout = "_JavaLayout.cshtml";
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+
+@functions {
+public string ConvertLangType(SmartCode.Generator.Entity.Column column)
+{
+    if (String.IsNullOrEmpty(column.LanguageType))
+    {
+        return "NAType";
+    }
+    if (!column.IsNullable)
+    {
+        return column.LanguageType;
+    }
+
+    if (column.LanguageType.Contains("[]") || column.LanguageType.ToLower() == "string")
+    {
+        return column.LanguageType;
+    }
+    return $"{column.LanguageType}?";
+}
+
+}
+
+
+package @(project.Module).@buildTask.Module;
+import java.security.Timestamp;
+    /**
+    * @(table.Description ?? table.ConvertedName)
+    */
+    public class @table.ConvertedName
+    {
+    @foreach (var column in table.Columns)
+    {
+
+        <text>
+            /**
+            * @column.Description
+            */
+            private @(ConvertLangType(column)) @column.ConvertedName;
+        </text>
+    }
+
+    @foreach (var column in table.Columns)
+    {
+        <text>
+            public @ConvertLangType(column) get@(NamingUtil.PascalCase(column.ConvertedName))(){
+            return @column.ConvertedName ;
+            }
+
+            public void set@(NamingUtil.PascalCase(column.ConvertedName))(@(ConvertLangType(column)) @column.ConvertedName){
+            this.@column.ConvertedName = @column.ConvertedName;
+            }
+        </text>
+
+    }
+    }

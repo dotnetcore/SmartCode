@@ -2,29 +2,34 @@
 @using SmartCode.Db
 @model BuildContext
 @{
+    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
+    var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
     var pkCol = table.PKColumn;
     if (pkCol == null)
     {
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
+    var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
-    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
-
-<!--获取数据列-->
-<Statement Id="Query" @queryStatementResultMap>
-    SELECT T.* From @table.Name T
-    <Include RefId="QueryParams" />
-    <Switch Prepend="Order By" Property="OrderBy">
-        <Default>
-            T.@pkCol.Name Desc
-        </Default>
-    </Switch>
-    <IsNotEmpty Prepend="Limit" Property="Taken">@(prefix)Taken</IsNotEmpty>
-</Statement>
+@section QueryByPage
+    {
+    <!--获取分页数据-->
+    <Statement Id="QueryByPage" @queryStatementResultMap>
+        Select T.* From @table.Name As T
+        <Include RefId="QueryParams" />
+        <Switch Prepend="Order By" Property="OrderBy">
+            <Default>
+                T.@pkCol.Name Desc
+            </Default>
+        </Switch>
+        Limit @(dbPrefix)PageSize Offset @(dbPrefix)Offset
+    </Statement>
+}

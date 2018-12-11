@@ -23,7 +23,7 @@
     }
     var primaryKeyType = pkCol?.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
-    var prefix = dbSource.DbProvider.ParameterPrefix;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
@@ -32,25 +32,25 @@
 @section QueryByPage
     {
     <!--获取分页数据-->
-    <Statement Id="QueryByPage" @queryStatementResultMap>
-        @if (versionNo > 2012)
-        {
-            <text>
-                Select T.* From @table.Name T With(NoLock)
-                Order By T.@pkCol.Name Desc
-                Offset ((@@PageIndex-1)*@@PageSize) Rows Fetch Next @@PageSize Rows Only;
-            </text>
-        }
-        else
-        {
-            <text>
-                Select TT.* From
-                (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
-                <Include RefId="QueryParams" />) TT
-                Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize);
-            </text>
-        }
-    </Statement>
+<Statement Id="QueryByPage" @queryStatementResultMap>
+    @if (versionNo > 2012)
+    {
+        <text>
+            Select T.* From @table.Name T With(NoLock)
+            Order By T.@pkCol.Name Desc
+            Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
+        </text>
+    }
+    else
+    {
+        <text>
+            Select TT.* From
+            (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
+            <Include RefId="QueryParams" />) TT
+            Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize);
+        </text>
+    }
+</Statement>
 }
 @section GetEntity
     {
@@ -59,7 +59,7 @@
         Select Top 1 T.* From @table.Name T With(NoLock)
         <Where>
             <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                T.@pkCol.Name=@prefix@pkCol.ConvertedName
+                T.@pkCol.Name=@dbPrefix@pkCol.ConvertedName
             </IsNotEmpty>
         </Where>
     </Statement>
@@ -71,7 +71,7 @@
     <Statement Id="Query" @queryStatementResultMap>
         SELECT
         <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(prefix)Taken)
+            (@(dbPrefix)Taken)
         </IsNotEmpty>
         T.* From @table.Name T
         <Include RefId="QueryParams" />

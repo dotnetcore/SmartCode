@@ -11,6 +11,11 @@ namespace SmartCode
             string firstChar = phrase.Substring(0, 1).ToLower();
             return firstChar + phrase.Substring(1);
         }
+        public static String PascalCase(string phrase)
+        {
+            string firstChar = phrase.Substring(0, 1).ToUpper();
+            return firstChar + phrase.Substring(1);
+        }
 
         public static string ToSingular(string phrase)
         {
@@ -28,6 +33,5 @@ namespace SmartCode
             }
             return phrase;
         }
-
     }
 }

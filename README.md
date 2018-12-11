@@ -45,7 +45,9 @@ DataSource:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
 Language: CSharp
-TemplateEngine: Razor 
+TemplateEngine: 
+   Name: Razor
+   Root: CSharp
 Output: 
   Type: File
   Path: 'E://SmartSql-Starter'
@@ -88,7 +90,8 @@ Build:
   Entity:
     Type: Table
     Module: Entity
-    Template: Entity.cshtml
+    TemplateEngine: 
+      Path: Entity.cshtml
     Output: 
       Path: '{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}'
@@ -122,7 +125,8 @@ Build:
   Repository:
     Type: Table
     Module: Repository
-    Template: Repository.cshtml
+    TemplateEngine: 
+      Path: Repository.cshtml
     IgnoreNoPKTable: true
     IgnoreView: true
     Output: 
@@ -142,7 +146,8 @@ Build:
   Service:
     Type: Table
     Module: Service
-    Template: Service.cshtml
+    TemplateEngine: 
+      Path: Service.cshtml
     IgnoreNoPKTable: true
     IgnoreView: true
     Output: 
@@ -162,7 +167,8 @@ Build:
   APIController:
     Type: Table
     Module: API
-    Template: API/APIController.cshtml
+    TemplateEngine: 
+      Path: API/APIController.cshtml
     IgnoreNoPKTable: true
     IgnoreView: true
     Output: 
@@ -181,7 +187,8 @@ Build:
 
   SqlMap:
     Type: Table
-    Template: SqlMap.cshtml
+    TemplateEngine: 
+      Path: SqlMap.cshtml
     Output: 
       Path: '{{Project.Module}}.API/Maps'
       Name: '{{Items.CurrentTable.ConvertedName}}'

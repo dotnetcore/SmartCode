@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL", "src\SmartC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL.PostgreSql", "src\SmartCode.ETL.PostgreSql\SmartCode.ETL.PostgreSql.csproj", "{60B49703-2352-477B-8F18-98CC229EEFDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCode.ETL.SQLite", "src\SmartCode.ETL.SQLite\SmartCode.ETL.SQLite.csproj", "{BB00F470-7D25-4F82-A410-1DB8BD458A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL.SQLite", "src\SmartCode.ETL.SQLite\SmartCode.ETL.SQLite.csproj", "{BB00F470-7D25-4F82-A410-1DB8BD458A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,25 +10,28 @@ namespace SmartCode
     {
         public static IWordsConverter Create(Configuration.WordsConverter wordsConverter)
         {
+            IWordsConverter converter = default;
             switch (wordsConverter.Type)
             {
                 case "Camel":
                     {
-                        return new CamelCaseConverter();
+                        converter = new CamelCaseConverter(); break;
                     }
                 case "Pascal":
                     {
-                        return new PascalCaseConverter();
+                        converter = new PascalCaseConverter(); break;
                     }
                 case "Delimiter":
                     {
-                        return new DelimiterConverter(wordsConverter.Paramters);
+                        converter = new DelimiterConverter(); break;
                     }
                 default:
                     {
                         return new NoneConverter();
                     }
             }
+            converter.Initialize(wordsConverter.Paramters);
+            return converter;
         }
     }
 }

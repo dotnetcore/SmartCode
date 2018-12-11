@@ -5,14 +5,15 @@
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
-    project.Paramters.Value("ExtractMode", out string extractMode);//Last: MaxId,QueryTime,Full
-    bool extractModeIsLastQueryTime = extractMode == "QueryTime";
+    project.Paramters.Value("ExtractMode", out string extractMode);//Last: Full,LastMaxModifyTime,LastQueryTime,LastMaxId
+    bool extractModeUseTime = extractMode == "LastMaxModifyTime" || extractMode == "LastQueryTime";
     project.Paramters.Value("ExtractConnectionString", out string extractConnectionString);
     extractConnectionString = extractConnectionString ?? dbSource.Database.WriteDataSource.ConnectionString;
     project.Paramters.Value("LoadDbProvider", out string loadDbProvider);
     project.Paramters.Value("LoadConnectionString", out string loadConnectionString);
+    Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
     var table = Model.GetCurrentTable();
-    var loadTable = extractModeIsLastQueryTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
+    var loadTable = extractModeUseTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
     var PKColumn = Model.GetCurrentTable().PKColumn;
 }
 
@@ -24,16 +25,19 @@
         switch (extractMode)
         {
             case "Full": { return ""; }
-            case "ModifyTime":
+            case "LastMaxModifyTime":
+                {
+                    Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
+                    sql = $"{modifyTime}>@LastMaxModifyTime";
+                    break;
+                }
             case "LastQueryTime":
-            case "QueryTime":
                 {
                     Model.Project.Paramters.Value("ModifyTime", out string modifyTime);
                     sql = $"{modifyTime}>@LastQueryTime";
                     break;
                 }
             case "LastMaxId":
-            case "MaxId":
             default:
                 {
                     sql = $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
@@ -50,13 +54,18 @@ DataSource:
   Paramters:
     DbProvider: @dbSource.DbRepository.DbProviderName
     ConnectionString: "@extractConnectionString"
-    Query: 'Select * From @table.Name  With(NoLock) @GetExtractWhere()'
+    Query: 'Select * From @table.Name @GetExtractWhere()'
     PKColumn: @PKColumn.Name
-    AutoIncrement: @(PKColumn.AutoIncrement?"true":"false")
+    AutoIncrement: @(PKColumn.AutoIncrement ? "true" : "false")
+    @if (!String.IsNullOrEmpty(modifyTime))
+    {
+        <text>@Html.PadLeft(4)ModifyTime: @modifyTime</text>
+    }
+
 
 Paramters:
-  ETLCode: @(project.Module).@table.Name
-  ETLRepository: PG
+    ETLCode: @(project.Module).@table.Name
+    ETLRepository: PG
 
 Build:
   Transform:
@@ -72,15 +81,13 @@ Build:
       Table: @loadTable
     @switch (extractMode)
     {
-        case "ModifyTime":
+        case "LastMaxModifyTime":
         case "LastQueryTime":
-        case "QueryTime":
             {
                 <text>
-      PreCommand: CREATE TABLE @(loadTable)( LIKE @table.ConvertedName );
+      PreCommand: CREATE TEMP TABLE @(loadTable)( LIKE @table.ConvertedName );
       PostCommand: "Delete From @table.ConvertedName as source Where EXISTS(select * from @(loadTable) temp where temp.@(PKColumn.ConvertedName)=source.@(PKColumn.ConvertedName));
-                    Insert Into @table.ConvertedName  SELECT * From @loadTable;
-                    Drop Table @loadTable;"
+                    Insert Into @table.ConvertedName  SELECT * From @loadTable;"
                 </text>
                 break;
             }

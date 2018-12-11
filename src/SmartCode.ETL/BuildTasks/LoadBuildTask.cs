@@ -42,7 +42,7 @@ namespace SmartCode.ETL.BuildTasks
         {
             context.Build.Paramters.EnsureValue(TABLE_NAME, out string tableName);
             context.Build.Paramters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
-            var etlRepository = _pluginManager.Resolve<IETLRepository>(_project.GetETLRepository());
+            var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
             var dataSource = context.GetDataSource<ExtractDataSource>();
             if (dataSource.TransformData.Rows.Count == 0)
             {
@@ -69,25 +69,29 @@ namespace SmartCode.ETL.BuildTasks
             {
                 Table = tableName
             };
-            if (!String.IsNullOrEmpty(preCmd))
+            try
             {
-                stopwatch.Restart();
-                await sqlMapper.ExecuteAsync(new RequestContext
+                sqlMapper.BeginSession();
+                #region PreCmd
+                if (!String.IsNullOrEmpty(preCmd))
                 {
-                    RealSql = preCmd,
-                    Request = queryParams
-                });
-                stopwatch.Stop();
-                loadEntity.PreCommand = new Entity.ETLDbCommand
-                {
-                    Command = preCmd,
-                    Paramters = queryParams,
-                    Taken = stopwatch.ElapsedMilliseconds
-                };
-            }
-
-            using (IBatchInsert batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider))
-            {
+                    stopwatch.Restart();
+                    await sqlMapper.ExecuteAsync(new RequestContext
+                    {
+                        RealSql = preCmd,
+                        Request = queryParams
+                    });
+                    stopwatch.Stop();
+                    loadEntity.PreCommand = new Entity.ETLDbCommand
+                    {
+                        Command = preCmd,
+                        Paramters = queryParams,
+                        Taken = stopwatch.ElapsedMilliseconds
+                    };
+                }
+                #endregion
+                #region BatchInsert
+                var batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider);
                 InitColumnMapping(batchInsert, context);
                 batchInsert.Table = batchTable;
                 stopwatch.Restart();
@@ -96,24 +100,31 @@ namespace SmartCode.ETL.BuildTasks
                 loadEntity.Size = batchTable.Rows.Count;
                 loadEntity.Taken = stopwatch.ElapsedMilliseconds;
                 _logger.LogWarning($"Build:{context.BuildKey},BatchInsert.Size:{loadEntity.Size},Taken:{loadEntity.Taken}ms!");
+                #endregion
+                #region PostCmd
+                if (context.Build.Paramters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
+                {
+                    stopwatch.Restart();
+                    await sqlMapper.ExecuteAsync(new RequestContext
+                    {
+                        RealSql = postCmd,
+                        Request = queryParams
+                    });
+                    stopwatch.Stop();
+                    loadEntity.PostCommand = new Entity.ETLDbCommand
+                    {
+                        Command = postCmd,
+                        Paramters = queryParams,
+                        Taken = stopwatch.ElapsedMilliseconds
+                    };
+                }
+                #endregion
+                await etlRepository.Load(_project.GetETKTaskId(), loadEntity);
             }
-            if (context.Build.Paramters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
+            finally
             {
-                stopwatch.Restart();
-                await sqlMapper.ExecuteAsync(new RequestContext
-                {
-                    RealSql = postCmd,
-                    Request = queryParams
-                });
-                stopwatch.Stop();
-                loadEntity.PostCommand = new Entity.ETLDbCommand
-                {
-                    Command = postCmd,
-                    Paramters = queryParams,
-                    Taken = stopwatch.ElapsedMilliseconds
-                };
+                sqlMapper.EndSession();
             }
-            await etlRepository.Load(_project.GetETKTaskId(), loadEntity);
         }
 
         public void Initialize(IDictionary<string, object> paramters)

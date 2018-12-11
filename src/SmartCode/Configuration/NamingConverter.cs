@@ -49,9 +49,9 @@ namespace SmartCode.Configuration
         public static WordsConverter Default = new WordsConverter
         {
             Type = "Defalut",
-            Paramters = new Dictionary<String, String>()
+            Paramters = new Dictionary<String, Object>()
         };
         public String Type { get; set; }
-        public IDictionary<String, String> Paramters { get; set; }
+        public IDictionary<String, object> Paramters { get; set; }
     }
 }

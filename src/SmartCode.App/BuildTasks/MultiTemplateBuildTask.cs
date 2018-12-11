@@ -41,8 +41,8 @@ namespace SmartCode.App.BuildTasks
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Can not find TemplateKey!");
                     }
-                    context.Build.Template = templateKey;
-                    context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine).Render(context);
+                    context.Build.TemplateEngine.Path = templateKey;
+                    context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name).Render(context);
                     if (!_templateKVs.Value(TEMPLATE_OUTPUT_KEY, out Dictionary<object, object> outputKVs))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Can not find Output!");
