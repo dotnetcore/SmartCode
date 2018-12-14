@@ -93,7 +93,7 @@ namespace SmartCode.ETL.LoadToES
             .Type(esOptions.TypeName)
             .IndexMany(list)
             );
-            if (esSyncResp.Errors)
+            if (esSyncResp.Errors || !esSyncResp.IsValid)
             {
                 _logger.LogError($"ES.ERRORS:{esSyncResp.DebugInformation}");
                 throw new SmartCodeException($"ES.ERRORS:{esSyncResp.DebugInformation}");
