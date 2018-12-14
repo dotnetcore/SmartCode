@@ -87,11 +87,12 @@ namespace SmartCode.ETL.LoadToES
             {
                 var createIndexResp = await esClient.CreateIndexAsync(esOptions.Index);
             }
-            var esSyncResp = await esClient.BulkAsync((bulkRequest) =>
+            var esSyncResp = await esClient.BulkAsync(bulkRequest =>
             bulkRequest
             .Index(esOptions.Index)
             .Type(esOptions.TypeName)
-            .IndexMany(list));
+            .IndexMany(list)
+            );
             if (esSyncResp.Errors)
             {
                 _logger.LogError($"ES.ERRORS:{esSyncResp.DebugInformation}");
