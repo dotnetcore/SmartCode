@@ -1,0 +1,31 @@
+Author: Ahoo Wang
+DataSource:
+  Name: Extract
+  Paramters:
+    DbProvider: PostgreSql
+    ConnectionString: ''
+    Query: 
+    PKColumn: id
+    AutoIncrement: true
+    ModifyTime: max_motify_time
+
+Paramters:
+  ETLCode: SmartCode.ETL.Test
+  ETLRepository: SQLite
+  
+Build:
+
+  Transform:
+    Type: Transform
+    Paramters:
+      Script: 
+
+  LoadToES: 
+    Type: LoadToES
+    Paramters:
+      Host: http://es.smartsql.net/
+      Index: smartsql
+      Type: smartsql
+      BaseAuth:
+        UserName: smartsql
+        Password: smartsql

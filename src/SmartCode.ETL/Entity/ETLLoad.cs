@@ -11,5 +11,6 @@ namespace SmartCode.ETL.Entity
         public int Size { get; set; }
         public long Taken { get; set; }
         public string Table { get; set; }
+        public IDictionary<String, object> Paramters { get; set; }
     }
 }
