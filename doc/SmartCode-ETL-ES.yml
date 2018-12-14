@@ -1,0 +1,31 @@
+Author: Ahoo Wang
+DataSource:
+  Name: Extract
+  Paramters:
+    DbProvider: PostgreSql
+    ConnectionString: 'Server=localhost;Port=5432;User Id=report;Password=SmartCode; Database=report;'
+    Query: select * from es_sync_product where max_motify_time>@LastMaxModifyTime
+    PKColumn: id
+    AutoIncrement: true
+    ModifyTime: max_motify_time
+
+Paramters:
+  ETLCode: SmartCode.ETL.LoadToES
+  ETLRepository: SQLite
+  
+Build:
+
+  Transform:
+    Type: Transform
+    Paramters:
+      Script: 
+
+  LoadToES: 
+    Type: LoadToES
+    Paramters:
+      Host: http://es.smartsql.net/
+      Index: smartsql
+      Type: product
+      BaseAuth:
+        UserName: smartsql
+        Password: https://github.com/Ahoo-Wang/SmartCode

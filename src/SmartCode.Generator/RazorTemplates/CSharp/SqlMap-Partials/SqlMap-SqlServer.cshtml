@@ -37,6 +37,7 @@
     {
         <text>
             Select T.* From @table.Name T With(NoLock)
+            <Include RefId="QueryParams" />
             Order By T.@pkCol.Name Desc
             Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
         </text>
