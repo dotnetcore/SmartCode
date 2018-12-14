@@ -8,7 +8,9 @@ DataSource:
     ConnectionString: server=127.0.0.1;port=5432;database=dvd_rental;user id=postgres;password=YOUR_PASSWORD;
     DbSchema: public
 Language: CSharp
-TemplateEngine: Razor
+TemplateEngine:
+  Name: Razor
+  Root: Contributions/NHibernate
 Output:
   Type: File
   Path: '/Users/zhang/Projects/smart-code-sample-project'
@@ -21,14 +23,15 @@ Build:
       Path: '.'
     Paramters:
       Templates: [
-          { Key: "NHibernate/Project.cshtml", Output: { Path: '{{Project.Module}}.Data', Name: '{{Project.Module}}.Data', Extension: '.csproj' } },
+          { Key: "Project.cshtml", Output: { Path: '{{Project.Module}}.Data', Name: '{{Project.Module}}.Data', Extension: '.csproj' } },
         ]
   Entities:
     Type: Table
     Module: Data
     IncludeTables: ["actor", "category"]
     IgnoreTables: []
-    Template: NHibernate/Entity.cshtml
+    TemplateEngine:
+      Path: Entity.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'
       Name: '{{Items.CurrentTable.ConvertedName}}Entity'
@@ -63,7 +66,8 @@ Build:
     Module: Data
     IncludeTables: ["actor", "category"]
     IgnoreTables: []
-    Template: NHibernate/Hbm.cshtml
+    TemplateEngine:
+      Path: Hbm.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'
       Name: '{{Items.CurrentTable.ConvertedName}}'
@@ -98,7 +102,8 @@ Build:
     Module: Data
     IncludeTables: ["actor", "category"]
     IgnoreTables: []
-    Template: NHibernate/IRepository.cshtml
+    TemplateEngine:
+      Path: IRepository.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Repositories'
       Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
@@ -133,7 +138,8 @@ Build:
     Module: Data
     IncludeTables: ["actor", "category"]
     IgnoreTables: []
-    Template: NHibernate/Repository.cshtml
+    TemplateEngine:
+      Path: Repository.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Repositories'
       Name: '{{Items.CurrentTable.ConvertedName}}Repository'
