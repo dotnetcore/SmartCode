@@ -15,6 +15,7 @@ namespace SmartCode.ETL.LoadToES
     public class LoadToESBuildTask : IBuildTask
     {
         private const string COLUMN_MAPPING = "ColumnMapping";
+        private const string ID_MAPPING = "Id";
         private const string HOST = "Host";
         private const string INDEX_NAME = "Index";
         private const string TYPE_NAME = "Type";
@@ -87,11 +88,22 @@ namespace SmartCode.ETL.LoadToES
             {
                 var createIndexResp = await esClient.CreateIndexAsync(esOptions.Index);
             }
-            var esSyncResp = await esClient.BulkAsync(bulkRequest =>
-            bulkRequest
-            .Index(esOptions.Index)
-            .Type(esOptions.TypeName)
-            .IndexMany(list)
+            var esSyncResp = await esClient.BulkAsync((bulkRequest) =>
+            {
+                var bulkReqDesc = bulkRequest
+                  .Index(esOptions.Index)
+                  .Type(esOptions.TypeName);
+                if (context.Build.Paramters.Value(ID_MAPPING, out string es_id))
+                {
+                    return bulkReqDesc.IndexMany(list, (bulkIdxDesc, item) =>
+                    {
+                        var idVal = item[es_id].ToString();
+                        return bulkIdxDesc.Id(idVal);
+                    }
+                    );
+                }
+                return bulkReqDesc.IndexMany(list);
+            }
             );
             if (esSyncResp.Errors || !esSyncResp.IsValid)
             {
