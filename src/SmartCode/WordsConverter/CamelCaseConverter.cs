@@ -17,7 +17,11 @@ namespace SmartCode.WordsConverter
             foreach (var word in words)
             {
                 string firstChar = word.Substring(0, 1).ToUpper();
-                if (isFirstWord) { firstChar = firstChar.ToLower(); }
+                if (isFirstWord)
+                {
+                    firstChar = firstChar.ToLower();
+                    isFirstWord = false;
+                }
                 stringBuilder.Append(firstChar);
                 string leftChar = word.Substring(1).ToLower();
                 stringBuilder.Append(leftChar);
