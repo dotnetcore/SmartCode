@@ -28,7 +28,7 @@ namespace SmartCode.CLI
             if (String.IsNullOrEmpty(configPath))
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Pleace Please enter the path to build configuration file:");
+                Console.WriteLine("Please enter the path to build configuration file:");
                 configPath = Console.ReadLine();
                 if (String.IsNullOrEmpty(configPath))
                 {

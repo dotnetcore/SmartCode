@@ -2,33 +2,23 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <LangVersion>latest</LangVersion>
+
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>SmartCode</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <Title>SmartCode.CLI</Title>
-    <Description>
-      SmartCode = IDataSource -&gt; IBuildTask -&gt; IOutput =&gt; Build Everything!!!
-    </Description>
     <Authors>Ahoo Wang</Authors>
-    <Copyright>Ahoo Wang</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/Ahoo-Wang/SmartCode</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Ahoo-Wang/SmartCode</PackageProjectUrl>
-    <RepositoryType>Github</RepositoryType>
-    <PackageTags>SmartCode SmartSql</PackageTags>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>2.0.4</Version>
-    <PackageIconUrl>https://raw.githubusercontent.com/Ahoo-Wang/SmartCode/master/doc/Logo.png</PackageIconUrl>
-    <PackageReleaseNotes>add SmartCode.ETL.LoadToES support ES_ID_Mapping</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      1. fix CamelCaseConverter not work
+    </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

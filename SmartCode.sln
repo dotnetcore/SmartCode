@@ -29,6 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL.SQLite", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCode.ETL.LoadToES", "src\SmartCode.ETL.LoadToES\SmartCode.ETL.LoadToES.csproj", "{DADD6996-91C4-496D-AE97-D8EA5E33716A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B0F696A9-339D-4348-9032-F8DFC775ABD4}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		build\version.props = build\version.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

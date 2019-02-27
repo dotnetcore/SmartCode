@@ -1,0 +1,24 @@
+<Project>
+
+  <Import Project="build\version.props" />
+
+  <PropertyGroup Label="Package">
+    <Product>SmartCode</Product>
+    <Copyright>2019 SmartCode, Inc.</Copyright>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Authors>Ahoo Wang</Authors>
+    <MaintainerEmail>ahoowang@qq.com</MaintainerEmail>
+    <LangVersion>latest</LangVersion>
+    <RepositoryUrl>https://github.com/Smart-Kit/SmartCode</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <PackageIconUrl>https://raw.githubusercontent.com/Smart-Kit/SmartCode/master/doc/Logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Smart-Kit/SmartCode</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageTags>SmartCode SmartSql</PackageTags>
+    <Description>
+      SmartCode = IDataSource -&gt; IBuildTask -&gt; IOutput =&gt; Build Everything!!!
+    </Description> 
+  </PropertyGroup>
+</Project>

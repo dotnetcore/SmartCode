@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.8.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +10,7 @@
     <PackageReference Include="SmartSql.TypeHandler.Oracle" Version="1.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
-    <PackageReference Include="MySql.Data" Version="8.0.13" />
+    <PackageReference Include="MySql.Data" Version="8.0.15" />
     <PackageReference Include="Npgsql" Version="4.0.4" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />
     <PackageReference Include="SmartSql" Version="3.8.12" />

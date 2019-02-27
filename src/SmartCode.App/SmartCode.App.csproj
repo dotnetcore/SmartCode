@@ -2,12 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.1</LangVersion>
-    <Version>1.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Handlebars.Net" Version="1.9.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj" />

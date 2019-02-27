@@ -3,9 +3,9 @@ Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Paramters:
-    DbName: SmartSqlDB
+    DbName: SmartSqlTestDB
     DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
 Language: CSharp
 TemplateEngine: 
    Name: Razor

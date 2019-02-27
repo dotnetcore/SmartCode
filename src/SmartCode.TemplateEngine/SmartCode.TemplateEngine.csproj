@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.5.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Handlebars.Net" Version="1.9.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
