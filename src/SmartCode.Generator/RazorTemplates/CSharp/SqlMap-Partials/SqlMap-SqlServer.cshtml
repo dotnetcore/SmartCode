@@ -33,7 +33,7 @@
     {
     <!--获取分页数据-->
 <Statement Id="QueryByPage" @queryStatementResultMap>
-    @if (versionNo > 2012)
+    @if (versionNo >= 2012)
     {
         <text>
             Select T.* From @table.Name T With(NoLock)

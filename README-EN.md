@@ -10,6 +10,12 @@
 
 ![SmartCode](./doc/SmartCode-EN.png)
 
+## Nuget Packages
+
+| Package | NuGet Stable |  Downloads |
+| ------- | -------- | ------- |
+| [SmartCode.CLI](https://www.nuget.org/packages/SmartCode.CLI/) | [![SmartCode.CLI](https://img.shields.io/nuget/v/SmartCode.CLI.svg)](https://www.nuget.org/packages/SmartCode.CLI/)  | [![SmartCode.CLI](https://img.shields.io/nuget/dt/SmartCode.CLI.svg)](https://www.nuget.org/packages/SmartCode.CLI/) |
+
 ## SmartCode.Generator (Code generator)
 
 ### Demo
@@ -21,7 +27,7 @@
 1. Install from .NET Core Global Tool  
 
   ``` shell
-  dotnet tool install --global SmartCode.CLI
+    dotnet tool install --global SmartCode.CLI
   ```
 
 2. edit build configuration file (default: SmartCode.yml)

@@ -8,7 +8,9 @@ DataSource:
     DbProvider: SqlServer
     ConnectionString: Data Source=localhost;database=SqlServerDB;uid=SmartSql;pwd=SmartSql
 Language: PostgreSql
-TemplateEngine: Razor
+TemplateEngine: 
+   Name: Razor
+   Root: .
 Paramters:
   ExtractMode: QueryTime
   ModifyTime: ModifyTime
@@ -30,7 +32,8 @@ Build:
   DbToPGSql:
     Type: Single
     Module: SmartCode
-    Template: Sql/DbToPGSql.cshtml
+    TemplateEngine: 
+      Path: Sql/DbToPGSql.cshtml
     IgnoreNoPKTable: true
     Output: 
       Path: '.'
@@ -66,7 +69,8 @@ Build:
   ToPGBuild:
     Type: Table
     Module: SmartCode
-    Template: ETL/ToPGBuild.cshtml
+    TemplateEngine: 
+      Path: ETL/ToPGBuild.cshtml
     IgnoreNoPKTable: true
     Output: 
       Path: '.'

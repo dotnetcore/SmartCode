@@ -10,6 +10,12 @@
 
 ![SmartCode](./doc/SmartCode.png)
 
+## Nuget Packages
+
+| Package | NuGet Stable |  Downloads |
+| ------- | -------- | ------- |
+| [SmartCode.CLI](https://www.nuget.org/packages/SmartCode.CLI/) | [![SmartCode.CLI](https://img.shields.io/nuget/v/SmartCode.CLI.svg)](https://www.nuget.org/packages/SmartCode.CLI/)  | [![SmartCode.CLI](https://img.shields.io/nuget/dt/SmartCode.CLI.svg)](https://www.nuget.org/packages/SmartCode.CLI/) |
+
 ## SmartCode.Generator (代码生成器)
 
 ### Demo
@@ -18,7 +24,7 @@
 
 ### Getting Started
 
-1. Install from .NET Core Global Tool  
+1. Install from .NET Core Global Tool
 
   ``` shell
   dotnet tool install --global SmartCode.CLI
@@ -293,7 +299,7 @@ DbSource.Paramters 接受以下三个参数：
 
 >为了让更多人参与到SmartCode模板建设中来，故有以下模板规范：
 
-1. 模板作者在 src/SmartCode.Generator/RazorTemplates 中新建目录，并以作者英文名为目录名称
+1. 模板作者在 src/SmartCode.Generator/RazorTemplates/Contributions 中新建目录，并以作者英文名为目录名称
 2. 把模板放置到作者目录
 3. 作者目录下必须包括 README.md 文件，以说明模板的用途场景以及使用方式
 4. 提交PR
