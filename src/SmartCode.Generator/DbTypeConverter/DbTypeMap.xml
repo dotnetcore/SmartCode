@@ -29,14 +29,14 @@
     <DbType Name="numeric" To="decimal" />
     <DbType Name="integer" To="int" />
     <DbType Name="money" To="decimal" />
-    <DbType Name="real" To="decimal" />
+    <DbType Name="real" To="float" />
     <DbType Name="blob" To="byte[]" />
     <DbType Name="ntext" To="string" />
     <DbType Name="single" To="float" />
     <DbType Name="smallmoney" To="decimal" />
     <DbType Name="decimal" To="decimal" />
     <DbType Name="bfile" To="byte[]" />
-    <DbType Name="float" To="float" />
+    <DbType Name="float" To="double" />
     <DbType Name="uniqueidentifier" To="Guid" />
     <DbType Name="text" To="string" />
     <DbType Name="binary" To="byte[]" />

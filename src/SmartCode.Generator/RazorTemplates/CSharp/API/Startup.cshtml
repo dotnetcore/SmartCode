@@ -43,7 +43,8 @@ namespace @(project.Module).API
         }
         private void RegisterRepository(IServiceCollection services)
         {
-        services.AddSmartSqlRepositoryFromAssembly((options) =>
+        services.AddSmartSql()
+        .AddRepositoryFromAssembly(options =>
         {
         options.AssemblyString = "@(project.Module).Repository";
         });
@@ -65,7 +66,7 @@ namespace @(project.Module).API
         {
         Title = SERVICE_NAME,
         Version = "v1",
-        Description = "https://github.com/Ahoo-Wang/SmartCode"
+        Description = "https://github.com/Smart-Kit/SmartCode"
         });
         c.CustomSchemaIds((type) => type.FullName);
         var filePath = Path.Combine(AppContext.BaseDirectory, $"{SERVICE_NAME}.xml");

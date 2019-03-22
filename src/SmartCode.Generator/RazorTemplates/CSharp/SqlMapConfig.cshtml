@@ -11,26 +11,23 @@
 <!--
 @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 -->
-<SmartSqlMapConfig xmlns="http://SmartSql.net/schemas/SmartSqlMapConfig.xsd">
-    <Settings IsWatchConfigFile="true" />
-    <Database>
-        <DbProvider Name="@dbProvider.Name" ParameterPrefix="@dbProvider.ParameterPrefix" Type="@dbProvider.Type" />
-        <Write Name="@writeDataSource.Name" ConnectionString="@writeDataSource.ConnectionString" />
-        <Read Name="@writeDataSource.Name" ConnectionString="@writeDataSource.ConnectionString" Weight="80" />
-    </Database>
-
-    <TypeHandlers>
+<SmartSqlMapConfig xmlns="http://SmartSql.net/schemas/SmartSqlMapConfig-v4.xsd">
+    <Settings IsCacheEnabled="true" />
+    <Properties>
+        <Property Name="ConnectionString" Value="@writeDataSource.ConnectionString" />
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
         {
-            <TypeHandler Name="Json" Type="SmartSql.TypeHandler.PostgreSql.JsonTypeHandler,SmartSql.TypeHandler.PostgreSql" />
-            <TypeHandler Name="Jsonb" Type="SmartSql.TypeHandler.PostgreSql.JsonbTypeHandler,SmartSql.TypeHandler.PostgreSql" />
+            <Property Name="JsonTypeHandler" Value="SmartSql.TypeHandler.PostgreSql.JsonTypeHandler`1,SmartSql.TypeHandler.PostgreSql" />
         }
         else
         {
-            <TypeHandler Name="Json" Type="SmartSql.TypeHandler.JsonTypeHandler,SmartSql.TypeHandler" />
-            <TypeHandler Name="Xml" Type="SmartSql.TypeHandler.XmlTypeHandler,SmartSql.TypeHandler" />
+            <Property Name="JsonTypeHandler" Value="SmartSql.TypeHandler.JsonTypeHandler`1,SmartSql.TypeHandler" />
         }
-    </TypeHandlers>
+    </Properties>
+    <Database>
+        <DbProvider Name="@dbProvider.Name" />
+        <Write Name="@writeDataSource.Name" ConnectionString="${ConnectionString}" />
+    </Database>
     <SmartSqlMaps>
         <SmartSqlMap Path="Maps" Type="Directory"></SmartSqlMap>
     </SmartSqlMaps>

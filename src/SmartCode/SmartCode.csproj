@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="YamlDotNet" Version="5.4.0" />
+    <PackageReference Include="YamlDotNet" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

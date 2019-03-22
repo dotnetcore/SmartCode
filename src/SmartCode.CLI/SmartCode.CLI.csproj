@@ -11,7 +11,7 @@
     <Title>SmartCode.CLI</Title>
     <Authors>Ahoo Wang</Authors>
     <PackageReleaseNotes>
-      1. fix CamelCaseConverter not work
+      1. add support SmartSql-V4
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

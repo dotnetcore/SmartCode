@@ -11,7 +11,7 @@
 }
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,20 +21,19 @@
         }
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
         {
-            <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="1.0.0" />
+            <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.0-rc6" />
         }
         else
         {
-            <PackageReference Include="SmartSql.TypeHandler" Version="3.7.15" />
+            <PackageReference Include="SmartSql.TypeHandler" Version="4.0.0-rc6" />
         }
-
-        <PackageReference Include="SmartSql.DIExtension" Version="3.7.16" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+        <PackageReference Include="SmartSql.Schema" Version="4.0.0-rc8" />
+        <PackageReference Include="SmartSql.DIExtension" Version="4.0.0-rc8" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\@(project.Module).Entity\@(project.Module).Entity.csproj" />

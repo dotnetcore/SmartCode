@@ -58,7 +58,7 @@
     <!--获取表映射实体-->
     <Statement Id="GetEntity" @queryStatementResultMap>
         Select Top 1 T.* From @table.Name T With(NoLock)
-        <Where>
+        <Where Required="true">
             <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
                 T.@pkCol.Name=@dbPrefix@pkCol.ConvertedName
             </IsNotEmpty>
