@@ -17,7 +17,7 @@
 <!--更新-->
 <Statement Id="Update">
     UPDATE @table.Name
-    <Set>
+    <Set Required="true">
         @foreach (var col in table.Columns)
         {
             if (!col.IsPrimaryKey)
