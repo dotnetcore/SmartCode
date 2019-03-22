@@ -15,6 +15,7 @@
     <Settings IsCacheEnabled="true" />
     <Properties>
         <Property Name="ConnectionString" Value="@writeDataSource.ConnectionString" />
+        <Property Name="ScriptBuilder" Value="SmartSql.ScriptTag.ScriptBuilder,SmartSql.ScriptTag" />
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
         {
             <Property Name="JsonTypeHandler" Value="SmartSql.TypeHandler.PostgreSql.JsonTypeHandler`1,SmartSql.TypeHandler.PostgreSql" />
@@ -28,6 +29,16 @@
         <DbProvider Name="@dbProvider.Name" />
         <Write Name="@writeDataSource.Name" ConnectionString="${ConnectionString}" />
     </Database>
+    <TagBuilders>
+        <TagBuilder Name="Script" Type="${ScriptBuilder}" />
+    </TagBuilders>
+    <IdGenerator Type="SnowflakeId">
+        <Properties>
+            <Property Name="WorkerIdBits" Value="5" />
+            <Property Name="WorkerId" Value="1" />
+            <Property Name="Sequence" Value="0" />
+        </Properties>
+    </IdGenerator>
     <SmartSqlMaps>
         <SmartSqlMap Path="Maps" Type="Directory"></SmartSqlMap>
     </SmartSqlMaps>
