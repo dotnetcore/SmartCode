@@ -14,7 +14,7 @@
     }
 }
 
-<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap-v4.xsd">
+<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
     @{ await Html.RenderPartialAsync("SqlMap-ResultMaps.cshtml", Model); }
     <Statements>
         <Statement Id="QueryParams">

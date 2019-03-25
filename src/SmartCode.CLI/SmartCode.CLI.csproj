@@ -12,6 +12,9 @@
     <Authors>Ahoo Wang</Authors>
     <PackageReleaseNotes>
       1. add support SmartSql-V4
+      2. add Set.Tag Attribute.Required=true
+      3. add ScriptBuilder to SqlMapConfig.cshtml
+      4. add SnowflakeId-Config to SqlMapConfig.cshtml
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
