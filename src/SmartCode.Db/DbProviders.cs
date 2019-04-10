@@ -7,11 +7,13 @@ namespace SmartCode.Db
 {
     public class DbProviders
     {
+        private static readonly IDictionary<string, SmartSql.Configuration.DbProvider> _dbProviders;
+
         static DbProviders()
         {
+            _dbProviders = new Dictionary<string, SmartSql.Configuration.DbProvider>(StringComparer.CurrentCultureIgnoreCase);
             InitDbProviders();
         }
-        private static readonly IDictionary<string, SmartSql.Configuration.DbProvider> _dbProviders = new Dictionary<string, SmartSql.Configuration.DbProvider>();
         private static void InitDbProviders()
         {
             _dbProviders.Add("MySql", new SmartSql.Configuration.DbProvider

@@ -4,17 +4,15 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>SmartCode</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <Title>SmartCode.CLI</Title>
     <Authors>Ahoo Wang</Authors>
     <PackageReleaseNotes>
-      1. add support SmartSql-V4
-      2. add Set.Tag Attribute.Required=true
-      3. add ScriptBuilder to SqlMapConfig.cshtml
-      4. add SnowflakeId-Config to SqlMapConfig.cshtml
+      1. update SmartSql version
+      2. refactor Maps directory structure
+      3. Ignore DbProvider name case
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

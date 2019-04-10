@@ -46,7 +46,8 @@ Build:
         {Key: "API/QueryResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryResponse',Extension: '.cs'}},
         {Key: "API/QueryByPageResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
         {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
-        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
+        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig',Extension: '.xml'}},
+        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig.Development',Extension: '.xml'}}
         ]
 
   Entity:
@@ -152,7 +153,7 @@ Build:
     TemplateEngine: 
       Path: SqlMap.cshtml
     Output: 
-      Path: '{{Project.Module}}.API/Maps'
+      Path: '{{Project.Module}}.Repository/Maps'
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: .xml
     IgnoreNoPKTable: true
