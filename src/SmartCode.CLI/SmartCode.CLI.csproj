@@ -10,9 +10,7 @@
     <Title>SmartCode.CLI</Title>
     <Authors>Ahoo Wang</Authors>
     <PackageReleaseNotes>
-      1. update SmartSql version
-      2. refactor Maps directory structure
-      3. Ignore DbProvider name case
+      1. change sln  directory structure
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

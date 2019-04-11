@@ -35,7 +35,7 @@ namespace SmartCode.App.Outputs
         {
             var output = context.Output;
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} Start! ------");
-            
+
             var outputPath = Handlebars.Compile(output.Path)(context);
             outputPath = Path.Combine(context.Project.OutputPath, outputPath);
             if (!Directory.Exists(outputPath))
@@ -50,6 +50,7 @@ namespace SmartCode.App.Outputs
             {
                 switch (output.Mode)
                 {
+                    case Configuration.CreateMode.None:
                     case Configuration.CreateMode.Incre:
                         {
                             _logger.LogWarning($"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
@@ -69,7 +70,5 @@ namespace SmartCode.App.Outputs
             }
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} -> {filePath} End! ------");
         }
-
-
     }
 }
