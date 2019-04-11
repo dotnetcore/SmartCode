@@ -240,11 +240,11 @@ Build:
 | Output | Output |
 | Build | Task Build |
 
-#### DataSource Data Source, Name: Db
+#### DataSource Data Source, Name: DbTable
 
-> Property Name: Db, using the DbSource plugin as a data source
+> Property Name: DbTable, using the DbTableSource plugin as a data source
 
-DbSource.Paramters accepts the following three parameters:
+DbTableSource.Paramters accepts the following three parameters:
 
 | Parameter Name | Description |
 | :--------- | --------:|

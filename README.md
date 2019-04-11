@@ -240,11 +240,11 @@ Build:
 | Output | 输出 |
 | Build | 任务构建s |
 
-#### DataSource 数据源，Name:Db
+#### DataSource 数据源，Name:DbTable
 
-> 属性 Name:Db,使用DbSource插件作为数据源
+> 属性 Name:DbTable,使用 DbTableSource 插件作为数据源
 
-DbSource.Paramters 接受以下三个参数：
+DbTableSource.Paramters 接受以下三个参数：
 
 | 参数名 | 说明 |
 | :--------- | --------:|
