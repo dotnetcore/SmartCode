@@ -67,11 +67,11 @@ namespace SmartCode.ETL
         public async Task InitData()
         {
             var dataSource = _project.DataSource;
-            dataSource.Paramters.EnsureValue("DbProvider", out string dbProvider);
-            dataSource.Paramters.EnsureValue("ConnectionString", out string connString);
-            dataSource.Paramters.Value("PKColumn", out string pkColumn);
-            dataSource.Paramters.Value("ModifyTime", out string modifyTime);
-            dataSource.Paramters.EnsureValue("Query", out string queryCmd);
+            dataSource.Parameters.EnsureValue("DbProvider", out string dbProvider);
+            dataSource.Parameters.EnsureValue("ConnectionString", out string connString);
+            dataSource.Parameters.Value("PKColumn", out string pkColumn);
+            dataSource.Parameters.Value("ModifyTime", out string modifyTime);
+            dataSource.Parameters.EnsureValue("Query", out string queryCmd);
             #region CreateSqlMapper
             var smartSqlOptions = new CreateSmartSqlMapperOptions
             {
@@ -101,7 +101,7 @@ namespace SmartCode.ETL
                 QueryCommand = new ETLDbCommand
                 {
                     Command = queryCmd,
-                    Paramters = queryParams
+                    Parameters = queryParams
                 },
                 QuerySize = -1,
                 MaxId = -1
@@ -114,8 +114,8 @@ namespace SmartCode.ETL
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
             _logger.LogWarning($"InitData,Data.Size:{extractEntity.QuerySize},Taken:{extractEntity.QueryCommand.Taken}ms!");
 
-            dataSource.Paramters.Value("PkIsNumeric", out bool pkIsNumeric);
-            dataSource.Paramters.Value("AutoIncrement", out bool autoIncrement);
+            dataSource.Parameters.Value("PkIsNumeric", out bool pkIsNumeric);
+            dataSource.Parameters.Value("AutoIncrement", out bool autoIncrement);
 
             if (!String.IsNullOrEmpty(pkColumn)
                 && (pkIsNumeric || autoIncrement)
@@ -145,7 +145,7 @@ namespace SmartCode.ETL
         }
 
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
             InitProjectBuilderEvent();
             Initialized = true;

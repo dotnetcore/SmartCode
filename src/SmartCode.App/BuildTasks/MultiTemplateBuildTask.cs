@@ -32,7 +32,7 @@ namespace SmartCode.App.BuildTasks
         }
         public async Task Build(BuildContext context)
         {
-            if (context.Build.Paramters.Value(TEMPLATES_KEY, out IEnumerable templates))
+            if (context.Build.Parameters.Value(TEMPLATES_KEY, out IEnumerable templates))
             {
                 foreach (var templateKVs in templates)
                 {
@@ -80,7 +80,7 @@ namespace SmartCode.App.BuildTasks
             }
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }

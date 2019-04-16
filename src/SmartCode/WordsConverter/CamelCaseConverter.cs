@@ -29,7 +29,7 @@ namespace SmartCode.WordsConverter
             return stringBuilder.ToString();
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
             Initialized = true;
         }

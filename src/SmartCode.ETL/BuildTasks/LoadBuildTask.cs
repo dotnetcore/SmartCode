@@ -40,8 +40,8 @@ namespace SmartCode.ETL.BuildTasks
 
         public async Task Build(BuildContext context)
         {
-            context.Build.Paramters.EnsureValue(TABLE_NAME, out string tableName);
-            context.Build.Paramters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
+            context.Build.Parameters.EnsureValue(TABLE_NAME, out string tableName);
+            context.Build.Parameters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
             var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
             var dataSource = context.GetDataSource<ExtractDataSource>();
             if (dataSource.TransformData.Rows.Count == 0)
@@ -56,7 +56,7 @@ namespace SmartCode.ETL.BuildTasks
             var batchTable = dataSource.TransformData;
             batchTable.Name = tableName;
             var sqlMapper = GetSqlMapper(context);
-            context.Build.Paramters.Value(PRE_COMMAND, out string preCmd);
+            context.Build.Parameters.Value(PRE_COMMAND, out string preCmd);
             var lastExtract = _project.GetETLLastExtract();
             var queryParams = new Dictionary<string, object>
             {
@@ -85,7 +85,7 @@ namespace SmartCode.ETL.BuildTasks
                     loadEntity.PreCommand = new Entity.ETLDbCommand
                     {
                         Command = preCmd,
-                        Paramters = queryParams,
+                        Parameters = queryParams,
                         Taken = stopwatch.ElapsedMilliseconds
                     };
                 }
@@ -102,7 +102,7 @@ namespace SmartCode.ETL.BuildTasks
                 _logger.LogWarning($"Build:{context.BuildKey},BatchInsert.Size:{loadEntity.Size},Taken:{loadEntity.Taken}ms!");
                 #endregion
                 #region PostCmd
-                if (context.Build.Paramters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
+                if (context.Build.Parameters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
                 {
                     stopwatch.Restart();
                     await sqlMapper.ExecuteAsync(new RequestContext
@@ -114,7 +114,7 @@ namespace SmartCode.ETL.BuildTasks
                     loadEntity.PostCommand = new Entity.ETLDbCommand
                     {
                         Command = postCmd,
-                        Paramters = queryParams,
+                        Parameters = queryParams,
                         Taken = stopwatch.ElapsedMilliseconds
                     };
                 }
@@ -127,14 +127,14 @@ namespace SmartCode.ETL.BuildTasks
             }
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }
 
         private void InitColumnMapping(IBatchInsert batchInsert, BuildContext context)
         {
-            if (context.Build.Paramters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
+            if (context.Build.Parameters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
             {
                 foreach (IDictionary<object, object> colMappingKV in colMapps)
                 {
@@ -158,8 +158,8 @@ namespace SmartCode.ETL.BuildTasks
         }
         private CreateSmartSqlMapperOptions InitCreateSmartSqlMapperOptions(BuildContext context)
         {
-            context.Build.Paramters.EnsureValue(DB_PROVIDER, out string dbProvider);
-            context.Build.Paramters.EnsureValue("ConnectionString", out string connString);
+            context.Build.Parameters.EnsureValue(DB_PROVIDER, out string dbProvider);
+            context.Build.Parameters.EnsureValue("ConnectionString", out string connString);
             var alias_name = $"{Name}_{context.BuildKey}";
             return new CreateSmartSqlMapperOptions
             {

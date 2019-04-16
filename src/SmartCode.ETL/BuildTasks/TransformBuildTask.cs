@@ -40,7 +40,7 @@ namespace SmartCode.ETL.BuildTasks
             });
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }

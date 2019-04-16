@@ -21,10 +21,10 @@ namespace SmartCode.App.Outputs
 
         public string Name { get; private set; } = "File";
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters == null) { return; }
-            if (paramters.Value("Name", out string name))
+            if (parameters == null) { return; }
+            if (parameters.Value("Name", out string name))
             {
                 Name = name;
             }

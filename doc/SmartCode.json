@@ -3,7 +3,7 @@
     "Author": "Ahoo Wang",
     "DataSource": {
         "Name": "Db",
-        "Paramters": {
+        "Parameters": {
             "DbName": "SmartSqlStarterDB",
             "DbProvider": "SqlServer",
             "ConnectionString": "Data Source=.;Initial Catalog=SmartSqlStarterDB;Integrated Security=True"
@@ -17,7 +17,7 @@
         "Name": null,
         "Extension": null
     },
-    "Paramters": null,
+    "Parameters": null,
     "BuildTasks": {
         "ClearDir": {
             "Type": "Clear",
@@ -30,36 +30,36 @@
             "NamingConverter": {
                 "Table": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "View": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "Column": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 }
             },
-            "Paramters": {
+            "Parameters": {
                 "Dirs": "."
             }
         },
@@ -79,36 +79,36 @@
             "NamingConverter": {
                 "Table": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "View": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "Column": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         },
         "SmartSqlConfig": {
             "Type": "Project",
@@ -126,36 +126,36 @@
             "NamingConverter": {
                 "Table": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "View": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "Column": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         },
         "Entity_Project": {
             "Type": "Project",
@@ -173,36 +173,36 @@
             "NamingConverter": {
                 "Table": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "View": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "Column": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         },
         "Entity": {
             "Type": "Table",
@@ -221,43 +221,43 @@
                 "Table": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "T_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Default",
-                        "Paramters": {}
+                        "Parameters": {}
                     }
                 },
                 "View": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "V_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Pascal",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 },
                 "Column": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Pascal",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         },
         "Repository_Project": {
             "Type": "Project",
@@ -275,36 +275,36 @@
             "NamingConverter": {
                 "Table": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "View": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 },
                 "Column": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         },
         "Repository": {
             "Type": "Table",
@@ -323,41 +323,41 @@
                 "Table": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "T_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Default",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 },
                 "View": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "V_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Default",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 },
                 "Column": {
                     "Tokenizer": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     },
                     "Converter": {
-                        "Type": "Defalut",
-                        "Paramters": {}
+                        "Type": "Default",
+                        "Parameters": {}
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         },
         "SqlMap": {
             "Type": "Table",
@@ -376,44 +376,44 @@
                 "Table": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "T_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Default",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 },
                 "View": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "V_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Default",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 },
                 "Column": {
                     "Tokenizer": {
                         "Type": "Default",
-                        "Paramters": {
+                        "Parameters": {
                             "IgnorePrefix": "T_",
                             "Delimiter": "_"
                         }
                     },
                     "Converter": {
                         "Type": "Default",
-                        "Paramters": null
+                        "Parameters": null
                     }
                 }
             },
-            "Paramters": null
+            "Parameters": null
         }
     },
     "OutputPath": "E://SmartSql-Starter"

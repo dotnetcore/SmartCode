@@ -44,7 +44,7 @@ namespace SmartCode.ETL.LoadToES
             var loadEntity = new Entity.ETLLoad
             {
                 Size = 0,
-                Paramters = new Dictionary<String, object>
+                Parameters = new Dictionary<String, object>
                     {
                         { "Task","LoadToES"},
                         { "Index",esOptions.Index},
@@ -93,7 +93,7 @@ namespace SmartCode.ETL.LoadToES
                 var bulkReqDesc = bulkRequest
                   .Index(esOptions.Index)
                   .Type(esOptions.TypeName);
-                if (context.Build.Paramters.Value(ID_MAPPING, out string es_id))
+                if (context.Build.Parameters.Value(ID_MAPPING, out string es_id))
                 {
                     return bulkReqDesc.IndexMany(list, (bulkIdxDesc, item) =>
                     {
@@ -119,13 +119,13 @@ namespace SmartCode.ETL.LoadToES
 
         private static ESOptions InitOptions(BuildContext context)
         {
-            context.Build.Paramters.EnsureValue(HOST, out string host);
-            context.Build.Paramters.EnsureValue(INDEX_NAME, out string index_name);
-            context.Build.Paramters.EnsureValue(TYPE_NAME, out string type_name);
-            context.Build.Paramters.Value(BASE_AUTH, out IDictionary<object, object> baseAuth);
+            context.Build.Parameters.EnsureValue(HOST, out string host);
+            context.Build.Parameters.EnsureValue(INDEX_NAME, out string index_name);
+            context.Build.Parameters.EnsureValue(TYPE_NAME, out string type_name);
+            context.Build.Parameters.Value(BASE_AUTH, out IDictionary<object, object> baseAuth);
             baseAuth.Value("UserName", out string user_name);
             baseAuth.Value("Password", out string password);
-            context.Build.Paramters.Value(CERT_PATH, out string cert);
+            context.Build.Parameters.Value(CERT_PATH, out string cert);
 
             return new ESOptions
             {
@@ -139,7 +139,7 @@ namespace SmartCode.ETL.LoadToES
         }
         private IEnumerable<ColumnMapping> InitColumnMapping(BuildContext context)
         {
-            if (context.Build.Paramters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
+            if (context.Build.Parameters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
             {
                 foreach (IDictionary<object, object> colMappingKV in colMapps)
                 {

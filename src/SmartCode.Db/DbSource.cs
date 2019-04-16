@@ -24,21 +24,21 @@ namespace SmartCode.Db
 
         public virtual string Name { get; private set; } = "Db";
         public DbRepository DbRepository { get; protected set; }
-        public SmartSql.SmartSqlOptions SmartSqlOptions { get { return DbRepository.SqlMapper.SmartSqlOptions; } }
-        public SmartSql.SmartSqlContext SmartSqlContext { get { return SmartSqlOptions.SmartSqlContext; } }
-        public SmartSql.Configuration.Database Database { get { return SmartSqlContext.Database; } }
-        public SmartSql.Configuration.DbProvider DbProvider { get { return Database.DbProvider; } }
-        public SmartSql.Configuration.WriteDataSource WriteDataSource { get { return Database.WriteDataSource; } }
+        public SmartSql.SmartSqlOptions SmartSqlOptions => DbRepository.SqlMapper.SmartSqlOptions;
+        public SmartSql.SmartSqlContext SmartSqlContext => SmartSqlOptions.SmartSqlContext;
+        public SmartSql.Configuration.Database Database => SmartSqlContext.Database;
+        public SmartSql.Configuration.DbProvider DbProvider => Database.DbProvider;
+        public SmartSql.Configuration.WriteDataSource WriteDataSource => Database.WriteDataSource;
 
         public Project Project { get; }
         public ILoggerFactory LoggerFactory { get; }
         public IPluginManager PluginManager { get; }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value("Name", out string name))
+                if (parameters.Value("Name", out string name))
                 {
                     Name = name;
                 }

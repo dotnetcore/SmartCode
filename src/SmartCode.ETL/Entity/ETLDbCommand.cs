@@ -7,7 +7,7 @@ namespace SmartCode.ETL.Entity
     public class ETLDbCommand
     {
         public string Command { get; set; }
-        public IDictionary<String, object> Paramters { get; set; }
+        public IDictionary<String, object> Parameters { get; set; }
         public long Taken { get; set; }
     }
 }

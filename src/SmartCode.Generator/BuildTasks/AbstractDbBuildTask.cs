@@ -25,12 +25,12 @@ namespace SmartCode.Generator.BuildTasks
 
         public abstract Task Build(BuildContext context);
 
-        public virtual void Initialize(IDictionary<string, object> paramters)
+        public virtual void Initialize(IDictionary<string, object> parameters)
         {
             this.Initialized = true;
         }
 
-        protected IEnumerable<Table> FilterTable(IEnumerable<Table> tables, string buildKey, Build build)
+        protected IList<Table> FilterTable(IEnumerable<Table> tables, string buildKey, Build build)
         {
             _logger.LogInformation($"FilterTable Build:{buildKey} Start!");
             IEnumerable<Table> buildTables = CopyTables(tables);
@@ -55,7 +55,7 @@ namespace SmartCode.Generator.BuildTasks
                 buildTables = buildTables.Where(m => build.IncludeTables.Contains(m.Name));
             }
             _logger.LogInformation($"FilterTable Build:{buildKey} End!");
-            return buildTables;
+            return buildTables.ToList();
         }
 
         protected IList<Table> CopyTables(IEnumerable<Table> tables)

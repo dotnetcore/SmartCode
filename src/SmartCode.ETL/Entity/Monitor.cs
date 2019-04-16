@@ -6,7 +6,7 @@ namespace SmartCode.ETL.Entity
 {
     public class Monitor
     {
-        public string BuidKey { get; set; }
+        public string BuildKey { get; set; }
 
         public string MachineName { get; }
 

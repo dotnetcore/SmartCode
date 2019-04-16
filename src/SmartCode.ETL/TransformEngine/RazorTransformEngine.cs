@@ -24,7 +24,7 @@ namespace SmartCode.ETL.TransformEngine
         private const String SCRIPT = "Script";
         public async Task Transform(BuildContext context)
         {
-            if (context.Build.Paramters.Value(SCRIPT, out string script) && !String.IsNullOrEmpty(script))
+            if (context.Build.Parameters.Value(SCRIPT, out string script) && !String.IsNullOrEmpty(script))
             {
                 using (var serviceScope = _scopeFactory.CreateScope())
                 {
@@ -38,16 +38,16 @@ namespace SmartCode.ETL.TransformEngine
         public string Name { get; private set; } = "Razor";
         private string _root = AppPath.Relative("TransformScripts");
         private IServiceScopeFactory _scopeFactory;
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
             Initialized = true;
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value("Name", out string name))
+                if (parameters.Value("Name", out string name))
                 {
                     Name = name;
                 }
-                if (paramters.Value("Root", out string root))
+                if (parameters.Value("Root", out string root))
                 {
                     _root = root;
                 }

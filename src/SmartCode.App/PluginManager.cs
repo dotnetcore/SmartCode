@@ -65,7 +65,7 @@ namespace SmartCode.App
                     var pluginConfig = _smartCodeOptions
                         .Plugins
                         .FirstOrDefault(m => m.ImplAssemblyName == assName && m.ImplTypeName == typeName);
-                    plugin.Initialize(pluginConfig.Paramters);
+                    plugin.Initialize(pluginConfig.Parameters);
                 }
             }
             return plugins;

@@ -46,7 +46,7 @@ Module: SmartSql.Starter
 Author: Ahoo Wang
 DataSource:
   Name: DbTable
-  Paramters:
+  Parameters:
     DbName: SmartSqlTestDB
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
@@ -57,7 +57,7 @@ TemplateEngine:
 Output: 
   Type: File
   Path: 'E:\SmartSql-Starter'
-Paramters:
+Parameters:
   DocDir: 'E:\SmartSql-Starter\doc'
 
 # 构建任务
@@ -65,25 +65,25 @@ Build:
 
 #  ClearDir:
 #    Type: Clear
-#    Paramters:
+#    Parameters:
 #      Dirs: '.'
 
   MakeDic-Doc:
     Type: Process
-    Paramters:
+    Parameters:
       FileName: powershell
-      Args: mkdir '{{Project.Paramters.DocDir}}'
+      Args: mkdir '{{Project.Parameters.DocDir}}'
   Copy:
     Type: Process
-    Paramters:
+    Parameters:
       FileName: powershell
-      Args:  cp '{{Project.ConfigPath}}' '{{Project.Paramters.DocDir}}'
+      Args:  cp '{{Project.ConfigPath}}' '{{Project.Parameters.DocDir}}'
 
   Scaffolding:
     Type: MultiTemplate
     Output: 
       Path: '.'
-    Paramters:
+    Parameters:
       Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
         {Key: "Proj-Entity.cshtml",Output: {Path: 'src/{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
         {Key: "Proj-Repository.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
@@ -120,16 +120,16 @@ Build:
       Table:
         Tokenizer: 
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
-          Paramters: { }
+          Parameters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -137,7 +137,7 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
         Converter:
           Type: Pascal
@@ -157,7 +157,7 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
@@ -178,7 +178,7 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
@@ -199,7 +199,7 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
@@ -219,7 +219,7 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
@@ -227,7 +227,7 @@ Build:
       View:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -235,7 +235,7 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
@@ -243,10 +243,35 @@ Build:
 
   ReStore:
     Type: Process
-    Paramters: 
+    Parameters: 
       FileName: powershell
       WorkingDirectory: '{{Project.Output.Path}}'
       Args: dotnet restore
+
+#  Publish:
+#    Type: Process
+#    Parameters: 
+#      FileName: powershell
+#      WorkingDirectory: '{{Project.Output.Path}}'
+#      Args: dotnet publish -c Release -o '{{Project.Output.Path}}\publish'
+
+#  Run:
+#    Type: Process
+#    Parameters: 
+#      FileName: powershell
+#      WorkingDirectory: '{{Project.Output.Path}}\publish'
+#      CreateNoWindow: false
+#      RedirectStandardOutput: false
+#      RedirectStandardError: false
+#      WaitForExit: false
+#      WriteLines: ['dotnet {{Project.Module}}.API.dll']
+
+#  RunChrome:
+#    Type: Process
+#    Parameters: 
+#      FileName: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+#      CreateNoWindow: false
+#      Args: http://localhost:5000/swagger
 ```
 
 ### Build file parameter overview

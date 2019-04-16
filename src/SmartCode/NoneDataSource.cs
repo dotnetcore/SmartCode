@@ -16,7 +16,7 @@ namespace SmartCode
             return Task.CompletedTask;
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }

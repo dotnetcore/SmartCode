@@ -13,12 +13,12 @@ namespace SmartCode.App
     public class SmartCodeApp
     {
         public SmartCodeOptions SmartCodeOptions { get; }
-        public String AppDirectory { get { return AppDomain.CurrentDomain.BaseDirectory; } }
+        public String AppDirectory => AppDomain.CurrentDomain.BaseDirectory;
         public IConfigBuilder ConfigBuilder { get; private set; }
-        public IServiceCollection Services { get { return SmartCodeOptions.Services; } }
+        public IServiceCollection Services => SmartCodeOptions.Services;
         public IServiceProvider ServiceProvider { get; private set; }
         public Project Project { get; private set; }
-        public string ConfigPath { get { return SmartCodeOptions.ConfigPath; } }
+        public string ConfigPath => SmartCodeOptions.ConfigPath;
         public ILogger<SmartCodeApp> Logger { get; private set; }
         public SmartCodeApp(SmartCodeOptions smartCodeOptions)
         {

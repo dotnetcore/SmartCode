@@ -11,7 +11,7 @@ namespace SmartCode
         public static ITokenizer Create(Tokenizer tokenizer)
         {
             DefaultTokenizer defaultTokenizer = new DefaultTokenizer();
-            defaultTokenizer.Initialize(tokenizer.Paramters);
+            defaultTokenizer.Initialize(tokenizer.Parameters);
             return defaultTokenizer;
         }
     }

@@ -37,7 +37,7 @@ namespace System.Collections.Generic
         {
             if (!dic.Value(key, out value))
             {
-                throw new SmartCodeException($"Can not find Paramter:{key}!");
+                throw new SmartCodeException($"Can not find Parameter:{key}!");
             }
         }
     }

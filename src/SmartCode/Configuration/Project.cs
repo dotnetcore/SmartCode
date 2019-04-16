@@ -15,9 +15,9 @@ namespace SmartCode.Configuration
         public TemplateEngine TemplateEngine { get; set; } = TemplateEngine.Default;
         public String Language { get; set; } = "CSharp";
         public Output Output { get; set; }
-        public IDictionary<String, object> Paramters { get; set; } = new Dictionary<String, object>();
+        public IDictionary<String, object> Parameters { get; set; } = new Dictionary<String, object>();
         [YamlMember(Alias = "Build")]
         public IDictionary<string, Build> BuildTasks { get; set; }
-        public String OutputPath { get { return Output.Path; } }
+        public String OutputPath => Output.Path;
     }
 }
