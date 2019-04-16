@@ -290,7 +290,7 @@ Build:
 
 > 属性 Name:DbTable,使用 DbTableSource 插件作为数据源
 
-DbTableSource.Paramters 接受以下三个参数：
+DbTableSource.Parameters 接受以下三个参数：
 
 | 参数名 | 说明 |
 | :--------- | --------:|
@@ -322,7 +322,7 @@ DbTableSource.Paramters 接受以下三个参数：
 | IncludeTables | 包括表名s |
 | IgnoreTables | 忽略表名s |
 | NamingConverter | 命名转换器 |
-| Paramters | 自定义构建参数 |
+| Parameters | 自定义构建参数 |
 
 #### NamingConverter 命名转换
 
@@ -337,9 +337,9 @@ DbTableSource.Paramters 接受以下三个参数：
 | 属性 | 说明 |
 | :--------- | --------:|
 | Type | Default |
-| Paramters.IgnorePrefix | 忽略前缀字符 |
-| Paramters.Delimiter | 分隔符 |
-| Paramters.UppercaseSplit | 使用大写分隔，默认：true |
+| Parameters.IgnorePrefix | 忽略前缀字符 |
+| Parameters.Delimiter | 分隔符 |
+| Parameters.UppercaseSplit | 使用大写分隔，默认：true |
 
 ### 如何贡献模板
 
@@ -358,13 +358,13 @@ DbTableSource.Paramters 接受以下三个参数：
 Author: Ahoo Wang
 DataSource:
   Name: Extract
-  Paramters:
+  Parameters:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
     Query: SELECT [Id],[UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User] Where Id>@LastMaxId And CreationTime>@LastQueryTime
     PKColumn: Id
 
-Paramters:
+Parameters:
   ETLCode: SmartCode.ETL.Test
   ETLRepository: PG
   
@@ -372,12 +372,12 @@ Build:
 
   Transform:
     Type: Transform
-    Paramters:
+    Parameters:
       Script: Load2PostgreSql.cshtml
 
   Load2PostgreSql: 
     Type: Load
-    Paramters:
+    Parameters:
       DbProvider: PostgreSql
       ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartsql_db;
       Table: t_user

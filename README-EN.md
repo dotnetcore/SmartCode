@@ -290,7 +290,7 @@ Build:
 
 > Property Name: DbTable, using the DbTableSource plugin as a data source
 
-DbTableSource.Paramters accepts the following three parameters:
+DbTableSource.Parameters accepts the following three parameters:
 
 | Parameter Name | Description |
 | :--------- | --------:|
@@ -312,7 +312,7 @@ DbTableSource.Paramters accepts the following three parameters:
 | IncludeTables | Include table name s |
 | IgnoreTables | Ignore table name s |
 | NamingConverter | Named Converter |
-| Paramters | Custom Build Parameters |
+| Parameters | Custom Build Parameters |
 
 #### NamingConverter Name Conversion
 
@@ -327,9 +327,9 @@ DbTableSource.Paramters accepts the following three parameters:
 | Attribute | Description |
 | :--------- | --------:|
 | Type | Default |
-| Paramters.IgnorePrefix | Ignore prefix characters |
-| Paramters.Delimiter | Separator |
-| Paramters.UppercaseSplit | Using uppercase separation, default: true |
+| Parameters.IgnorePrefix | Ignore prefix characters |
+| Parameters.Delimiter | Separator |
+| Parameters.UppercaseSplit | Using uppercase separation, default: true |
 
 ### How to contribute a template
 
@@ -348,13 +348,13 @@ DbTableSource.Paramters accepts the following three parameters:
 Author: Ahoo Wang
 DataSource:
   Name: Extract
-  Paramters:
+  Parameters:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
     Query: SELECT [Id],[UserName],[Pwd],[Status],[LastLoginTime],[CreationTime],[Deleted] FROM [T_User] Where Id>@LastMaxId And CreationTime>@LastQueryTime
     PKColumn: Id
 
-Paramters:
+Parameters:
   ETLCode: SmartCode.ETL.Test
   ETLRepository: PG
   
@@ -362,12 +362,12 @@ Build:
 
   Transform:
     Type: Transform
-    Paramters:
+    Parameters:
       Script: Load2PostgreSql.cshtml
 
   Load2PostgreSql: 
     Type: Load
-    Paramters:
+    Parameters:
       DbProvider: PostgreSql
       ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartsql_db;
       Table: t_user
