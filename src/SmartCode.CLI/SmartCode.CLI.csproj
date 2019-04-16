@@ -10,7 +10,8 @@
     <Title>SmartCode.CLI</Title>
     <Authors>Ahoo Wang</Authors>
     <PackageReleaseNotes>
-      1. change sln  directory structure
+      1. update SmartSql-version
+      2. optimize template
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>

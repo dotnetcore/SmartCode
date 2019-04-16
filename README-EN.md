@@ -47,24 +47,37 @@ Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Paramters:
-    DbName: SmartSqlDB
+    DbName: SmartSqlTestDB
     DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
 Language: CSharp
 TemplateEngine: 
    Name: Razor
    Root: CSharp
 Output: 
   Type: File
-  Path: 'E://SmartSql-Starter'
+  Path: 'E:\SmartSql-Starter'
+Paramters:
+  DocDir: 'E:\SmartSql-Starter\doc'
 
 # 构建任务
 Build:
 
-  ClearDir:
-    Type: Clear
+#  ClearDir:
+#    Type: Clear
+#    Paramters:
+#      Dirs: '.'
+
+  MakeDic-Doc:
+    Type: Process
     Paramters:
-      Dirs: '.'
+      FileName: powershell
+      Args: mkdir '{{Project.Paramters.DocDir}}'
+  Copy:
+    Type: Process
+    Paramters:
+      FileName: powershell
+      Args:  cp '{{Project.ConfigPath}}' '{{Project.Paramters.DocDir}}'
 
   Scaffolding:
     Type: MultiTemplate
@@ -72,25 +85,26 @@ Build:
       Path: '.'
     Paramters:
       Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
-        {Key: "Proj-Entity.cshtml",Output: {Path: '{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
-        {Key: "Proj-Repository.cshtml",Output: {Path: '{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
-        {Key: "Proj-Service.cshtml",Output: {Path: '{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
-        {Key: "Proj-API.cshtml",Output: {Path: '{{Project.Module}}.API',Name: '{{Project.Module}}.API',Extension: '.csproj'}},
-        {Key: "API/LaunchSettings.cshtml",Output: {Path: '{{Project.Module}}.API/Properties',Name: 'launchSettings',Extension: '.json'}},
-        {Key: "API/AppSettings.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
-        {Key: "API/AppSettings-Development.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
-        {Key: "API/Program.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
-        {Key: "API/Startup.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
-        {Key: "API/APIException.cshtml",Output: {Path: '{{Project.Module}}.API/Exceptions',Name: 'APIException',Extension: '.cs'}},
-        {Key: "API/GlobalExceptionFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalExceptionFilter',Extension: '.cs'}},
-        {Key: "API/GlobalValidateModelFilter.cshtml",Output: {Path: '{{Project.Module}}.API/Filters',Name: 'GlobalValidateModelFilter',Extension: '.cs'}},
-        {Key: "API/QueryRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryRequest',Extension: '.cs'}},
-        {Key: "API/QueryByPageRequest.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageRequest',Extension: '.cs'}},
-        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
-        {Key: "API/QueryResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryResponse',Extension: '.cs'}},
-        {Key: "API/QueryByPageResponse.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
-        {Key: "API/ResponseMessage.cshtml",Output: {Path: '{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
-        {Key: "SqlMapConfig.cshtml",Output: {Path: '{{Project.Module}}.API',Name: 'SmartSqlMapConfig',Extension: '.xml'}}
+        {Key: "Proj-Entity.cshtml",Output: {Path: 'src/{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
+        {Key: "Proj-Repository.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
+        {Key: "Proj-Service.cshtml",Output: {Path: 'src/{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
+        {Key: "Proj-API.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: '{{Project.Module}}.API',Extension: '.csproj'}},
+        {Key: "API/LaunchSettings.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Properties',Name: 'launchSettings',Extension: '.json'}},
+        {Key: "API/AppSettings.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
+        {Key: "API/AppSettings-Development.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
+        {Key: "API/Program.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
+        {Key: "API/Startup.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
+        {Key: "API/APIException.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Exceptions',Name: 'APIException',Extension: '.cs'}},
+        {Key: "API/GlobalExceptionFilter.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Filters',Name: 'GlobalExceptionFilter',Extension: '.cs'}},
+        {Key: "API/GlobalValidateModelFilter.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Filters',Name: 'GlobalValidateModelFilter',Extension: '.cs'}},
+        {Key: "API/QueryRequest.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'QueryRequest',Extension: '.cs'}},
+        {Key: "API/QueryByPageRequest.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'QueryByPageRequest',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "API/QueryResponse.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'QueryResponse',Extension: '.cs'}},
+        {Key: "API/QueryByPageResponse.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
+        {Key: "API/ResponseMessage.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
+        {Key: "SqlMapConfig.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig',Extension: '.xml'}},
+        {Key: "SqlMapConfig.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig.Development',Extension: '.xml'}}
         ]
 
   Entity:
@@ -99,7 +113,7 @@ Build:
     TemplateEngine: 
       Path: Entity.cshtml
     Output: 
-      Path: '{{Project.Module}}.{{Build.Module}}'
+      Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.cs'
     NamingConverter:
@@ -136,7 +150,7 @@ Build:
     IgnoreNoPKTable: true
     IgnoreView: true
     Output: 
-      Path: '{{Project.Module}}.{{Build.Module}}'
+      Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
       Extension: .cs
     NamingConverter:
@@ -157,7 +171,7 @@ Build:
     IgnoreNoPKTable: true
     IgnoreView: true
     Output: 
-      Path: '{{Project.Module}}.{{Build.Module}}'
+      Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}Service'
       Extension: .cs
     NamingConverter:
@@ -178,7 +192,7 @@ Build:
     IgnoreNoPKTable: true
     IgnoreView: true
     Output: 
-      Path: '{{Project.Module}}.{{Build.Module}}/Controllers'
+      Path: 'src/{{Project.Module}}.{{Build.Module}}/Controllers'
       Name: '{{Items.CurrentTable.ConvertedName}}Controller'
       Extension: .cs
     NamingConverter:
@@ -196,7 +210,7 @@ Build:
     TemplateEngine: 
       Path: SqlMap.cshtml
     Output: 
-      Path: '{{Project.Module}}.API/Maps'
+      Path: 'src/{{Project.Module}}.Repository/Maps'
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: .xml
     IgnoreNoPKTable: true
@@ -226,6 +240,13 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
+
+  ReStore:
+    Type: Process
+    Paramters: 
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet restore
 ```
 
 ### Build file parameter overview

@@ -12,7 +12,9 @@ TemplateEngine:
    Root: CSharp
 Output: 
   Type: File
-  Path: 'E://SmartSql-Starter'
+  Path: 'E:\SmartSql-Starter'
+Paramters:
+  DocDir: 'E:\SmartSql-Starter\doc'
 
 # 构建任务
 Build:
@@ -21,6 +23,17 @@ Build:
 #    Type: Clear
 #    Paramters:
 #      Dirs: '.'
+
+  MakeDic-Doc:
+    Type: Process
+    Paramters:
+      FileName: powershell
+      Args: mkdir '{{Project.Paramters.DocDir}}'
+  Copy:
+    Type: Process
+    Paramters:
+      FileName: powershell
+      Args:  cp '{{Project.ConfigPath}}' '{{Project.Paramters.DocDir}}'
 
   Scaffolding:
     Type: MultiTemplate
@@ -183,3 +196,10 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
+
+  ReStore:
+    Type: Process
+    Paramters: 
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet restore
