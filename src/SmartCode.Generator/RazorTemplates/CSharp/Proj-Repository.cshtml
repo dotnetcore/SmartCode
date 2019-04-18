@@ -21,15 +21,15 @@
         }
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
         {
-            <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.19" />
+            <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.26" />
         }
         else
         {
-            <PackageReference Include="SmartSql.TypeHandler" Version="4.0.19" />
+            <PackageReference Include="SmartSql.TypeHandler" Version="4.0.26" />
         }
-        <PackageReference Include="SmartSql.Schema" Version="4.0.0" />
-        <PackageReference Include="SmartSql.ScriptTag" Version="4.0.19" />
-        <PackageReference Include="SmartSql.DyRepository" Version="4.0.19" />
+        <PackageReference Include="SmartSql.Schema" Version="4.0.26" />
+        <PackageReference Include="SmartSql.ScriptTag" Version="4.0.26" />
+        <PackageReference Include="SmartSql.DyRepository" Version="4.0.26" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\@(project.Module).Entity\@(project.Module).Entity.csproj" />

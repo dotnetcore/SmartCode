@@ -32,13 +32,15 @@
     <TagBuilders>
         <TagBuilder Name="Script" Type="${ScriptBuilder}" />
     </TagBuilders>
-    <IdGenerator Type="SnowflakeId">
-        <Properties>
-            <Property Name="WorkerIdBits" Value="5" />
-            <Property Name="WorkerId" Value="1" />
-            <Property Name="Sequence" Value="0" />
-        </Properties>
-    </IdGenerator>
+    <IdGenerators>
+        <IdGenerator Name="SnowflakeId" Type="SnowflakeId">
+            <Properties>
+                <Property Name="WorkerIdBits" Value="5" />
+                <Property Name="WorkerId" Value="1" />
+                <Property Name="Sequence" Value="0" />
+            </Properties>
+        </IdGenerator>
+    </IdGenerators>
     <SmartSqlMaps>
         <SmartSqlMap Path="Maps" Type="Directory"></SmartSqlMap>
     </SmartSqlMaps>
