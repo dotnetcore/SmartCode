@@ -1,0 +1,14 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    var project = Model.Project;
+}
+
+<Project>
+    <PropertyGroup>
+        <VersionMajor>1</VersionMajor>
+        <VersionMinor>0</VersionMinor>
+        <VersionPatch>0</VersionPatch>
+        <VersionPrefix>$(VersionMajor).$(VersionMinor).$(VersionPatch)</VersionPrefix>
+    </PropertyGroup>
+</Project>

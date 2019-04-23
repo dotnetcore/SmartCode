@@ -1,0 +1,18 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    var project = Model.Project;
+}
+
+<Project>
+    <Import Project="build\version.props" />
+    <PropertyGroup Label="Package">
+        <Product>@project.Module</Product>
+        <Copyright>2019 @project.Module, Inc.</Copyright>
+        <PackageId>$(AssemblyName)</PackageId>
+        <Authors>@project.Author</Authors>
+        <Description>
+     
+        </Description> 
+    </PropertyGroup>
+</Project>

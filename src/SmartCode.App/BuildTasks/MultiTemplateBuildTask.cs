@@ -51,15 +51,23 @@ namespace SmartCode.App.BuildTasks
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Output can not be null!");
                     }
+
+                    Output output = new Output
+                    {
+                        Path = context.Output.Path,
+                        Mode = context.Output.Mode,
+                        Name = context.Output.Name,
+                        Extension = context.Output.Extension
+                    };
                     if (outputKVs.Value(nameof(Output.Path), out string outputPath))
                     {
-                        context.Output.Path = outputPath;
+                        output.Path = outputPath;
                     }
                     if (outputKVs.Value(nameof(Output.Mode), out CreateMode outputMode))
                     {
-                        context.Output.Mode = outputMode;
+                        output.Mode = outputMode;
                     }
-                    if (String.IsNullOrEmpty(context.Output.Path))
+                    if (String.IsNullOrEmpty(output.Path))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Path!");
                     }
@@ -67,15 +75,13 @@ namespace SmartCode.App.BuildTasks
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Name!");
                     }
-                    context.Output.Name = outputName;
+                    output.Name = outputName;
 
-                    if (!outputKVs.Value(nameof(Output.Extension), out string extension))
+                    if (outputKVs.Value(nameof(Output.Extension), out string extension))
                     {
-                        throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Extension!");
+                        output.Extension = extension;
                     }
-                    context.Output.Extension = extension;
-
-                    await _pluginManager.Resolve<IOutput>(context.Output.Type).Output(context);
+                    await _pluginManager.Resolve<IOutput>(context.Output.Type).Output(context, output);
                 }
             }
         }

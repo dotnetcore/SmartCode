@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using HandlebarsDotNet;
+using SmartCode.Configuration;
 
 namespace SmartCode.App.Outputs
 {
@@ -31,9 +32,12 @@ namespace SmartCode.App.Outputs
             Initialized = true;
         }
 
-        public async Task Output(BuildContext context)
+        public async Task Output(BuildContext context, Output output = null)
         {
-            var output = context.Output;
+            if (output == null)
+            {
+                 output = context.Output;
+            }
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} Start! ------");
 
             var outputPath = Handlebars.Compile(output.Path)(context);

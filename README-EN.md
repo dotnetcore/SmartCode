@@ -58,7 +58,8 @@ Output:
   Type: File
   Path: 'E:\SmartSql-Starter'
 Parameters:
-  DocDir: 'E:\SmartSql-Starter\doc'
+  BuildDir: 'E:\SmartSql-Starter\build'
+  DockerImage: 'smartsql.starter'
 
 # 构建任务
 Build:
@@ -68,16 +69,16 @@ Build:
 #    Parameters:
 #      Dirs: '.'
 
-  MakeDic-Doc:
+  MakeBuildDir:
     Type: Process
     Parameters:
       FileName: powershell
-      Args: mkdir '{{Project.Parameters.DocDir}}'
+      Args: mkdir '{{Project.Parameters.BuildDir}}'
   Copy:
     Type: Process
     Parameters:
       FileName: powershell
-      Args:  cp '{{Project.ConfigPath}}' '{{Project.Parameters.DocDir}}'
+      Args:  cp '{{Project.ConfigPath}}' '{{Project.Parameters.BuildDir}}'
 
   Scaffolding:
     Type: MultiTemplate
@@ -85,6 +86,10 @@ Build:
       Path: '.'
     Parameters:
       Templates: [{Key: 'Sln.cshtml',Output: {Name: '{{Project.Module}}',Extension: '.sln'}},
+        {Key: 'Sln-Directory.Build.cshtml',Output: {Name: 'Directory.Build',Extension: '.props'}},
+        {Key: 'Sln-Version.cshtml',Output: {Path: 'build',Name: 'version',Extension: '.props'}},
+        {Key: 'Sln-Dockerfile.cshtml',Output: {Name: 'Dockerfile',Extension: ''}},
+        {Key: 'Sln-DockerIgnore.cshtml',Output: {Name: '.dockerignore',Extension: ''}},
         {Key: "Proj-Entity.cshtml",Output: {Path: 'src/{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
         {Key: "Proj-Repository.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
         {Key: "Proj-Service.cshtml",Output: {Path: 'src/{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
@@ -104,8 +109,7 @@ Build:
         {Key: "API/QueryByPageResponse.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'QueryByPageResponse',Extension: '.cs'}},
         {Key: "API/ResponseMessage.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Messages',Name: 'ResponseMessage',Extension: '.cs'}},
         {Key: "SqlMapConfig.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig',Extension: '.xml'}},
-        {Key: "SqlMapConfig.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig.Development',Extension: '.xml'}}
-        ]
+        {Key: "SqlMapConfig.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: 'SmartSqlMapConfig.Development',Extension: '.xml'}}]
 
   Entity:
     Type: Table
@@ -248,6 +252,20 @@ Build:
       WorkingDirectory: '{{Project.Output.Path}}'
       Args: dotnet restore
 
+#  BuildDocker:
+#    Type: Process
+#    Parameters: 
+#      FileName: powershell
+#      WorkingDirectory: '{{Project.Output.Path}}'
+#      Args: docker build -t {{Project.Parameters.DockerImage}}:v1.0.0 .
+
+#  RunDocker:
+#    Type: Process
+#    Parameters: 
+#      FileName: powershell
+#      WorkingDirectory: '{{Project.Output.Path}}'
+#      Args: docker run --name {{Project.Parameters.DockerImage}} --rm -d -p 8008:80 {{Project.Parameters.DockerImage}}:v1.0.0 .
+
 #  Publish:
 #    Type: Process
 #    Parameters: 
@@ -271,7 +289,7 @@ Build:
 #    Parameters: 
 #      FileName: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
 #      CreateNoWindow: false
-#      Args: http://localhost:5000/swagger
+#      Args: http://localhost:8008/swagger
 ```
 
 ### Build file parameter overview
