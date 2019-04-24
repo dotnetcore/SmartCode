@@ -55,6 +55,7 @@ namespace SmartCode.ETL.BuildTasks
             }
             var batchTable = dataSource.TransformData;
             batchTable.Name = tableName;
+            
             var sqlMapper = GetSqlMapper(context);
             context.Build.Parameters.Value(PRE_COMMAND, out string preCmd);
             var lastExtract = _project.GetETLLastExtract();

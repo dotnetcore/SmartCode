@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
+using SmartCode.ETL.Entity;
+using SmartSql;
 using SmartSql.Abstractions;
-using SmartSql.Batch;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using static SmartCode.Db.SmartSqlMapperFactory;
-using System.Data;
-using System.Diagnostics;
-using SmartSql;
-using System.Linq;
-using System;
-using SmartCode.ETL.Entity;
 
 namespace SmartCode.ETL
 {
@@ -26,7 +24,8 @@ namespace SmartCode.ETL
         public string Name => "Extract";
         public DbSet DbSet { get; set; }
         public DbTable TransformData { get; set; }
-        IETLTaskRepository _etlRepository;
+
+        private IETLTaskRepository _etlRepository;
         public ExtractDataSource(Project project
             , ILoggerFactory loggerFactory
             , ILogger<ExtractDataSource> logger
@@ -132,7 +131,15 @@ namespace SmartCode.ETL
             if (!String.IsNullOrEmpty(modifyTime)
                 && extractEntity.QuerySize > 0)
             {
-                var maxModifyTime = TransformData.Rows.Max(m => m.Cells[modifyTime].Value);
+                var maxModifyTime = TransformData.Rows.Max(m =>
+                {
+                    var cell = m.Cells[modifyTime];
+                    if (cell.Value is DateTime dateTime)
+                    {
+                        return dateTime;
+                    }
+                    return Convert.ToDateTime(cell.Value);
+                });
                 extractEntity.MaxModifyTime = Convert.ToDateTime(maxModifyTime);
             }
             else

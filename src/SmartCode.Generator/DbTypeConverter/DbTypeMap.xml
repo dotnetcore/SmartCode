@@ -300,6 +300,27 @@
     <DbType Name="yesno" To="boolean" />
   </Database>
   <!-- CSharp-Language End-->
+
+  <!--MySql-Language Start-->
+  <Database DbProvider="MySql" Language="SqLite">
+    <DbType Name="text" To="text"/>
+    <DbType Name="varchar" To="varchar"/>
+    <DbType Name="date" To="date"/>
+    <DbType Name="datetime" To="time" />
+    <DbType Name="time" To="Time"/>
+    <DbType Name="tinyint" To="smallint"/>
+    <DbType Name="smallint" To="smallint"/>
+    <DbType Name="int" To="integer"/>
+    <DbType Name="bigint" To="integer"/>
+    <DbType Name="bit" To="bool" />
+    <DbType Name="char" To="char" />
+    <DbType Name="integer" To="integer" />
+    <DbType Name="decimal" To="decimal" />
+    <DbType Name="numeric" To="decimal" />
+    <DbType Name="float" To="float" />
+    <DbType Name="timestamp" To="time" />
+  </Database>
+  <!--MySql-Language End-->
   
   <!-- PostgreSql-Language Start-->
   <Database DbProvider="SqlServer" Language="PostgreSql">
@@ -332,6 +353,25 @@
     <DbType Name="boolean" To="bool" />
     <DbType Name="long" To="int8" />
     <DbType Name="longtext" To="text" />
+    <DbType Name="timestamp" To="timestamp" />
+  </Database>
+
+  <Database DbProvider="MySql" Language="PostgreSql">
+    <DbType Name="text" To="text"/>
+    <DbType Name="varchar" To="varchar"/>
+    <DbType Name="date" To="time"/>
+    <DbType Name="DateTime" To="timestamp" />
+    <DbType Name="time" To="Time"/>
+    <DbType Name="tinyint" To="int2"/>
+    <DbType Name="smallint" To="int2"/>
+    <DbType Name="int" To="int4"/>
+    <DbType Name="bigint" To="int8"/>
+    <DbType Name="bit" To="bool" />
+    <DbType Name="char" To="char" />
+    <DbType Name="integer" To="long" />
+    <DbType Name="decimal" To="decimal" />
+    <DbType Name="numeric" To="decimal" />
+    <DbType Name="float" To="float8" />
     <DbType Name="timestamp" To="timestamp" />
   </Database>
   <!-- PostgreSql-Language End-->
