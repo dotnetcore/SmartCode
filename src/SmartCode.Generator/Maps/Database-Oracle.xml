@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SmartSqlMap Scope="Database-Oracle"  xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
-  <ResultMaps>
-    <ResultMap Id="ColResultMap">
-      <Result Property="IsNullable" TypeHandler="OracleBoolean"/>
-      <Result Property="AutoIncrement" TypeHandler="OracleBoolean"/>
-      <Result Property="IsPrimaryKey" TypeHandler="OracleBoolean"/>
-    </ResultMap>
-  </ResultMaps>
   <Statements>
     <Statement Id="QueryTable">
       SELECT
@@ -23,7 +16,7 @@
       FROM USER_VIEWS T
       LEFT JOIN USER_TAB_COMMENTS C ON T.VIEW_NAME = C.TABLE_NAME
     </Statement>
-    <Statement Id="QueryColumn" ResultMap="ColResultMap">
+    <Statement Id="QueryColumn">
       SELECT
       C.COLUMN_ID AS "Id",
       C.TABLE_NAME AS "TableId",

@@ -8,7 +8,7 @@
     project.Parameters.Value("ExtractMode", out string extractMode);//Last: Full,LastMaxModifyTime,LastQueryTime,LastMaxId
     bool extractModeUseTime = extractMode == "LastMaxModifyTime" || extractMode == "LastQueryTime";
     project.Parameters.Value("ExtractConnectionString", out string extractConnectionString);
-    extractConnectionString = extractConnectionString ?? dbSource.Database.WriteDataSource.ConnectionString;
+    extractConnectionString = extractConnectionString ?? dbSource.Database.Write.ConnectionString;
     project.Parameters.Value("LoadDbProvider", out string loadDbProvider);
     project.Parameters.Value("LoadConnectionString", out string loadConnectionString);
     Model.Project.Parameters.Value("ModifyTime", out string modifyTime);

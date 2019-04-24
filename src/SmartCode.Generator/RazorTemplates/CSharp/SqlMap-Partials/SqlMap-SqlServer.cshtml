@@ -7,7 +7,7 @@
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var versionNo = 2008;
-    var sqlServerVersion = dbSource.DbRepository.SqlMapper.ExecuteScalar<String>(new SmartSql.Abstractions.RequestContext
+    var sqlServerVersion = dbSource.DbRepository.SqlMapper.ExecuteScalar<String>(new SmartSql.RequestContext
     {
         RealSql = "Select @@Version;"
     });

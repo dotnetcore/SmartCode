@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
 using SmartCode.Db;
-using SmartSql.Abstractions;
-using SmartSql.Batch;
+using SmartSql.Bulk;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
+using SmartSql;
 using static SmartCode.Db.SmartSqlMapperFactory;
 
 namespace SmartCode.ETL.BuildTasks
@@ -20,19 +20,19 @@ namespace SmartCode.ETL.BuildTasks
         private const string COLUMN_MAPPING = "ColumnMapping";
         private const string PRE_COMMAND = "PreCommand";
         private const string POST_COMMAND = "PostCommand";
-        private readonly ILoggerFactory _loggerFacotry;
+        private readonly ILoggerFactory _loggerFactory;
         private readonly Project _project;
         private readonly IPluginManager _pluginManager;
         private readonly ILogger<LoadBuildTask> _logger;
 
         public bool Initialized => true;
         public string Name => "Load";
-        public LoadBuildTask(ILoggerFactory loggerFacotry
+        public LoadBuildTask(ILoggerFactory loggerFactory
             , Project project
             , IPluginManager pluginManager
             , ILogger<LoadBuildTask> logger)
         {
-            _loggerFacotry = loggerFacotry;
+            _loggerFactory = loggerFactory;
             _project = project;
             _pluginManager = pluginManager;
             _logger = logger;
@@ -54,8 +54,8 @@ namespace SmartCode.ETL.BuildTasks
                 return;
             }
             var batchTable = dataSource.TransformData;
-            batchTable.Name = tableName;
-            
+            batchTable.TableName = tableName;
+
             var sqlMapper = GetSqlMapper(context);
             context.Build.Parameters.Value(PRE_COMMAND, out string preCmd);
             var lastExtract = _project.GetETLLastExtract();
@@ -72,7 +72,7 @@ namespace SmartCode.ETL.BuildTasks
             };
             try
             {
-                sqlMapper.BeginSession();
+                sqlMapper.SessionStore.Open();
                 #region PreCmd
                 if (!String.IsNullOrEmpty(preCmd))
                 {
@@ -93,7 +93,7 @@ namespace SmartCode.ETL.BuildTasks
                 #endregion
                 #region BatchInsert
                 var batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider);
-                InitColumnMapping(batchInsert, context);
+                InitColumnMapping(batchTable, context);
                 batchInsert.Table = batchTable;
                 stopwatch.Restart();
                 await batchInsert.InsertAsync();
@@ -124,7 +124,7 @@ namespace SmartCode.ETL.BuildTasks
             }
             finally
             {
-                sqlMapper.EndSession();
+                sqlMapper.SessionStore.Dispose();
             }
         }
 
@@ -133,7 +133,7 @@ namespace SmartCode.ETL.BuildTasks
 
         }
 
-        private void InitColumnMapping(IBatchInsert batchInsert, BuildContext context)
+        private void InitColumnMapping(DataTable bulkTable, BuildContext context)
         {
             if (context.Build.Parameters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
             {
@@ -141,38 +141,27 @@ namespace SmartCode.ETL.BuildTasks
                 {
                     colMappingKV.EnsureValue("Column", out string colName);
                     colMappingKV.EnsureValue("Mapping", out string mapping);
-                    colMappingKV.Value("DataTypeName", out string dataTypeName);
-                    var colMapping = new ColumnMapping
+                    var sourceColumn = bulkTable.Columns[colName];
+                    sourceColumn.ColumnName = mapping;
+                    if (colMappingKV.Value("DataTypeName", out string dataTypeName))
                     {
-                        Column = colName,
-                        Mapping = mapping,
-                        DataTypeName = dataTypeName
-                    };
-                    batchInsert.AddColumnMapping(colMapping);
+                        sourceColumn.ExtendedProperties.Add("DataTypeName", dataTypeName);
+                    }
                 }
             }
         }
-        private ISmartSqlMapper GetSqlMapper(BuildContext context)
-        {
-            var smartSqlOptions = InitCreateSmartSqlMapperOptions(context);
-            return SmartSqlMapperFactory.Create(smartSqlOptions);
-        }
-        private CreateSmartSqlMapperOptions InitCreateSmartSqlMapperOptions(BuildContext context)
+
+        private ISqlMapper GetSqlMapper(BuildContext context)
         {
             context.Build.Parameters.EnsureValue(DB_PROVIDER, out string dbProvider);
             context.Build.Parameters.EnsureValue("ConnectionString", out string connString);
-            var alias_name = $"{Name}_{context.BuildKey}";
-            return new CreateSmartSqlMapperOptions
-            {
-                Alias = alias_name,
-                LoggerFactory = _loggerFacotry,
-                ProviderName = dbProvider,
-                DataSource = new SmartSql.Configuration.WriteDataSource
-                {
-                    Name = Name,
-                    ConnectionString = connString
-                }
-            };
+            var alias_name = $"{Name}_{context.BuildKey}_{Guid.NewGuid():N}";
+            return new SmartSqlBuilder()
+                .UseDataSource(dbProvider, connString)
+                .UseLoggerFactory(_loggerFactory)
+                .UseAlias(alias_name)
+                .Build().SqlMapper;
         }
+
     }
 }

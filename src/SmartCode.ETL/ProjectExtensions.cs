@@ -4,7 +4,6 @@ using System.Text;
 using SmartCode.Configuration;
 using SmartCode.ETL.Entity;
 using SmartSql;
-using SmartSql.Batch;
 
 namespace SmartCode.ETL
 {

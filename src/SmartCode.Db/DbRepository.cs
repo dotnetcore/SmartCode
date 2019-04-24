@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using SmartCode.Configuration;
 using SmartSql;
-using SmartSql.Abstractions;
 using SmartSql.Options;
 
 namespace SmartCode.Db
 {
     public class DbRepository : IDbRepository
     {
-        private readonly DataSource _dataSource;
+        private readonly Configuration.DataSource _dataSource;
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<DbRepository> _logger;
 
-        public ISmartSqlMapper SqlMapper { get; private set; }
+        public ISqlMapper SqlMapper { get; private set; }
         public string DbProviderName { get; private set; }
         public DbProvider DbProvider => (DbProvider)Enum.Parse(typeof(DbProvider), DbProviderName);
         public string DbName { get; private set; }
@@ -23,7 +21,7 @@ namespace SmartCode.Db
         public string ConnectionString { get; private set; }
         public String SqlMapPath { get; private set; } = "Maps";
         public DbRepository(
-            DataSource dataSource
+            Configuration.DataSource dataSource
             , ILoggerFactory loggerFactory)
         {
             _dataSource = dataSource;
@@ -55,7 +53,7 @@ namespace SmartCode.Db
         {
             SqlMapper = SmartSqlMapperFactory.Create(new SmartSqlMapperFactory.CreateSmartSqlMapperOptions
             {
-                DataSource = new SmartSql.Configuration.WriteDataSource
+                DataSource = new DataSource
                 {
                     Name = DbName,
                     ConnectionString = ConnectionString

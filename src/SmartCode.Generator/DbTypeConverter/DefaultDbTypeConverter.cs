@@ -66,7 +66,7 @@ namespace SmartCode.Generator.DbTypeConverter
         {
             if (parameters != null)
             {
-                if (parameters.Value("XmlPath", out string xmlPath))
+                if (IDictionaryExtensions.Value(parameters, "XmlPath", out string xmlPath))
                 {
                     _xmlPath = xmlPath;
                 }

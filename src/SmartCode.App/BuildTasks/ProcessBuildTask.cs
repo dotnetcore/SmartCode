@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using HandlebarsDotNet;
+using SmartCode.Utilities;
 
 namespace SmartCode.App.BuildTasks
 {

@@ -5,15 +5,12 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
-using SmartCode.Configuration;
-using SmartCode.TemplateEngine;
 using SmartCode.TemplateEngine.Impl;
 using SmartCode.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -24,7 +21,7 @@ namespace SmartCode.ETL.TransformEngine
         private const String SCRIPT = "Script";
         public async Task Transform(BuildContext context)
         {
-            if (context.Build.Parameters.Value(SCRIPT, out string script) && !String.IsNullOrEmpty(script))
+            if (IDictionaryExtensions.Value(context.Build.Parameters, SCRIPT, out string script) && !String.IsNullOrEmpty(script))
             {
                 using (var serviceScope = _scopeFactory.CreateScope())
                 {
@@ -43,11 +40,11 @@ namespace SmartCode.ETL.TransformEngine
             Initialized = true;
             if (parameters != null)
             {
-                if (parameters.Value("Name", out string name))
+                if (IDictionaryExtensions.Value(parameters, "Name", out string name))
                 {
                     Name = name;
                 }
-                if (parameters.Value("Root", out string root))
+                if (IDictionaryExtensions.Value(parameters, "Root", out string root))
                 {
                     _root = root;
                 }

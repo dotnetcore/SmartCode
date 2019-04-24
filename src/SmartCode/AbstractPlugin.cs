@@ -26,10 +26,7 @@ namespace SmartCode
         {
             if (parameters != null)
             {
-                if (parameters.Value(NAME_KEY, out string name))
-                {
-                    Name = name;
-                }
+                
             }
             this.Initialized = true;
         }

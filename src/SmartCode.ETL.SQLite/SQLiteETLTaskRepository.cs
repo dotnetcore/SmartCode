@@ -2,10 +2,11 @@
 using SmartCode.Db;
 using SmartCode.ETL.Entity;
 using SmartCode.Utilities;
-using SmartSql.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SmartSql;
+using SmartSql.Options;
 
 namespace SmartCode.ETL.SQLite
 {
@@ -18,7 +19,7 @@ namespace SmartCode.ETL.SQLite
         public bool Initialized { get; private set; }
         public string Name => "SQLite";
         public string Scope => "EtlTask";
-        public ISmartSqlMapper SqlMapper { get; set; }
+        public ISqlMapper SqlMapper { get; set; }
         public SQLiteETLTaskRepository(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
@@ -26,7 +27,7 @@ namespace SmartCode.ETL.SQLite
         public void Initialize(IDictionary<string, object> paramters)
         {
             var connectionString = $"Data Source={AppPath.Relative(DB_NAME)};Version=3;";
-            if (paramters.Value(CONNECTION_STRING, out string connStr))
+            if (IDictionaryExtensions.Value(paramters, CONNECTION_STRING, out string connStr))
             {
                 connectionString = connStr;
             }
@@ -37,7 +38,7 @@ namespace SmartCode.ETL.SQLite
                 LoggerFactory = _loggerFactory,
                 ProviderName = "SQLite",
                 SqlMapPath = DEFAULT_SQLMAP_PATH,
-                DataSource = new SmartSql.Configuration.WriteDataSource
+                DataSource = new DataSource
                 {
                     ConnectionString = connectionString,
                     Name = "SQLiteETL"
