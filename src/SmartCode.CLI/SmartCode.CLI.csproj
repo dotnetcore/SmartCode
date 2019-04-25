@@ -10,8 +10,7 @@
     <Title>SmartCode.CLI</Title>
     <Authors>Ahoo Wang</Authors>
     <PackageReleaseNotes>
-      1. refactor ProcessBuildTask
-      2. change Paramters -&gt; Parameters (Broken change)
+
     </PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
