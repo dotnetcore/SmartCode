@@ -156,6 +156,7 @@ namespace SmartCode.ETL.BuildTasks
             context.Build.Parameters.EnsureValue(DB_PROVIDER, out string dbProvider);
             context.Build.Parameters.EnsureValue("ConnectionString", out string connString);
             var alias_name = $"{Name}_{context.BuildKey}_{Guid.NewGuid():N}";
+
             return new SmartSqlBuilder()
                 .UseDataSource(dbProvider, connString)
                 .UseLoggerFactory(_loggerFactory)
