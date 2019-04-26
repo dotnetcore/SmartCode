@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SmartSql.Options" Version="4.0.34" />
-    <PackageReference Include="SmartSql.TypeHandler" Version="4.0.34" />
-    <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.34" />
+    <PackageReference Include="SmartSql.Options" Version="4.0.38" />
+    <PackageReference Include="SmartSql.TypeHandler" Version="4.0.38" />
+    <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.38" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.110" />
     <PackageReference Include="MySql.Data" Version="8.0.15" />
