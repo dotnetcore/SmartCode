@@ -91,6 +91,8 @@
     <DbType Name="long" To="byte[]" />
     <DbType Name="longtext" To="string" />
     <DbType Name="timestamp" To="DateTime" />
+    <DbType Name="double" To="double" />
+    <DbType Name="mediumtext" To="string" />
   </Database>
   <Database DbProvider="PostgreSql"  Language="CSharp">
     <DbType Name="bool" To="bool"/>
