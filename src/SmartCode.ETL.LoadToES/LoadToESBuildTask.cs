@@ -40,7 +40,7 @@ namespace SmartCode.ETL.LoadToES
         {
             ESOptions esOptions = InitOptions(context);
             var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
-            var dataSource = context.GetDataSource<ExtractDataSource>();
+            var dataSource = context.GetDataSource<ExtractDictionaryDataSource>();
             var loadEntity = new Entity.ETLLoad
             {
                 Size = 0,
@@ -51,41 +51,45 @@ namespace SmartCode.ETL.LoadToES
                         { "Type",esOptions.TypeName}
                     }
             };
-            if (dataSource.TransformData.Rows.Count == 0)
+            if (dataSource.TransformData.Count == 0)
             {
                 await etlRepository.Load(_project.GetETKTaskId(), loadEntity);
                 return;
             }
             Stopwatch stopwatch = Stopwatch.StartNew();
             #region InitColumnMapping
+
+            var colMapping = new Dictionary<string, string>();
             if (context.Build.Parameters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
             {
                 foreach (IDictionary<object, object> colMappingKV in colMapps)
                 {
                     colMappingKV.EnsureValue("Column", out string colName);
                     colMappingKV.EnsureValue("Mapping", out string mapping);
-                    var sourceColumn = dataSource.TransformData.Columns[colName];
-                    sourceColumn.ColumnName = mapping;
-                    if (colMappingKV.Value("DataTypeName", out string dataTypeName))
-                    {
-                        sourceColumn.ExtendedProperties.Add("DataTypeName", dataTypeName);
-                    }
+                    colMapping.Add(colName, mapping);
                 }
             }
+            dataSource.TransformData = dataSource.TransformData.Select((dic) =>
+             {
+                 IDictionary<string, object> newItem = new Dictionary<string, object>();
+                 foreach (KeyValuePair<string, object> item in dic)
+                 {
+                     var itemKey = item.Key;
+                     if (colMapps != null)
+                     {
+                         if (colMapping.TryGetValue(itemKey, out string mapping))
+                         {
+                             itemKey = mapping;
+                         }                        
+                     }
+                     newItem.Add(itemKey,item.Value);
+                 }
+                 return newItem;
+             }).ToList();
+
             #endregion
             #region BatchInsert
             var esClient = GetElasticClient(esOptions);
-            var list = new List<Dictionary<String, object>>();
-            foreach (DataRow row in dataSource.TransformData.Rows)
-            {
-                var item = new Dictionary<String, object>();
-                foreach (DataColumn dataColumn in dataSource.TransformData.Columns)
-                {
-                    var cellVal = row[dataColumn];
-                    item.Add(dataColumn.ColumnName, cellVal);
-                }
-                list.Add(item);
-            }
             var indexExResp = await esClient.IndexExistsAsync(esOptions.Index);
             if (!indexExResp.Exists)
             {
@@ -98,14 +102,14 @@ namespace SmartCode.ETL.LoadToES
                   .Type(esOptions.TypeName);
                 if (context.Build.Parameters.Value(ID_MAPPING, out string es_id))
                 {
-                    return bulkReqDesc.IndexMany(list, (bulkIdxDesc, item) =>
+                    return bulkReqDesc.IndexMany(dataSource.TransformData, (bulkIdxDesc, item) =>
                     {
                         var idVal = item[es_id].ToString();
                         return bulkIdxDesc.Id(idVal);
                     }
                     );
                 }
-                return bulkReqDesc.IndexMany(list);
+                return bulkReqDesc.IndexMany(dataSource.TransformData);
             }
             );
             if (esSyncResp.Errors || !esSyncResp.IsValid)
@@ -114,7 +118,7 @@ namespace SmartCode.ETL.LoadToES
                 throw new SmartCodeException($"ES.ERRORS:{esSyncResp.DebugInformation}");
             }
             stopwatch.Stop();
-            loadEntity.Size = dataSource.TransformData.Rows.Count;
+            loadEntity.Size = dataSource.TransformData.Count;
             loadEntity.Taken = stopwatch.ElapsedMilliseconds;
             #endregion
             await etlRepository.Load(_project.GetETKTaskId(), loadEntity);
@@ -160,7 +164,7 @@ namespace SmartCode.ETL.LoadToES
             return new ElasticClient(settings);
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }
