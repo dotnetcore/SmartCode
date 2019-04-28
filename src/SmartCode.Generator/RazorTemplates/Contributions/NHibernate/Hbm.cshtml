@@ -18,8 +18,8 @@
 }
 @functions {
     string GetGeneratorClass(Column col) {
-        if (col.LanguageType == "int" && col.AutoIncrement) {
-            return "sequence";
+        if (col.LanguageType == "int") {
+            return "trigger-identity";
         }
         if (col.LanguageType == "long") {
             return "trigger-identity";
@@ -35,9 +35,6 @@
     @if (pkCols.Count() == 1) {
         <id name="Id" column="@firstPk.Name" type="@firstPk.LanguageType">
             <generator class="@GetGeneratorClass(firstPk)">
-            @if (firstPk.LanguageType == "int" && firstPk.AutoIncrement) {
-                @(Html.PadLeft(16) + $"<param name=\"sequence\">{table.Name}_{firstPk.Name}_seq\"</param>{newLine}")
-            }
             </generator>
         </id>
     }
