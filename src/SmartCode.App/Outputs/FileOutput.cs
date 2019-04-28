@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using HandlebarsDotNet;
+using SmartCode.Configuration;
+using SmartCode.Utilities;
 
 namespace SmartCode.App.Outputs
 {
@@ -21,21 +23,24 @@ namespace SmartCode.App.Outputs
 
         public string Name { get; private set; } = "File";
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters == null) { return; }
-            if (paramters.Value("Name", out string name))
+            if (parameters == null) { return; }
+            if (parameters.Value("Name", out string name))
             {
                 Name = name;
             }
             Initialized = true;
         }
 
-        public async Task Output(BuildContext context)
+        public async Task Output(BuildContext context, Output output = null)
         {
-            var output = context.Output;
+            if (output == null)
+            {
+                 output = context.Output;
+            }
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} Start! ------");
-            
+
             var outputPath = Handlebars.Compile(output.Path)(context);
             outputPath = Path.Combine(context.Project.OutputPath, outputPath);
             if (!Directory.Exists(outputPath))
@@ -50,6 +55,7 @@ namespace SmartCode.App.Outputs
             {
                 switch (output.Mode)
                 {
+                    case Configuration.CreateMode.None:
                     case Configuration.CreateMode.Incre:
                         {
                             _logger.LogWarning($"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
@@ -69,7 +75,5 @@ namespace SmartCode.App.Outputs
             }
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} -> {filePath} End! ------");
         }
-
-
     }
 }

@@ -30,7 +30,7 @@ namespace SmartCode
                         return new NoneConverter();
                     }
             }
-            converter.Initialize(wordsConverter.Paramters);
+            converter.Initialize(wordsConverter.Parameters);
             return converter;
         }
     }

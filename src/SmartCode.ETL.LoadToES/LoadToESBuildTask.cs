@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
 using System.Diagnostics;
 using System.Collections;
-using SmartSql.Batch;
+using System.Data;
 
 namespace SmartCode.ETL.LoadToES
 {
@@ -44,7 +44,7 @@ namespace SmartCode.ETL.LoadToES
             var loadEntity = new Entity.ETLLoad
             {
                 Size = 0,
-                Paramters = new Dictionary<String, object>
+                Parameters = new Dictionary<String, object>
                     {
                         { "Task","LoadToES"},
                         { "Index",esOptions.Index},
@@ -58,14 +58,17 @@ namespace SmartCode.ETL.LoadToES
             }
             Stopwatch stopwatch = Stopwatch.StartNew();
             #region InitColumnMapping
-            var colMappings = InitColumnMapping(context);
-            if (colMappings != null)
+            if (context.Build.Parameters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
             {
-                foreach (var colMapping in colMappings)
+                foreach (IDictionary<object, object> colMappingKV in colMapps)
                 {
-                    if (dataSource.TransformData.Columns.ContainsKey(colMapping.Column))
+                    colMappingKV.EnsureValue("Column", out string colName);
+                    colMappingKV.EnsureValue("Mapping", out string mapping);
+                    var sourceColumn = dataSource.TransformData.Columns[colName];
+                    sourceColumn.ColumnName = mapping;
+                    if (colMappingKV.Value("DataTypeName", out string dataTypeName))
                     {
-                        dataSource.TransformData.Columns[colMapping.Column].Name = colMapping.Mapping;
+                        sourceColumn.ExtendedProperties.Add("DataTypeName", dataTypeName);
                     }
                 }
             }
@@ -73,13 +76,13 @@ namespace SmartCode.ETL.LoadToES
             #region BatchInsert
             var esClient = GetElasticClient(esOptions);
             var list = new List<Dictionary<String, object>>();
-            foreach (var row in dataSource.TransformData.Rows)
+            foreach (DataRow row in dataSource.TransformData.Rows)
             {
                 var item = new Dictionary<String, object>();
-                foreach (var cellKV in row.Cells)
+                foreach (DataColumn dataColumn in dataSource.TransformData.Columns)
                 {
-                    var cellVal = cellKV.Value;
-                    item.Add(cellVal.Column.Name, cellVal.Value);
+                    var cellVal = row[dataColumn];
+                    item.Add(dataColumn.ColumnName, cellVal);
                 }
                 list.Add(item);
             }
@@ -93,7 +96,7 @@ namespace SmartCode.ETL.LoadToES
                 var bulkReqDesc = bulkRequest
                   .Index(esOptions.Index)
                   .Type(esOptions.TypeName);
-                if (context.Build.Paramters.Value(ID_MAPPING, out string es_id))
+                if (context.Build.Parameters.Value(ID_MAPPING, out string es_id))
                 {
                     return bulkReqDesc.IndexMany(list, (bulkIdxDesc, item) =>
                     {
@@ -119,13 +122,13 @@ namespace SmartCode.ETL.LoadToES
 
         private static ESOptions InitOptions(BuildContext context)
         {
-            context.Build.Paramters.EnsureValue(HOST, out string host);
-            context.Build.Paramters.EnsureValue(INDEX_NAME, out string index_name);
-            context.Build.Paramters.EnsureValue(TYPE_NAME, out string type_name);
-            context.Build.Paramters.Value(BASE_AUTH, out IDictionary<object, object> baseAuth);
+            context.Build.Parameters.EnsureValue(HOST, out string host);
+            context.Build.Parameters.EnsureValue(INDEX_NAME, out string index_name);
+            context.Build.Parameters.EnsureValue(TYPE_NAME, out string type_name);
+            context.Build.Parameters.Value(BASE_AUTH, out IDictionary<object, object> baseAuth);
             baseAuth.Value("UserName", out string user_name);
             baseAuth.Value("Password", out string password);
-            context.Build.Paramters.Value(CERT_PATH, out string cert);
+            context.Build.Parameters.Value(CERT_PATH, out string cert);
 
             return new ESOptions
             {
@@ -137,24 +140,7 @@ namespace SmartCode.ETL.LoadToES
                 Password = password
             };
         }
-        private IEnumerable<ColumnMapping> InitColumnMapping(BuildContext context)
-        {
-            if (context.Build.Paramters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
-            {
-                foreach (IDictionary<object, object> colMappingKV in colMapps)
-                {
-                    colMappingKV.EnsureValue("Column", out string colName);
-                    colMappingKV.EnsureValue("Mapping", out string mapping);
-                    colMappingKV.Value("DataTypeName", out string dataTypeName);
-                    yield return new ColumnMapping
-                    {
-                        Column = colName,
-                        Mapping = mapping,
-                        DataTypeName = dataTypeName
-                    };
-                }
-            }
-        }
+
         private IElasticClient GetElasticClient(ESOptions esOptions)
         {
             Uri node = new Uri(esOptions.Host);

@@ -2,7 +2,7 @@ Module: smartcode.starter
 Author: Ahoo Wang
 DataSource:
   Name: DbTable
-  Paramters:
+  Parameters:
     DbName: SmartSqlDB
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
@@ -19,7 +19,7 @@ Build:
 
   ClearDir:
     Type: Clear
-    Paramters:
+    Parameters:
       Dirs: '.'
 
 
@@ -36,16 +36,16 @@ Build:
       Table:
         Tokenizer: 
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
-          Paramters: { }
+          Parameters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -53,7 +53,7 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
         Converter:
           Type: Camel

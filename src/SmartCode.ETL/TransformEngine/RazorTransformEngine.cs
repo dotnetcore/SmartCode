@@ -5,15 +5,12 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
-using SmartCode.Configuration;
-using SmartCode.TemplateEngine;
 using SmartCode.TemplateEngine.Impl;
 using SmartCode.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -24,7 +21,7 @@ namespace SmartCode.ETL.TransformEngine
         private const String SCRIPT = "Script";
         public async Task Transform(BuildContext context)
         {
-            if (context.Build.Paramters.Value(SCRIPT, out string script) && !String.IsNullOrEmpty(script))
+            if (IDictionaryExtensions.Value(context.Build.Parameters, SCRIPT, out string script) && !String.IsNullOrEmpty(script))
             {
                 using (var serviceScope = _scopeFactory.CreateScope())
                 {
@@ -38,16 +35,16 @@ namespace SmartCode.ETL.TransformEngine
         public string Name { get; private set; } = "Razor";
         private string _root = AppPath.Relative("TransformScripts");
         private IServiceScopeFactory _scopeFactory;
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
             Initialized = true;
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value("Name", out string name))
+                if (IDictionaryExtensions.Value(parameters, "Name", out string name))
                 {
                     Name = name;
                 }
-                if (paramters.Value("Root", out string root))
+                if (IDictionaryExtensions.Value(parameters, "Root", out string root))
                 {
                     _root = root;
                 }

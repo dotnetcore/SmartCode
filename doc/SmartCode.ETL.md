@@ -117,7 +117,7 @@
       {
         "Type": "SmartCode.ETL.IETLRepository,SmartCode.ETL",
         "ImplType": "SmartCode.ETL.PostgreSql.PGETLRepository,SmartCode.ETL.PostgreSql",
-        "Paramters": {
+        "Parameters": {
           "ConnectionString": "Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartcode_etl;"
         }
       }
@@ -133,24 +133,24 @@
 Author: Ahoo Wang
 DataSource:
   Name: Extract
-  Paramters:
+  Parameters:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
     Query: SELECT [Id],[UserName],[Status],[LastLoginTime],[CreationTime],[ModifyTime],[Deleted] FROM [T_User] With(NoLock) Where ModifyTime>@LastMaxModifyTime
     PKColumn: Id
     AutoIncrement: true
     ModifyTime: ModifyTime
-Paramters:
+Parameters:
   ETLCode: SmartCode.ETL.Test
   ETLRepository: PG
 Build:
   Transform:
     Type: Transform
-    Paramters:
+    Parameters:
       Script: 
   Load2PostgreSql: 
     Type: Load
-    Paramters:
+    Parameters:
       DbProvider: PostgreSql
       ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartsql_db;
       Table: t_user__temp
@@ -168,7 +168,7 @@ Build:
       ,{Column: Deleted,Mapping: deleted}]
 ```
 
-### 根 Paramters
+### 根 Parameters
 
 | 参数名        | 说明                           |
 | :------------ | -----------------------------: |
@@ -179,7 +179,7 @@ Build:
 
 > 属性 Name:Extract,使用 ExtractDataSource 插件作为数据源
 
-#### ExtractDataSource.Paramters
+#### ExtractDataSource.Parameters
 
 | 参数名           | 说明                                                                                                    |
 | :--------------- | ------------------------------------------------------------------------------------------------------: |
@@ -194,7 +194,7 @@ Build:
 
 > 属性 Type:Load,使用 LoadBuildTask 插件作为构建任务
 
-#### Build.Load.Paramters
+#### Build.Load.Parameters
 
 | 参数名           | 说明                                                            |
 | :--------------- | --------------------------------------------------------------: |
@@ -247,7 +247,7 @@ LastMaxModifyTime 即上一次抽取的数据最大ModifyTime值(第一次抽取
     "QueryCommand": {
         "Taken": 41267,
         "Command": "Select * From T_ProductSearchLog  With(NoLock) Where Id>@LastMaxId",
-        "Paramters": {
+        "Parameters": {
             "LastMaxId": -1,
             "LastQueryTime": "1970-01-01T08:00:00",
             "LastMaxModifyTime": "1970-01-01T08:00:00"

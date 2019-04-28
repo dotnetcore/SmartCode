@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SmartSql.Configuration;
+using SmartSql.DataSource;
 
 namespace SmartCode.Db
 {
@@ -24,21 +26,20 @@ namespace SmartCode.Db
 
         public virtual string Name { get; private set; } = "Db";
         public DbRepository DbRepository { get; protected set; }
-        public SmartSql.SmartSqlOptions SmartSqlOptions { get { return DbRepository.SqlMapper.SmartSqlOptions; } }
-        public SmartSql.SmartSqlContext SmartSqlContext { get { return SmartSqlOptions.SmartSqlContext; } }
-        public SmartSql.Configuration.Database Database { get { return SmartSqlContext.Database; } }
-        public SmartSql.Configuration.DbProvider DbProvider { get { return Database.DbProvider; } }
-        public SmartSql.Configuration.WriteDataSource WriteDataSource { get { return Database.WriteDataSource; } }
+        public SmartSqlConfig SmartSqlConfig => DbRepository.SqlMapper.SmartSqlConfig;
+        public Database Database => SmartSqlConfig.Database;
+        public SmartSql.DataSource.DbProvider DbProvider => Database.DbProvider;
+        public WriteDataSource WriteDataSource => Database.Write;
 
         public Project Project { get; }
         public ILoggerFactory LoggerFactory { get; }
         public IPluginManager PluginManager { get; }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value("Name", out string name))
+                if (parameters.Value("Name", out string name))
                 {
                     Name = name;
                 }

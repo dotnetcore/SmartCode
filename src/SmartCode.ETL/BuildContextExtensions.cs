@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using SmartSql;
-using SmartSql.Batch;
 
 namespace SmartCode.ETL
 {

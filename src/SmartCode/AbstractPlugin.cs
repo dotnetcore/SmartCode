@@ -22,14 +22,11 @@ namespace SmartCode
         public ILoggerFactory LoggerFactory { get; protected set; }
         public Project Project { get; protected set; }
         public IPluginManager PluginManager { get; protected set; }
-        public virtual void Initialize(IDictionary<string, object> paramters)
+        public virtual void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value(NAME_KEY, out string name))
-                {
-                    Name = name;
-                }
+                
             }
             this.Initialized = true;
         }

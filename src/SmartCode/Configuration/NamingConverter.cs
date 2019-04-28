@@ -6,7 +6,7 @@ namespace SmartCode.Configuration
 {
     public class NamingConverter
     {
-        public static NamingConverter Defalut = new NamingConverter
+        public static NamingConverter Default = new NamingConverter
         {
             Table = TokenizerMapConverter.Default,
             Column = TokenizerMapConverter.Default,
@@ -35,11 +35,11 @@ namespace SmartCode.Configuration
     {
         public static Tokenizer Default = new Tokenizer
         {
-            Type = "Defalut",
-            Paramters = new Dictionary<String, object>()
+            Type = "Default",
+            Parameters = new Dictionary<String, object>()
         };
         public String Type { get; set; }
-        public IDictionary<String, object> Paramters { get; set; }
+        public IDictionary<String, object> Parameters { get; set; }
     }
     /// <summary>
     /// 词转换器
@@ -48,10 +48,10 @@ namespace SmartCode.Configuration
     {
         public static WordsConverter Default = new WordsConverter
         {
-            Type = "Defalut",
-            Paramters = new Dictionary<String, Object>()
+            Type = "Default",
+            Parameters = new Dictionary<String, Object>()
         };
         public String Type { get; set; }
-        public IDictionary<String, object> Paramters { get; set; }
+        public IDictionary<String, object> Parameters { get; set; }
     }
 }

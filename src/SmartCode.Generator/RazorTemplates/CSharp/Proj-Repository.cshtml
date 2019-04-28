@@ -1,8 +1,23 @@
 ﻿@using SmartCode
+@using SmartCode.Db
 @model BuildContext
 @{
-
     var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var dbFactory = dbSource.Database.DbProvider.Factory;
+    var dbProviderAssNames = dbFactory.GetType().Assembly.FullName.Split(',');
+    var dbProviderName = dbProviderAssNames[0];
+    var dbProviderVersion = dbProviderAssNames[1].Split('=')[1];
+    var smartSqlVersion = "4.0.33";
+    if (project.Parameters.Value("SmartSqlVersion", out string version))
+    {
+        smartSqlVersion = version;
+    }
+    var smartSqlSchemaVersion = "4.0.26";
+    if (project.Parameters.Value("SmartSqlSchemaVersion", out string schemaVersion))
+    {
+        smartSqlSchemaVersion = schemaVersion;
+    }
 }
 
 <Project Sdk="Microsoft.NET.Sdk">
@@ -10,10 +25,35 @@
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SmartSql.DyRepository" Version="3.8.12" />
+        @if (dbSource.DbRepository.DbProvider != DbProvider.SqlServer)
+        {
+            <PackageReference Include="@dbProviderName" Version="@dbProviderVersion" />
+        }
+        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
+        {
+            <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="@smartSqlVersion" />
+        }
+        else
+        {
+            <PackageReference Include="SmartSql.TypeHandler" Version="@smartSqlVersion" />
+        }
+        <PackageReference Include="SmartSql.Schema" Version="@smartSqlSchemaVersion" />
+        <PackageReference Include="SmartSql.ScriptTag" Version="@smartSqlVersion" />
+        <PackageReference Include="SmartSql.DyRepository" Version="@smartSqlVersion" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\@(project.Module).Entity\@(project.Module).Entity.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Maps\*.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SmartSqlMapConfig.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="SmartSqlMapConfig.Development.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 </Project>
 

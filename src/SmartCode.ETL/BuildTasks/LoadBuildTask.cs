@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
 using SmartCode.Db;
-using SmartSql.Abstractions;
-using SmartSql.Batch;
+using SmartSql.Bulk;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
+using SmartSql;
 using static SmartCode.Db.SmartSqlMapperFactory;
 
 namespace SmartCode.ETL.BuildTasks
@@ -20,19 +20,19 @@ namespace SmartCode.ETL.BuildTasks
         private const string COLUMN_MAPPING = "ColumnMapping";
         private const string PRE_COMMAND = "PreCommand";
         private const string POST_COMMAND = "PostCommand";
-        private readonly ILoggerFactory _loggerFacotry;
+        private readonly ILoggerFactory _loggerFactory;
         private readonly Project _project;
         private readonly IPluginManager _pluginManager;
         private readonly ILogger<LoadBuildTask> _logger;
 
         public bool Initialized => true;
         public string Name => "Load";
-        public LoadBuildTask(ILoggerFactory loggerFacotry
+        public LoadBuildTask(ILoggerFactory loggerFactory
             , Project project
             , IPluginManager pluginManager
             , ILogger<LoadBuildTask> logger)
         {
-            _loggerFacotry = loggerFacotry;
+            _loggerFactory = loggerFactory;
             _project = project;
             _pluginManager = pluginManager;
             _logger = logger;
@@ -40,8 +40,8 @@ namespace SmartCode.ETL.BuildTasks
 
         public async Task Build(BuildContext context)
         {
-            context.Build.Paramters.EnsureValue(TABLE_NAME, out string tableName);
-            context.Build.Paramters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
+            context.Build.Parameters.EnsureValue(TABLE_NAME, out string tableName);
+            context.Build.Parameters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
             var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
             var dataSource = context.GetDataSource<ExtractDataSource>();
             if (dataSource.TransformData.Rows.Count == 0)
@@ -54,9 +54,10 @@ namespace SmartCode.ETL.BuildTasks
                 return;
             }
             var batchTable = dataSource.TransformData;
-            batchTable.Name = tableName;
+            batchTable.TableName = tableName;
+
             var sqlMapper = GetSqlMapper(context);
-            context.Build.Paramters.Value(PRE_COMMAND, out string preCmd);
+            context.Build.Parameters.Value(PRE_COMMAND, out string preCmd);
             var lastExtract = _project.GetETLLastExtract();
             var queryParams = new Dictionary<string, object>
             {
@@ -71,7 +72,7 @@ namespace SmartCode.ETL.BuildTasks
             };
             try
             {
-                sqlMapper.BeginSession();
+                sqlMapper.SessionStore.Open();
                 #region PreCmd
                 if (!String.IsNullOrEmpty(preCmd))
                 {
@@ -85,14 +86,14 @@ namespace SmartCode.ETL.BuildTasks
                     loadEntity.PreCommand = new Entity.ETLDbCommand
                     {
                         Command = preCmd,
-                        Paramters = queryParams,
+                        Parameters = queryParams,
                         Taken = stopwatch.ElapsedMilliseconds
                     };
                 }
                 #endregion
                 #region BatchInsert
                 var batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider);
-                InitColumnMapping(batchInsert, context);
+                InitColumnMapping(batchTable, context);
                 batchInsert.Table = batchTable;
                 stopwatch.Restart();
                 await batchInsert.InsertAsync();
@@ -102,7 +103,7 @@ namespace SmartCode.ETL.BuildTasks
                 _logger.LogWarning($"Build:{context.BuildKey},BatchInsert.Size:{loadEntity.Size},Taken:{loadEntity.Taken}ms!");
                 #endregion
                 #region PostCmd
-                if (context.Build.Paramters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
+                if (context.Build.Parameters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
                 {
                     stopwatch.Restart();
                     await sqlMapper.ExecuteAsync(new RequestContext
@@ -114,7 +115,7 @@ namespace SmartCode.ETL.BuildTasks
                     loadEntity.PostCommand = new Entity.ETLDbCommand
                     {
                         Command = postCmd,
-                        Paramters = queryParams,
+                        Parameters = queryParams,
                         Taken = stopwatch.ElapsedMilliseconds
                     };
                 }
@@ -123,55 +124,45 @@ namespace SmartCode.ETL.BuildTasks
             }
             finally
             {
-                sqlMapper.EndSession();
+                sqlMapper.SessionStore.Dispose();
             }
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }
 
-        private void InitColumnMapping(IBatchInsert batchInsert, BuildContext context)
+        private void InitColumnMapping(DataTable bulkTable, BuildContext context)
         {
-            if (context.Build.Paramters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
+            if (context.Build.Parameters.Value(COLUMN_MAPPING, out IEnumerable colMapps))
             {
                 foreach (IDictionary<object, object> colMappingKV in colMapps)
                 {
                     colMappingKV.EnsureValue("Column", out string colName);
                     colMappingKV.EnsureValue("Mapping", out string mapping);
-                    colMappingKV.Value("DataTypeName", out string dataTypeName);
-                    var colMapping = new ColumnMapping
+                    var sourceColumn = bulkTable.Columns[colName];
+                    sourceColumn.ColumnName = mapping;
+                    if (colMappingKV.Value("DataTypeName", out string dataTypeName))
                     {
-                        Column = colName,
-                        Mapping = mapping,
-                        DataTypeName = dataTypeName
-                    };
-                    batchInsert.AddColumnMapping(colMapping);
+                        sourceColumn.ExtendedProperties.Add("DataTypeName", dataTypeName);
+                    }
                 }
             }
         }
-        private ISmartSqlMapper GetSqlMapper(BuildContext context)
+
+        private ISqlMapper GetSqlMapper(BuildContext context)
         {
-            var smartSqlOptions = InitCreateSmartSqlMapperOptions(context);
-            return SmartSqlMapperFactory.Create(smartSqlOptions);
+            context.Build.Parameters.EnsureValue(DB_PROVIDER, out string dbProvider);
+            context.Build.Parameters.EnsureValue("ConnectionString", out string connString);
+            var alias_name = $"{Name}_{context.BuildKey}_{Guid.NewGuid():N}";
+
+            return new SmartSqlBuilder()
+                .UseDataSource(dbProvider, connString)
+                .UseLoggerFactory(_loggerFactory)
+                .UseAlias(alias_name)
+                .Build().SqlMapper;
         }
-        private CreateSmartSqlMapperOptions InitCreateSmartSqlMapperOptions(BuildContext context)
-        {
-            context.Build.Paramters.EnsureValue(DB_PROVIDER, out string dbProvider);
-            context.Build.Paramters.EnsureValue("ConnectionString", out string connString);
-            var alias_name = $"{Name}_{context.BuildKey}";
-            return new CreateSmartSqlMapperOptions
-            {
-                Alias = alias_name,
-                LoggerFactory = _loggerFacotry,
-                ProviderName = dbProvider,
-                DataSource = new SmartSql.Configuration.WriteDataSource
-                {
-                    Name = Name,
-                    ConnectionString = connString
-                }
-            };
-        }
+
     }
 }

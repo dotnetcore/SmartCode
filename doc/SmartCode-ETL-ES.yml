@@ -1,7 +1,7 @@
 Author: Ahoo Wang
 DataSource:
   Name: Extract
-  Paramters:
+  Parameters:
     DbProvider: PostgreSql
     ConnectionString: 'Server=localhost;Port=5432;User Id=report;Password=SmartCode; Database=report;'
     Query: select * from es_sync_product where max_motify_time>@LastMaxModifyTime
@@ -9,7 +9,7 @@ DataSource:
     AutoIncrement: true
     ModifyTime: max_motify_time
 
-Paramters:
+Parameters:
   ETLCode: SmartCode.ETL.LoadToES
   ETLRepository: SQLite
   
@@ -17,12 +17,12 @@ Build:
 
   Transform:
     Type: Transform
-    Paramters:
+    Parameters:
       Script: 
 
   LoadToES: 
     Type: LoadToES
-    Paramters:
+    Parameters:
       Host: http://es.smartsql.net/
       Index: smartsql
       Type: product

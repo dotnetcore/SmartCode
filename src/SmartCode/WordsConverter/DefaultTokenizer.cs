@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using SmartCode.Utilities;
 
 namespace SmartCode.WordsConverter
 {
@@ -61,19 +62,19 @@ namespace SmartCode.WordsConverter
             return new string[] { phrase };
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value(IGNORE_PREFIX_KEY, out string ignorePre))
+                if (parameters.Value(IGNORE_PREFIX_KEY, out string ignorePre))
                 {
                     IgnorePrefix = ignorePre;
                 }
-                if (paramters.Value(DELIMITER_KEY, out string delimiter))
+                if (parameters.Value(DELIMITER_KEY, out string delimiter))
                 {
                     Delimiter = delimiter;
                 }
-                if (paramters.Value(UPPERCASESPLIT_KEY, out bool upperSplit))
+                if (parameters.Value(UPPERCASESPLIT_KEY, out bool upperSplit))
                 {
                     UppercaseSplit = upperSplit;
                 }

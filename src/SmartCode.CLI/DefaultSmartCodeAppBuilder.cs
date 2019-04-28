@@ -12,7 +12,7 @@ namespace SmartCode.CLI
     {
         const string APP_SETTINGS_PATH = "appsettings.json";
         const string SMARTCODE_KEY = "SmartCode";
-        public String AppDirectory { get { return AppDomain.CurrentDomain.BaseDirectory; } }
+        public String AppDirectory => AppDomain.CurrentDomain.BaseDirectory;
 
         public SmartCodeApp Build(string configPath)
         {

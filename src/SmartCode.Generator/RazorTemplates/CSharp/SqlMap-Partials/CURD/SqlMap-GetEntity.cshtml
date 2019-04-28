@@ -15,7 +15,7 @@
 <!--获取表映射实体-->
 <Statement Id="GetEntity" @(queryStatementResultMap)>
     Select T.* From @table.Name As T
-    <Where>
+    <Where Min="1">
         <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
             T.@pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
         </IsNotEmpty>

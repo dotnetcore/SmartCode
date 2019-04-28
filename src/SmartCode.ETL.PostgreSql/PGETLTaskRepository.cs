@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using SmartCode.ETL.Entity;
 using SmartCode.Db;
 using Microsoft.Extensions.Logging;
-using SmartSql.Abstractions;
+using SmartSql;
+using SmartSql.Options;
 
 namespace SmartCode.ETL.PostgreSql
 {
@@ -16,7 +17,7 @@ namespace SmartCode.ETL.PostgreSql
         public bool Initialized { get; private set; }
         public string Name => "PG";
         public string Scope => "EtlTask";
-        public ISmartSqlMapper SqlMapper { get; set; }
+        public ISqlMapper SqlMapper { get; set; }
         public PGETLTaskRepository(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
@@ -24,13 +25,14 @@ namespace SmartCode.ETL.PostgreSql
         public void Initialize(IDictionary<string, object> paramters)
         {
             paramters.EnsureValue(CONNECTION_STRING, out string connectionString);
+
             SqlMapper = SmartSqlMapperFactory.Create(new SmartSqlMapperFactory.CreateSmartSqlMapperOptions
             {
                 Alias = "PGETLRepository",
                 LoggerFactory = _loggerFactory,
                 ProviderName = "PostgreSql",
                 SqlMapPath = DEFAULT_SQLMAP_PATH,
-                DataSource = new SmartSql.Configuration.WriteDataSource
+                DataSource = new DataSource
                 {
                     ConnectionString = connectionString,
                     Name = "PGETL"

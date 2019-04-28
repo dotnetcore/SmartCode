@@ -3,7 +3,7 @@ Module: SqlServer2PG
 Author: Ahoo Wang
 DataSource:
   Name: DbTable
-  Paramters:
+  Parameters:
     DbName: SqlServerDB
     DbProvider: SqlServer
     ConnectionString: Data Source=localhost;database=SqlServerDB;uid=SmartSql;pwd=SmartSql
@@ -11,7 +11,7 @@ Language: PostgreSql
 TemplateEngine: 
    Name: Razor
    Root: .
-Paramters:
+Parameters:
   ExtractMode: QueryTime
   ModifyTime: ModifyTime
   ExtractConnectionString: Data Source=localhost;database=SqlServerDB;uid=SmartSql;pwd=SmartSql
@@ -26,7 +26,7 @@ Build:
 
   ClearDir:
     Type: Clear
-    Paramters:
+    Parameters:
       Dirs: '.'
 # 生成迁移SQL
   DbToPGSql:
@@ -43,13 +43,13 @@ Build:
       Table:
         Tokenizer: 
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
             UppercaseSplit: true
         Converter:
           Type: Delimiter
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
             Mode: AllLower
             Prefix: smartcode_
@@ -57,12 +57,12 @@ Build:
       Column:
         Tokenizer: 
           Type: Default
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
             UppercaseSplit: true
         Converter:
           Type: Delimiter
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
             Mode: AllLower
 # 生成 SmartCode.ETL 数据迁移构建配置
@@ -80,24 +80,24 @@ Build:
       Table:
         Tokenizer: 
           Type: Default
-          Paramters: 
+          Parameters: 
             IgnorePrefix: 'T_'
             Delimiter: '_'
             UppercaseSplit: true
         Converter:
           Type: Delimiter
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
             Mode: AllLower
             Prefix: smartcode_
       Column:
         Tokenizer: 
           Type: Default
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
             UppercaseSplit: true
         Converter:
           Type: Delimiter
-          Paramters: 
+          Parameters: 
             Delimiter: '_'
             Mode: AllLower

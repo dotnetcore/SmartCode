@@ -38,9 +38,9 @@ namespace SmartCode.Generator.BuildTasks
             }
         }
 
-        public override void Initialize(IDictionary<string, object> paramters)
+        public override void Initialize(IDictionary<string, object> parameters)
         {
-            base.Initialize(paramters);
+            base.Initialize(parameters);
         }
     }
 }

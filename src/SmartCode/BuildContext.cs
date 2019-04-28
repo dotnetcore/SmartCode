@@ -16,7 +16,7 @@ namespace SmartCode
         public String Result { get; set; }
         public Output Output { get; set; }
         #endregion
-        public object this[string key] { get { return Items[key]; } set { Items[key] = value; } }
+        public object this[string key] { get => Items[key]; set => Items[key] = value; }
         public IDictionary<String, object> Items { get; set; } = new Dictionary<String, object>();
         public TItem GetItem<TItem>(string key)
         {

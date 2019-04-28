@@ -62,11 +62,11 @@ namespace SmartCode.Generator.DbTypeConverter
             return dbTypeMap?.To;
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (paramters.Value("XmlPath", out string xmlPath))
+                if (IDictionaryExtensions.Value(parameters, "XmlPath", out string xmlPath))
                 {
                     _xmlPath = xmlPath;
                 }

@@ -59,7 +59,7 @@ namespace SmartCode.Configuration.ConfigBuilders
 
                 if (buildTask.NamingConverter == null)
                 {
-                    buildTask.NamingConverter = NamingConverter.Defalut;
+                    buildTask.NamingConverter = NamingConverter.Default;
                 }
                 else
                 {

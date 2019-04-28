@@ -15,7 +15,7 @@ namespace SmartCode.WordsConverter
             return String.Join("", words);
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
            
         }

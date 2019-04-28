@@ -56,14 +56,14 @@ namespace SmartCode.TemplateEngine.Impl
             return Task.FromResult(context.Result);
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters == null) { return; }
-            if (paramters.Value("Name", out string name))
+            if (parameters == null) { return; }
+            if (parameters.Value("Name", out string name))
             {
                 Name = name;
             }
-            if (paramters.Value("Root", out string root))
+            if (parameters.Value("Root", out string root))
             {
                 _root = root;
             }

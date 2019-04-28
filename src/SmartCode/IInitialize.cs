@@ -6,6 +6,6 @@ namespace SmartCode
 {
     public interface IInitialize
     {
-        void Initialize(IDictionary<string, object> paramters);
+        void Initialize(IDictionary<string, object> parameters);
     }
 }

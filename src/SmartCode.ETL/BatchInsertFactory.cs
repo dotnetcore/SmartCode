@@ -1,30 +1,30 @@
-﻿using SmartSql.Batch;
+﻿using SmartSql.Bulk;
 using SmartSql.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SmartSql.Abstractions;
+using SmartSql;
 
 namespace SmartCode.ETL
 {
     public class BatchInsertFactory
     {
-        public static IBatchInsert Create(ISmartSqlMapper smartSqlMapper, Db.DbProvider dbProvider)
+        public static IBulkInsert Create(ISqlMapper sqlMapper, Db.DbProvider dbProvider)
         {
             switch (dbProvider)
             {
                 case Db.DbProvider.MySql:
                 case Db.DbProvider.MariaDB:
                     {
-                        return new SmartSql.Batch.MySql.BatchInsert(smartSqlMapper);
+                        return new SmartSql.Bulk.MySql.BulkInsert(sqlMapper.SessionStore.LocalSession);
                     }
                 case Db.DbProvider.PostgreSql:
                     {
-                        return new SmartSql.Batch.PostgreSql.BatchInsert(smartSqlMapper);
+                        return new SmartSql.Bulk.PostgreSql.BulkInsert(sqlMapper.SessionStore.LocalSession);
                     }
                 case Db.DbProvider.SqlServer:
                     {
-                        return new SmartSql.Batch.SqlServer.BatchInsert(smartSqlMapper);
+                        return new SmartSql.Bulk.SqlServer.BulkInsert(sqlMapper.SessionStore.LocalSession);
                     }
                 default:
                     {

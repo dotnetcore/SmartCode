@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
-using SmartSql.Abstractions;
-using SmartSql.Batch;
+using SmartCode.ETL.Entity;
+using SmartSql;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using static SmartCode.Db.SmartSqlMapperFactory;
 using System.Data;
 using System.Diagnostics;
-using SmartSql;
 using System.Linq;
-using System;
-using SmartCode.ETL.Entity;
+using System.Threading.Tasks;
+using static SmartCode.Db.SmartSqlMapperFactory;
 
 namespace SmartCode.ETL
 {
@@ -24,9 +22,10 @@ namespace SmartCode.ETL
 
         public bool Initialized { get; private set; }
         public string Name => "Extract";
-        public DbSet DbSet { get; set; }
-        public DbTable TransformData { get; set; }
-        IETLTaskRepository _etlRepository;
+        public DataSet DataSet { get; set; }
+        public DataTable TransformData { get; set; }
+
+        private IETLTaskRepository _etlRepository;
         public ExtractDataSource(Project project
             , ILoggerFactory loggerFactory
             , ILogger<ExtractDataSource> logger
@@ -67,24 +66,17 @@ namespace SmartCode.ETL
         public async Task InitData()
         {
             var dataSource = _project.DataSource;
-            dataSource.Paramters.EnsureValue("DbProvider", out string dbProvider);
-            dataSource.Paramters.EnsureValue("ConnectionString", out string connString);
-            dataSource.Paramters.Value("PKColumn", out string pkColumn);
-            dataSource.Paramters.Value("ModifyTime", out string modifyTime);
-            dataSource.Paramters.EnsureValue("Query", out string queryCmd);
+            dataSource.Parameters.EnsureValue("DbProvider", out string dbProvider);
+            dataSource.Parameters.EnsureValue("ConnectionString", out string connString);
+            dataSource.Parameters.Value("PKColumn", out string pkColumn);
+            dataSource.Parameters.Value("ModifyTime", out string modifyTime);
+            dataSource.Parameters.EnsureValue("Query", out string queryCmd);
             #region CreateSqlMapper
-            var smartSqlOptions = new CreateSmartSqlMapperOptions
-            {
-                LoggerFactory = _loggerFactory,
-                ProviderName = dbProvider,
-                Alias = Name,
-                DataSource = new SmartSql.Configuration.WriteDataSource
-                {
-                    Name = Name,
-                    ConnectionString = connString
-                }
-            };
-            var sqlMapper = Create(smartSqlOptions);
+            var sqlMapper = new SmartSqlBuilder()
+                .UseAlias(Name)
+                .UseLoggerFactory(_loggerFactory)
+                .UseDataSource(dbProvider, connString)
+                .Build().SqlMapper;
             #endregion
             var lastExtract = await _etlRepository.GetLastExtract(_project.GetETLCode());
             _project.SetETLLastExtract(lastExtract);
@@ -101,27 +93,27 @@ namespace SmartCode.ETL
                 QueryCommand = new ETLDbCommand
                 {
                     Command = queryCmd,
-                    Paramters = queryParams
+                    Parameters = queryParams
                 },
                 QuerySize = -1,
                 MaxId = -1
             };
             Stopwatch stopwatch = Stopwatch.StartNew();
-            DbSet = await sqlMapper.GetDbSetAsync(new RequestContext { RealSql = queryCmd, Request = queryParams });
-            TransformData = DbSet.Tables.First();
+            DataSet = await sqlMapper.GetDataSetAsync(new RequestContext { RealSql = queryCmd, Request = queryParams });
+            TransformData = DataSet.Tables[0];
             stopwatch.Stop();
             extractEntity.QuerySize = TransformData.Rows.Count;
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
             _logger.LogWarning($"InitData,Data.Size:{extractEntity.QuerySize},Taken:{extractEntity.QueryCommand.Taken}ms!");
 
-            dataSource.Paramters.Value("PkIsNumeric", out bool pkIsNumeric);
-            dataSource.Paramters.Value("AutoIncrement", out bool autoIncrement);
+            dataSource.Parameters.Value("PkIsNumeric", out bool pkIsNumeric);
+            dataSource.Parameters.Value("AutoIncrement", out bool autoIncrement);
 
             if (!String.IsNullOrEmpty(pkColumn)
                 && (pkIsNumeric || autoIncrement)
                 && extractEntity.QuerySize > 0)
             {
-                var maxId = TransformData.Rows.Max(m => m.Cells[pkColumn].Value);
+                var maxId = TransformData.Rows.Cast<DataRow>().AsParallel().Max(dr => dr[pkColumn]);
                 extractEntity.MaxId = Convert.ToInt64(maxId);
             }
             else
@@ -132,20 +124,21 @@ namespace SmartCode.ETL
             if (!String.IsNullOrEmpty(modifyTime)
                 && extractEntity.QuerySize > 0)
             {
-                var maxModifyTime = TransformData.Rows.Max(m => m.Cells[modifyTime].Value);
-                extractEntity.MaxModifyTime = Convert.ToDateTime(maxModifyTime);
+                extractEntity.MaxModifyTime = TransformData.Rows.Cast<DataRow>().AsParallel().Max(dr =>
+                {
+                    var cell = dr[modifyTime];
+                    return Convert.ToDateTime(cell);
+                });
             }
             else
             {
                 extractEntity.MaxModifyTime = lastExtract.MaxModifyTime;
             }
-
-
             await _etlRepository.Extract(_project.GetETKTaskId(), extractEntity);
         }
 
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
             InitProjectBuilderEvent();
             Initialized = true;

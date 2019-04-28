@@ -117,7 +117,7 @@ I believe that many students who have already landed the microservices architect
       {
         "Type": "SmartCode.ETL.IETLRepository,SmartCode.ETL",
         "ImplType": "SmartCode.ETL.PostgreSql.PGETLRepository,SmartCode.ETL.PostgreSql",
-        "Paramters": {
+        "Parameters": {
           "ConnectionString": "Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartcode_etl;"
         }
       }
@@ -133,24 +133,24 @@ I believe that many students who have already landed the microservices architect
 Author: Ahoo Wang
 DataSource:
   Name: Extract
-  Paramters:
+  Parameters:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
     Query: SELECT [Id],[UserName],[Status],[LastLoginTime],[CreationTime],[ModifyTime],[Deleted] FROM [T_User] With(NoLock) Where ModifyTime>@LastMaxModifyTime
     PKColumn: Id
     AutoIncrement: true
     ModifyTime: ModifyTime
-Paramters:
+Parameters:
   ETLCode: SmartCode.ETL.Test
   ETLRepository: PG
 Build:
   Transform:
     Type: Transform
-    Paramters:
+    Parameters:
       Script: 
   Load2PostgreSql: 
     Type: Load
-    Paramters:
+    Parameters:
       DbProvider: PostgreSql
       ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=SmartSql; Database=smartsql_db;
       Table: t_user__temp
@@ -168,7 +168,7 @@ Build:
       ,{Column: Deleted,Mapping: deleted}]
 ```
 
-### Root Paramters
+### Root Parameters
 
 | Parameter Name | Description |
 | :------------ | -----------------------------: |
@@ -179,7 +179,7 @@ Build:
 
 > Attribute Name:Extract, using the ExtractDataSource plugin as a data source
 
-#### ExtractDataSource.Paramters
+#### ExtractDataSource.Parameters
 
 | Parameter Name | Description |
 | :--------------- | -------------------------------- |
@@ -194,7 +194,7 @@ AutoIncrement | Whether to auto-increment the primary key, true automatically ca
 
 > Attribute Type:Load, using the LoadBuildTask plugin as a build task
 
-#### Build.Load.Paramters
+#### Build.Load.Parameters
 
 | Parameter Name | Description |
 | :--------------- | --------------------------------  |
@@ -247,7 +247,7 @@ The following is the data extraction performance, the number of extraction is 14
     "QueryCommand": {
         "Taken": 41267,
         "Command": "Select * From T_ProductSearchLog  With(NoLock) Where Id>@LastMaxId",
-        "Paramters": {
+        "Parameters": {
             "LastMaxId": -1,
             "LastQueryTime": "1970-01-01T08:00:00"
         }

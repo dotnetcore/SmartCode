@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SmartCode.Utilities;
 
 namespace SmartCode.WordsConverter
 {
@@ -54,19 +55,19 @@ namespace SmartCode.WordsConverter
             return _prefix + phrase;
         }
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
-            if (paramters != null)
+            if (parameters != null)
             {
-                if (!paramters.Value(DELIMITER, out _delimiter))
+                if (!parameters.Value(DELIMITER, out _delimiter))
                 {
                     _delimiter = "_";
                 }
-                if (!paramters.Value(CONVERT_MODE, out _convertMode))
+                if (!parameters.Value(CONVERT_MODE, out _convertMode))
                 {
                     _convertMode = ConvertMode.None;
                 }
-                if (!paramters.Value(PREFIX, out _prefix))
+                if (!parameters.Value(PREFIX, out _prefix))
                 {
                     _prefix = string.Empty;
                 }

@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using HandlebarsDotNet;
+using SmartCode.Utilities;
 
 namespace SmartCode.App.BuildTasks
 {
@@ -11,6 +14,7 @@ namespace SmartCode.App.BuildTasks
     {
         const string CREATE_NO_WINDOW = "CreateNoWindow";
         const string WORKING_DIRECTORY = "WorkingDirectory";
+        const string WRITE_LINES = "WriteLines";
         const string FILE_NAME = "FileName";
         const string ARGS = "Args";
         const string TIMEOUT = "Timeout";
@@ -25,61 +29,90 @@ namespace SmartCode.App.BuildTasks
             _logger = logger;
         }
 
-        public Task Build(BuildContext context)
+        public async Task Build(BuildContext context)
         {
-            if (!context.Build.Paramters.Value(FILE_NAME, out string fileName))
+            if (!context.Build.Parameters.Value(FILE_NAME, out string fileName))
             {
-                throw new SmartCodeException($"Build:{context.BuildKey},Can not find Paramter:{FILE_NAME}!");
+                throw new SmartCodeException($"Build:{context.BuildKey},Can not find Parameter:{FILE_NAME}!");
             }
-            if (!context.Build.Paramters.Value(ARGS, out string args))
+            var startInfo = new ProcessStartInfo(fileName)
             {
-                throw new SmartCodeException($"Build:{context.BuildKey},Can not find Paramter:{ARGS}!");
-            }
-            var process = new Process();
-            var startInfo = process.StartInfo;
-            startInfo.CreateNoWindow = DEFAULT_CREATE_NO_WINDOW;
-            startInfo.FileName = fileName;
-            startInfo.Arguments = args;
-            if (context.Build.Paramters.Value(WORKING_DIRECTORY, out string workingDic))
+                UseShellExecute = false,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = DEFAULT_CREATE_NO_WINDOW
+            };
+            if (context.Build.Parameters.Value(nameof(ProcessStartInfo.RedirectStandardInput), out bool redirectStandardInput))
             {
-                startInfo.WorkingDirectory = workingDic;
+                startInfo.RedirectStandardInput = redirectStandardInput;
             }
-            if (context.Build.Paramters.Value(CREATE_NO_WINDOW, out bool createNoWin))
+            if (context.Build.Parameters.Value(nameof(ProcessStartInfo.RedirectStandardOutput), out bool redirectStandardOutput))
+            {
+                startInfo.RedirectStandardOutput = redirectStandardOutput;
+            }
+            if (context.Build.Parameters.Value(nameof(ProcessStartInfo.RedirectStandardError), out bool redirectStandardError))
+            {
+                startInfo.RedirectStandardError = redirectStandardError;
+            }
+            if (context.Build.Parameters.Value(ARGS, out string args))
+            {
+                startInfo.Arguments = Handlebars.Compile(args)(context);
+            }
+            if (context.Build.Parameters.Value(WORKING_DIRECTORY, out string workingDic))
+            {
+                startInfo.WorkingDirectory = Handlebars.Compile(workingDic)(context);
+            }
+            if (context.Build.Parameters.Value(CREATE_NO_WINDOW, out bool createNoWin))
             {
                 startInfo.CreateNoWindow = createNoWin;
             }
             _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} Start--------");
-            process.ErrorDataReceived += Process_ErrorDataReceived;
-            process.OutputDataReceived += Process_OutputDataReceived;
-            try
+            using (var process = Process.Start(startInfo))
             {
-                process.Start();
-                var timeOut = DEFAULT_TIME_OUT;
-                if (context.Build.Paramters.Value(TIMEOUT, out int _timeout))
+                if (context.Build.Parameters.Value(WRITE_LINES, out IEnumerable<object> lines))
                 {
-                    timeOut = _timeout;
+                    foreach (var line in lines)
+                    {
+                        var lineCommand = Handlebars.Compile(line.ToString())(context);
+                        _logger.LogDebug($"StandardInput.WriteLine: [{lineCommand}].");
+                        process.StandardInput.WriteLine(lineCommand);
+                    }
                 }
-                process.WaitForExit(timeOut);
-                _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} End--------");
+                if (startInfo.RedirectStandardOutput)
+                {
+                    var standardOutput = await process.StandardOutput.ReadToEndAsync();
+                    if (!String.IsNullOrEmpty(standardOutput))
+                    {
+                        _logger.LogDebug("StandardOutput start");
+                        _logger.LogDebug(standardOutput);
+                        _logger.LogDebug("StandardOutput end");
+                    }
+                }
+                if (startInfo.RedirectStandardError)
+                {
+                    var standardError = await process.StandardError.ReadToEndAsync();
+                    if (!String.IsNullOrEmpty(standardError))
+                    {
+                        _logger.LogDebug("StandardError start");
+                        _logger.LogDebug(standardError);
+                        _logger.LogDebug("StandardError end");
+                    }
+                }
+                if (!(context.Build.Parameters.Value(nameof(Process.WaitForExit), out bool waitForExit) && !waitForExit))
+                {
+                    var timeOut = DEFAULT_TIME_OUT;
+                    if (context.Build.Parameters.Value(TIMEOUT, out int _timeout))
+                    {
+                        timeOut = _timeout;
+                    }
+                    process.WaitForExit(timeOut);
+                }
+                _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments},Taken:{process.TotalProcessorTime.TotalMilliseconds} End--------");
             }
-            finally
-            {
-                process.Dispose();
-            }
-            return Task.CompletedTask;
         }
 
-        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            _logger.LogDebug(e.Data);
-        }
-
-        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            _logger.LogDebug(e.Data);
-        }
-
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }

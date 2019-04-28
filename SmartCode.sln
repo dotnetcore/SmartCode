@@ -35,6 +35,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B0F696A9
 		build\version.props = build\version.props
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55E0A4D0-F749-4C33-837C-30F881AA293F}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README-EN.md = README-EN.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{B3766EC2-4AD1-4610-B141-5C8D267BF70A}"
+	ProjectSection(SolutionItems) = preProject
+		doc\common-problem.md = doc\common-problem.md
+		doc\SmartCode-ETL-ES.yml = doc\SmartCode-ETL-ES.yml
+		doc\SmartCode-ETL.yml = doc\SmartCode-ETL.yml
+		doc\SmartCode-Gen-ETL.yml = doc\SmartCode-Gen-ETL.yml
+		doc\SmartCode-Spring-Boot.yml = doc\SmartCode-Spring-Boot.yml
+		doc\SmartCode.ETL-EN.md = doc\SmartCode.ETL-EN.md
+		doc\SmartCode.ETL.md = doc\SmartCode.ETL.md
+		doc\SmartCode.json = doc\SmartCode.json
+		doc\SmartCode.yml = doc\SmartCode.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +116,7 @@ Global
 		{60B49703-2352-477B-8F18-98CC229EEFDA} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
 		{BB00F470-7D25-4F82-A410-1DB8BD458A5E} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
 		{DADD6996-91C4-496D-AE97-D8EA5E33716A} = {EE2194B6-5B23-42C0-AF6A-EC86331E3E08}
+		{B3766EC2-4AD1-4610-B141-5C8D267BF70A} = {55E0A4D0-F749-4C33-837C-30F881AA293F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A45CDB0-E532-4F55-84C6-B82C98BE5F38}

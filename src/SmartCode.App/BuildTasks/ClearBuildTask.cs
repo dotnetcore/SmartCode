@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using SmartCode.Utilities;
 
 namespace SmartCode.App.BuildTasks
 {
@@ -20,9 +21,9 @@ namespace SmartCode.App.BuildTasks
 
         public Task Build(BuildContext context)
         {
-            var paramters = context.Build.Paramters;
-            if (paramters == null) { return Task.CompletedTask; ; }
-            if (paramters.Value("Dirs", out string clearDirs))
+            var parameters = context.Build.Parameters;
+            if (parameters == null) { return Task.CompletedTask; ; }
+            if (parameters.Value("Dirs", out string clearDirs))
             {
                 var _clearDirs = clearDirs.Split(',');
                 foreach (var dir in _clearDirs)
@@ -36,7 +37,7 @@ namespace SmartCode.App.BuildTasks
                     _logger.LogInformation($"ClearBuildTask Delete directory:{fullDir} End!");
                 }
             }
-            if (paramters.Value("Files", out string clearFiles))
+            if (parameters.Value("Files", out string clearFiles))
             {
                 var _clearFiles = clearFiles.Split(',');
                 foreach (var file in _clearFiles)
@@ -54,7 +55,7 @@ namespace SmartCode.App.BuildTasks
         }
         private readonly ILogger<ClearBuildTask> _logger;
 
-        public void Initialize(IDictionary<string, object> paramters)
+        public void Initialize(IDictionary<string, object> parameters)
         {
 
         }
