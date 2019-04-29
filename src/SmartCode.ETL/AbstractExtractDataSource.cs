@@ -97,7 +97,7 @@ namespace SmartCode.ETL
                 MaxId = -1
             };
             Stopwatch stopwatch = Stopwatch.StartNew();
-            await  LoadData(new RequestContext { RealSql = queryCmd, Request = queryParams });
+            await LoadData(new RequestContext { RealSql = queryCmd, Request = queryParams });
             stopwatch.Stop();
             extractEntity.Count = GetCount();
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
@@ -136,7 +136,10 @@ namespace SmartCode.ETL
         public void Initialize(IDictionary<string, object> parameters)
         {
             Initialized = true;
-            InitProjectBuilderEvent();
+            if (Name == _project.DataSource.Name)
+            {
+                InitProjectBuilderEvent();
+            }
         }
     }
 }
