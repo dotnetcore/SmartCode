@@ -135,8 +135,8 @@ namespace SmartCode.ETL
 
         public void Initialize(IDictionary<string, object> parameters)
         {
-            InitProjectBuilderEvent();
             Initialized = true;
+            InitProjectBuilderEvent();
         }
     }
 }
