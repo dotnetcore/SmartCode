@@ -61,7 +61,7 @@ namespace SmartCode.ETL.SQLite
             });
         }
 
-        public Task Fail(long etlTaskId, string errMsg)
+        public Task Fail(long etlTaskId, Exception errorException)
         {
             return SqlMapper.ExecuteAsync(new RequestContext
             {
@@ -73,7 +73,8 @@ namespace SmartCode.ETL.SQLite
                     Status = ETLTaskStatus.Failed,
                     ExtendData = new Dictionary<string, object>
                     {
-                        { "error_msg",errMsg}
+                        { "error_msg",errorException.Message},
+                        { "stack_trace",errorException.StackTrace}
                     }
                 }
             });

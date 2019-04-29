@@ -14,7 +14,7 @@ namespace SmartCode.ETL
         Task Load(long etlTaskId, ETLLoad load);
         Task<ETLTask> GetLastTask(string code);
         Task<ETLExtract> GetLastExtract(string code);
-        Task Fail(long etlTaskId, string errMsg);
+        Task Fail(long etlTaskId, Exception errorException);
         Task Success(long etlTaskId);
     }
 }

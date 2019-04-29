@@ -58,7 +58,7 @@ namespace SmartCode.ETL
 
         private async Task _projectBuilder_OnFailed(object sender, OnProjectBuildFailedEventArgs eventArgs)
         {
-            await _etlRepository.Fail(_project.GetETKTaskId(), eventArgs.ErrorException.Message);
+            await _etlRepository.Fail(_project.GetETKTaskId(), eventArgs.ErrorException);
         }
 
         public async Task InitData()

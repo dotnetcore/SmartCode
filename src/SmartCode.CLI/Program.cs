@@ -50,7 +50,7 @@ namespace SmartCode.CLI
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {

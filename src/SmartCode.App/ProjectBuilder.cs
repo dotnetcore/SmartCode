@@ -72,7 +72,7 @@ namespace SmartCode.App
                     Context = buildContext,
                     ErrorException = ex
                 });
-                throw ex;
+                throw;
             }
         }
 
