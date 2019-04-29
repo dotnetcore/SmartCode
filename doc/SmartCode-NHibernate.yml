@@ -305,3 +305,111 @@ Build:
             Delimiter: '_'
         Converter:
           Type: Pascal
+  RepositoryTest:
+    Type: Table
+    Module: Test
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: RepositoryTest.cshtml
+    Output:
+      Path: '../test/{{Project.Module}}.{{Build.Module}}/Data'
+      Name: '{{Items.CurrentTable.ConvertedName}}RepositoryTest'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  ServiceTest:
+    Type: Table
+    Module: Test
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: ServiceTest.cshtml
+    Output:
+      Path: '../test/{{Project.Module}}.{{Build.Module}}/Services'
+      Name: '{{Items.CurrentTable.ConvertedName}}ServiceTest'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  ApiTest:
+    Type: Table
+    Module: Test
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: ApiTest.cshtml
+    Output:
+      Path: '../test/{{Project.Module}}.{{Build.Module}}/Api'
+      Name: '{{Items.CurrentTable.ConvertedName}}ControllerTest'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal

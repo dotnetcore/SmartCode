@@ -1,0 +1,26 @@
+@using SmartCode
+@using SmartCode.Generator.Entity
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+using System;
+using System.Threading.Tasks;
+using @(project.Author).@(project.Module).Data.Repositories;
+using NUnit.Framework;
+
+namespace @(project.Author).@(project.Module).@(buildTask.Module).Data {
+
+    [TestFixture]
+    public class @(table.ConvertedName)RepositoryTest : BaseTest<I@(table.ConvertedName)Repository> {
+
+        [Test]
+        public void _01_CanResolveTarget() {
+            Assert.IsNotNull(Target);
+        }
+
+    }
+
+}

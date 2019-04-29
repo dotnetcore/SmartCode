@@ -1,0 +1,39 @@
+@using SmartCode
+@using SmartCode.Generator.Entity
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+@functions {
+    string ToControllerName(string className) {
+        var name = NamingUtil.ToPlural(className);
+        // if (name.StartsWith("App")) {
+        //     name = name.Substring(3);
+        // }
+        // if (name.StartsWith("Aspnet")) {
+        //     name = name.Substring(6);
+        // }
+        return name;
+    }
+    string GetDescription(Table t) {
+        return t.Description ?? t.ConvertedName;
+    }
+}
+using Beginor.NetCoreApp.Api.Controllers;
+using NUnit.Framework;
+
+namespace Beginor.NetCoreApp.Test.Api {
+
+    [TestFixture]
+    public class @(ToControllerName(table.ConvertedName))ControllerTest : BaseTest<@(ToControllerName(table.ConvertedName))Controller> {
+
+        [Test]
+        public void _01_CanResolveTarget() {
+            Assert.IsNotNull(Target);
+        }
+
+    }
+
+}
