@@ -19,7 +19,7 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module) {
     public partial interface @($"I{table.ConvertedName}Service") : IBaseService<@(table.ConvertedName)Model> {
 
         @($"/// <summary>{table.Description ?? table.ConvertedName}搜索，返回分页结果。</summary>")
-        Task<PaginatedResponseModel<@(table.ConvertedName)Model>> Search(
+        Task<PaginatedResponseModel<@(table.ConvertedName)Model>> SearchAsync(
             @(table.ConvertedName)SearchModel model
         );
 

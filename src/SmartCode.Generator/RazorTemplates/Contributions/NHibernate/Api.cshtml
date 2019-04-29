@@ -86,13 +86,15 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module).Controllers {
             }
         }
 
-        /// <summary>获取全部 @(GetDescription(table)) </summary>
+        /// <summary>搜索 @(GetDescription(table)) ， 分页返回结果</summary>
+        /// <response code="200">成功, 分页返回结果</response>
+        /// <response code="500">服务器内部错误</response>
         [HttpGet("")]
         public async Task<ActionResult<PaginatedResponseModel<@(table.ConvertedName)Model>>> GetAll(
             [FromQuery]@(table.ConvertedName)SearchModel model
         ) {
             try {
-                var result = await service.Search(model);
+                var result = await service.SearchAsync(model);
                 return result;
             }
             catch (Exception ex) {

@@ -42,6 +42,6 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module) {
     }
 
     @($"/// <summary>{table.Description ?? table.ConvertedName}搜索参数</summary>")
-    public partial class AppAttachmentSearchModel : PaginatedRequestModel { }
+    public partial class @(table.ConvertedName)SearchModel : PaginatedRequestModel { }
 
 }

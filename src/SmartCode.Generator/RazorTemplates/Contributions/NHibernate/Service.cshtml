@@ -33,7 +33,7 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module) {
         }
 
         @($"/// <summary>{table.Description ?? table.ConvertedName}搜索，返回分页结果。</summary>")
-        public async Task<PaginatedResponseModel<@(table.ConvertedName)Model>> Search(
+        public async Task<PaginatedResponseModel<@(table.ConvertedName)Model>> SearchAsync(
             @(table.ConvertedName)SearchModel model
         ) {
             var repo = base.Repository;
