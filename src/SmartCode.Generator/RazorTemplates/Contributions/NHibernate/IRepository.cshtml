@@ -26,11 +26,12 @@
 
 }
 using Beginor.AppFx.Core;
-using @(project.Module).@(buildTask.Module).Entities;
+using @(project.Author).@(project.Module).@(buildTask.Module).Entities;
 
-namespace @(project.Module).@(buildTask.Module).Repositories {
+namespace @(project.Author).@(project.Module).@(buildTask.Module).Repositories {
 
-    public partial interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName)Entity, @(ConvertLangType(firstPk))> {
+    @($"/// <summary>{table.Description ?? table.ConvertedName}仓储接口</summary>")
+    public partial interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(ConvertLangType(firstPk))> {
 
     }
 

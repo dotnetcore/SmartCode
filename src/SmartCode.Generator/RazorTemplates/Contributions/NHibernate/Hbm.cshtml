@@ -4,7 +4,7 @@
 @{
     var project = Model.Project;
     var schema = string.Empty;
-    if (project.DataSource.Paramters.TryGetValue("DbSchema", out var s)) {
+    if (project.DataSource.Parameters.TryGetValue("DbSchema", out var s)) {
         schema = (string) s;
     }
     var buildTask = Model.Build;
@@ -12,8 +12,8 @@
     var pkCols = table.Columns.Where(col => col.IsPrimaryKey);
     var firstPk = pkCols.FirstOrDefault();
     var normalCols = table.Columns.Where(col => !col.IsPrimaryKey);
-    var namespaceName = $"{project.Module}.{buildTask.Module}.Entities";
-    var assemblyName = $"{project.Module}.{buildTask.Module}";
+    var namespaceName = $"{project.Author}.{project.Module}.{buildTask.Module}.Entities";
+    var assemblyName = $"{project.Author}.{project.Module}.{buildTask.Module}";
     var newLine = Environment.NewLine;
 }
 @functions {
@@ -26,29 +26,41 @@
         }
         return "assigned";
     }
-}
-<?xml version="1.0" encoding="utf-8" ?>
-<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="@assemblyName" namespace="@namespaceName">
 
-    <class name="@($"{table.ConvertedName}Entity")" table="@table.Name" @if (!string.IsNullOrEmpty(schema)) { <text>schema="@schema"</text> }>
-
-    @if (pkCols.Count() == 1) {
-        <id name="Id" column="@firstPk.Name" type="@firstPk.LanguageType">
-            <generator class="@GetGeneratorClass(firstPk)">
-            </generator>
-        </id>
-    }
-    else {
-        <composite-id>
-        @foreach (var col in pkCols) {
-            <key-property name="@col.ConvertedName" column="@col.Name" type="@col.LanguageType" />
+    string GetHibernateType(string langType) {
+        if (langType == "byte[]") {
+            return "binary";
         }
-        </composite-id>
+        else {
+            return langType.ToLower();
+        }
     }
+}
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-mapping
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:nhibernate-mapping-2.2"
+  assembly="@assemblyName" namespace="@namespaceName">
 
-    @foreach (var col in normalCols) {
-        <property name="@col.ConvertedName" column="@col.Name" type="@col.LanguageType" @if (col.LanguageType == "string") { <text>length="@col.DataLength" </text> }/>
+  <class name="@($"{table.ConvertedName}")" table="@table.Name" @if (!string.IsNullOrEmpty(schema)) { <text>schema="@schema"</text> }>
+  @if (pkCols.Count() == 1) {
+    <id name="Id" column="@firstPk.Name" type="@GetHibernateType(firstPk.LanguageType)">
+      <generator class="@GetGeneratorClass(firstPk)">
+      </generator>
+    </id>
+  }
+  else {
+    <composite-id>
+    @foreach (var col in pkCols) {
+      <key-property name="@col.ConvertedName" column="@col.Name" type="@GetHibernateType(col.LanguageType)" />
     }
-    </class>
+    </composite-id>
+  }
+
+  @foreach (var col in normalCols) {
+    <property name="@col.ConvertedName" column="@col.Name" type="@GetHibernateType(col.LanguageType)" not-null="@((!col.IsNullable).ToString().ToLower())" @if (col.LanguageType == "string") { <text>length="@col.DataLength" </text> }/>
+  }
+  </class>
 
 </hibernate-mapping>

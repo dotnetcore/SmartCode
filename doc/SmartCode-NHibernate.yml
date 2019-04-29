@@ -1,11 +1,11 @@
-Module: DvdRental
-Author: Beginor (https://github.com/beginor/SmartCode)
+Author: Beginor
+Module: NetCoreApp
 DataSource:
   Name: DbTable
-  Paramters:
+  Parameters:
     DbName: test_db
     DbProvider: PostgreSql
-    ConnectionString: server=127.0.0.1;port=5432;database=dvd_rental;user id=postgres;password=YOUR_PASSWORD;
+    ConnectionString: server=127.0.0.1;port=5432;database=net_core_app;user id=postgres;password=NOPASSWORD;
     DbSchema: public
 Language: CSharp
 TemplateEngine:
@@ -13,43 +13,35 @@ TemplateEngine:
   Root: Contributions/NHibernate
 Output:
   Type: File
-  Path: '/Users/zhang/Projects/smart-code-sample-project'
+  Path: '/Users/zhang/Projects/net-core-app/server/src'
   Mode: Full
 
 Build:
-  Scaffolding:
-    Type: MultiTemplate
-    Output:
-      Path: '.'
-    Paramters:
-      Templates: [
-          { Key: "Project.cshtml", Output: { Path: '{{Project.Module}}.Data', Name: '{{Project.Module}}.Data', Extension: '.csproj' } },
-        ]
   Entities:
     Type: Table
     Module: Data
-    IncludeTables: ["actor", "category"]
+    IncludeTables: ["app_attachments"]
     IgnoreTables: []
     TemplateEngine:
       Path: Entity.cshtml
     Output:
       Path: '{{Project.Module}}.{{Build.Module}}/Entities'
-      Name: '{{Items.CurrentTable.ConvertedName}}Entity'
+      Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.cs'
     NamingConverter:
       Table:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
-          Paramters: { }
+          Parameters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -57,14 +49,14 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             Delimiter: '_'
         Converter:
           Type: Pascal
   Hbm:
     Type: Table
     Module: Data
-    IncludeTables: ["actor", "category"]
+    IncludeTables: ["app_attachments"]
     IgnoreTables: []
     TemplateEngine:
       Path: Hbm.cshtml
@@ -76,16 +68,16 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
-          Paramters: { }
+          Parameters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -93,14 +85,14 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             Delimiter: '_'
         Converter:
           Type: Pascal
   IRepository:
     Type: Table
     Module: Data
-    IncludeTables: ["actor", "category"]
+    IncludeTables: ["app_attachments"]
     IgnoreTables: []
     TemplateEngine:
       Path: IRepository.cshtml
@@ -112,16 +104,16 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
-          Paramters: { }
+          Parameters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -129,14 +121,14 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             Delimiter: '_'
         Converter:
           Type: Pascal
   Repository:
     Type: Table
     Module: Data
-    IncludeTables: ["actor", "category"]
+    IncludeTables: ["app_attachments"]
     IgnoreTables: []
     TemplateEngine:
       Path: Repository.cshtml
@@ -148,16 +140,16 @@ Build:
       Table:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
           Type: Pascal
-          Paramters: { }
+          Parameters: { }
       View:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -165,7 +157,151 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Paramters:
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  Model:
+    Type: Table
+    Module: Models
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: Model.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}Model'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  IService:
+    Type: Table
+    Module: Services
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: IService.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: 'I{{Items.CurrentTable.ConvertedName}}Service'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  Service:
+    Type: Table
+    Module: Services
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: Service.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}'
+      Name: '{{Items.CurrentTable.ConvertedName}}Service'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+  Api:
+    Type: Table
+    Module: Api
+    IncludeTables: ["app_attachments"]
+    IgnoreTables: []
+    TemplateEngine:
+      Path: Api.cshtml
+    Output:
+      Path: '{{Project.Module}}.{{Build.Module}}/Controllers'
+      Name: '{{Items.CurrentTable.ConvertedName}}Controller'
+      Extension: '.cs'
+    NamingConverter:
+      Table:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'T_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+          Parameters: { }
+      View:
+        Tokenizer:
+          Type: Default
+          Parameters:
+            IgnorePrefix: 'V_'
+            Delimiter: '_'
+        Converter:
+          Type: Pascal
+      Column:
+        Tokenizer:
+          Type: Default
+          Parameters:
             Delimiter: '_'
         Converter:
           Type: Pascal

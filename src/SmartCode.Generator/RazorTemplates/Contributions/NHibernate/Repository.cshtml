@@ -29,22 +29,16 @@
     }
 
 }
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Beginor.AppFx.Repository.Hibernate;
 using NHibernate;
-using NHibernate.Linq;
-using @(project.Module).@(buildTask.Module).Entities;
+using @(project.Author).@(project.Module).@(buildTask.Module).Entities;
 
-namespace @(project.Module).@(buildTask.Module).Repositories {
+namespace @(project.Author).@(project.Module).@(buildTask.Module).Repositories {
 
-    public partial class @(table.ConvertedName)Repository : HibernateRepository<@(table.ConvertedName)Entity, @(ConvertLangType(firstPk))>, I@(table.ConvertedName)Repository {
+    @($"/// <summary>{table.Description ?? table.ConvertedName}仓储实现</summary>")
+    public partial class @(table.ConvertedName)Repository : HibernateRepository<@(table.ConvertedName), @(ConvertLangType(firstPk))>, I@(table.ConvertedName)Repository {
 
-        public @(table.ConvertedName)Repository(ISessionFactory sessionFactory) : base(sessionFactory) {
-
-        }
+        public @(table.ConvertedName)Repository(ISessionFactory sessionFactory) : base(sessionFactory) { }
 
     }
 

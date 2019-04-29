@@ -1,0 +1,28 @@
+@using SmartCode
+@using SmartCode.Generator.Entity
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+@functions { }
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Beginor.AppFx.Core;
+using Beginor.AppFx.Services;
+using @(project.Author).@(project.Module).Models;
+
+namespace @(project.Author).@(project.Module).@(buildTask.Module) {
+
+    @($"/// <summary>{table.Description ?? table.ConvertedName}服务接口</summary>")
+    public partial interface @($"I{table.ConvertedName}Service") : IBaseService<@(table.ConvertedName)Model> {
+
+        @($"/// <summary>{table.Description ?? table.ConvertedName}搜索，返回分页结果。</summary>")
+        Task<PaginatedResponseModel<@(table.ConvertedName)Model>> Search(
+            @(table.ConvertedName)SearchModel model
+        );
+
+    }
+
+}

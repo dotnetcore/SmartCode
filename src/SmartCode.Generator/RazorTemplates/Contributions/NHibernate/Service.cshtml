@@ -1,0 +1,62 @@
+@using SmartCode
+@using SmartCode.Generator.Entity
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+@functions { }
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Beginor.AppFx.Core;
+using Beginor.AppFx.Services;
+using @(project.Author).@(project.Module).Data.Entities;
+using @(project.Author).@(project.Module).Data.Repositories;
+using @(project.Author).@(project.Module).Models;
+
+namespace @(project.Author).@(project.Module).@(buildTask.Module) {
+
+    @($"/// <summary>{table.Description ?? table.ConvertedName}服务实现</summary>")
+    public partial class @(table.ConvertedName)Service : BaseService<I@(table.ConvertedName)Repository, @(table.ConvertedName), @(table.ConvertedName)Model, long>, I@(table.ConvertedName)Service {
+
+        public @(table.ConvertedName)Service(I@(table.ConvertedName)Repository repository) : base(repository) { }
+
+        protected override long ConvertIdFromString(string id) {
+            long result;
+            if (long.TryParse(id, out result)) {
+                return result;
+            }
+            return result;
+        }
+
+        @($"/// <summary>{table.Description ?? table.ConvertedName}搜索，返回分页结果。</summary>")
+        public async Task<PaginatedResponseModel<@(table.ConvertedName)Model>> Search(
+            @(table.ConvertedName)SearchModel model
+        ) {
+            var repo = base.Repository;
+            var total = await repo.CountAsync(
+                query => {
+                    // todo: add custom query here;
+                    return query;
+                }
+            );
+            var data = await repo.QueryAsync(
+                query => {
+                    // todo: add custom query here;
+                    return query.Skip(model.Skip).Take(model.Take);
+                }
+            );
+            return new PaginatedResponseModel<@(table.ConvertedName)Model> {
+                Total = total,
+                Data = Mapper.Map<IList<@(table.ConvertedName)Model>>(data),
+                Skip = model.Skip,
+                Take = model.Take
+            };
+        }
+
+    }
+
+}

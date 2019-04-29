@@ -52,6 +52,7 @@ namespace SmartCode.Generator
             var tokenizer = TokenizerFactory.Create(tokenizerMapConverter.Tokenizer);
             var words = tokenizer.Segment(phrase);
             var wordsConvert = WordsConverterFactory.Create(tokenizerMapConverter.Converter);
+            // 表名转换成类时，应该是单数的形式
             return NamingUtil.ToSingular(wordsConvert.Convert(words));
         }
     }

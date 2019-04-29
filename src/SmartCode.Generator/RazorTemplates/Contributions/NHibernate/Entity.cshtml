@@ -29,18 +29,18 @@
 using System;
 using Beginor.AppFx.Core;
 
-namespace @(project.Module).@(buildTask.Module).Entities {
+namespace @(project.Author).@(project.Module).@(buildTask.Module).Entities {
 
     @($"/// <summary>{table.Description ?? table.ConvertedName}</summary>")
-    public partial class @(table.ConvertedName + "Entity") @if (pkCount == 1) { <text>: BaseEntity<@firstPk.LanguageType> </text> } {
+    public partial class @(table.ConvertedName) @if (pkCount == 1) { <text>: BaseEntity<@firstPk.LanguageType> </text> } {
 
     @if (pkCount > 1) {
         foreach (var col in pkCols) {
             @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
             @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
         }
+        
     }
-
     @foreach (var col in normalCols) {
         @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
         @(Html.PadLeft(8) + $"public virtual {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
@@ -73,8 +73,8 @@ namespace @(project.Module).@(buildTask.Module).Entities {
         @(Html.PadLeft(12) + $"}}{newLine}")
         @(Html.PadLeft(12) + $"return Equals(({table.ConvertedName})obj);{newLine}")
         @(Html.PadLeft(8) + $"}}{newLine}")
+        
     }
-
     }
 
 }
