@@ -20,8 +20,7 @@ Build:
   Entities:
     Type: Table
     Module: Data
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: Entity.cshtml
     Output:
@@ -56,8 +55,7 @@ Build:
   Hbm:
     Type: Table
     Module: Data
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: Hbm.cshtml
     Output:
@@ -92,8 +90,7 @@ Build:
   IRepository:
     Type: Table
     Module: Data
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: IRepository.cshtml
     Output:
@@ -128,8 +125,7 @@ Build:
   Repository:
     Type: Table
     Module: Data
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: Repository.cshtml
     Output:
@@ -164,8 +160,7 @@ Build:
   Model:
     Type: Table
     Module: Models
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: Model.cshtml
     Output:
@@ -200,8 +195,7 @@ Build:
   IService:
     Type: Table
     Module: Services
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: IService.cshtml
     Output:
@@ -236,8 +230,7 @@ Build:
   Service:
     Type: Table
     Module: Services
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: Service.cshtml
     Output:
@@ -272,8 +265,7 @@ Build:
   Api:
     Type: Table
     Module: Api
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: Api.cshtml
     Output:
@@ -308,8 +300,7 @@ Build:
   RepositoryTest:
     Type: Table
     Module: Test
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: RepositoryTest.cshtml
     Output:
@@ -344,8 +335,7 @@ Build:
   ServiceTest:
     Type: Table
     Module: Test
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: ServiceTest.cshtml
     Output:
@@ -380,8 +370,7 @@ Build:
   ApiTest:
     Type: Table
     Module: Test
-    IncludeTables: ["app_attachments"]
-    IgnoreTables: []
+    IgnoreTables: ["app_roles", "app_users", "aspnet_role_claims", "aspnet_roles", "aspnet_user_claims", "aspnet_user_logins", "aspnet_user_roles", "aspnet_user_tokens", "aspnet_users"]
     TemplateEngine:
       Path: ApiTest.cshtml
     Output:
