@@ -24,17 +24,17 @@ namespace SmartCode.ETL
             DataSet = await SqlMapper.GetDataSetAsync(requestContext);
             TransformData = DataSet.Tables[0];
         }
-        protected override long GetMaxId(string pkColumn)
+        public override long GetMaxId(string pkColumn)
         {
             return TransformData.Rows.Cast<DataRow>().AsParallel().Max(dr => Convert.ToInt64(dr[pkColumn]));
         }
 
-        protected override DateTime GetMaxModifyTime(string modifyTime)
+        public override DateTime GetMaxModifyTime(string modifyTime)
         {
             return TransformData.Rows.Cast<DataRow>().AsParallel().Max(dr => Convert.ToDateTime(dr[modifyTime]));
         }
 
-        protected override int GetQuerySize()
+        public override int GetCount()
         {
             return TransformData.Rows.Count;
         }

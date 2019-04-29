@@ -13,13 +13,14 @@ namespace SmartCode.ETL.Entity
             MaxId = -1,
             QueryTime = MinDateTime,
             MaxModifyTime = MinDateTime,
-            QuerySize = -1
+            Count = -1
         };
         public string PKColumn { get; set; }
+        public int Count { get; set; }
         public long MaxId { get; set; }
         public DateTime MaxModifyTime { get; set; }
         public DateTime QueryTime { get; set; }
         public ETLDbCommand QueryCommand { get; set; }
-        public int QuerySize { get; set; }
+        
     }
 }

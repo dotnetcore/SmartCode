@@ -93,22 +93,22 @@ namespace SmartCode.ETL
                     Command = queryCmd,
                     Parameters = queryParams
                 },
-                QuerySize = -1,
+                Count = -1,
                 MaxId = -1
             };
             Stopwatch stopwatch = Stopwatch.StartNew();
             await  LoadData(new RequestContext { RealSql = queryCmd, Request = queryParams });
             stopwatch.Stop();
-            extractEntity.QuerySize = GetQuerySize();
+            extractEntity.Count = GetCount();
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
-            _logger.LogWarning($"InitData,Data.Size:{extractEntity.QuerySize},Taken:{extractEntity.QueryCommand.Taken}ms!");
+            _logger.LogWarning($"InitData,Data.Size:{extractEntity.Count},Taken:{extractEntity.QueryCommand.Taken}ms!");
 
             dataSource.Parameters.Value("PkIsNumeric", out bool pkIsNumeric);
             dataSource.Parameters.Value("AutoIncrement", out bool autoIncrement);
 
             if (!String.IsNullOrEmpty(pkColumn)
                 && (pkIsNumeric || autoIncrement)
-                && extractEntity.QuerySize > 0)
+                && extractEntity.Count > 0)
             {
                 extractEntity.MaxId = GetMaxId(pkColumn);
             }
@@ -118,7 +118,7 @@ namespace SmartCode.ETL
             }
 
             if (!String.IsNullOrEmpty(modifyTime)
-                && extractEntity.QuerySize > 0)
+                && extractEntity.Count > 0)
             {
                 extractEntity.MaxModifyTime = GetMaxModifyTime(modifyTime);
             }
@@ -129,9 +129,9 @@ namespace SmartCode.ETL
             await _etlRepository.Extract(_project.GetETKTaskId(), extractEntity);
         }
         protected abstract Task LoadData(RequestContext requestContext);
-        protected abstract int GetQuerySize();
-        protected abstract long GetMaxId(string pkColumn);
-        protected abstract DateTime GetMaxModifyTime(string modifyTime);
+        public abstract int GetCount();
+        public abstract long GetMaxId(string pkColumn);
+        public abstract DateTime GetMaxModifyTime(string modifyTime);
 
         public void Initialize(IDictionary<string, object> parameters)
         {

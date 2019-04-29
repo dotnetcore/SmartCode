@@ -26,17 +26,17 @@ namespace SmartCode.ETL
             TransformData = await SqlMapper.QueryAsync<IDictionary<string, object>>(requestContext);
         }
 
-        protected override int GetQuerySize()
+        public override int GetCount()
         {
             return TransformData.Count;
         }
 
-        protected override long GetMaxId(string pkColumn)
+        public override long GetMaxId(string pkColumn)
         {
             return TransformData.AsParallel().Max(dr => Convert.ToInt64(dr[pkColumn]));
         }
 
-        protected override DateTime GetMaxModifyTime(string modifyTime)
+        public override DateTime GetMaxModifyTime(string modifyTime)
         {
             return TransformData.AsParallel().Max(dr => Convert.ToDateTime(dr[modifyTime]));
         }
