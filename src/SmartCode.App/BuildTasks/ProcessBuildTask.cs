@@ -19,7 +19,6 @@ namespace SmartCode.App.BuildTasks
         const string ARGS = "Args";
         const string TIMEOUT = "Timeout";
         private readonly ILogger<ProcessBuildTask> _logger;
-        const int DEFAULT_TIME_OUT = 30 * 1000;
         const bool DEFAULT_CREATE_NO_WINDOW = true;
         public bool Initialized => true;
 
@@ -29,7 +28,7 @@ namespace SmartCode.App.BuildTasks
             _logger = logger;
         }
 
-        public async Task Build(BuildContext context)
+        public Task Build(BuildContext context)
         {
             if (!context.Build.Parameters.Value(FILE_NAME, out string fileName))
             {
@@ -70,6 +69,16 @@ namespace SmartCode.App.BuildTasks
             _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments} Start--------");
             using (var process = Process.Start(startInfo))
             {
+                if (startInfo.RedirectStandardOutput)
+                {
+                    process.OutputDataReceived += Process_OutputDataReceived;
+                    process.BeginOutputReadLine();
+                }
+                if (startInfo.RedirectStandardError)
+                {
+                    process.ErrorDataReceived += Process_ErrorDataReceived;
+                    process.BeginErrorReadLine();
+                }
                 if (context.Build.Parameters.Value(WRITE_LINES, out IEnumerable<object> lines))
                 {
                     foreach (var line in lines)
@@ -79,37 +88,34 @@ namespace SmartCode.App.BuildTasks
                         process.StandardInput.WriteLine(lineCommand);
                     }
                 }
-                if (startInfo.RedirectStandardOutput)
+
+                if (!(context.Build.Parameters.Value(nameof(Process.WaitForExit), out bool waitForExit)
+                      && !waitForExit))
                 {
-                    var standardOutput = await process.StandardOutput.ReadToEndAsync();
-                    if (!String.IsNullOrEmpty(standardOutput))
-                    {
-                        _logger.LogDebug("StandardOutput start");
-                        _logger.LogDebug(standardOutput);
-                        _logger.LogDebug("StandardOutput end");
-                    }
-                }
-                if (startInfo.RedirectStandardError)
-                {
-                    var standardError = await process.StandardError.ReadToEndAsync();
-                    if (!String.IsNullOrEmpty(standardError))
-                    {
-                        _logger.LogDebug("StandardError start");
-                        _logger.LogDebug(standardError);
-                        _logger.LogDebug("StandardError end");
-                    }
-                }
-                if (!(context.Build.Parameters.Value(nameof(Process.WaitForExit), out bool waitForExit) && !waitForExit))
-                {
-                    var timeOut = DEFAULT_TIME_OUT;
                     if (context.Build.Parameters.Value(TIMEOUT, out int _timeout))
                     {
-                        timeOut = _timeout;
+                        process.WaitForExit(_timeout);
                     }
-                    process.WaitForExit(timeOut);
+                    else
+                    {
+                        process.WaitForExit();
+                    }
                 }
                 _logger.LogDebug($"--------Process.FileName:{startInfo.FileName},Args:{startInfo.Arguments},Taken:{process.TotalProcessorTime.TotalMilliseconds} End--------");
             }
+            return  Task.CompletedTask;
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+                Console.WriteLine(e.Data);
+        }
+
+        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+                Console.WriteLine(e.Data);
         }
 
         public void Initialize(IDictionary<string, object> parameters)
