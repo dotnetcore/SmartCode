@@ -21,10 +21,10 @@
         return t.Description ?? t.ConvertedName;
     }
 }
-using Beginor.NetCoreApp.Api.Controllers;
+using @(project.Author).@(project.Module).Api.Controllers;
 using NUnit.Framework;
 
-namespace Beginor.NetCoreApp.Test.Api {
+namespace @(project.Author).@(project.Module).@(buildTask.Module).Api {
 
     [TestFixture]
     public class @(ToControllerName(table.ConvertedName))ControllerTest : BaseTest<@(ToControllerName(table.ConvertedName))Controller> {
