@@ -16,7 +16,7 @@ namespace SmartCode.ETL
         {
             return Task.CompletedTask;
         }
-        public Task Fail(long etlTaskId, string errMsg)
+        public Task Fail(long etlTaskId, Exception errorException)
         {
             return Task.CompletedTask;
         }
