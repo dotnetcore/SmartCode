@@ -31,8 +31,6 @@ using @(project.Author).@(project.Module).@(buildTask.Module).Entities;
 namespace @(project.Author).@(project.Module).@(buildTask.Module).Repositories {
 
     @($"/// <summary>{table.Description ?? table.ConvertedName}仓储接口</summary>")
-    public partial interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(ConvertLangType(firstPk))> {
-
-    }
+    public partial interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(ConvertLangType(firstPk))> { }
 
 }

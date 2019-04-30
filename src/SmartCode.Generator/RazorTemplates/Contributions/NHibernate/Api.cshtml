@@ -73,7 +73,7 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module).Controllers {
         /// <summary>删除 @(GetDescription(table)) </summary>
         /// <response code="204">删除 @(GetDescription(table)) 成功</response>
         /// <response code="500">服务器内部错误</response>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:long}")]
         [ProducesResponseType(204)]
         public async Task<ActionResult> Delete(string id) {
             try {
@@ -109,7 +109,7 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module).Controllers {
         /// <response code="200">返回 @(GetDescription(table)) 信息</response>
         /// <response code="404"> @(GetDescription(table)) 不存在</response>
         /// <response code="500">服务器内部错误</response>
-        [HttpGet("{id}")]
+        [HttpGet("{id:long}")]
         public async Task<ActionResult<@(table.ConvertedName)Model>> GetById(string id) {
             try {
                 var result = await service.GetByIdAsync(id);
@@ -130,7 +130,7 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module).Controllers {
         /// <response code="200">更新成功，返回 @(GetDescription(table)) 信息</response>
         /// <response code="404"> @(GetDescription(table)) 不存在</response>
         /// <response code="500">服务器内部错误</response>
-        [HttpPut("{id}")]
+        [HttpPut("{id:long}")]
         public async Task<ActionResult<@(table.ConvertedName)Model>> Update(
             [FromRoute]string id,
             [FromBody]@(table.ConvertedName)Model model
