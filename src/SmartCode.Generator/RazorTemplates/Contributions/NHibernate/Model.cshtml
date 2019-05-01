@@ -14,7 +14,7 @@
         if (String.IsNullOrEmpty(col.LanguageType)) {
             return "NAType";
         }
-        if (col.LanguageType.ToLower() == "long") {
+        if (col.LanguageType.ToLower() == "long" && col.Name.EndsWith("_id")) {
             return "string";
         }
         if (!col.IsNullable) {
