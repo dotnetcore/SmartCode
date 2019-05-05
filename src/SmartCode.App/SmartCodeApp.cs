@@ -97,6 +97,7 @@ namespace SmartCode.App
             catch (SmartCodeException scEx)
             {
                 Logger.LogError(new EventId(scEx.HResult), scEx, scEx.Message);
+                throw;
             }
         }
 

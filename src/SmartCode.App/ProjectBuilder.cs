@@ -34,7 +34,8 @@ namespace SmartCode.App
             try
             {
                 var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
-                await OnStartup?.Invoke(this, new OnProjectBuildStartupEventArgs { Project = _project });
+                if (OnStartup != null)
+                    await OnStartup.Invoke(this, new OnProjectBuildStartupEventArgs { Project = _project });
                 await dataSource.InitData();
                 foreach (var buildKV in _project.BuildTasks)
                 {
@@ -59,19 +60,22 @@ namespace SmartCode.App
                     await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
                     _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
                 }
-                await OnSucceed?.Invoke(this, new OnProjectBuildSucceedEventArgs
-                {
-                    Project = _project
-                });
+
+                if (OnSucceed != null)
+                    await OnSucceed.Invoke(this, new OnProjectBuildSucceedEventArgs
+                    {
+                        Project = _project
+                    });
             }
             catch (Exception ex)
             {
-                await OnFailed?.Invoke(this, new OnProjectBuildFailedEventArgs
-                {
-                    Project = _project,
-                    Context = buildContext,
-                    ErrorException = ex
-                });
+                if (OnFailed != null)
+                    await OnFailed.Invoke(this, new OnProjectBuildFailedEventArgs
+                    {
+                        Project = _project,
+                        Context = buildContext,
+                        ErrorException = ex
+                    });
                 throw;
             }
         }
