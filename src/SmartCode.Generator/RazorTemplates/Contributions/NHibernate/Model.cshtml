@@ -27,6 +27,7 @@
     }
 }
 using System;
+using System.ComponentModel.DataAnnotations;
 using Beginor.AppFx.Core;
 
 namespace @(project.Author).@(project.Module).@(buildTask.Module) {
@@ -36,6 +37,7 @@ namespace @(project.Author).@(project.Module).@(buildTask.Module) {
 
     @foreach (var col in normalColumns) {
         @(Html.PadLeft(8) + $"/// <summary>{col.Description ?? col.Name}</summary>{newLine}")
+        @if (!col.IsNullable) { @(Html.PadLeft(8) + $"[Required(ErrorMessage = \"{col.Description ?? col.Name} 必须填写！\")]{newLine}") }
         @(Html.PadLeft(8) + $"public {ConvertLangType(col)} {col.ConvertedName} {{ get; set; }}{newLine}")
     }
 
