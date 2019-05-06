@@ -44,15 +44,15 @@ namespace @(project.Module).API.Controllers
     Body = @(serviceName).Insert(@entityCamelName)
     };
     }
-    [HttpPost]
-    public ResponseMessageWrap@("<int>") DeleteById([FromBody]@pkType id)
+    [HttpDelete]
+    public ResponseMessageWrap@("<int>") DeleteById(@pkType id)
     {
     return new ResponseMessageWrap@("<int>")
     {
     Body = @(serviceName).DeleteById(id)
     };
     }
-    [HttpPost]
+    [HttpPut]
     public ResponseMessageWrap@("<int>") Update([FromBody]@entityName @entityCamelName)
     {
     return new ResponseMessageWrap@("<int>")
@@ -61,8 +61,8 @@ namespace @(project.Module).API.Controllers
     };
     }
 
-    [HttpPost]
-    public ResponseMessageWrap@($"<{entityName}>") GetById([FromBody]@pkType id)
+    [HttpGet]
+    public ResponseMessageWrap@($"<{entityName}>") GetById(@pkType id)
     {
     var @entityCamelName = @(repositoryName).GetById(id);
     return new ResponseMessageWrap@($"<{entityName}>")
