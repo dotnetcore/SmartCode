@@ -4,8 +4,12 @@
     Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var table = Model.GetCurrentTable();
-
-    var pkType = table.PKColumn.LanguageType;
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"Service Template can not find PKColumn,Table:{table.Name}.");
+    }
+    var pkType = pkCol.LanguageType;
     var insertRetType = table.AutoIncrement ? pkType : "int";
     var entityName = table.ConvertedName;
     var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);

@@ -8,12 +8,12 @@
     var dbProviderAssNames = dbFactory.GetType().Assembly.FullName.Split(',');
     var dbProviderName = dbProviderAssNames[0];
     var dbProviderVersion = dbProviderAssNames[1].Split('=')[1];
-    var smartSqlVersion = "4.0.33";
+    var smartSqlVersion = "4.0.42";
     if (project.Parameters.Value("SmartSqlVersion", out string version))
     {
         smartSqlVersion = version;
     }
-    var smartSqlSchemaVersion = "4.0.26";
+    var smartSqlSchemaVersion = "4.0.42";
     if (project.Parameters.Value("SmartSqlSchemaVersion", out string schemaVersion))
     {
         smartSqlSchemaVersion = schemaVersion;

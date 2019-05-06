@@ -6,22 +6,31 @@
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
-    var primaryKeyType = table.PKColumn?.LanguageType ?? "int";
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"Repository Template can not find PKColumn,Table:{table.Name}.");
+    }
+    var primaryKeyType = pkCol.LanguageType ?? "int";
     var autoIncrement = table.AutoIncrement;
     var dbSource = Model.GetDataSource<DbSource>();
+
+    var PKNameEQId = pkCol.Name == "Id";
 }
 
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 using SmartSql.DyRepository;
 using SmartSql.DyRepository.Annotations;
 using @(project.Module).Entity;
 
 namespace @(project.Module).@buildTask.Module
 {
-    public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
+public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
+    ,IRepositoryAsync<@(table.ConvertedName), @(primaryKeyType)>
         {
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql
 && autoIncrement)
@@ -30,11 +39,43 @@ namespace @(project.Module).@buildTask.Module
             @Html.NewLine()
             @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
             @Html.NewLine()
+
+            <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
+            @Html.NewLine()
+            @Html.PadLeft(8) <text>new Task<@primaryKeyType> InsertAsync(@table.ConvertedName entity);</text>
+            @Html.NewLine()
         }
         else if (autoIncrement && primaryKeyType != "int")
         {
             @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
             @Html.NewLine()
+
+            @Html.PadLeft(8) <text>new Task<@primaryKeyType> InsertAsync(@table.ConvertedName entity);</text>
+            @Html.NewLine()
+        }
+
+        @if (!PKNameEQId)
+        {
+            <text>[Statement(Id = "GetEntity")]</text>
+            @Html.NewLine()
+            @Html.PadLeft(8) <text>new @table.ConvertedName GetById([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.NewLine()
+
+            <text>[Statement(Id = "GetEntity")]</text>
+            @Html.NewLine()
+            @Html.PadLeft(8) <text>new Task<@table.ConvertedName> GetByIdAsync([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.NewLine()
+
+            <text>[Statement(Id = "Delete")]</text>
+            @Html.NewLine()
+            @Html.PadLeft(8) <text>new int DeleteById([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.NewLine()
+
+            <text>[Statement(Id = "Delete")]</text>
+            @Html.NewLine()
+            @Html.PadLeft(8) <text>new Task<@("int")> DeleteByIdAsync([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.NewLine()
+
         }
         }
         }
