@@ -8,11 +8,24 @@ namespace SmartCode
 {
     public class TokenizerFactory
     {
-        public static ITokenizer Create(Tokenizer tokenizer)
+        public static ITokenizer Create(Tokenizer tokenizerConfig)
         {
-            DefaultTokenizer defaultTokenizer = new DefaultTokenizer();
-            defaultTokenizer.Initialize(tokenizer.Parameters);
-            return defaultTokenizer;
+            ITokenizer tokenizer;
+            switch (tokenizerConfig.Type)
+            {
+                case "None":
+                    {
+                        tokenizer = new NoneTokenizer();
+                        break;
+                    }
+                default:
+                    {
+                        tokenizer = new DefaultTokenizer();
+                        break;
+                    }
+            }
+            tokenizer.Initialize(tokenizerConfig.Parameters);
+            return tokenizer;
         }
     }
 }
