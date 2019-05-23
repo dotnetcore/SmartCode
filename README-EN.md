@@ -58,8 +58,36 @@ Output:
   Type: File
   Path: 'E:\SmartSql-Starter'
 Parameters:
+  SmartSqlVersion: '4.0.46'
+  SmartSqlSchemaVersion: '4.0.42'
   BuildDir: 'E:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
+  
+NamingConverter:
+  Table:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 'T_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+      Parameters: { }
+  View:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 'V_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+  Column:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
 
 # 构建任务
 Build:
@@ -90,6 +118,7 @@ Build:
         {Key: 'Sln-Version.cshtml',Output: {Path: 'build',Name: 'version',Extension: '.props'}},
         {Key: 'Sln-Dockerfile.cshtml',Output: {Name: 'Dockerfile',Extension: ''}},
         {Key: 'Sln-DockerIgnore.cshtml',Output: {Name: '.dockerignore',Extension: ''}},
+        {Key: 'Sln-GitIgnore.cshtml',Output: {Name: '.gitignore',Extension: ''}},
         {Key: "Proj-Entity.cshtml",Output: {Path: 'src/{{Project.Module}}.Entity',Name: '{{Project.Module}}.Entity',Extension: '.csproj'}},
         {Key: "Proj-Repository.cshtml",Output: {Path: 'src/{{Project.Module}}.Repository',Name: '{{Project.Module}}.Repository',Extension: '.csproj'}},
         {Key: "Proj-Service.cshtml",Output: {Path: 'src/{{Project.Module}}.Service',Name: '{{Project.Module}}.Service',Extension: '.csproj'}},
@@ -120,31 +149,6 @@ Build:
       Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.cs'
-    NamingConverter:
-      Table:
-        Tokenizer: 
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-          Parameters: { }
-      View:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'V_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-      Column:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
 
   Repository:
     Type: Table
@@ -157,15 +161,6 @@ Build:
       Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
       Extension: .cs
-    NamingConverter:
-      Table:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
 
   Service:
     Type: Table
@@ -178,15 +173,6 @@ Build:
       Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}Service'
       Extension: .cs
-    NamingConverter:
-      Table:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
 
   APIController:
     Type: Table
@@ -199,15 +185,6 @@ Build:
       Path: 'src/{{Project.Module}}.{{Build.Module}}/Controllers'
       Name: '{{Items.CurrentTable.ConvertedName}}Controller'
       Extension: .cs
-    NamingConverter:
-      Table:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
 
   SqlMap:
     Type: Table
@@ -219,31 +196,6 @@ Build:
       Extension: .xml
     IgnoreNoPKTable: true
     IgnoreView: true
-    NamingConverter:
-      Table:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-      View:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'V_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-      Column:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
 
   ReStore:
     Type: Process

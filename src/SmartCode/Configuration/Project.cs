@@ -19,5 +19,6 @@ namespace SmartCode.Configuration
         [YamlMember(Alias = "Build")]
         public IDictionary<string, Build> BuildTasks { get; set; }
         public String OutputPath => Output.Path;
+        public NamingConverter NamingConverter { get; set; }
     }
 }
