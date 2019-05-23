@@ -5,14 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SmartSql.Options" Version="4.0.42" />
-    <PackageReference Include="SmartSql.TypeHandler" Version="4.0.42" />
-    <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.42" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+    <PackageReference Include="SmartSql.Options" Version="4.0.46" />
+    <PackageReference Include="SmartSql.TypeHandler" Version="4.0.46" />
+    <PackageReference Include="SmartSql.TypeHandler.PostgreSql" Version="4.0.46" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.110" />
     <PackageReference Include="MySql.Data" Version="8.0.16" />
-    <PackageReference Include="Npgsql" Version="4.0.6" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.6" />
+    <PackageReference Include="Npgsql" Version="4.0.7" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.3" />
   </ItemGroup>
 
   <ItemGroup>

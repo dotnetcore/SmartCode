@@ -15,7 +15,7 @@
     var autoIncrement = table.AutoIncrement;
     var dbSource = Model.GetDataSource<DbSource>();
 
-    var PKNameEQId = pkCol.Name == "Id";
+    var PKNameEQId = pkCol.ConvertedName == "Id";
 }
 
 using System;
@@ -58,22 +58,22 @@ public interface I@(table.ConvertedName)Repository : IRepository<@(table.Convert
         {
             <text>[Statement(Id = "GetEntity")]</text>
             @Html.NewLine()
-            @Html.PadLeft(8) <text>new @table.ConvertedName GetById([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.PadLeft(8) <text>new @table.ConvertedName GetById([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
             @Html.NewLine()
 
             <text>[Statement(Id = "GetEntity")]</text>
             @Html.NewLine()
-            @Html.PadLeft(8) <text>new Task<@table.ConvertedName> GetByIdAsync([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.PadLeft(8) <text>new Task<@table.ConvertedName> GetByIdAsync([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
             @Html.NewLine()
 
             <text>[Statement(Id = "Delete")]</text>
             @Html.NewLine()
-            @Html.PadLeft(8) <text>new int DeleteById([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.PadLeft(8) <text>new int DeleteById([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
             @Html.NewLine()
 
             <text>[Statement(Id = "Delete")]</text>
             @Html.NewLine()
-            @Html.PadLeft(8) <text>new Task<@("int")> DeleteByIdAsync([Param("@pkCol.Name")]@primaryKeyType id);</text>
+            @Html.PadLeft(8) <text>new Task<@("int")> DeleteByIdAsync([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
             @Html.NewLine()
 
         }
