@@ -197,6 +197,15 @@ Build:
     IgnoreNoPKTable: true
     IgnoreView: true
 
+# Please install dotnet-format first!
+# dotnet tool install -g dotnet-format
+  CodeFormat:
+    Type: Process
+    Parameters:
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet-format
+
   ReStore:
     Type: Process
     Parameters: 

@@ -14,7 +14,7 @@ Output:
   Type: File
   Path: 'E:\SmartSql-Starter'
 Parameters:
-  SmartSqlVersion: '4.0.46'
+  SmartSqlVersion: '4.0.56'
   SmartSqlSchemaVersion: '4.0.42'
   BuildDir: 'E:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
@@ -152,6 +152,15 @@ Build:
       Extension: .xml
     IgnoreNoPKTable: true
     IgnoreView: true
+
+# Please install dotnet-format first!
+# dotnet tool install -g dotnet-format
+  CodeFormat:
+    Type: Process
+    Parameters:
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet-format
 
   ReStore:
     Type: Process
