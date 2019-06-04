@@ -14,7 +14,7 @@ Output:
   Type: File
   Path: 'E:\SmartSql-Starter'
 Parameters:
-  SmartSqlVersion: '4.0.56'
+  SmartSqlVersion: '4.0.58'
   SmartSqlSchemaVersion: '4.0.42'
   BuildDir: 'E:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
@@ -44,6 +44,10 @@ NamingConverter:
         Delimiter: '_'
     Converter:
       Type: Pascal
+      
+TableFilter:
+  IgnoreNoPKTable: true
+  IgnoreView: true
 
 # 构建任务
 Build:
@@ -101,6 +105,8 @@ Build:
     Module: Entity
     TemplateEngine: 
       Path: Entity.cshtml
+    IgnoreNoPKTable: false
+    IgnoreView: false
     Output: 
       Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}'
@@ -111,8 +117,6 @@ Build:
     Module: Repository
     TemplateEngine: 
       Path: Repository.cshtml
-    IgnoreNoPKTable: true
-    IgnoreView: true
     Output: 
       Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: 'I{{Items.CurrentTable.ConvertedName}}Repository'
@@ -123,8 +127,6 @@ Build:
     Module: Service
     TemplateEngine: 
       Path: Service.cshtml
-    IgnoreNoPKTable: true
-    IgnoreView: true
     Output: 
       Path: 'src/{{Project.Module}}.{{Build.Module}}'
       Name: '{{Items.CurrentTable.ConvertedName}}Service'
@@ -135,8 +137,6 @@ Build:
     Module: API
     TemplateEngine: 
       Path: API/APIController.cshtml
-    IgnoreNoPKTable: true
-    IgnoreView: true
     Output: 
       Path: 'src/{{Project.Module}}.{{Build.Module}}/Controllers'
       Name: '{{Items.CurrentTable.ConvertedName}}Controller'
@@ -150,8 +150,6 @@ Build:
       Path: 'src/{{Project.Module}}.Repository/Maps'
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: .xml
-    IgnoreNoPKTable: true
-    IgnoreView: true
 
 # Please install dotnet-format first!
 # dotnet tool install -g dotnet-format

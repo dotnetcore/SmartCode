@@ -88,6 +88,26 @@ namespace SmartCode.Configuration.ConfigBuilders
                         buildTask.NamingConverter.Column = Project.NamingConverter.Column;
                     }
                 }
+
+                if (Project.TableFilter != null)
+                {
+                    if (buildTask.IgnoreTables == null)
+                    {
+                        buildTask.IgnoreTables = Project.TableFilter.IgnoreTables;
+                    }
+                    if (buildTask.IncludeTables == null)
+                    {
+                        buildTask.IncludeTables = Project.TableFilter.IncludeTables;
+                    }
+                    if (!buildTask.IgnoreView.HasValue)
+                    {
+                        buildTask.IgnoreView = Project.TableFilter.IgnoreView;
+                    }
+                    if (!buildTask.IgnoreNoPKTable.HasValue)
+                    {
+                        buildTask.IgnoreNoPKTable = Project.TableFilter.IgnoreNoPKTable;
+                    }
+                }
             }
         }
     }

@@ -20,5 +20,6 @@ namespace SmartCode.Configuration
         public IDictionary<string, Build> BuildTasks { get; set; }
         public String OutputPath => Output.Path;
         public NamingConverter NamingConverter { get; set; }
+        public TableFilter TableFilter { get; set; }
     }
 }
