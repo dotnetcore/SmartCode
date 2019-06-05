@@ -18,7 +18,7 @@ namespace SmartCode
             return firstChar + phrase.Substring(1);
         }
 
-        /// <summary>讲单词转换为单数的形式</summary>
+         /// <summary>讲单词转换为单数的形式</summary>
         public static string ToSingular(string phrase)
         {
             Regex plural1 = new Regex("(?<keep>[^aeiou])ies$");
