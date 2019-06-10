@@ -30,44 +30,48 @@
 }
 
 @section QueryByPage
-    {
+{
     <!--获取分页数据-->
-<Statement Id="QueryByPage" @queryStatementResultMap>
-    @if (versionNo >= 2012)
-    {
-        <text>
-            Select T.* From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />
-            Order By T.@pkCol.Name Desc
-            Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
-        </text>
-    }
-    else
-    {
-        <text>
-            Select TT.* From
-            (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
-            <Include RefId="QueryParams" />) TT
-            Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize);
-        </text>
-    }
-</Statement>
+    <Statement Id="QueryByPage" @queryStatementResultMap>
+        @if (versionNo >= 2012)
+        {
+            <text>
+                Select T.* From @table.Name T With(NoLock)
+                <Include RefId="QueryParams"/>
+                Order By T.@pkCol.Name Desc
+                Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
+            </text>
+        }
+        else
+        {
+            <text>
+                Select TT.* From
+                (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
+                <Include RefId="QueryParams"/>) TT
+                Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize);
+            </text>
+        }
+    </Statement>
 }
+
 @section GetEntity
-    {
+{
     <!--获取表映射实体-->
     <Statement Id="GetEntity" @queryStatementResultMap>
         Select Top 1 T.* From @table.Name T With(NoLock)
         <Where Min="1">
-            <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-                T.@pkCol.Name=@dbPrefix@pkCol.ConvertedName
-            </IsNotEmpty>
+            @foreach (var col in table.Columns)
+            {
+                <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                    T.@col.Name= @($"{dbPrefix}{col.ConvertedName}")
+                </IsNotEmpty>
+            }
         </Where>
     </Statement>
 }
 
 @section Query
-    {
+{
     <!--获取数据列-->
     <Statement Id="Query" @queryStatementResultMap>
         SELECT
@@ -75,7 +79,7 @@
             (@(dbPrefix)Taken)
         </IsNotEmpty>
         T.* From @table.Name T
-        <Include RefId="QueryParams" />
+        <Include RefId="QueryParams"/>
         <Switch Prepend="Order By" Property="OrderBy">
             <Default>
                 T.@pkCol.Name Desc

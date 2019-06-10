@@ -16,9 +16,12 @@
 <Statement Id="GetEntity" @(queryStatementResultMap)>
     Select T.* From @table.Name As T
     <Where Min="1">
-        <IsNotEmpty Prepend="And" Property="@pkCol.ConvertedName">
-            T.@pkCol.Name= @($"{prefix}{pkCol.ConvertedName}")
-        </IsNotEmpty>
+        @foreach (var col in table.Columns)
+        {
+            <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                T.@col.Name= @($"{prefix}{col.ConvertedName}")
+            </IsNotEmpty>
+        }
     </Where>
     Limit 1
 </Statement>
