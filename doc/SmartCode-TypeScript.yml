@@ -1,0 +1,66 @@
+Author: Beginor
+Module: NetCoreApp
+DataSource:
+  Name: DbTable
+  Parameters:
+    DbName: net_core_app
+    DbProvider: PostgreSql
+    ConnectionString: server=127.0.0.1;database=net_core_app;user id=postgres;password=NO_PASSWORD;
+    DbSchema: public
+Language: TypeScript
+TemplateEngine:
+  Name: Razor
+  Root: TypeScript
+Output:
+  Type: File
+  Mode: Full # Incre 增量创建，如果存在则忽略； Full 全量创建，如果存在则重新创建
+  Path: /tmp/test
+NamingConverter:
+  Table:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 'T_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+      Parameters: { }
+  View:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 'V_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+  Column:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        Delimiter: '_'
+    Converter:
+      Type: Camel
+TableFilter:
+  IgnoreTables:
+    # - app_roles
+    # - app_users
+    - aspnet_role_claims
+    - aspnet_roles
+    - aspnet_user_claims
+    - aspnet_user_logins
+    - aspnet_user_roles
+    - aspnet_user_tokens
+    # - aspnet_users
+  IgnoreNoPKTable: true
+  IgnoreView: true
+
+Build:
+  Entities:
+    Type: Table
+    Module: Data
+    TemplateEngine:
+      Path: Model.cshtml
+    Output:
+      Path: '{{Items.CurrentTable.Name}}/services'
+      Name: '{{Items.CurrentTable.Name}}'
+      Extension: '.ts'

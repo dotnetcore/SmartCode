@@ -1,0 +1,20 @@
+@using System;
+@using SmartCode
+@using SmartCode.Db
+@using SmartCode.Generator.Entity;
+@model BuildContext
+@{
+    Layout = "_Layout.cshtml";
+    var project = Model.Project;
+    var task = Model.Build;
+    var table = Model.GetCurrentTable();
+}
+@functions { }
+
+/** interface for @table.GetSummary() */
+export interface @(table.ConvertedName) {
+    @foreach (var col in table.Columns) {
+        @($"{Html.PadLeft(4)}/** {col.GetSummary()} */{Html.NewLine()}")
+        @($"{Html.PadLeft(4)}{col.ConvertedName}: {col.LanguageType};{Html.NewLine()}")
+    }
+}
