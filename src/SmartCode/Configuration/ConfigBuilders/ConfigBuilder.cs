@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,10 +8,27 @@ namespace SmartCode.Configuration.ConfigBuilders
 {
     public abstract class ConfigBuilder : IConfigBuilder
     {
-        protected Project Project { get; set; }
-        public abstract Project Build();
+        public string ConfigPath { get; }
+        public Project Project { get; set; }
 
-        protected void InitDefault()
+        protected ConfigBuilder(string configPath)
+        {
+            ConfigPath = configPath;
+        }
+        public Project Build()
+        {
+            using (StreamReader configStream = new StreamReader(ConfigPath))
+            {
+                var jsonConfigStr = configStream.ReadToEnd();
+                Project = Deserialize(jsonConfigStr);
+            }
+            InitDefault();
+            return Project;
+        }
+
+        protected abstract Project Deserialize(string content);
+        
+        private void InitDefault()
         {
             if (Project.Output != null)
             {

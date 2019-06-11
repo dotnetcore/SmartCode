@@ -10,23 +10,15 @@ namespace SmartCode.Configuration.ConfigBuilders
 {
     public class YamlBuilder : ConfigBuilder
     {
-        private readonly string _configPath;
         private readonly IDeserializer _deserializer;
-        public YamlBuilder(string configPath)
+        public YamlBuilder(string configPath):base(configPath)
         {
-            _configPath = configPath;
             _deserializer = new DeserializerBuilder().Build();
         }
 
-        public override Project Build()
+        protected override Project Deserialize(string content)
         {
-            using (StreamReader configStream = new StreamReader(_configPath))
-            {
-                var yamlConfigStr = configStream.ReadToEnd();
-                Project = _deserializer.Deserialize<Project>(yamlConfigStr);
-            }
-            InitDefault();
-            return Project;
+           return  _deserializer.Deserialize<Project>(content);
         }
     }
 }
