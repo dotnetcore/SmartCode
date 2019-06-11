@@ -25,6 +25,14 @@ namespace SmartCode
                     {
                         converter = new DelimiterConverter(); break;
                     }
+                case "PascalSingular":
+                    {
+                        converter = new PascalCaseSingularConverter(); break;
+                    }
+                case "StrikeThrough":
+                    {
+                        converter = new StrikeThroughConverter(); break;
+                    }
                 default:
                     {
                         return new NoneConverter();
