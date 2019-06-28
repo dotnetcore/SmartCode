@@ -12,7 +12,7 @@ TemplateEngine:
    Name: Razor
    Root: .
 Parameters:
-  ExtractMode: QueryTime
+  ExtractMode: LastMaxModifyTime
   ModifyTime: ModifyTime
   ExtractConnectionString: Data Source=localhost;database=SqlServerDB;uid=SmartSql;pwd=SmartSql
   LoadDbProvider: PostgreSql

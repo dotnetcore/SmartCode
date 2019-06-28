@@ -1,5 +1,6 @@
 ﻿@using SmartCode
 @using SmartCode.Db;
+@using SmartCode.Generator.Extensions
 @model BuildContext
 @{
     Layout = "_CSharpLayout.cshtml";
@@ -29,6 +30,7 @@ using @(project.Module).Entity;
 
 namespace @(project.Module).@buildTask.Module
 {
+@table.GetCSharpSummary()
 public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
     ,IRepositoryAsync<@(table.ConvertedName), @(primaryKeyType)>
         {

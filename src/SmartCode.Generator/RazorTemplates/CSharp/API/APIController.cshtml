@@ -1,4 +1,5 @@
 ﻿@using SmartCode
+@using SmartCode.Generator.Extensions
 @model BuildContext
 @{
     Layout = "../_CSharpLayout.cshtml";
@@ -25,6 +26,7 @@ using @(project.Module).API.Messages;
 
 namespace @(project.Module).API.Controllers
 {
+    @table.GetCSharpSummary()
     [ApiController]
     [Route("[controller]/[action]")]
     public class @(table.ConvertedName)Controller : Controller
