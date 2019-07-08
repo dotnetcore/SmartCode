@@ -1,833 +1,834 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--https://docs.microsoft.com/zh-cn/dotnet/framework/data/adonet/sql-server-data-type-mappings-->
 <DbTypeMap>
-  <!-- CSharp-Language Start-->
-  <Database DbProvider="SqlServer" Language="CSharp">
-    <DbType Name="image" To="byte[]"/>
-    <DbType Name="text" To="string"/>
-    <DbType Name="ntext" To="string"/>
-    <DbType Name="varchar" To="string"/>
-    <DbType Name="nvarchar" To="string" />
-    <DbType Name="varchar2" To="string" />
-    <DbType Name="nvarchar2" To="string" />
-    <DbType Name="xml" To="string"/>
-    <DbType Name="uniqueidentifier" To="Guid"/>
-    <DbType Name="date" To="DateTime"/>
-    <DbType Name="smalldatetime" To="DateTime"/>
-    <DbType Name="datetime" To="DateTime" />
-    <DbType Name="datetime2" To="DateTime"/>
-    <DbType Name="time" To="TimeSpan"/>
-    <DbType Name="datetimeoffset" To="DateTimeOffset"/>
-    <DbType Name="tinyint" To="byte"/>
-    <DbType Name="smallint" To="short"/>
-    <DbType Name="int" To="int"/>
-    <DbType Name="bigint" To="long"/>
-    <DbType Name="bit" To="bool" />
-    <DbType Name="char" To="string" />
-    <DbType Name="nchar" To="string" />
-    <DbType Name="uniqueide" To="Guid" />
-    <DbType Name="numeric" To="decimal" />
-    <DbType Name="integer" To="int" />
-    <DbType Name="money" To="decimal" />
-    <DbType Name="real" To="float" />
-    <DbType Name="blob" To="byte[]" />
-    <DbType Name="ntext" To="string" />
-    <DbType Name="single" To="float" />
-    <DbType Name="smallmoney" To="decimal" />
-    <DbType Name="decimal" To="decimal" />
-    <DbType Name="bfile" To="byte[]" />
-    <DbType Name="float" To="double" />
-    <DbType Name="uniqueidentifier" To="Guid" />
-    <DbType Name="text" To="string" />
-    <DbType Name="binary" To="byte[]" />
-    <DbType Name="number" To="decimal" />
-    <DbType Name="varbinary" To="byte[]" />
-    <DbType Name="boolean" To="bool" />
-    <DbType Name="long" To="byte[]" />
-    <DbType Name="longtext" To="string" />
-    <DbType Name="timestamp" To="DateTime" />
-  </Database>
-  <Database DbProvider="MySql"  Language="CSharp">
-    <DbType Name="image" To="byte[]"/>
-    <DbType Name="text" To="string"/>
-    <DbType Name="ntext" To="string"/>
-    <DbType Name="varchar" To="string"/>
-    <DbType Name="nvarchar" To="string" />
-    <DbType Name="varchar2" To="string" />
-    <DbType Name="nvarchar2" To="string" />
-    <DbType Name="xml" To="string"/>
-    <DbType Name="uniqueidentifier" To="Guid"/>
-    <DbType Name="date" To="DateTime"/>
-    <DbType Name="smalldatetime" To="DateTime"/>
-    <DbType Name="datetime" To="DateTime" />
-    <DbType Name="datetime2" To="DateTime"/>
-    <DbType Name="time" To="TimeSpan"/>
-    <DbType Name="datetimeoffset" To="DateTimeOffset"/>
-    <DbType Name="tinyint" To="byte"/>
-    <DbType Name="smallint" To="short"/>
-    <DbType Name="int" To="int"/>
-    <DbType Name="bigint" To="long"/>
-    <DbType Name="bit" To="bool" />
-    <DbType Name="char" To="string" />
-    <DbType Name="nchar" To="string" />
-    <DbType Name="uniqueide" To="Guid" />
-    <DbType Name="numeric" To="decimal" />
-    <DbType Name="integer" To="int" />
-    <DbType Name="money" To="decimal" />
-    <DbType Name="real" To="decimal" />
-    <DbType Name="blob" To="byte[]" />
-    <DbType Name="ntext" To="string" />
-    <DbType Name="single" To="float" />
-    <DbType Name="smallmoney" To="decimal" />
-    <DbType Name="decimal" To="decimal" />
-    <DbType Name="bfile" To="byte[]" />
-    <DbType Name="float" To="float" />
-    <DbType Name="uniqueidentifier" To="Guid" />
-    <DbType Name="text" To="string" />
-    <DbType Name="binary" To="byte[]" />
-    <DbType Name="number" To="decimal" />
-    <DbType Name="varbinary" To="byte[]" />
-    <DbType Name="boolean" To="bool" />
-    <DbType Name="long" To="byte[]" />
-    <DbType Name="longtext" To="string" />
-    <DbType Name="timestamp" To="DateTime" />
-    <DbType Name="double" To="double" />
-    <DbType Name="mediumtext" To="string" />
-  </Database>
-  <Database DbProvider="PostgreSql"  Language="CSharp">
-    <DbType Name="bool" To="bool"/>
-    <DbType Name="int2" To="short"/>
-    <DbType Name="int4" To="int"/>
-    <DbType Name="int8" To="long"/>
-    <DbType Name="float4" To="float" />
-    <DbType Name="float8" To="double" />
-    <DbType Name="numeric" To="decimal"/>
-    <DbType Name="money" To="decimal"/>
-    <DbType Name="text" To="string"/>
-    <DbType Name="varchar" To="string"/>
-    <DbType Name="bpchar" To="string"/>
-    <DbType Name="citext" To="string" />
-    <DbType Name="json" To="string" />
-    <DbType Name="jsonb" To="string" />
-    <DbType Name="xml" To="string"/>
-    <DbType Name="point" To="NpgsqlPoint"/>
-    <DbType Name="lseg" To="NpgsqlLSeg"/>
-    <DbType Name="path" To="NpgsqlPath"/>
-    <DbType Name="polygon" To="NpgsqlPolygon" />
-    <DbType Name="line" To="NpgsqlLine"/>
-    <DbType Name="circle" To="NpgsqlCircle"/>
-    <DbType Name="box" To="NpgsqlBox"/>
-    <DbType Name="bit(1)" To="bool"/>
-    <DbType Name="bit(n)" To="BitArray"/>
-    <DbType Name="varbit" To="BitArray"/>
-    <DbType Name="hstore" To="IDictionary&lt;string, string&gt;"/>
-    <DbType Name="uuid" To="Guid" />
-    <DbType Name="cidr" To="NpgsqlInet" />
-    <DbType Name="inet" To="IPAddress" />
-    <DbType Name="macaddr" To="PhysicalAddress" />
-    <DbType Name="tsquery" To="NpgsqlTsQuery" />
-    <DbType Name="tsvector" To="NpgsqlTsVector" />
-    <DbType Name="date" To="DateTime" />
-    <DbType Name="interval" To="TimeSpan" />
-    <DbType Name="timestamp" To="DateTime" />
-    <DbType Name="timestamptz" To="DateTime" />
-    <DbType Name="time" To="TimeSpan" />
-    <DbType Name="timetz" To="DateTimeOffset" />
-    <DbType Name="bytea" To="byte[]" />
-    <DbType Name="oid" To="uint" />
-    <DbType Name="xid" To="uint" />
-    <DbType Name="cid" To="uint" />
-    <DbType Name="oidvector" To="uint[]" />
-    <DbType Name="char" To="byte" />
-    <DbType Name="geometry" To="PostgisGeometry" />
-    <DbType Name="record" To="object[]" />
-    <!--array type-->
-    <DbType Name="_bool" To="bool[]"/>
-    <DbType Name="_int2" To="short[]"/>
-    <DbType Name="_int4" To="int[]"/>
-    <DbType Name="_int8" To="long[]"/>
-    <DbType Name="_float4" To="float[]" />
-    <DbType Name="_float8" To="double[]" />
-    <DbType Name="_numeric" To="decimal[]"/>
-    <DbType Name="_money" To="decimal[]"/>
-    <DbType Name="_text" To="string[]"/>
-    <DbType Name="_varchar" To="string[]"/>
-    <DbType Name="_bpchar" To="string[]"/>
-    <DbType Name="_citext" To="string[]" />
-    <DbType Name="_json" To="string[]" />
-    <DbType Name="_jsonb" To="string[]" />
-    <DbType Name="_xml" To="string[]"/>
-    <DbType Name="_point" To="NpgsqlPoint[]"/>
-    <DbType Name="_lseg" To="NpgsqlLSeg[]"/>
-    <DbType Name="_path" To="NpgsqlPath[]"/>
-    <DbType Name="_polygon" To="NpgsqlPolygon[]" />
-    <DbType Name="_line" To="NpgsqlLine[]"/>
-    <DbType Name="_circle" To="NpgsqlCircle[]"/>
-    <DbType Name="_box" To="NpgsqlBox[]"/>
-    <DbType Name="_uuid" To="Guid[]" />
-    <DbType Name="_cidr" To="NpgsqlInet[]" />
-    <DbType Name="_inet" To="IPAddress[]" />
-    <DbType Name="_macaddr" To="PhysicalAddress[]" />
-    <DbType Name="_tsquery" To="NpgsqlTsQuery[]" />
-    <DbType Name="_tsvector" To="NpgsqlTsVector[]" />
-    <DbType Name="_date" To="DateTime[]" />
-    <DbType Name="_interval" To="TimeSpan[]" />
-    <DbType Name="_timestamp" To="DateTime[]" />
-    <DbType Name="_timestamptz" To="DateTime[]" />
-    <DbType Name="_time" To="TimeSpan[]" />
-    <DbType Name="_timetz" To="DateTimeOffset[]" />
-    <DbType Name="_oid" To="uint[]" />
-    <DbType Name="_xid" To="uint[]" />
-    <DbType Name="_cid" To="uint[]" />
-    <DbType Name="_geometry" To="PostgisGeometry[]" />
-  </Database>
-  <Database DbProvider="Oracle"  Language="CSharp">
-    <DbType Name="IMAGE" To="byte[]"/>
-    <DbType Name="TEXT" To="string"/>
-    <DbType Name="NTEXT" To="string"/>
-    <DbType Name="VARCHAR" To="string"/>
-    <DbType Name="NVARCHAR" To="string" />
-    <DbType Name="VARCHAR2" To="string" />
-    <DbType Name="NVARCHAR2" To="string" />
-    <DbType Name="CLOB" To="string" />
-    <DbType Name="XML" To="string"/>
-    <DbType Name="UNIQUEIDENTIFIER" To="Guid"/>
-    <DbType Name="DATE" To="DateTime"/>
-    <DbType Name="SMALLDATETIME" To="DateTime"/>
-    <DbType Name="DATETIME" To="DateTime" />
-    <DbType Name="DATETIME2" To="DateTime"/>
-    <DbType Name="TIME" To="TimeSpan"/>
-    <DbType Name="DATETIMEOFFSET" To="DateTimeOffset"/>
-    <DbType Name="TINYINT" To="byte"/>
-    <DbType Name="SMALLINT" To="short"/>
-    <DbType Name="INT" To="int"/>
-    <DbType Name="BIGINT" To="long"/>
-    <DbType Name="BIT" To="bool" />
-    <DbType Name="CHAR" To="string" />
-    <DbType Name="NCHAR" To="string" />
-    <DbType Name="UNIQUEIDE" To="Guid" />
-    <DbType Name="NUMERIC" To="decimal" />
-    <DbType Name="INTEGER" To="int" />
-    <DbType Name="MONEY" To="decimal" />
-    <DbType Name="REAL" To="decimal" />
-    <DbType Name="BLOB" To="byte[]" />
-    <DbType Name="NTEXT" To="string" />
-    <DbType Name="SINGLE" To="float" />
-    <DbType Name="SMALLMONEY" To="decimal" />
-    <DbType Name="DECIMAL" To="decimal" />
-    <DbType Name="BFILE" To="byte[]" />
-    <DbType Name="FLOAT" To="float" />
-    <DbType Name="UNIQUEIDENTIFIER" To="Guid" />
-    <DbType Name="TEXT" To="string" />
-    <DbType Name="BINARY" To="byte[]" />
-    <DbType Name="NUMBER" To="decimal" />
-    <DbType Name="VARBINARY" To="byte[]" />
-    <DbType Name="LONG" To="byte[]" />
-    <DbType Name="LONGTEXT" To="string" />
-    <DbType Name="TIMESTAMP" To="DateTime" />
-    <DbType Name="SDO_GEOMETRY" To="string" />
-  </Database>
-  <Database DbProvider="SQLite"  Language="CSharp">
-    <DbType Name="bigint" To="int64" />
-    <DbType Name="biguint" To="uint64" />
-    <DbType Name="binary" To="binary" />
-    <DbType Name="bit" To="boolean" />
-    <DbType Name="blob" To="binary" />
-    <DbType Name="bool" To="boolean" />
-    <DbType Name="boolean" To="boolean" />
-    <DbType Name="char" To="ansistringfixedlength" />
-    <DbType Name="clob" To="string" />
-    <DbType Name="counter" To="int64" />
-    <DbType Name="currency" To="decimal" />
-    <DbType Name="date" To="datetime" />
-    <DbType Name="datetime" To="datetime" />
-    <DbType Name="decimal" To="decimal" />
-    <DbType Name="double" To="double" />
-    <DbType Name="float" To="double" />
-    <DbType Name="general" To="binary" />
-    <DbType Name="guid" To="guid" />
-    <DbType Name="identity" To="int64" />
-    <DbType Name="image" To="binary" />
-    <DbType Name="int" To="int32" />
-    <DbType Name="int8" To="sbyte" />
-    <DbType Name="int16" To="int16" />
-    <DbType Name="int32" To="int32" />
-    <DbType Name="int64" To="int64" />
-    <DbType Name="integer" To="int64" />
-    <DbType Name="integer8" To="sbyte" />
-    <DbType Name="integer16" To="int16" />
-    <DbType Name="integer32" To="int32" />
-    <DbType Name="integer64" To="int64" />
-    <DbType Name="logical" To="boolean" />
-    <DbType Name="long" To="int64" />
-    <DbType Name="longchar" To="string" />
-    <DbType Name="longtext" To="string" />
-    <DbType Name="longvarchar" To="string" />
-    <DbType Name="memo" To="string" />
-    <DbType Name="money" To="decimal" />
-    <DbType Name="nchar" To="stringfixedlength" />
-    <DbType Name="note" To="string" />
-    <DbType Name="ntext" To="string" />
-    <DbType Name="number" To="decimal" />
-    <DbType Name="numeric" To="decimal" />
-    <DbType Name="nvarchar" To="string" />
-    <DbType Name="oleobject" To="binary" />
-    <DbType Name="raw" To="binary" />
-    <DbType Name="real" To="double" />
-    <DbType Name="single" To="single" />
-    <DbType Name="smalldate" To="datetime" />
-    <DbType Name="smallint" To="int16" />
-    <DbType Name="smalluint" To="uint16" />
-    <DbType Name="string" To="string" />
-    <DbType Name="text" To="string" />
-    <DbType Name="time" To="datetime" />
-    <DbType Name="timestamp" To="datetime" />
-    <DbType Name="tinyint" To="byte" />
-    <DbType Name="tinysint" To="sbyte" />
-    <DbType Name="uint" To="uint32" />
-    <DbType Name="uint8" To="byte" />
-    <DbType Name="uint16" To="uint16" />
-    <DbType Name="uint32" To="uint32" />
-    <DbType Name="uint64" To="uint64" />
-    <DbType Name="ulong" To="uint64" />
-    <DbType Name="uniqueidentifier" To="guid" />
-    <DbType Name="unsignedinteger" To="uint64" />
-    <DbType Name="unsignedinteger8" To="byte" />
-    <DbType Name="unsignedinteger16" To="uint16" />
-    <DbType Name="unsignedinteger32" To="uint32" />
-    <DbType Name="unsignedinteger64" To="uint64" />
-    <DbType Name="varbinary" To="binary" />
-    <DbType Name="varchar" To="ansistring" />
-    <DbType Name="varchar2" To="ansistring" />
-    <DbType Name="yesno" To="boolean" />
-  </Database>
-  <!-- CSharp-Language End-->
+    <!-- CSharp-Language Start-->
+    <Database DbProvider="SqlServer" Language="CSharp">
+        <DbType Name="image" To="byte[]"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="nvarchar" To="string"/>
+        <DbType Name="varchar2" To="string"/>
+        <DbType Name="nvarchar2" To="string"/>
+        <DbType Name="xml" To="string"/>
+        <DbType Name="uniqueidentifier" To="Guid"/>
+        <DbType Name="date" To="DateTime"/>
+        <DbType Name="smalldatetime" To="DateTime"/>
+        <DbType Name="datetime" To="DateTime"/>
+        <DbType Name="datetime2" To="DateTime"/>
+        <DbType Name="time" To="TimeSpan"/>
+        <DbType Name="datetimeoffset" To="DateTimeOffset"/>
+        <DbType Name="tinyint" To="byte"/>
+        <DbType Name="smallint" To="short"/>
+        <DbType Name="int" To="int"/>
+        <DbType Name="bigint" To="long"/>
+        <DbType Name="bit" To="bool"/>
+        <DbType Name="char" To="string"/>
+        <DbType Name="nchar" To="string"/>
+        <DbType Name="uniqueide" To="Guid"/>
+        <DbType Name="numeric" To="decimal"/>
+        <DbType Name="integer" To="int"/>
+        <DbType Name="money" To="decimal"/>
+        <DbType Name="real" To="float"/>
+        <DbType Name="blob" To="byte[]"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="single" To="float"/>
+        <DbType Name="smallmoney" To="decimal"/>
+        <DbType Name="decimal" To="decimal"/>
+        <DbType Name="bfile" To="byte[]"/>
+        <DbType Name="float" To="double"/>
+        <DbType Name="uniqueidentifier" To="Guid"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="binary" To="byte[]"/>
+        <DbType Name="number" To="decimal"/>
+        <DbType Name="varbinary" To="byte[]"/>
+        <DbType Name="boolean" To="bool"/>
+        <DbType Name="long" To="byte[]"/>
+        <DbType Name="longtext" To="string"/>
+        <DbType Name="timestamp" To="DateTime"/>
+    </Database>
+    <Database DbProvider="MySql" Language="CSharp">
+        <DbType Name="image" To="byte[]"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="nvarchar" To="string"/>
+        <DbType Name="varchar2" To="string"/>
+        <DbType Name="nvarchar2" To="string"/>
+        <DbType Name="xml" To="string"/>
+        <DbType Name="uniqueidentifier" To="Guid"/>
+        <DbType Name="date" To="DateTime"/>
+        <DbType Name="smalldatetime" To="DateTime"/>
+        <DbType Name="datetime" To="DateTime"/>
+        <DbType Name="datetime2" To="DateTime"/>
+        <DbType Name="time" To="TimeSpan"/>
+        <DbType Name="datetimeoffset" To="DateTimeOffset"/>
+        <DbType Name="tinyint" To="byte"/>
+        <DbType Name="smallint" To="short"/>
+        <DbType Name="int" To="int"/>
+        <DbType Name="mediumint" To="int"/>
+        <DbType Name="bigint" To="long"/>
+        <DbType Name="bit" To="bool"/>
+        <DbType Name="char" To="string"/>
+        <DbType Name="nchar" To="string"/>
+        <DbType Name="uniqueide" To="Guid"/>
+        <DbType Name="numeric" To="decimal"/>
+        <DbType Name="integer" To="int"/>
+        <DbType Name="money" To="decimal"/>
+        <DbType Name="real" To="decimal"/>
+        <DbType Name="blob" To="byte[]"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="single" To="float"/>
+        <DbType Name="smallmoney" To="decimal"/>
+        <DbType Name="decimal" To="decimal"/>
+        <DbType Name="bfile" To="byte[]"/>
+        <DbType Name="float" To="float"/>
+        <DbType Name="uniqueidentifier" To="Guid"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="binary" To="byte[]"/>
+        <DbType Name="number" To="decimal"/>
+        <DbType Name="varbinary" To="byte[]"/>
+        <DbType Name="boolean" To="bool"/>
+        <DbType Name="long" To="byte[]"/>
+        <DbType Name="longtext" To="string"/>
+        <DbType Name="timestamp" To="DateTime"/>
+        <DbType Name="double" To="double"/>
+        <DbType Name="mediumtext" To="string"/>
+    </Database>
+    <Database DbProvider="PostgreSql" Language="CSharp">
+        <DbType Name="bool" To="bool"/>
+        <DbType Name="int2" To="short"/>
+        <DbType Name="int4" To="int"/>
+        <DbType Name="int8" To="long"/>
+        <DbType Name="float4" To="float"/>
+        <DbType Name="float8" To="double"/>
+        <DbType Name="numeric" To="decimal"/>
+        <DbType Name="money" To="decimal"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="bpchar" To="string"/>
+        <DbType Name="citext" To="string"/>
+        <DbType Name="json" To="string"/>
+        <DbType Name="jsonb" To="string"/>
+        <DbType Name="xml" To="string"/>
+        <DbType Name="point" To="NpgsqlPoint"/>
+        <DbType Name="lseg" To="NpgsqlLSeg"/>
+        <DbType Name="path" To="NpgsqlPath"/>
+        <DbType Name="polygon" To="NpgsqlPolygon"/>
+        <DbType Name="line" To="NpgsqlLine"/>
+        <DbType Name="circle" To="NpgsqlCircle"/>
+        <DbType Name="box" To="NpgsqlBox"/>
+        <DbType Name="bit(1)" To="bool"/>
+        <DbType Name="bit(n)" To="BitArray"/>
+        <DbType Name="varbit" To="BitArray"/>
+        <DbType Name="hstore" To="IDictionary&lt;string, string&gt;"/>
+        <DbType Name="uuid" To="Guid"/>
+        <DbType Name="cidr" To="NpgsqlInet"/>
+        <DbType Name="inet" To="IPAddress"/>
+        <DbType Name="macaddr" To="PhysicalAddress"/>
+        <DbType Name="tsquery" To="NpgsqlTsQuery"/>
+        <DbType Name="tsvector" To="NpgsqlTsVector"/>
+        <DbType Name="date" To="DateTime"/>
+        <DbType Name="interval" To="TimeSpan"/>
+        <DbType Name="timestamp" To="DateTime"/>
+        <DbType Name="timestamptz" To="DateTime"/>
+        <DbType Name="time" To="TimeSpan"/>
+        <DbType Name="timetz" To="DateTimeOffset"/>
+        <DbType Name="bytea" To="byte[]"/>
+        <DbType Name="oid" To="uint"/>
+        <DbType Name="xid" To="uint"/>
+        <DbType Name="cid" To="uint"/>
+        <DbType Name="oidvector" To="uint[]"/>
+        <DbType Name="char" To="byte"/>
+        <DbType Name="geometry" To="PostgisGeometry"/>
+        <DbType Name="record" To="object[]"/>
+        <!--array type-->
+        <DbType Name="_bool" To="bool[]"/>
+        <DbType Name="_int2" To="short[]"/>
+        <DbType Name="_int4" To="int[]"/>
+        <DbType Name="_int8" To="long[]"/>
+        <DbType Name="_float4" To="float[]"/>
+        <DbType Name="_float8" To="double[]"/>
+        <DbType Name="_numeric" To="decimal[]"/>
+        <DbType Name="_money" To="decimal[]"/>
+        <DbType Name="_text" To="string[]"/>
+        <DbType Name="_varchar" To="string[]"/>
+        <DbType Name="_bpchar" To="string[]"/>
+        <DbType Name="_citext" To="string[]"/>
+        <DbType Name="_json" To="string[]"/>
+        <DbType Name="_jsonb" To="string[]"/>
+        <DbType Name="_xml" To="string[]"/>
+        <DbType Name="_point" To="NpgsqlPoint[]"/>
+        <DbType Name="_lseg" To="NpgsqlLSeg[]"/>
+        <DbType Name="_path" To="NpgsqlPath[]"/>
+        <DbType Name="_polygon" To="NpgsqlPolygon[]"/>
+        <DbType Name="_line" To="NpgsqlLine[]"/>
+        <DbType Name="_circle" To="NpgsqlCircle[]"/>
+        <DbType Name="_box" To="NpgsqlBox[]"/>
+        <DbType Name="_uuid" To="Guid[]"/>
+        <DbType Name="_cidr" To="NpgsqlInet[]"/>
+        <DbType Name="_inet" To="IPAddress[]"/>
+        <DbType Name="_macaddr" To="PhysicalAddress[]"/>
+        <DbType Name="_tsquery" To="NpgsqlTsQuery[]"/>
+        <DbType Name="_tsvector" To="NpgsqlTsVector[]"/>
+        <DbType Name="_date" To="DateTime[]"/>
+        <DbType Name="_interval" To="TimeSpan[]"/>
+        <DbType Name="_timestamp" To="DateTime[]"/>
+        <DbType Name="_timestamptz" To="DateTime[]"/>
+        <DbType Name="_time" To="TimeSpan[]"/>
+        <DbType Name="_timetz" To="DateTimeOffset[]"/>
+        <DbType Name="_oid" To="uint[]"/>
+        <DbType Name="_xid" To="uint[]"/>
+        <DbType Name="_cid" To="uint[]"/>
+        <DbType Name="_geometry" To="PostgisGeometry[]"/>
+    </Database>
+    <Database DbProvider="Oracle" Language="CSharp">
+        <DbType Name="IMAGE" To="byte[]"/>
+        <DbType Name="TEXT" To="string"/>
+        <DbType Name="NTEXT" To="string"/>
+        <DbType Name="VARCHAR" To="string"/>
+        <DbType Name="NVARCHAR" To="string"/>
+        <DbType Name="VARCHAR2" To="string"/>
+        <DbType Name="NVARCHAR2" To="string"/>
+        <DbType Name="CLOB" To="string"/>
+        <DbType Name="XML" To="string"/>
+        <DbType Name="UNIQUEIDENTIFIER" To="Guid"/>
+        <DbType Name="DATE" To="DateTime"/>
+        <DbType Name="SMALLDATETIME" To="DateTime"/>
+        <DbType Name="DATETIME" To="DateTime"/>
+        <DbType Name="DATETIME2" To="DateTime"/>
+        <DbType Name="TIME" To="TimeSpan"/>
+        <DbType Name="DATETIMEOFFSET" To="DateTimeOffset"/>
+        <DbType Name="TINYINT" To="byte"/>
+        <DbType Name="SMALLINT" To="short"/>
+        <DbType Name="INT" To="int"/>
+        <DbType Name="BIGINT" To="long"/>
+        <DbType Name="BIT" To="bool"/>
+        <DbType Name="CHAR" To="string"/>
+        <DbType Name="NCHAR" To="string"/>
+        <DbType Name="UNIQUEIDE" To="Guid"/>
+        <DbType Name="NUMERIC" To="decimal"/>
+        <DbType Name="INTEGER" To="int"/>
+        <DbType Name="MONEY" To="decimal"/>
+        <DbType Name="REAL" To="decimal"/>
+        <DbType Name="BLOB" To="byte[]"/>
+        <DbType Name="NTEXT" To="string"/>
+        <DbType Name="SINGLE" To="float"/>
+        <DbType Name="SMALLMONEY" To="decimal"/>
+        <DbType Name="DECIMAL" To="decimal"/>
+        <DbType Name="BFILE" To="byte[]"/>
+        <DbType Name="FLOAT" To="float"/>
+        <DbType Name="UNIQUEIDENTIFIER" To="Guid"/>
+        <DbType Name="TEXT" To="string"/>
+        <DbType Name="BINARY" To="byte[]"/>
+        <DbType Name="NUMBER" To="decimal"/>
+        <DbType Name="VARBINARY" To="byte[]"/>
+        <DbType Name="LONG" To="byte[]"/>
+        <DbType Name="LONGTEXT" To="string"/>
+        <DbType Name="TIMESTAMP" To="DateTime"/>
+        <DbType Name="SDO_GEOMETRY" To="string"/>
+    </Database>
+    <Database DbProvider="SQLite" Language="CSharp">
+        <DbType Name="bigint" To="int64"/>
+        <DbType Name="biguint" To="uint64"/>
+        <DbType Name="binary" To="binary"/>
+        <DbType Name="bit" To="boolean"/>
+        <DbType Name="blob" To="binary"/>
+        <DbType Name="bool" To="boolean"/>
+        <DbType Name="boolean" To="boolean"/>
+        <DbType Name="char" To="ansistringfixedlength"/>
+        <DbType Name="clob" To="string"/>
+        <DbType Name="counter" To="int64"/>
+        <DbType Name="currency" To="decimal"/>
+        <DbType Name="date" To="datetime"/>
+        <DbType Name="datetime" To="datetime"/>
+        <DbType Name="decimal" To="decimal"/>
+        <DbType Name="double" To="double"/>
+        <DbType Name="float" To="double"/>
+        <DbType Name="general" To="binary"/>
+        <DbType Name="guid" To="guid"/>
+        <DbType Name="identity" To="int64"/>
+        <DbType Name="image" To="binary"/>
+        <DbType Name="int" To="int32"/>
+        <DbType Name="int8" To="sbyte"/>
+        <DbType Name="int16" To="int16"/>
+        <DbType Name="int32" To="int32"/>
+        <DbType Name="int64" To="int64"/>
+        <DbType Name="integer" To="int64"/>
+        <DbType Name="integer8" To="sbyte"/>
+        <DbType Name="integer16" To="int16"/>
+        <DbType Name="integer32" To="int32"/>
+        <DbType Name="integer64" To="int64"/>
+        <DbType Name="logical" To="boolean"/>
+        <DbType Name="long" To="int64"/>
+        <DbType Name="longchar" To="string"/>
+        <DbType Name="longtext" To="string"/>
+        <DbType Name="longvarchar" To="string"/>
+        <DbType Name="memo" To="string"/>
+        <DbType Name="money" To="decimal"/>
+        <DbType Name="nchar" To="stringfixedlength"/>
+        <DbType Name="note" To="string"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="number" To="decimal"/>
+        <DbType Name="numeric" To="decimal"/>
+        <DbType Name="nvarchar" To="string"/>
+        <DbType Name="oleobject" To="binary"/>
+        <DbType Name="raw" To="binary"/>
+        <DbType Name="real" To="double"/>
+        <DbType Name="single" To="single"/>
+        <DbType Name="smalldate" To="datetime"/>
+        <DbType Name="smallint" To="int16"/>
+        <DbType Name="smalluint" To="uint16"/>
+        <DbType Name="string" To="string"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="time" To="datetime"/>
+        <DbType Name="timestamp" To="datetime"/>
+        <DbType Name="tinyint" To="byte"/>
+        <DbType Name="tinysint" To="sbyte"/>
+        <DbType Name="uint" To="uint32"/>
+        <DbType Name="uint8" To="byte"/>
+        <DbType Name="uint16" To="uint16"/>
+        <DbType Name="uint32" To="uint32"/>
+        <DbType Name="uint64" To="uint64"/>
+        <DbType Name="ulong" To="uint64"/>
+        <DbType Name="uniqueidentifier" To="guid"/>
+        <DbType Name="unsignedinteger" To="uint64"/>
+        <DbType Name="unsignedinteger8" To="byte"/>
+        <DbType Name="unsignedinteger16" To="uint16"/>
+        <DbType Name="unsignedinteger32" To="uint32"/>
+        <DbType Name="unsignedinteger64" To="uint64"/>
+        <DbType Name="varbinary" To="binary"/>
+        <DbType Name="varchar" To="ansistring"/>
+        <DbType Name="varchar2" To="ansistring"/>
+        <DbType Name="yesno" To="boolean"/>
+    </Database>
+    <!-- CSharp-Language End-->
 
-  <!--MySql-Language Start-->
-  <Database DbProvider="MySql" Language="SqLite">
-    <DbType Name="text" To="text"/>
-    <DbType Name="varchar" To="varchar"/>
-    <DbType Name="date" To="date"/>
-    <DbType Name="datetime" To="time" />
-    <DbType Name="time" To="Time"/>
-    <DbType Name="tinyint" To="smallint"/>
-    <DbType Name="smallint" To="smallint"/>
-    <DbType Name="int" To="integer"/>
-    <DbType Name="bigint" To="integer"/>
-    <DbType Name="bit" To="bool" />
-    <DbType Name="char" To="char" />
-    <DbType Name="integer" To="integer" />
-    <DbType Name="decimal" To="decimal" />
-    <DbType Name="numeric" To="decimal" />
-    <DbType Name="float" To="float" />
-    <DbType Name="timestamp" To="time" />
-  </Database>
-  <!--MySql-Language End-->
+    <!--MySql-Language Start-->
+    <Database DbProvider="MySql" Language="SqLite">
+        <DbType Name="text" To="text"/>
+        <DbType Name="varchar" To="varchar"/>
+        <DbType Name="date" To="date"/>
+        <DbType Name="datetime" To="time"/>
+        <DbType Name="time" To="Time"/>
+        <DbType Name="tinyint" To="smallint"/>
+        <DbType Name="smallint" To="smallint"/>
+        <DbType Name="int" To="integer"/>
+        <DbType Name="bigint" To="integer"/>
+        <DbType Name="bit" To="bool"/>
+        <DbType Name="char" To="char"/>
+        <DbType Name="integer" To="integer"/>
+        <DbType Name="decimal" To="decimal"/>
+        <DbType Name="numeric" To="decimal"/>
+        <DbType Name="float" To="float"/>
+        <DbType Name="timestamp" To="time"/>
+    </Database>
+    <!--MySql-Language End-->
 
-  <!-- PostgreSql-Language Start-->
-  <Database DbProvider="SqlServer" Language="PostgreSql">
-    <DbType Name="text" To="text"/>
-    <DbType Name="varchar" To="varchar"/>
-    <DbType Name="nvarchar" To="varchar"/>
-    <DbType Name="uniqueidentifier" To="uuid"/>
-    <DbType Name="date" To="timestamp"/>
-    <DbType Name="smalldatetime" To="timestamp"/>
-    <DbType Name="datetime" To="timestamp" />
-    <DbType Name="datetime2" To="timestamp"/>
-    <DbType Name="time" To="timestamp"/>
-    <DbType Name="datetimeoffset" To="timestamp"/>
-    <DbType Name="tinyint" To="int2"/>
-    <DbType Name="smallint" To="int2"/>
-    <DbType Name="int" To="int4"/>
-    <DbType Name="bigint" To="int8"/>
-    <DbType Name="bit" To="bool" />
-    <DbType Name="char" To="char" />
-    <DbType Name="uniqueide" To="char(36)" />
-    <DbType Name="numeric" To="numeric" />
-    <DbType Name="integer" To="int4" />
-    <DbType Name="money" To="money" />
-    <DbType Name="real" To="money" />
-    <DbType Name="single" To="int2" />
-    <DbType Name="smallmoney" To="decimal" />
-    <DbType Name="decimal" To="decimal" />
-    <DbType Name="float" To="float" />
-    <DbType Name="number" To="decimal" />
-    <DbType Name="boolean" To="bool" />
-    <DbType Name="long" To="int8" />
-    <DbType Name="longtext" To="text" />
-    <DbType Name="timestamp" To="timestamp" />
-  </Database>
+    <!-- PostgreSql-Language Start-->
+    <Database DbProvider="SqlServer" Language="PostgreSql">
+        <DbType Name="text" To="text"/>
+        <DbType Name="varchar" To="varchar"/>
+        <DbType Name="nvarchar" To="varchar"/>
+        <DbType Name="uniqueidentifier" To="uuid"/>
+        <DbType Name="date" To="timestamp"/>
+        <DbType Name="smalldatetime" To="timestamp"/>
+        <DbType Name="datetime" To="timestamp"/>
+        <DbType Name="datetime2" To="timestamp"/>
+        <DbType Name="time" To="timestamp"/>
+        <DbType Name="datetimeoffset" To="timestamp"/>
+        <DbType Name="tinyint" To="int2"/>
+        <DbType Name="smallint" To="int2"/>
+        <DbType Name="int" To="int4"/>
+        <DbType Name="bigint" To="int8"/>
+        <DbType Name="bit" To="bool"/>
+        <DbType Name="char" To="char"/>
+        <DbType Name="uniqueide" To="char(36)"/>
+        <DbType Name="numeric" To="numeric"/>
+        <DbType Name="integer" To="int4"/>
+        <DbType Name="money" To="money"/>
+        <DbType Name="real" To="money"/>
+        <DbType Name="single" To="int2"/>
+        <DbType Name="smallmoney" To="decimal"/>
+        <DbType Name="decimal" To="decimal"/>
+        <DbType Name="float" To="float"/>
+        <DbType Name="number" To="decimal"/>
+        <DbType Name="boolean" To="bool"/>
+        <DbType Name="long" To="int8"/>
+        <DbType Name="longtext" To="text"/>
+        <DbType Name="timestamp" To="timestamp"/>
+    </Database>
 
-  <Database DbProvider="MySql" Language="PostgreSql">
-    <DbType Name="text" To="text"/>
-    <DbType Name="varchar" To="varchar"/>
-    <DbType Name="date" To="time"/>
-    <DbType Name="DateTime" To="timestamp" />
-    <DbType Name="time" To="Time"/>
-    <DbType Name="tinyint" To="int2"/>
-    <DbType Name="smallint" To="int2"/>
-    <DbType Name="int" To="int4"/>
-    <DbType Name="bigint" To="int8"/>
-    <DbType Name="bit" To="bool" />
-    <DbType Name="char" To="char" />
-    <DbType Name="integer" To="long" />
-    <DbType Name="decimal" To="decimal" />
-    <DbType Name="numeric" To="decimal" />
-    <DbType Name="float" To="float8" />
-    <DbType Name="timestamp" To="timestamp" />
-  </Database>
-  <!-- PostgreSql-Language End-->
+    <Database DbProvider="MySql" Language="PostgreSql">
+        <DbType Name="text" To="text"/>
+        <DbType Name="varchar" To="varchar"/>
+        <DbType Name="date" To="time"/>
+        <DbType Name="DateTime" To="timestamp"/>
+        <DbType Name="time" To="Time"/>
+        <DbType Name="tinyint" To="int2"/>
+        <DbType Name="smallint" To="int2"/>
+        <DbType Name="int" To="int4"/>
+        <DbType Name="bigint" To="int8"/>
+        <DbType Name="bit" To="bool"/>
+        <DbType Name="char" To="char"/>
+        <DbType Name="integer" To="long"/>
+        <DbType Name="decimal" To="decimal"/>
+        <DbType Name="numeric" To="decimal"/>
+        <DbType Name="float" To="float8"/>
+        <DbType Name="timestamp" To="timestamp"/>
+    </Database>
+    <!-- PostgreSql-Language End-->
 
-  <!-- Java-Language Start-->
-  <Database DbProvider="MySql"  Language="Java">
-    <DbType Name="text" To="String"/>
-    <DbType Name="varchar" To="String"/>
-    <DbType Name="date" To="Date"/>
-    <DbType Name="datetime" To="Timestamp" />
-    <DbType Name="time" To="Time"/>
-    <DbType Name="tinyint" To="int"/>
-    <DbType Name="smallint" To="int"/>
-    <DbType Name="int" To="int"/>
-    <DbType Name="bigint" To="BigInteger"/>
-    <DbType Name="bit" To="boolean" />
-    <DbType Name="char" To="String" />
-    <DbType Name="integer" To="long" />
-    <DbType Name="decimal" To="BigDecimal" />
-    <DbType Name="float" To="float" />
-    <DbType Name="timestamp" To="Timestamp" />
-  </Database>
-  <Database DbProvider="PostgreSql"  Language="Java">
-    <DbType Name="bool" To="boolean"/>
-    <DbType Name="int2" To="int"/>
-    <DbType Name="int4" To="int"/>
-    <DbType Name="int8" To="long"/>
-    <DbType Name="float4" To="float" />
-    <DbType Name="float8" To="double" />
-    <DbType Name="numeric" To="BigDecimal"/>
-    <DbType Name="money" To="BigDecimal"/>
-    <DbType Name="text" To="String"/>
-    <DbType Name="varchar" To="String"/>
-    <DbType Name="bpchar" To="String"/>
-    <DbType Name="citext" To="String" />
-    <DbType Name="json" To="String" />
-    <DbType Name="jsonb" To="String" />
-    <DbType Name="xml" To="String"/>
-    <DbType Name="point" To="NpgsqlPoint"/>
-    <DbType Name="lseg" To="NpgsqlLSeg"/>
-    <DbType Name="path" To="NpgsqlPath"/>
-    <DbType Name="polygon" To="NpgsqlPolygon" />
-    <DbType Name="line" To="NpgsqlLine"/>
-    <DbType Name="circle" To="NpgsqlCircle"/>
-    <DbType Name="box" To="NpgsqlBox"/>
-    <DbType Name="bit(1)" To="Boolean"/>
-    <DbType Name="bit(n)" To="BitArray"/>
-    <DbType Name="varbit" To="BitArray"/>
-    <DbType Name="hstore" To="IDictionary&lt;string, string&gt;"/>
-    <DbType Name="uuid" To="UUID" />
-    <DbType Name="cidr" To="NpgsqlInet" />
-    <DbType Name="inet" To="IPAddress" />
-    <DbType Name="macaddr" To="PhysicalAddress" />
-    <DbType Name="tsquery" To="NpgsqlTsQuery" />
-    <DbType Name="tsvector" To="NpgsqlTsVector" />
-    <DbType Name="date" To="Date" />
-    <DbType Name="interval" To="Timestamp" />
-    <DbType Name="timestamp" To="Timestamp" />
-    <DbType Name="timestamptz" To="Timestamp" />
-    <DbType Name="time" To="TimeSpan" />
-    <DbType Name="timetz" To="Timestamp" />
-    <DbType Name="bytea" To="byte[]" />
-    <DbType Name="oid" To="uint" />
-    <DbType Name="xid" To="uint" />
-    <DbType Name="cid" To="uint" />
-    <DbType Name="oidvector" To="uint[]" />
-    <DbType Name="char" To="Byte" />
-    <DbType Name="geometry" To="PostgisGeometry" />
-    <DbType Name="record" To="Object[]" />
-    <!--array type-->
-    <DbType Name="_bool" To="boolean[]"/>
-    <DbType Name="_int2" To="short[]"/>
-    <DbType Name="_int4" To="int[]"/>
-    <DbType Name="_int8" To="long[]"/>
-    <DbType Name="_float4" To="float[]" />
-    <DbType Name="_float8" To="double[]" />
-    <DbType Name="_numeric" To="decimal[]"/>
-    <DbType Name="_money" To="decimal[]"/>
-    <DbType Name="_text" To="string[]"/>
-    <DbType Name="_varchar" To="string[]"/>
-    <DbType Name="_bpchar" To="string[]"/>
-    <DbType Name="_citext" To="string[]" />
-    <DbType Name="_json" To="string[]" />
-    <DbType Name="_jsonb" To="string[]" />
-    <DbType Name="_xml" To="string[]"/>
-    <DbType Name="_point" To="NpgsqlPoint[]"/>
-    <DbType Name="_lseg" To="NpgsqlLSeg[]"/>
-    <DbType Name="_path" To="NpgsqlPath[]"/>
-    <DbType Name="_polygon" To="NpgsqlPolygon[]" />
-    <DbType Name="_line" To="NpgsqlLine[]"/>
-    <DbType Name="_circle" To="NpgsqlCircle[]"/>
-    <DbType Name="_box" To="NpgsqlBox[]"/>
-    <DbType Name="_uuid" To="UUID[]" />
-    <DbType Name="_cidr" To="NpgsqlInet[]" />
-    <DbType Name="_inet" To="IPAddress[]" />
-    <DbType Name="_macaddr" To="PhysicalAddress[]" />
-    <DbType Name="_tsquery" To="NpgsqlTsQuery[]" />
-    <DbType Name="_tsvector" To="NpgsqlTsVector[]" />
-    <DbType Name="_date" To="DateTime[]" />
-    <DbType Name="_interval" To="TimeSpan[]" />
-    <DbType Name="_timestamp" To="DateTime[]" />
-    <DbType Name="_timestamptz" To="DateTime[]" />
-    <DbType Name="_time" To="TimeSpan[]" />
-    <DbType Name="_timetz" To="DateTimeOffset[]" />
-    <DbType Name="_oid" To="uint[]" />
-    <DbType Name="_xid" To="uint[]" />
-    <DbType Name="_cid" To="uint[]" />
-    <DbType Name="_geometry" To="PostgisGeometry[]" />
-  </Database>
-  <Database DbProvider="SqlServer" Language="Java">
-    <DbType Name="text" To="String"/>
-    <DbType Name="ntext" To="String"/>
-    <DbType Name="varchar" To="String"/>
-    <DbType Name="nvarchar" To="String" />
-    <DbType Name="varchar2" To="String" />
-    <DbType Name="nvarchar2" To="String" />
-    <DbType Name="xml" To="String"/>
-    <DbType Name="uniqueidentifier" To="UUID"/>
-    <DbType Name="date" To="Date"/>
-    <DbType Name="smalldatetime" To="Timestamp"/>
-    <DbType Name="datetime" To="Timestamp" />
-    <DbType Name="datetime2" To="Timestamp"/>
-    <DbType Name="time" To="Timestamp"/>
-    <DbType Name="datetimeoffset" To="Timestamp"/>
-    <DbType Name="tinyint" To="byte"/>
-    <DbType Name="smallint" To="short"/>
-    <DbType Name="int" To="int"/>
-    <DbType Name="bigint" To="long"/>
-    <DbType Name="bit" To="boolean" />
-    <DbType Name="char" To="String" />
-    <DbType Name="nchar" To="String" />
-    <DbType Name="uniqueide" To="UUID" />
-    <DbType Name="numeric" To="BigDecimal" />
-    <DbType Name="integer" To="int" />
-    <DbType Name="money" To="BigDecimal" />
-    <DbType Name="real" To="BigDecimal" />
-    <DbType Name="blob" To="byte[]" />
-    <DbType Name="ntext" To="String" />
-    <DbType Name="single" To="float" />
-    <DbType Name="smallmoney" To="BigDecimal" />
-    <DbType Name="decimal" To="BigDecimal" />
-    <DbType Name="bfile" To="byte[]" />
-    <DbType Name="float" To="float" />
-    <DbType Name="uniqueidentifier" To="UUID" />
-    <DbType Name="text" To="String" />
-    <DbType Name="binary" To="byte[]" />
-    <DbType Name="number" To="BigDecimal" />
-    <DbType Name="varbinary" To="byte[]" />
-    <DbType Name="boolean" To="bool" />
-    <DbType Name="long" To="byte[]" />
-    <DbType Name="longtext" To="String" />
-    <DbType Name="timestamp" To="Timestamp" />
-  </Database>
-  <!-- Java-Language End-->
+    <!-- Java-Language Start-->
+    <Database DbProvider="MySql" Language="Java">
+        <DbType Name="text" To="String"/>
+        <DbType Name="varchar" To="String"/>
+        <DbType Name="date" To="Date"/>
+        <DbType Name="datetime" To="Timestamp"/>
+        <DbType Name="time" To="Time"/>
+        <DbType Name="tinyint" To="int"/>
+        <DbType Name="smallint" To="int"/>
+        <DbType Name="int" To="int"/>
+        <DbType Name="bigint" To="BigInteger"/>
+        <DbType Name="bit" To="boolean"/>
+        <DbType Name="char" To="String"/>
+        <DbType Name="integer" To="long"/>
+        <DbType Name="decimal" To="BigDecimal"/>
+        <DbType Name="float" To="float"/>
+        <DbType Name="timestamp" To="Timestamp"/>
+    </Database>
+    <Database DbProvider="PostgreSql" Language="Java">
+        <DbType Name="bool" To="boolean"/>
+        <DbType Name="int2" To="int"/>
+        <DbType Name="int4" To="int"/>
+        <DbType Name="int8" To="long"/>
+        <DbType Name="float4" To="float"/>
+        <DbType Name="float8" To="double"/>
+        <DbType Name="numeric" To="BigDecimal"/>
+        <DbType Name="money" To="BigDecimal"/>
+        <DbType Name="text" To="String"/>
+        <DbType Name="varchar" To="String"/>
+        <DbType Name="bpchar" To="String"/>
+        <DbType Name="citext" To="String"/>
+        <DbType Name="json" To="String"/>
+        <DbType Name="jsonb" To="String"/>
+        <DbType Name="xml" To="String"/>
+        <DbType Name="point" To="NpgsqlPoint"/>
+        <DbType Name="lseg" To="NpgsqlLSeg"/>
+        <DbType Name="path" To="NpgsqlPath"/>
+        <DbType Name="polygon" To="NpgsqlPolygon"/>
+        <DbType Name="line" To="NpgsqlLine"/>
+        <DbType Name="circle" To="NpgsqlCircle"/>
+        <DbType Name="box" To="NpgsqlBox"/>
+        <DbType Name="bit(1)" To="Boolean"/>
+        <DbType Name="bit(n)" To="BitArray"/>
+        <DbType Name="varbit" To="BitArray"/>
+        <DbType Name="hstore" To="IDictionary&lt;string, string&gt;"/>
+        <DbType Name="uuid" To="UUID"/>
+        <DbType Name="cidr" To="NpgsqlInet"/>
+        <DbType Name="inet" To="IPAddress"/>
+        <DbType Name="macaddr" To="PhysicalAddress"/>
+        <DbType Name="tsquery" To="NpgsqlTsQuery"/>
+        <DbType Name="tsvector" To="NpgsqlTsVector"/>
+        <DbType Name="date" To="Date"/>
+        <DbType Name="interval" To="Timestamp"/>
+        <DbType Name="timestamp" To="Timestamp"/>
+        <DbType Name="timestamptz" To="Timestamp"/>
+        <DbType Name="time" To="TimeSpan"/>
+        <DbType Name="timetz" To="Timestamp"/>
+        <DbType Name="bytea" To="byte[]"/>
+        <DbType Name="oid" To="uint"/>
+        <DbType Name="xid" To="uint"/>
+        <DbType Name="cid" To="uint"/>
+        <DbType Name="oidvector" To="uint[]"/>
+        <DbType Name="char" To="Byte"/>
+        <DbType Name="geometry" To="PostgisGeometry"/>
+        <DbType Name="record" To="Object[]"/>
+        <!--array type-->
+        <DbType Name="_bool" To="boolean[]"/>
+        <DbType Name="_int2" To="short[]"/>
+        <DbType Name="_int4" To="int[]"/>
+        <DbType Name="_int8" To="long[]"/>
+        <DbType Name="_float4" To="float[]"/>
+        <DbType Name="_float8" To="double[]"/>
+        <DbType Name="_numeric" To="decimal[]"/>
+        <DbType Name="_money" To="decimal[]"/>
+        <DbType Name="_text" To="string[]"/>
+        <DbType Name="_varchar" To="string[]"/>
+        <DbType Name="_bpchar" To="string[]"/>
+        <DbType Name="_citext" To="string[]"/>
+        <DbType Name="_json" To="string[]"/>
+        <DbType Name="_jsonb" To="string[]"/>
+        <DbType Name="_xml" To="string[]"/>
+        <DbType Name="_point" To="NpgsqlPoint[]"/>
+        <DbType Name="_lseg" To="NpgsqlLSeg[]"/>
+        <DbType Name="_path" To="NpgsqlPath[]"/>
+        <DbType Name="_polygon" To="NpgsqlPolygon[]"/>
+        <DbType Name="_line" To="NpgsqlLine[]"/>
+        <DbType Name="_circle" To="NpgsqlCircle[]"/>
+        <DbType Name="_box" To="NpgsqlBox[]"/>
+        <DbType Name="_uuid" To="UUID[]"/>
+        <DbType Name="_cidr" To="NpgsqlInet[]"/>
+        <DbType Name="_inet" To="IPAddress[]"/>
+        <DbType Name="_macaddr" To="PhysicalAddress[]"/>
+        <DbType Name="_tsquery" To="NpgsqlTsQuery[]"/>
+        <DbType Name="_tsvector" To="NpgsqlTsVector[]"/>
+        <DbType Name="_date" To="DateTime[]"/>
+        <DbType Name="_interval" To="TimeSpan[]"/>
+        <DbType Name="_timestamp" To="DateTime[]"/>
+        <DbType Name="_timestamptz" To="DateTime[]"/>
+        <DbType Name="_time" To="TimeSpan[]"/>
+        <DbType Name="_timetz" To="DateTimeOffset[]"/>
+        <DbType Name="_oid" To="uint[]"/>
+        <DbType Name="_xid" To="uint[]"/>
+        <DbType Name="_cid" To="uint[]"/>
+        <DbType Name="_geometry" To="PostgisGeometry[]"/>
+    </Database>
+    <Database DbProvider="SqlServer" Language="Java">
+        <DbType Name="text" To="String"/>
+        <DbType Name="ntext" To="String"/>
+        <DbType Name="varchar" To="String"/>
+        <DbType Name="nvarchar" To="String"/>
+        <DbType Name="varchar2" To="String"/>
+        <DbType Name="nvarchar2" To="String"/>
+        <DbType Name="xml" To="String"/>
+        <DbType Name="uniqueidentifier" To="UUID"/>
+        <DbType Name="date" To="Date"/>
+        <DbType Name="smalldatetime" To="Timestamp"/>
+        <DbType Name="datetime" To="Timestamp"/>
+        <DbType Name="datetime2" To="Timestamp"/>
+        <DbType Name="time" To="Timestamp"/>
+        <DbType Name="datetimeoffset" To="Timestamp"/>
+        <DbType Name="tinyint" To="byte"/>
+        <DbType Name="smallint" To="short"/>
+        <DbType Name="int" To="int"/>
+        <DbType Name="bigint" To="long"/>
+        <DbType Name="bit" To="boolean"/>
+        <DbType Name="char" To="String"/>
+        <DbType Name="nchar" To="String"/>
+        <DbType Name="uniqueide" To="UUID"/>
+        <DbType Name="numeric" To="BigDecimal"/>
+        <DbType Name="integer" To="int"/>
+        <DbType Name="money" To="BigDecimal"/>
+        <DbType Name="real" To="BigDecimal"/>
+        <DbType Name="blob" To="byte[]"/>
+        <DbType Name="ntext" To="String"/>
+        <DbType Name="single" To="float"/>
+        <DbType Name="smallmoney" To="BigDecimal"/>
+        <DbType Name="decimal" To="BigDecimal"/>
+        <DbType Name="bfile" To="byte[]"/>
+        <DbType Name="float" To="float"/>
+        <DbType Name="uniqueidentifier" To="UUID"/>
+        <DbType Name="text" To="String"/>
+        <DbType Name="binary" To="byte[]"/>
+        <DbType Name="number" To="BigDecimal"/>
+        <DbType Name="varbinary" To="byte[]"/>
+        <DbType Name="boolean" To="bool"/>
+        <DbType Name="long" To="byte[]"/>
+        <DbType Name="longtext" To="String"/>
+        <DbType Name="timestamp" To="Timestamp"/>
+    </Database>
+    <!-- Java-Language End-->
 
-  <!-- TypeScript-Language Start-->
-  <Database DbProvider="SqlServer" Language="TypeScript">
-    <DbType Name="image" To="number[]"/>
-    <DbType Name="text" To="string"/>
-    <DbType Name="ntext" To="string"/>
-    <DbType Name="varchar" To="string"/>
-    <DbType Name="nvarchar" To="string" />
-    <DbType Name="varchar2" To="string" />
-    <DbType Name="nvarchar2" To="string" />
-    <DbType Name="xml" To="string"/>
-    <DbType Name="uniqueidentifier" To="string"/>
-    <DbType Name="date" To="Date"/>
-    <DbType Name="smalldatetime" To="string"/>
-    <DbType Name="datetime" To="string" />
-    <DbType Name="datetime2" To="string"/>
-    <DbType Name="time" To="string"/>
-    <DbType Name="datetimeoffset" To="string"/>
-    <DbType Name="tinyint" To="number"/>
-    <DbType Name="smallint" To="number"/>
-    <DbType Name="int" To="number"/>
-    <DbType Name="bigint" To="number"/>
-    <DbType Name="bit" To="boolean" />
-    <DbType Name="char" To="string" />
-    <DbType Name="nchar" To="string" />
-    <DbType Name="uniqueide" To="string" />
-    <DbType Name="numeric" To="number" />
-    <DbType Name="integer" To="number" />
-    <DbType Name="money" To="number" />
-    <DbType Name="real" To="number" />
-    <DbType Name="blob" To="number[]" />
-    <DbType Name="ntext" To="string" />
-    <DbType Name="single" To="number" />
-    <DbType Name="smallmoney" To="number" />
-    <DbType Name="decimal" To="number" />
-    <DbType Name="bfile" To="number[]" />
-    <DbType Name="float" To="number" />
-    <DbType Name="uniqueidentifier" To="string" />
-    <DbType Name="text" To="string" />
-    <DbType Name="binary" To="number[]" />
-    <DbType Name="number" To="number" />
-    <DbType Name="varbinary" To="number[]" />
-    <DbType Name="boolean" To="boolean" />
-    <DbType Name="long" To="number" />
-    <DbType Name="longtext" To="string" />
-    <DbType Name="timestamp" To="string" />
-  </Database>
-  <Database DbProvider="MySql"  Language="TypeScript">
-    <DbType Name="image" To="number[]"/>
-    <DbType Name="text" To="string"/>
-    <DbType Name="ntext" To="string"/>
-    <DbType Name="varchar" To="string"/>
-    <DbType Name="nvarchar" To="string" />
-    <DbType Name="varchar2" To="string" />
-    <DbType Name="nvarchar2" To="string" />
-    <DbType Name="xml" To="string"/>
-    <DbType Name="uniqueidentifier" To="string"/>
-    <DbType Name="date" To="string"/>
-    <DbType Name="smalldatetime" To="string"/>
-    <DbType Name="datetime" To="DateTime" />
-    <DbType Name="datetime2" To="string"/>
-    <DbType Name="time" To="string"/>
-    <DbType Name="datetimeoffset" To="string"/>
-    <DbType Name="tinyint" To="number"/>
-    <DbType Name="smallint" To="number"/>
-    <DbType Name="int" To="number"/>
-    <DbType Name="bigint" To="number"/>
-    <DbType Name="bit" To="number" />
-    <DbType Name="char" To="string" />
-    <DbType Name="nchar" To="string" />
-    <DbType Name="uniqueide" To="string" />
-    <DbType Name="numeric" To="number" />
-    <DbType Name="integer" To="number" />
-    <DbType Name="money" To="number" />
-    <DbType Name="real" To="number" />
-    <DbType Name="blob" To="number[]" />
-    <DbType Name="ntext" To="string" />
-    <DbType Name="single" To="number" />
-    <DbType Name="smallmoney" To="number" />
-    <DbType Name="decimal" To="number" />
-    <DbType Name="bfile" To="number[]" />
-    <DbType Name="float" To="number" />
-    <DbType Name="uniqueidentifier" To="string" />
-    <DbType Name="text" To="string" />
-    <DbType Name="binary" To="number[]" />
-    <DbType Name="number" To="decimal" />
-    <DbType Name="varbinary" To="number[]" />
-    <DbType Name="boolean" To="boolean" />
-    <DbType Name="long" To="number" />
-    <DbType Name="longtext" To="string" />
-    <DbType Name="timestamp" To="string" />
-    <DbType Name="double" To="number" />
-    <DbType Name="mediumtext" To="string" />
-  </Database>
-  <Database DbProvider="PostgreSql"  Language="TypeScript">
-    <DbType Name="bool" To="boolean"/>
-    <DbType Name="int2" To="number"/>
-    <DbType Name="int4" To="number"/>
-    <DbType Name="int8" To="number"/>
-    <DbType Name="float4" To="number" />
-    <DbType Name="float8" To="number" />
-    <DbType Name="numeric" To="number"/>
-    <DbType Name="money" To="number"/>
-    <DbType Name="text" To="string"/>
-    <DbType Name="varchar" To="string"/>
-    <DbType Name="bpchar" To="string"/>
-    <DbType Name="citext" To="string" />
-    <DbType Name="json" To="string" />
-    <DbType Name="jsonb" To="string" />
-    <DbType Name="xml" To="string"/>
-    <DbType Name="point" To="any"/>
-    <DbType Name="lseg" To="any"/>
-    <DbType Name="path" To="any"/>
-    <DbType Name="polygon" To="any" />
-    <DbType Name="line" To="any"/>
-    <DbType Name="circle" To="any"/>
-    <DbType Name="box" To="any"/>
-    <DbType Name="bit(1)" To="boolean"/>
-    <DbType Name="bit(n)" To="boolean[]"/>
-    <DbType Name="varbit" To="boolean[]"/>
-    <DbType Name="hstore" To="{ [key: string]: string; }"/>
-    <DbType Name="uuid" To="string" />
-    <DbType Name="cidr" To="any" />
-    <DbType Name="inet" To="any" />
-    <DbType Name="macaddr" To="any" />
-    <DbType Name="tsquery" To="any" />
-    <DbType Name="tsvector" To="any" />
-    <DbType Name="date" To="string" />
-    <DbType Name="interval" To="string" />
-    <DbType Name="timestamp" To="string" />
-    <DbType Name="timestamptz" To="string" />
-    <DbType Name="time" To="string" />
-    <DbType Name="timetz" To="string" />
-    <DbType Name="bytea" To="number[]" />
-    <DbType Name="oid" To="number" />
-    <DbType Name="xid" To="number" />
-    <DbType Name="cid" To="number" />
-    <DbType Name="oidvector" To="number[]" />
-    <DbType Name="char" To="number" />
-    <DbType Name="geometry" To="any" />
-    <DbType Name="record" To="any[]" />
-    <!--array type-->
-    <DbType Name="_bool" To="number[]"/>
-    <DbType Name="_int2" To="number[]"/>
-    <DbType Name="_int4" To="number[]"/>
-    <DbType Name="_int8" To="number[]"/>
-    <DbType Name="_float4" To="number[]" />
-    <DbType Name="_float8" To="number[]" />
-    <DbType Name="_numeric" To="number[]"/>
-    <DbType Name="_money" To="number[]"/>
-    <DbType Name="_text" To="string[]"/>
-    <DbType Name="_varchar" To="string[]"/>
-    <DbType Name="_bpchar" To="string[]"/>
-    <DbType Name="_citext" To="string[]" />
-    <DbType Name="_json" To="string[]" />
-    <DbType Name="_jsonb" To="string[]" />
-    <DbType Name="_xml" To="string[]"/>
-    <DbType Name="_point" To="any[]"/>
-    <DbType Name="_lseg" To="any[]"/>
-    <DbType Name="_path" To="any[]"/>
-    <DbType Name="_polygon" To="any[]" />
-    <DbType Name="_line" To="any[]"/>
-    <DbType Name="_circle" To="any[]"/>
-    <DbType Name="_box" To="any[]"/>
-    <DbType Name="_uuid" To="string[]" />
-    <DbType Name="_cidr" To="any[]" />
-    <DbType Name="_inet" To="any[]" />
-    <DbType Name="_macaddr" To="any[]" />
-    <DbType Name="_tsquery" To="any[]" />
-    <DbType Name="_tsvector" To="any[]" />
-    <DbType Name="_date" To="string[]" />
-    <DbType Name="_interval" To="string[]" />
-    <DbType Name="_timestamp" To="string[]" />
-    <DbType Name="_timestamptz" To="string[]" />
-    <DbType Name="_time" To="string[]" />
-    <DbType Name="_timetz" To="string[]" />
-    <DbType Name="_oid" To="number[]" />
-    <DbType Name="_xid" To="number[]" />
-    <DbType Name="_cid" To="number[]" />
-    <DbType Name="_geometry" To="any[]" />
-  </Database>
-  <Database DbProvider="Oracle"  Language="TypeScript">
-    <DbType Name="IMAGE" To="number[]"/>
-    <DbType Name="TEXT" To="string"/>
-    <DbType Name="NTEXT" To="string"/>
-    <DbType Name="VARCHAR" To="string"/>
-    <DbType Name="NVARCHAR" To="string" />
-    <DbType Name="VARCHAR2" To="string" />
-    <DbType Name="NVARCHAR2" To="string" />
-    <DbType Name="CLOB" To="string" />
-    <DbType Name="XML" To="string"/>
-    <DbType Name="UNIQUEIDENTIFIER" To="string"/>
-    <DbType Name="DATE" To="string"/>
-    <DbType Name="SMALLDATETIME" To="string"/>
-    <DbType Name="DATETIME" To="string" />
-    <DbType Name="DATETIME2" To="string"/>
-    <DbType Name="TIME" To="string"/>
-    <DbType Name="DATETIMEOFFSET" To="string"/>
-    <DbType Name="TINYINT" To="number"/>
-    <DbType Name="SMALLINT" To="number"/>
-    <DbType Name="INT" To="number"/>
-    <DbType Name="BIGINT" To="number"/>
-    <DbType Name="BIT" To="boolean" />
-    <DbType Name="CHAR" To="string" />
-    <DbType Name="NCHAR" To="string" />
-    <DbType Name="UNIQUEIDE" To="string" />
-    <DbType Name="NUMERIC" To="number" />
-    <DbType Name="INTEGER" To="number" />
-    <DbType Name="MONEY" To="number" />
-    <DbType Name="REAL" To="number" />
-    <DbType Name="BLOB" To="number[]" />
-    <DbType Name="NTEXT" To="string" />
-    <DbType Name="SINGLE" To="number" />
-    <DbType Name="SMALLMONEY" To="number" />
-    <DbType Name="DECIMAL" To="number" />
-    <DbType Name="BFILE" To="number[]" />
-    <DbType Name="FLOAT" To="number" />
-    <DbType Name="UNIQUEIDENTIFIER" To="string" />
-    <DbType Name="TEXT" To="string" />
-    <DbType Name="BINARY" To="number[]" />
-    <DbType Name="NUMBER" To="number" />
-    <DbType Name="VARBINARY" To="number[]" />
-    <DbType Name="LONG" To="number" />
-    <DbType Name="LONGTEXT" To="string" />
-    <DbType Name="TIMESTAMP" To="string" />
-    <DbType Name="SDO_GEOMETRY" To="string" />
-  </Database>
-  <Database DbProvider="SQLite"  Language="TypeScript">
-    <DbType Name="bigint" To="number" />
-    <DbType Name="biguint" To="number" />
-    <DbType Name="binary" To="any" />
-    <DbType Name="bit" To="boolean" />
-    <DbType Name="blob" To="any" />
-    <DbType Name="bool" To="boolean" />
-    <DbType Name="boolean" To="boolean" />
-    <DbType Name="char" To="string" />
-    <DbType Name="clob" To="string" />
-    <DbType Name="counter" To="number" />
-    <DbType Name="currency" To="number" />
-    <DbType Name="date" To="string" />
-    <DbType Name="datetime" To="string" />
-    <DbType Name="decimal" To="number" />
-    <DbType Name="double" To="number" />
-    <DbType Name="float" To="number" />
-    <DbType Name="general" To="number" />
-    <DbType Name="guid" To="string" />
-    <DbType Name="identity" To="number" />
-    <DbType Name="image" To="number[]" />
-    <DbType Name="int" To="number" />
-    <DbType Name="int8" To="number" />
-    <DbType Name="int16" To="number" />
-    <DbType Name="int32" To="number" />
-    <DbType Name="int64" To="number" />
-    <DbType Name="integer" To="number" />
-    <DbType Name="integer8" To="number" />
-    <DbType Name="integer16" To="number" />
-    <DbType Name="integer32" To="number" />
-    <DbType Name="integer64" To="number" />
-    <DbType Name="logical" To="boolean" />
-    <DbType Name="long" To="number" />
-    <DbType Name="longchar" To="string" />
-    <DbType Name="longtext" To="string" />
-    <DbType Name="longvarchar" To="string" />
-    <DbType Name="memo" To="string" />
-    <DbType Name="money" To="number" />
-    <DbType Name="nchar" To="string" />
-    <DbType Name="note" To="string" />
-    <DbType Name="ntext" To="string" />
-    <DbType Name="number" To="number" />
-    <DbType Name="numeric" To="number" />
-    <DbType Name="nvarchar" To="string" />
-    <DbType Name="oleobject" To="any" />
-    <DbType Name="raw" To="any" />
-    <DbType Name="real" To="number" />
-    <DbType Name="single" To="number" />
-    <DbType Name="smalldate" To="string" />
-    <DbType Name="smallint" To="number" />
-    <DbType Name="smalluint" To="number" />
-    <DbType Name="string" To="string" />
-    <DbType Name="text" To="string" />
-    <DbType Name="time" To="string" />
-    <DbType Name="timestamp" To="string" />
-    <DbType Name="tinyint" To="number" />
-    <DbType Name="tinysint" To="number" />
-    <DbType Name="uint" To="number" />
-    <DbType Name="uint8" To="number" />
-    <DbType Name="uint16" To="number" />
-    <DbType Name="uint32" To="number" />
-    <DbType Name="uint64" To="number" />
-    <DbType Name="ulong" To="number" />
-    <DbType Name="uniqueidentifier" To="string" />
-    <DbType Name="unsignedinteger" To="number" />
-    <DbType Name="unsignedinteger8" To="number" />
-    <DbType Name="unsignedinteger16" To="number" />
-    <DbType Name="unsignedinteger32" To="number" />
-    <DbType Name="unsignedinteger64" To="number" />
-    <DbType Name="varbinary" To="any" />
-    <DbType Name="varchar" To="string" />
-    <DbType Name="varchar2" To="string" />
-    <DbType Name="yesno" To="boolean" />
-  </Database>
-  <!-- TypeScript-Language End-->
+    <!-- TypeScript-Language Start-->
+    <Database DbProvider="SqlServer" Language="TypeScript">
+        <DbType Name="image" To="number[]"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="nvarchar" To="string"/>
+        <DbType Name="varchar2" To="string"/>
+        <DbType Name="nvarchar2" To="string"/>
+        <DbType Name="xml" To="string"/>
+        <DbType Name="uniqueidentifier" To="string"/>
+        <DbType Name="date" To="Date"/>
+        <DbType Name="smalldatetime" To="string"/>
+        <DbType Name="datetime" To="string"/>
+        <DbType Name="datetime2" To="string"/>
+        <DbType Name="time" To="string"/>
+        <DbType Name="datetimeoffset" To="string"/>
+        <DbType Name="tinyint" To="number"/>
+        <DbType Name="smallint" To="number"/>
+        <DbType Name="int" To="number"/>
+        <DbType Name="bigint" To="number"/>
+        <DbType Name="bit" To="boolean"/>
+        <DbType Name="char" To="string"/>
+        <DbType Name="nchar" To="string"/>
+        <DbType Name="uniqueide" To="string"/>
+        <DbType Name="numeric" To="number"/>
+        <DbType Name="integer" To="number"/>
+        <DbType Name="money" To="number"/>
+        <DbType Name="real" To="number"/>
+        <DbType Name="blob" To="number[]"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="single" To="number"/>
+        <DbType Name="smallmoney" To="number"/>
+        <DbType Name="decimal" To="number"/>
+        <DbType Name="bfile" To="number[]"/>
+        <DbType Name="float" To="number"/>
+        <DbType Name="uniqueidentifier" To="string"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="binary" To="number[]"/>
+        <DbType Name="number" To="number"/>
+        <DbType Name="varbinary" To="number[]"/>
+        <DbType Name="boolean" To="boolean"/>
+        <DbType Name="long" To="number"/>
+        <DbType Name="longtext" To="string"/>
+        <DbType Name="timestamp" To="string"/>
+    </Database>
+    <Database DbProvider="MySql" Language="TypeScript">
+        <DbType Name="image" To="number[]"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="nvarchar" To="string"/>
+        <DbType Name="varchar2" To="string"/>
+        <DbType Name="nvarchar2" To="string"/>
+        <DbType Name="xml" To="string"/>
+        <DbType Name="uniqueidentifier" To="string"/>
+        <DbType Name="date" To="string"/>
+        <DbType Name="smalldatetime" To="string"/>
+        <DbType Name="datetime" To="DateTime"/>
+        <DbType Name="datetime2" To="string"/>
+        <DbType Name="time" To="string"/>
+        <DbType Name="datetimeoffset" To="string"/>
+        <DbType Name="tinyint" To="number"/>
+        <DbType Name="smallint" To="number"/>
+        <DbType Name="int" To="number"/>
+        <DbType Name="bigint" To="number"/>
+        <DbType Name="bit" To="number"/>
+        <DbType Name="char" To="string"/>
+        <DbType Name="nchar" To="string"/>
+        <DbType Name="uniqueide" To="string"/>
+        <DbType Name="numeric" To="number"/>
+        <DbType Name="integer" To="number"/>
+        <DbType Name="money" To="number"/>
+        <DbType Name="real" To="number"/>
+        <DbType Name="blob" To="number[]"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="single" To="number"/>
+        <DbType Name="smallmoney" To="number"/>
+        <DbType Name="decimal" To="number"/>
+        <DbType Name="bfile" To="number[]"/>
+        <DbType Name="float" To="number"/>
+        <DbType Name="uniqueidentifier" To="string"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="binary" To="number[]"/>
+        <DbType Name="number" To="decimal"/>
+        <DbType Name="varbinary" To="number[]"/>
+        <DbType Name="boolean" To="boolean"/>
+        <DbType Name="long" To="number"/>
+        <DbType Name="longtext" To="string"/>
+        <DbType Name="timestamp" To="string"/>
+        <DbType Name="double" To="number"/>
+        <DbType Name="mediumtext" To="string"/>
+    </Database>
+    <Database DbProvider="PostgreSql" Language="TypeScript">
+        <DbType Name="bool" To="boolean"/>
+        <DbType Name="int2" To="number"/>
+        <DbType Name="int4" To="number"/>
+        <DbType Name="int8" To="number"/>
+        <DbType Name="float4" To="number"/>
+        <DbType Name="float8" To="number"/>
+        <DbType Name="numeric" To="number"/>
+        <DbType Name="money" To="number"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="bpchar" To="string"/>
+        <DbType Name="citext" To="string"/>
+        <DbType Name="json" To="string"/>
+        <DbType Name="jsonb" To="string"/>
+        <DbType Name="xml" To="string"/>
+        <DbType Name="point" To="any"/>
+        <DbType Name="lseg" To="any"/>
+        <DbType Name="path" To="any"/>
+        <DbType Name="polygon" To="any"/>
+        <DbType Name="line" To="any"/>
+        <DbType Name="circle" To="any"/>
+        <DbType Name="box" To="any"/>
+        <DbType Name="bit(1)" To="boolean"/>
+        <DbType Name="bit(n)" To="boolean[]"/>
+        <DbType Name="varbit" To="boolean[]"/>
+        <DbType Name="hstore" To="{ [key: string]: string; }"/>
+        <DbType Name="uuid" To="string"/>
+        <DbType Name="cidr" To="any"/>
+        <DbType Name="inet" To="any"/>
+        <DbType Name="macaddr" To="any"/>
+        <DbType Name="tsquery" To="any"/>
+        <DbType Name="tsvector" To="any"/>
+        <DbType Name="date" To="string"/>
+        <DbType Name="interval" To="string"/>
+        <DbType Name="timestamp" To="string"/>
+        <DbType Name="timestamptz" To="string"/>
+        <DbType Name="time" To="string"/>
+        <DbType Name="timetz" To="string"/>
+        <DbType Name="bytea" To="number[]"/>
+        <DbType Name="oid" To="number"/>
+        <DbType Name="xid" To="number"/>
+        <DbType Name="cid" To="number"/>
+        <DbType Name="oidvector" To="number[]"/>
+        <DbType Name="char" To="number"/>
+        <DbType Name="geometry" To="any"/>
+        <DbType Name="record" To="any[]"/>
+        <!--array type-->
+        <DbType Name="_bool" To="number[]"/>
+        <DbType Name="_int2" To="number[]"/>
+        <DbType Name="_int4" To="number[]"/>
+        <DbType Name="_int8" To="number[]"/>
+        <DbType Name="_float4" To="number[]"/>
+        <DbType Name="_float8" To="number[]"/>
+        <DbType Name="_numeric" To="number[]"/>
+        <DbType Name="_money" To="number[]"/>
+        <DbType Name="_text" To="string[]"/>
+        <DbType Name="_varchar" To="string[]"/>
+        <DbType Name="_bpchar" To="string[]"/>
+        <DbType Name="_citext" To="string[]"/>
+        <DbType Name="_json" To="string[]"/>
+        <DbType Name="_jsonb" To="string[]"/>
+        <DbType Name="_xml" To="string[]"/>
+        <DbType Name="_point" To="any[]"/>
+        <DbType Name="_lseg" To="any[]"/>
+        <DbType Name="_path" To="any[]"/>
+        <DbType Name="_polygon" To="any[]"/>
+        <DbType Name="_line" To="any[]"/>
+        <DbType Name="_circle" To="any[]"/>
+        <DbType Name="_box" To="any[]"/>
+        <DbType Name="_uuid" To="string[]"/>
+        <DbType Name="_cidr" To="any[]"/>
+        <DbType Name="_inet" To="any[]"/>
+        <DbType Name="_macaddr" To="any[]"/>
+        <DbType Name="_tsquery" To="any[]"/>
+        <DbType Name="_tsvector" To="any[]"/>
+        <DbType Name="_date" To="string[]"/>
+        <DbType Name="_interval" To="string[]"/>
+        <DbType Name="_timestamp" To="string[]"/>
+        <DbType Name="_timestamptz" To="string[]"/>
+        <DbType Name="_time" To="string[]"/>
+        <DbType Name="_timetz" To="string[]"/>
+        <DbType Name="_oid" To="number[]"/>
+        <DbType Name="_xid" To="number[]"/>
+        <DbType Name="_cid" To="number[]"/>
+        <DbType Name="_geometry" To="any[]"/>
+    </Database>
+    <Database DbProvider="Oracle" Language="TypeScript">
+        <DbType Name="IMAGE" To="number[]"/>
+        <DbType Name="TEXT" To="string"/>
+        <DbType Name="NTEXT" To="string"/>
+        <DbType Name="VARCHAR" To="string"/>
+        <DbType Name="NVARCHAR" To="string"/>
+        <DbType Name="VARCHAR2" To="string"/>
+        <DbType Name="NVARCHAR2" To="string"/>
+        <DbType Name="CLOB" To="string"/>
+        <DbType Name="XML" To="string"/>
+        <DbType Name="UNIQUEIDENTIFIER" To="string"/>
+        <DbType Name="DATE" To="string"/>
+        <DbType Name="SMALLDATETIME" To="string"/>
+        <DbType Name="DATETIME" To="string"/>
+        <DbType Name="DATETIME2" To="string"/>
+        <DbType Name="TIME" To="string"/>
+        <DbType Name="DATETIMEOFFSET" To="string"/>
+        <DbType Name="TINYINT" To="number"/>
+        <DbType Name="SMALLINT" To="number"/>
+        <DbType Name="INT" To="number"/>
+        <DbType Name="BIGINT" To="number"/>
+        <DbType Name="BIT" To="boolean"/>
+        <DbType Name="CHAR" To="string"/>
+        <DbType Name="NCHAR" To="string"/>
+        <DbType Name="UNIQUEIDE" To="string"/>
+        <DbType Name="NUMERIC" To="number"/>
+        <DbType Name="INTEGER" To="number"/>
+        <DbType Name="MONEY" To="number"/>
+        <DbType Name="REAL" To="number"/>
+        <DbType Name="BLOB" To="number[]"/>
+        <DbType Name="NTEXT" To="string"/>
+        <DbType Name="SINGLE" To="number"/>
+        <DbType Name="SMALLMONEY" To="number"/>
+        <DbType Name="DECIMAL" To="number"/>
+        <DbType Name="BFILE" To="number[]"/>
+        <DbType Name="FLOAT" To="number"/>
+        <DbType Name="UNIQUEIDENTIFIER" To="string"/>
+        <DbType Name="TEXT" To="string"/>
+        <DbType Name="BINARY" To="number[]"/>
+        <DbType Name="NUMBER" To="number"/>
+        <DbType Name="VARBINARY" To="number[]"/>
+        <DbType Name="LONG" To="number"/>
+        <DbType Name="LONGTEXT" To="string"/>
+        <DbType Name="TIMESTAMP" To="string"/>
+        <DbType Name="SDO_GEOMETRY" To="string"/>
+    </Database>
+    <Database DbProvider="SQLite" Language="TypeScript">
+        <DbType Name="bigint" To="number"/>
+        <DbType Name="biguint" To="number"/>
+        <DbType Name="binary" To="any"/>
+        <DbType Name="bit" To="boolean"/>
+        <DbType Name="blob" To="any"/>
+        <DbType Name="bool" To="boolean"/>
+        <DbType Name="boolean" To="boolean"/>
+        <DbType Name="char" To="string"/>
+        <DbType Name="clob" To="string"/>
+        <DbType Name="counter" To="number"/>
+        <DbType Name="currency" To="number"/>
+        <DbType Name="date" To="string"/>
+        <DbType Name="datetime" To="string"/>
+        <DbType Name="decimal" To="number"/>
+        <DbType Name="double" To="number"/>
+        <DbType Name="float" To="number"/>
+        <DbType Name="general" To="number"/>
+        <DbType Name="guid" To="string"/>
+        <DbType Name="identity" To="number"/>
+        <DbType Name="image" To="number[]"/>
+        <DbType Name="int" To="number"/>
+        <DbType Name="int8" To="number"/>
+        <DbType Name="int16" To="number"/>
+        <DbType Name="int32" To="number"/>
+        <DbType Name="int64" To="number"/>
+        <DbType Name="integer" To="number"/>
+        <DbType Name="integer8" To="number"/>
+        <DbType Name="integer16" To="number"/>
+        <DbType Name="integer32" To="number"/>
+        <DbType Name="integer64" To="number"/>
+        <DbType Name="logical" To="boolean"/>
+        <DbType Name="long" To="number"/>
+        <DbType Name="longchar" To="string"/>
+        <DbType Name="longtext" To="string"/>
+        <DbType Name="longvarchar" To="string"/>
+        <DbType Name="memo" To="string"/>
+        <DbType Name="money" To="number"/>
+        <DbType Name="nchar" To="string"/>
+        <DbType Name="note" To="string"/>
+        <DbType Name="ntext" To="string"/>
+        <DbType Name="number" To="number"/>
+        <DbType Name="numeric" To="number"/>
+        <DbType Name="nvarchar" To="string"/>
+        <DbType Name="oleobject" To="any"/>
+        <DbType Name="raw" To="any"/>
+        <DbType Name="real" To="number"/>
+        <DbType Name="single" To="number"/>
+        <DbType Name="smalldate" To="string"/>
+        <DbType Name="smallint" To="number"/>
+        <DbType Name="smalluint" To="number"/>
+        <DbType Name="string" To="string"/>
+        <DbType Name="text" To="string"/>
+        <DbType Name="time" To="string"/>
+        <DbType Name="timestamp" To="string"/>
+        <DbType Name="tinyint" To="number"/>
+        <DbType Name="tinysint" To="number"/>
+        <DbType Name="uint" To="number"/>
+        <DbType Name="uint8" To="number"/>
+        <DbType Name="uint16" To="number"/>
+        <DbType Name="uint32" To="number"/>
+        <DbType Name="uint64" To="number"/>
+        <DbType Name="ulong" To="number"/>
+        <DbType Name="uniqueidentifier" To="string"/>
+        <DbType Name="unsignedinteger" To="number"/>
+        <DbType Name="unsignedinteger8" To="number"/>
+        <DbType Name="unsignedinteger16" To="number"/>
+        <DbType Name="unsignedinteger32" To="number"/>
+        <DbType Name="unsignedinteger64" To="number"/>
+        <DbType Name="varbinary" To="any"/>
+        <DbType Name="varchar" To="string"/>
+        <DbType Name="varchar2" To="string"/>
+        <DbType Name="yesno" To="boolean"/>
+    </Database>
+    <!-- TypeScript-Language End-->
 </DbTypeMap>
