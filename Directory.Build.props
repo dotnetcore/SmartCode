@@ -6,7 +6,7 @@
     <Product>SmartCode</Product>
     <Copyright>2019 SmartCode, Inc.</Copyright>
     <PackageId>$(AssemblyName)</PackageId>
-    <Authors>Ahoo Wang</Authors>
+    <Authors>Ahoo Wang;ncc</Authors>
     <MaintainerEmail>ahoowang@qq.com</MaintainerEmail>
     <LangVersion>latest</LangVersion>
     <RepositoryUrl>https://github.com/Smart-Kit/SmartCode</RepositoryUrl>

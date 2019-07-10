@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SmartSql.Bulk.MySql" Version="4.0.72" />
-    <PackageReference Include="SmartSql.Bulk.PostgreSql" Version="4.0.72" />
-    <PackageReference Include="SmartSql.Bulk.SqlServer" Version="4.0.72" />
+    <PackageReference Include="SmartSql.Bulk.MySql" Version="4.0.75" />
+    <PackageReference Include="SmartSql.Bulk.PostgreSql" Version="4.0.75" />
+    <PackageReference Include="SmartSql.Bulk.SqlServer" Version="4.0.75" />
   </ItemGroup>
 
   <ItemGroup>
