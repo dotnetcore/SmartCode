@@ -41,7 +41,7 @@ namespace @(project.Module).@buildTask.Module
 
         @column.GetCSharpSummary()
         @Html.NewLine()     
-        <text>public</text> <text>@(ConvertLangType(column))</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
+        <text>public virtual</text> <text>@(ConvertLangType(column))</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
         @Html.NewLine()                                                                                                                 
     }
     }

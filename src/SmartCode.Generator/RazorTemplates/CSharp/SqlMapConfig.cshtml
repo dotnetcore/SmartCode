@@ -12,7 +12,7 @@
 @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 -->
 <SmartSqlMapConfig xmlns="http://SmartSql.net/schemas/SmartSqlMapConfig.xsd">
-    <Settings IsCacheEnabled="true" />
+    <Settings IsCacheEnabled="true" EnablePropertyChangedTrack="false" />
     <Properties>
         <Property Name="ConnectionString" Value="@writeDataSource.ConnectionString" />
         <Property Name="ScriptBuilder" Value="SmartSql.ScriptTag.ScriptBuilder,SmartSql.ScriptTag" />
