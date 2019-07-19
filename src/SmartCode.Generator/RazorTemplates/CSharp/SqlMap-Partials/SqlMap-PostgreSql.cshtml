@@ -25,7 +25,9 @@
     {
     <!--获取分页数据-->
     <Statement Id="QueryByPage" @queryStatementResultMap>
-        Select T.* From @table.Name As T
+        Select 
+        <Include RefId="AllCols"/>
+        From @table.Name As T
         <Include RefId="QueryParams" />
         <Switch Prepend="Order By" Property="OrderBy">
             <Default>

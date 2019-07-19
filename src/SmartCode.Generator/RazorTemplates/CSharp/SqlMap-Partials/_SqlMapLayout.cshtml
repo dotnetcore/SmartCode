@@ -17,6 +17,7 @@
 <SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
     @{ await Html.RenderPartialAsync("SqlMap-ResultMaps.cshtml", Model); }
     <Statements>
+        @{ await Html.RenderPartialAsync("SqlMap-Columns.cshtml", Model); }
         <Statement Id="QueryParams">
             <Where>
                 @foreach (var col in table.Columns)

@@ -11,6 +11,6 @@
     @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
         var col = table.Columns.ElementAt(colIndex);
-        @col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+        @($"T.{col.Name}")@(colIndex == table.Columns.Count() - 1 ? "" : ",")
     }
 </Statement>

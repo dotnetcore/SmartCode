@@ -36,7 +36,9 @@
         @if (versionNo >= 2012)
         {
             <text>
-                Select T.* From @table.Name T With(NoLock)
+                Select 
+                <Include RefId="AllCols"/>
+                From @table.Name T With(NoLock)
                 <Include RefId="QueryParams"/>
                 Order By T.@pkCol.Name Desc
                 Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
@@ -58,7 +60,9 @@
 {
     <!--获取表映射实体-->
     <Statement Id="GetEntity" @queryStatementResultMap>
-        Select Top 1 T.* From @table.Name T With(NoLock)
+        Select Top 1 
+        <Include RefId="AllCols"/>
+        From @table.Name T With(NoLock)
         <Where Min="1">
             @foreach (var col in table.Columns)
             {
@@ -78,7 +82,8 @@
         <IsNotEmpty Prepend="Top" Property="Taken">
             (@(dbPrefix)Taken)
         </IsNotEmpty>
-        T.* From @table.Name T
+        <Include RefId="AllCols"/>
+        From @table.Name T
         <Include RefId="QueryParams"/>
         <Switch Prepend="Order By" Property="OrderBy">
             <Default>

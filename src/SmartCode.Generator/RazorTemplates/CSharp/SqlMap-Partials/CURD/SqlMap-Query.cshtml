@@ -19,7 +19,9 @@
 
 <!--获取数据列-->
 <Statement Id="Query" @queryStatementResultMap>
-    SELECT T.* From @table.Name T
+    SELECT 
+    <Include RefId="AllCols"/>
+    From @table.Name T
     <Include RefId="QueryParams" />
     <Switch Prepend="Order By" Property="OrderBy">
         <Default>

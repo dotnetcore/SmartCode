@@ -14,7 +14,9 @@
 
 <!--获取表映射实体-->
 <Statement Id="GetEntity" @(queryStatementResultMap)>
-    Select T.* From @table.Name As T
+    Select 
+    <Include RefId="AllCols"/>
+    From @table.Name As T
     <Where Min="1">
         @foreach (var col in table.Columns)
         {
