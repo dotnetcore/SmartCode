@@ -20,7 +20,8 @@ namespace SmartCode.Generator.BuildTasks
         }
         public override async Task Build(BuildContext context)
         {
-            var filterTables = FilterTable(context.GetDataSource<DbTableSource>().Tables, context.BuildKey, context.Build);
+            
+            var filterTables = FilterTable(context.GetDataSource<ITableSource>().Tables, context.BuildKey, context.Build);
             context.SetCurrentAllTable(filterTables);
             foreach (var table in filterTables)
             {

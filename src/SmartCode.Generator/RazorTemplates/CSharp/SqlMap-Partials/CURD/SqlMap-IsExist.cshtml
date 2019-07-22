@@ -2,10 +2,7 @@
 @using SmartCode.Db
 @model BuildContext
 @{
-    var project = Model.Project;
-    var dbSource = Model.GetDataSource<DbSource>();
     var table = Model.GetCurrentTable();
-    var pkCol = table.PKColumn;
 }
 
 <!--是否存在该记录-->

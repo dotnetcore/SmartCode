@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace SmartCode.Generator
 {
-    public class DbTableSource : DbSource
+    public class DbTableSource : DbSource, ITableSource
     {
         public DbTableSource(
-             Project project
-             , ILoggerFactory loggerFactory
-             , IPluginManager pluginManager
-             ) : base(project, loggerFactory, pluginManager)
+            Project project
+            , ILoggerFactory loggerFactory
+            , IPluginManager pluginManager
+        ) : base(project, loggerFactory, pluginManager)
         {
         }
 
         public override string Name => "DbTable";
-        public IEnumerable<Table> Tables { get; private set; }
+        public IList<Table> Tables { get; private set; }
 
         public override async Task InitData()
         {
@@ -32,7 +32,8 @@ namespace SmartCode.Generator
             {
                 foreach (var col in table.Columns)
                 {
-                    if ((DbRepository.DbProvider == Db.DbProvider.MySql || DbRepository.DbProvider == Db.DbProvider.MariaDB)
+                    if ((DbRepository.DbProvider == Db.DbProvider.MySql ||
+                         DbRepository.DbProvider == Db.DbProvider.MariaDB)
                         && col.DbType == "char"
                         && col.DataLength == 36
                         && Project.Language == "CSharp")
@@ -41,7 +42,8 @@ namespace SmartCode.Generator
                     }
                     else
                     {
-                        col.LanguageType = dbTypeConvert.LanguageType(DbRepository.DbProvider, Project.Language, col.DbType);
+                        col.LanguageType =
+                            dbTypeConvert.LanguageType(DbRepository.DbProvider, Project.Language, col.DbType);
                     }
                 }
             }

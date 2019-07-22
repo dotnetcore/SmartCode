@@ -32,10 +32,10 @@ namespace SmartCode.Db
                     }
             }
         }
-        public async Task<IEnumerable<Table>> QueryTable()
+        public async Task<IList<Table>> QueryTable()
         {
             _logger.LogInformation($"----Db:{DbName} Provider:{DbProviderName}, QueryTable Start! ----");
-            IEnumerable<Table> tables;
+            IList<Table> tables;
             try
             {
                 SqlMapper.SessionStore.Open();
