@@ -7,6 +7,7 @@ using System.IO;
 using SmartCode.Configuration.ConfigBuilders;
 using System.Reflection;
 using HandlebarsDotNet;
+using Newtonsoft.Json;
 
 namespace SmartCode.App
 {
@@ -20,6 +21,7 @@ namespace SmartCode.App
         public Project Project { get; private set; }
         public string ConfigPath => SmartCodeOptions.ConfigPath;
         public ILogger<SmartCodeApp> Logger { get; private set; }
+
         public SmartCodeApp(SmartCodeOptions smartCodeOptions)
         {
             SmartCodeOptions = smartCodeOptions;
@@ -33,20 +35,23 @@ namespace SmartCode.App
             switch (pathExtension)
             {
                 case ".JSON":
-                    {
-                        ConfigBuilder = new JsonBuilder(ConfigPath);
-                        break;
-                    }
+                {
+                    ConfigBuilder = new JsonBuilder(ConfigPath);
+                    break;
+                }
+
                 case ".YML":
-                    {
-                        ConfigBuilder = new YamlBuilder(ConfigPath);
-                        break;
-                    }
+                {
+                    ConfigBuilder = new YamlBuilder(ConfigPath);
+                    break;
+                }
+
                 default:
-                    {
-                        throw new SmartCodeException($"ConfigPath:{ConfigPath},未知扩展名：{pathExtension}");
-                    }
+                {
+                    throw new SmartCodeException($"ConfigPath:{ConfigPath},未知扩展名：{pathExtension}");
+                }
             }
+
             Project = ConfigBuilder.Build();
             Project.ConfigPath = ConfigPath;
         }
@@ -71,15 +76,19 @@ namespace SmartCode.App
                 {
                     throw new SmartCodeException($"Plugin.Type:{plugin.TypeName} can not find!");
                 }
+
                 var implType = Assembly.Load(plugin.ImplAssemblyName).GetType(plugin.ImplTypeName);
                 if (implType == null)
                 {
                     throw new SmartCodeException($"Plugin.ImplType:{plugin.ImplTypeName} can not find!");
                 }
+
                 if (!pluginType.IsAssignableFrom(implType))
                 {
-                    throw new SmartCodeException($"Plugin.ImplType:{implType.FullName} can not Impl Plugin.Type：{pluginType.FullName}!");
+                    throw new SmartCodeException(
+                        $"Plugin.ImplType:{implType.FullName} can not Impl Plugin.Type：{pluginType.FullName}!");
                 }
+
                 Services.AddSingleton(pluginType, implType);
             }
         }
@@ -92,7 +101,8 @@ namespace SmartCode.App
                 var projectBuilder = ServiceProvider.GetRequiredService<IProjectBuilder>();
                 Logger.LogInformation($"------- Build ConfigPath:{ConfigPath} Start! --------");
                 await projectBuilder.Build();
-                Logger.LogInformation($"-------- Build ConfigPath:{ConfigPath},Output:{Project.Output?.Path} End! --------");
+                Logger.LogInformation(
+                    $"-------- Build ConfigPath:{ConfigPath},Output:{Project.Output?.Path} End! --------");
             }
             catch (SmartCodeException scEx)
             {
@@ -104,6 +114,7 @@ namespace SmartCode.App
         public class NullTextEncoder : ITextEncoder
         {
             public static NullTextEncoder Instance = new NullTextEncoder();
+
             public string Encode(string value)
             {
                 return value;

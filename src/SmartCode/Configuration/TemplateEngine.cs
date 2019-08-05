@@ -13,6 +13,7 @@ namespace SmartCode.Configuration
         public String Name { get; set; }
         public String Root { get; set; }
         public String Path { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
         public String FullPath => System.IO.Path.Combine(Root, Path);
     }
 }
