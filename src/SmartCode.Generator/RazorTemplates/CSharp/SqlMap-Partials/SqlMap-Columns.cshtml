@@ -8,9 +8,22 @@
 }
 
 <Statement Id="AllCols">
-    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+    @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
     {
-        var col = table.Columns.ElementAt(colIndex);
-        @($"T.{col.Name}")@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+
+        @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+        {
+            var col = table.Columns.ElementAt(colIndex);
+            var colName = col.Name;
+            @($"T.\"{colName}\"")@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+        }
+    }
+    else
+    {
+        @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+        {
+            var col = table.Columns.ElementAt(colIndex);
+            @($"T.{col.Name}")@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+        }
     }
 </Statement>

@@ -1,23 +1,23 @@
-Module: DXYK.OA
-Author: Holy Guo
+Module: SmartSql.Starter
+Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
-    DbName: DxykSysDB
-    DbProvider: PostgreSql
-    ConnectionString: Server=localhost;Port=5432;User Id=postgres;Password=123456; Database=DxykSysDB;
+    DbName: SmartSqlTestDB
+    DbProvider: SqlServer
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
 Language: CSharp
 TemplateEngine: 
    Name: Razor
    Root: CSharp
 Output: 
   Type: File
-  Path: 'D:\01Code\DXYKOA'
+  Path: 'E:\SmartSql-Starter'
 Parameters:
   SmartSqlVersion: '4.1.18'
   SmartSqlSchemaVersion: '4.1.16'
-  BuildDir: 'D:\01Code\DXYKOA\build'
-  DockerImage: 'dxyk.oa'
+  BuildDir: 'E:\SmartSql-Starter\build'
+  DockerImage: 'smartsql.starter'
   
 NamingConverter:
   Table:

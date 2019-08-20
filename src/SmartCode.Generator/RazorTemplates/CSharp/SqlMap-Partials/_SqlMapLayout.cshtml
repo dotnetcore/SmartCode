@@ -20,11 +20,23 @@
         @{ await Html.RenderPartialAsync("SqlMap-Columns.cshtml", Model); }
         <Statement Id="QueryParams">
             <Where>
-                @foreach (var col in table.Columns)
+                @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
                 {
-                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
-                        T.@col.Name = @dbPrefix@col.ConvertedName
-                    </IsNotEmpty>
+                    @foreach (var col in table.Columns)
+                    {
+                        <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                            T."@col.Name" = @dbPrefix@col.ConvertedName
+                        </IsNotEmpty>
+                    }
+                }
+                else
+                {
+                    @foreach (var col in table.Columns)
+                    {
+                        <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                                T.@col.Name = @dbPrefix@col.ConvertedName                       
+                        </IsNotEmpty>
+                    }
                 }
             </Where>
         </Statement>

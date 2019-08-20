@@ -29,16 +29,14 @@ namespace SmartCode.Generator.Extensions
                     {
                         continue;
                     }
-
-                    csharpSummary.AppendLine($"/// {summaryLine}");
+                    csharpSummary.AppendLine($"        /// {summaryLine}");
                 }
             }
             else
             {
-                csharpSummary.AppendLine($"/// {summary}");
+                csharpSummary.AppendLine($"        /// {summary}");
             }
-
-            csharpSummary.Append("///</summary>");
+            csharpSummary.Append("        ///</summary>");
             return csharpSummary.ToString();
         }
     }

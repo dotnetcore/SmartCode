@@ -3,11 +3,23 @@
 @model BuildContext
 @{
     var table = Model.GetCurrentTable();
+    var dbSource = Model.GetDataSource<DbSource>();
 }
 
 <!--是否存在该记录-->
-<Statement Id="IsExist">
-    Select Count(1) From @table.Name T
-    <Include RefId="QueryParams" />
-</Statement>
+@if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
+{
+    <Statement Id="IsExist">
+        Select Count(1) From "@table.Name" T
+        <Include RefId="QueryParams" />
+    </Statement>
+}
+else
+{
+    <Statement Id="IsExist">
+        Select Count(1) From @table.Name T
+        <Include RefId="QueryParams" />
+    </Statement>
+}
+
 

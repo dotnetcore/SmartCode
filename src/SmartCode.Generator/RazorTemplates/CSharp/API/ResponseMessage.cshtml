@@ -13,16 +13,39 @@ using System.ComponentModel.DataAnnotations;
 
 namespace @(project.Module).API.Messages
 {
+    ///<summary>
+    ///ResponseMessage 返回消息
+    ///</summary>
     public class ResponseMessage : ResponseMessageWrap@("<object>")
     {
+
     }
+
+    ///<summary>
+    ///ResponseMessageWrap 返回消息
+    ///</summary>
     public class ResponseMessageWrap@("<TBody>")
     {
-    public bool IsSuccess { get; set; } = true;
-    public String ErrorCode { get; set; } = "0000";
-    public String Message { get; set; }
-    public TBody Body { get; set; }
+        /// <summary>
+        /// 是否成功返回，true 返回成功  false 返回失败，默认为true
+        /// </summary>
+        public bool IsSuccess { get; set; } = true;
+
+        /// <summary>
+        /// 错误代码 默认 0000
+        /// </summary>
+        public String ErrorCode { get; set; } = "0000";
+
+        /// <summary>
+        /// 消息
+        /// </summary>
+        public String Message { get; set; }
+
+        /// <summary>
+        /// 返回主体
+        /// </summary>
+        public TBody Body { get; set; }
     }
-    }
+}
 
 

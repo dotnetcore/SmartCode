@@ -11,7 +11,8 @@
         throw new SmartCodeException($"Service Template can not find PKColumn,Table:{table.Name}.");
     }
     var pkType = pkCol.LanguageType;
-    var insertRetType = table.AutoIncrement ? pkType : "int";
+    //var insertRetType = table.AutoIncrement ? pkType : "int";
+    var insertRetType = table.AutoIncrement ? pkType : "long";
     var entityName = table.ConvertedName;
     var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
     var serviceName = $"{table.ConvertedName}Service";
@@ -21,6 +22,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using @(project.Module).Entity;
 using @(project.Module).Repository;
 
@@ -29,27 +31,67 @@ namespace @(project.Module).Service
     @table.GetCSharpSummary()
     public class @serviceName
     {
-    public I@(repositoryName) @repositoryName { get; }
 
-    public @serviceName (I@(repositoryName) @repositoryCamelName)
-    {
-    @repositoryName = @repositoryCamelName;
-    }
+        ///<summary>
+        ///@serviceName 仓储
+        ///</summary>
+        public I@(repositoryName) @repositoryName { get; }
 
-    public @insertRetType Insert(@entityName @entityCamelName)
-    {
-    return @(repositoryName).Insert(@entityCamelName);
-    }
+        ///<summary>
+        ///@serviceName 构造函数
+        ///</summary>
+        public @serviceName (I@(repositoryName) @repositoryCamelName)
+        {
+            @repositoryName = @repositoryCamelName;
+        }
 
-    public int DeleteById(@pkType id)
-    {
-    return  @(repositoryName).DeleteById(id);
-    }
+        ///<summary>
+        ///新增
+        ///</summary>
+        public @insertRetType Insert(@entityName @entityCamelName)
+        {
+            return @(repositoryName).Insert(@entityCamelName);
+        }
 
-    public int Update(@entityName @entityCamelName)
-    {
-    return  @(repositoryName).Update(@entityCamelName);
-    }
+        ///<summary>
+        ///异步新增
+        ///</summary>
+        public  async Task<@insertRetType> InsertAsync(@entityName @entityCamelName)
+        {
+            return await @(repositoryName).InsertAsync(@entityCamelName);
+        }
+
+        ///<summary>
+        ///删除
+        ///</summary>
+        public int DeleteById(@pkType id)
+        {
+            return  @(repositoryName).DeleteById(id);
+        }
+
+        ///<summary>
+        ///异步删除
+        ///</summary>
+        public  async Task<int> DeleteByIdAsync(@pkType id)
+        {
+            return  await @(repositoryName).DeleteByIdAsync(id);
+        }
+
+        ///<summary>
+        ///更新
+        ///</summary>
+        public int Update(@entityName @entityCamelName)
+        {
+            return  @(repositoryName).Update(@entityCamelName);
+        }
+
+        ///<summary>
+        ///异步更新
+        ///</summary>
+        public async Task<int> UpdateAsync(@entityName @entityCamelName)
+        {
+            return  await @(repositoryName).UpdateAsync(@entityCamelName);
+        }
 
     }
-    }
+}

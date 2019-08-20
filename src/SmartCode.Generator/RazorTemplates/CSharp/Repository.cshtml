@@ -30,10 +30,10 @@ using @(project.Module).Entity;
 
 namespace @(project.Module).@buildTask.Module
 {
-@table.GetCSharpSummary()
-public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
-    ,IRepositoryAsync<@(table.ConvertedName), @(primaryKeyType)>
-        {
+    @table.GetCSharpSummary()
+    public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
+        ,IRepositoryAsync<@(table.ConvertedName), @(primaryKeyType)>
+    {
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql
 && autoIncrement)
         {
@@ -79,5 +79,5 @@ public interface I@(table.ConvertedName)Repository : IRepository<@(table.Convert
             @Html.NewLine()
 
         }
-        }
-        }
+    }
+}

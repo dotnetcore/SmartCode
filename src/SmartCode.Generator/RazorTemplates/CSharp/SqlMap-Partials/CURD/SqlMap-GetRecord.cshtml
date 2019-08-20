@@ -9,7 +9,17 @@
 }
 
 <!--获取记录数-->
-<Statement Id="GetRecord">
-    Select Count(1) From @table.Name T
-    <Include RefId="QueryParams" />
-</Statement>
+@if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
+{
+    <Statement Id="GetRecord">
+        Select Count(1) From "@table.Name" T
+        <Include RefId="QueryParams" />
+    </Statement>
+}
+else
+{
+    <Statement Id="GetRecord">
+        Select Count(1) From @table.Name T
+        <Include RefId="QueryParams" />
+    </Statement>
+}

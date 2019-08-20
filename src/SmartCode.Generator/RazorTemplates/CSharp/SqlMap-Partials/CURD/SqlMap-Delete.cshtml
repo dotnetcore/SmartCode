@@ -10,7 +10,17 @@
 }
 
 <!--删除-->
-<Statement Id="Delete">
-    Delete From @table.Name
-    Where @pkCol.Name=@prefix@pkCol.ConvertedName
-</Statement>
+@if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql)
+{
+    <Statement Id="Delete">
+        Delete From "@table.Name"
+        Where "@pkCol.Name"=@prefix@pkCol.ConvertedName
+    </Statement>
+}
+else
+{
+    <Statement Id="Delete">
+        Delete From @table.Name
+        Where @pkCol.Name=@prefix@pkCol.ConvertedName
+    </Statement>
+}
