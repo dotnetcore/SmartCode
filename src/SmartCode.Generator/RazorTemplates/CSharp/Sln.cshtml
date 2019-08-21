@@ -1,7 +1,9 @@
-﻿@using SmartCode
+﻿@using System.IO
+@using SmartCode
 @model BuildContext
 @{
     var project = Model.Project;
+    var configFileName = System.IO.Path.GetFileName(project.ConfigPath);
 }
 
 Microsoft Visual Studio Solution File, Format Version 12.00
@@ -22,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{68E40CDE
 ProjectSection(SolutionItems) = preProject
 Directory.Build.props = Directory.Build.props
 build\version.props = build\version.props
-build\SmartCode.yml = build\SmartCode.yml
+build\@configFileName = build\@configFileName
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{1666CC75-624D-4AE9-84D7-7F9F338658C5}"
@@ -32,33 +34,32 @@ Dockerfile = Dockerfile
 EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{88A185DB-0242-4843-9284-334850FF611C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88A185DB-0242-4843-9284-334850FF611C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88A185DB-0242-4843-9284-334850FF611C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88A185DB-0242-4843-9284-334850FF611C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D274EF03-E956-40EF-B874-58A5FBE83A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D274EF03-E956-40EF-B874-58A5FBE83A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D274EF03-E956-40EF-B874-58A5FBE83A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D274EF03-E956-40EF-B874-58A5FBE83A00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E} = {20C12BB6-7202-46F4-9A92-3528FFC2B91B}
-	EndGlobalSection
+GlobalSection(SolutionConfigurationPlatforms) = preSolution
+Debug|Any CPU = Debug|Any CPU
+Release|Any CPU = Release|Any CPU
+EndGlobalSection
+GlobalSection(ProjectConfigurationPlatforms) = postSolution
+{88A185DB-0242-4843-9284-334850FF611C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{88A185DB-0242-4843-9284-334850FF611C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{88A185DB-0242-4843-9284-334850FF611C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{88A185DB-0242-4843-9284-334850FF611C}.Release|Any CPU.Build.0 = Release|Any CPU
+{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{6A7E8C9E-6A9F-49FD-AD48-F297E515EB10}.Release|Any CPU.Build.0 = Release|Any CPU
+{D274EF03-E956-40EF-B874-58A5FBE83A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{D274EF03-E956-40EF-B874-58A5FBE83A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{D274EF03-E956-40EF-B874-58A5FBE83A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{D274EF03-E956-40EF-B874-58A5FBE83A00}.Release|Any CPU.Build.0 = Release|Any CPU
+{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+EndGlobalSection
+GlobalSection(SolutionProperties) = preSolution
+HideSolutionNode = FALSE
+EndGlobalSection
+GlobalSection(NestedProjects) = preSolution
+{CEA52B07-9E7F-4A4D-AF6D-4C43E7255D0E} = {20C12BB6-7202-46F4-9A92-3528FFC2B91B}
+EndGlobalSection
 EndGlobal
-
