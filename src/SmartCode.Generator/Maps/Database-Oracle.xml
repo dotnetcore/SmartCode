@@ -24,7 +24,7 @@
       C.DATA_TYPE AS "DbType",
       C.DATA_LENGTH AS "DataLength",
       NVL(CC.COMMENTS,C.COLUMN_NAME) AS "Description",
-      to_number(CASE C.NULLABLE WHEN 'N' THEN '1' ELSE '0' END) AS "IsNullable",
+      to_number(CASE C.NULLABLE WHEN 'Y' THEN '1' ELSE '0' END) AS "IsNullable",
       to_number('0') AS "AutoIncrement",
       to_number(CASE WHEN P.COLUMN_NAME = C.COLUMN_NAME THEN '1' ELSE '0' END) AS "IsPrimaryKey"
       FROM USER_TAB_COLUMNS C
