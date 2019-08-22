@@ -26,7 +26,10 @@
     <Statement Id="QueryByPage" @queryStatementResultMap>
         Select TT.* From
         (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T
-        <Include RefId="QueryParams" />) TT
+        <Where>
+            <Include RefId="QueryParams" />
+        </Where>
+        ) TT
         Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
     </Statement>
 }
@@ -37,26 +40,22 @@
         Select T.* From @table.Name T
         <Where Min="1">
             ROWNUM = 1
-        @foreach (var col in table.Columns)
-        {
-            <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
-                T.@col.Name= @($"{dbPrefix}{col.ConvertedName}")
-            </IsNotEmpty>
-        }
+            <Include RefId="QueryParams" />
         </Where>
     </Statement>
 }
 
 @section Query
-    {
+{
     <!--获取数据列-->
     <Statement Id="Query" @queryStatementResultMap>
-        SELECT
-        <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(dbPrefix)Taken)
-        </IsNotEmpty>
-        T.* From @table.Name T
-        <Include RefId="QueryParams" />
+        SELECT T.* From @table.Name T
+        <Where Min="1">
+            <IsNotEmpty Prepend="AND" Property="Taken">
+                <![CDATA[ROWNUM <= @(dbPrefix)Taken]]>
+            </IsNotEmpty>
+            <Include RefId="QueryParams" />
+        </Where>
         <Switch Prepend="Order By" Property="OrderBy">
             <Default>
                 T.@pkCol.Name Desc

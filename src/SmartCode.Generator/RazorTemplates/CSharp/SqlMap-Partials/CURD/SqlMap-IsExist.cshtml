@@ -8,6 +8,8 @@
 <!--是否存在该记录-->
 <Statement Id="IsExist">
     Select Count(1) From @table.Name T
-    <Include RefId="QueryParams" />
+    <Where>
+        <Include RefId="QueryParams" />
+    </Where>
 </Statement>
 

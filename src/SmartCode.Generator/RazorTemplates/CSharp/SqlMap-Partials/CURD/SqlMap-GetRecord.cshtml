@@ -11,5 +11,7 @@
 <!--获取记录数-->
 <Statement Id="GetRecord">
     Select Count(1) From @table.Name T
-    <Include RefId="QueryParams" />
+    <Where>
+        <Include RefId="QueryParams" />
+    </Where>
 </Statement>

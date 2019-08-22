@@ -19,10 +19,12 @@
 
 <!--获取数据列-->
 <Statement Id="Query" @queryStatementResultMap>
-    SELECT 
-    <Include RefId="AllCols"/>
+    SELECT
+    <Include RefId="AllCols" />
     From @table.Name T
-    <Include RefId="QueryParams" />
+    <Where>
+        <Include RefId="QueryParams" />
+    </Where>
     <Switch Prepend="Order By" Property="OrderBy">
         <Default>
             T.@pkCol.Name Desc
