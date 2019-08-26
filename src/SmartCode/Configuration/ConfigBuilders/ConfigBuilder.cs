@@ -61,6 +61,11 @@ namespace SmartCode.Configuration.ConfigBuilders
                     {
                         buildTask.Output.Mode = Project.Output.Mode;
                     }
+
+                    if (!buildTask.Output.DotSplit.HasValue)
+                    {
+                        buildTask.Output.DotSplit = Project.Output.DotSplit;
+                    }
                 }
 
                 if (buildTask.TemplateEngine == null)

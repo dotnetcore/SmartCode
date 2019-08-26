@@ -383,27 +383,27 @@
     <Database DbProvider="MySql" Language="Java">
         <DbType Name="text" To="String"/>
         <DbType Name="varchar" To="String"/>
-        <DbType Name="date" To="Date"/>
-        <DbType Name="datetime" To="Timestamp"/>
-        <DbType Name="time" To="Time"/>
-        <DbType Name="tinyint" To="int"/>
-        <DbType Name="smallint" To="int"/>
-        <DbType Name="int" To="int"/>
+        <DbType Name="date" To="LocalDate"/>
+        <DbType Name="datetime" To="LocalDateTime"/>
+        <DbType Name="time" To="LocalTime"/>
+        <DbType Name="tinyint" To="Integer"/>
+        <DbType Name="smallint" To="Integer"/>
+        <DbType Name="int" To="Integer"/>
         <DbType Name="bigint" To="BigInteger"/>
-        <DbType Name="bit" To="boolean"/>
-        <DbType Name="char" To="String"/>
-        <DbType Name="integer" To="long"/>
+        <DbType Name="bit" To="Boolean"/>
+        <DbType Name="char" To="Character"/>
+        <DbType Name="integer" To="Integer"/>
         <DbType Name="decimal" To="BigDecimal"/>
-        <DbType Name="float" To="float"/>
+        <DbType Name="float" To="Float"/>
         <DbType Name="timestamp" To="Timestamp"/>
     </Database>
     <Database DbProvider="PostgreSql" Language="Java">
-        <DbType Name="bool" To="boolean"/>
-        <DbType Name="int2" To="int"/>
-        <DbType Name="int4" To="int"/>
-        <DbType Name="int8" To="long"/>
-        <DbType Name="float4" To="float"/>
-        <DbType Name="float8" To="double"/>
+        <DbType Name="bool" To="Boolean"/>
+        <DbType Name="int2" To="Integer"/>
+        <DbType Name="int4" To="Integer"/>
+        <DbType Name="int8" To="BigInteger"/>
+        <DbType Name="float4" To="Float"/>
+        <DbType Name="float8" To="Double"/>
         <DbType Name="numeric" To="BigDecimal"/>
         <DbType Name="money" To="BigDecimal"/>
         <DbType Name="text" To="String"/>

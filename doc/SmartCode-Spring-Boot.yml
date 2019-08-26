@@ -1,18 +1,22 @@
-Module: smartcode.starter
+Module: net.smartsql.code
 Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
     DbName: SmartSqlDB
     DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
 Language: Java
-TemplateEngine: 
-   Name: Razor
-   Root: Java
-Output: 
+TemplateEngine:
+  Name: Razor
+  Root: Java
+Output:
   Type: File
   Path: 'E://SmartSql-Java'
+Parameters:
+  BuildDir: 'E:\SmartSql-Java\build'
+  DockerImage: 'smartsql.starter'
+
 
 # 构建任务
 Build:
@@ -22,21 +26,44 @@ Build:
     Parameters:
       Dirs: '.'
 
+  MakeBuildDir:
+    Type: Process
+    Parameters:
+      FileName: powershell
+      Args: mkdir '{{Project.Parameters.BuildDir}}'
+  Copy:
+    Type: Process
+    Parameters:
+      FileName: powershell
+      Args:  cp '{{Project.ConfigPath}}' '{{Project.Parameters.BuildDir}}'
+
+  Scaffolding:
+    Type: MultiTemplate
+    Output:
+      Path: '.'
+    Parameters:
+      Templates: [
+      {Key: 'Pom-Parent.cshtml',Output: {Name: 'pom',Extension: '.xml'}},
+      {Key: 'Pom-Contract.cshtml',Output: {Path: "contract",Name: 'pom',Extension: '.xml'}},
+      {Key: 'Pom-Api.cshtml',Output: {Path: "api",Name: 'pom',Extension: '.xml'}},
+      {Key: 'Resources/Application-YAML.cshtml',Output: {Path: "api/src/main/resource",Name: 'application',Extension: '.yml'}}
+      ]
 
   Entity:
     Type: Table
     Module: entity
-    TemplateEngine: 
+    TemplateEngine:
       Path: Entity.cshtml
-    Output: 
-      Path: '{{Project.Module}}.{{Build.Module}}'
+    Output:
+      Path: 'api/src/main/java/{{Project.Module}}.{{Build.Module}}'
+      DotSplit: true
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.java'
     NamingConverter:
       Table:
-        Tokenizer: 
+        Tokenizer:
           Type: Default
-          Parameters: 
+          Parameters:
             IgnorePrefix: 'T_'
             Delimiter: '_'
         Converter:
@@ -45,7 +72,7 @@ Build:
       View:
         Tokenizer:
           Type: Default
-          Parameters: 
+          Parameters:
             IgnorePrefix: 'V_'
             Delimiter: '_'
         Converter:
@@ -53,7 +80,7 @@ Build:
       Column:
         Tokenizer:
           Type: Default
-          Parameters: 
+          Parameters:
             Delimiter: '_'
         Converter:
           Type: Camel
