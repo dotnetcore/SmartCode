@@ -357,6 +357,8 @@
         <DbType Name="long" To="int8"/>
         <DbType Name="longtext" To="text"/>
         <DbType Name="timestamp" To="timestamp"/>
+        <DbType Name="geometry" To="geometry"/>
+        <DbType Name="geography" To="geography"/>
     </Database>
 
     <Database DbProvider="MySql" Language="PostgreSql">
@@ -376,6 +378,8 @@
         <DbType Name="numeric" To="decimal"/>
         <DbType Name="float" To="float8"/>
         <DbType Name="timestamp" To="timestamp"/>
+        <DbType Name="geometry" To="geometry"/>
+        <DbType Name="geography" To="geography"/>
     </Database>
     <!-- PostgreSql-Language End-->
 
