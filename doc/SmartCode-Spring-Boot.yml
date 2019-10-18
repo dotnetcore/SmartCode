@@ -3,20 +3,48 @@ Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
-    DbName: SmartSqlDB
-    DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
+    DbName: smartsql_db
+    DbProvider: MySql
+    ConnectionString: Data Source=serverAddress;database=smartsql_db;uid=root;pwd=smartsql_db;Charset=utf8;SslMode=none
 Language: Java
 TemplateEngine:
   Name: Razor
   Root: Java
 Output:
   Type: File
-  Path: 'E://SmartSql-Java'
+  Path: 'D://SmartSql-Java'
 Parameters:
-  BuildDir: 'E:\SmartSql-Java\build'
-  DockerImage: 'smartsql.starter'
+  BuildDir: 'D:\SmartSql-Java\build'
 
+NamingConverter:
+  Table:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 't_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+      Parameters: { }
+  View:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 'v_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+  Column:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        Delimiter: '_'
+    Converter:
+      Type: Camel
+
+TableFilter:
+  IgnoreNoPKTable: true
+  IgnoreView: true
 
 # 构建任务
 Build:
@@ -44,9 +72,9 @@ Build:
     Parameters:
       Templates: [
       {Key: 'Pom-Parent.cshtml',Output: {Name: 'pom',Extension: '.xml'}},
-      {Key: 'Pom-Contract.cshtml',Output: {Path: "contract",Name: 'pom',Extension: '.xml'}},
       {Key: 'Pom-Api.cshtml',Output: {Path: "api",Name: 'pom',Extension: '.xml'}},
-      {Key: 'Resources/Application-YAML.cshtml',Output: {Path: "api/src/main/resource",Name: 'application',Extension: '.yml'}}
+      {Key: 'Pom-Server.cshtml',Output: {Path: "server",Name: 'pom',Extension: '.xml'}},
+      {Key: 'Resources/Application-YAML.cshtml',Output: {Path: "server/src/main/resources",Name: 'application',Extension: '.yml'}}
       ]
 
   Entity:
@@ -55,32 +83,18 @@ Build:
     TemplateEngine:
       Path: Entity.cshtml
     Output:
-      Path: 'api/src/main/java/{{Project.Module}}.{{Build.Module}}'
+      Path: 'server/src/main/java/{{Project.Module}}.{{Build.Module}}'
       DotSplit: true
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.java'
-    NamingConverter:
-      Table:
-        Tokenizer:
-          Type: Default
-          Parameters:
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-          Parameters: { }
-      View:
-        Tokenizer:
-          Type: Default
-          Parameters:
-            IgnorePrefix: 'V_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-      Column:
-        Tokenizer:
-          Type: Default
-          Parameters:
-            Delimiter: '_'
-        Converter:
-          Type: Camel
+      
+  SqlMap:
+    Type: Table
+    Module: repository
+    TemplateEngine:
+      Path: SqlMap.cshtml
+    Output:
+      Path: 'server/src/main/resources/mappers/{{Project.Module}}.{{Build.Module}}'
+      DotSplit: true
+      Name: '{{Items.CurrentTable.ConvertedName}}Mapper'
+      Extension: '.xml'

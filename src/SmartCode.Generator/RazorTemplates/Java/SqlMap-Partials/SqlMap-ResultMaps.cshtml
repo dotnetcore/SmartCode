@@ -1,0 +1,40 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+
+    var resultMapName = $"{table.ConvertedName}ResultMap";
+
+    var buildTask = Model.Build;
+
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+    
+    if (!buildTask.Parameters.TryGetValue("EntityModule", out var entityModule))
+    {
+        entityModule = "entity";
+    }
+
+    var entityName = $"{project.Module}.{entityModule}.{table.ConvertedName}";
+}
+
+@if (table.HasColNameNotEqConvertedName)
+{
+    <resultMap id="@resultMapName" type="@entityName">
+        <id column="@pkCol.Name" property="@pkCol.ConvertedName"></id>
+        @foreach (var col in table.Columns)
+        {
+            if (col.IsPrimaryKey)
+            {
+                continue;
+            }
+            <result column="@col.Name" property="@col.ConvertedName"/>
+        }
+    </resultMap>
+}

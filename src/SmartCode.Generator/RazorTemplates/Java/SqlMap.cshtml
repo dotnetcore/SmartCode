@@ -1,0 +1,12 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
+-->
+@{ await Html.RenderPartialAsync($"./SqlMap-Partials/SqlMap-{dbSource.DbProvider.Name}.cshtml", Model); }
