@@ -15,6 +15,7 @@ namespace SmartCode.Configuration.ConfigBuilders
         {
             ConfigPath = configPath;
         }
+
         public Project Build()
         {
             using (StreamReader configStream = new StreamReader(ConfigPath))
@@ -22,12 +23,13 @@ namespace SmartCode.Configuration.ConfigBuilders
                 var jsonConfigStr = configStream.ReadToEnd();
                 Project = Deserialize(jsonConfigStr);
             }
+
             InitDefault();
             return Project;
         }
 
         protected abstract Project Deserialize(string content);
-        
+
         private void InitDefault()
         {
             if (Project.Output != null)
@@ -60,6 +62,11 @@ namespace SmartCode.Configuration.ConfigBuilders
                     if (buildTask.Output.Mode == CreateMode.None)
                     {
                         buildTask.Output.Mode = Project.Output.Mode;
+                    }
+
+                    if (!buildTask.Output.DotSplit.HasValue)
+                    {
+                        buildTask.Output.DotSplit = Project.Output.DotSplit;
                     }
                 }
 
@@ -113,18 +120,26 @@ namespace SmartCode.Configuration.ConfigBuilders
                     {
                         buildTask.IgnoreTables = Project.TableFilter.IgnoreTables;
                     }
+
                     if (buildTask.IncludeTables == null)
                     {
                         buildTask.IncludeTables = Project.TableFilter.IncludeTables;
                     }
+
                     if (!buildTask.IgnoreView.HasValue)
                     {
                         buildTask.IgnoreView = Project.TableFilter.IgnoreView;
                     }
+
                     if (!buildTask.IgnoreNoPKTable.HasValue)
                     {
                         buildTask.IgnoreNoPKTable = Project.TableFilter.IgnoreNoPKTable;
                     }
+                }
+
+                if (buildTask.Parameters == null)
+                {
+                    buildTask.Parameters = new Dictionary<string, object>();
                 }
             }
         }

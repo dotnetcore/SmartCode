@@ -1,0 +1,19 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+}
+
+<sql id="queryParams">
+    <where>
+        @foreach (var col in table.Columns)
+        {
+            <if test="@col.ConvertedName != null">
+                and @col.Name = #{@col.ConvertedName}
+            </if>
+        }
+    </where>
+</sql>

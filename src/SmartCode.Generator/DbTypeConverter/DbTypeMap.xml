@@ -398,12 +398,12 @@
         <DbType Name="timestamp" To="Timestamp"/>
     </Database>
     <Database DbProvider="PostgreSql" Language="Java">
-        <DbType Name="bool" To="boolean"/>
-        <DbType Name="int2" To="int"/>
-        <DbType Name="int4" To="int"/>
-        <DbType Name="int8" To="long"/>
-        <DbType Name="float4" To="float"/>
-        <DbType Name="float8" To="double"/>
+        <DbType Name="bool" To="Boolean"/>
+        <DbType Name="int2" To="Integer"/>
+        <DbType Name="int4" To="Integer"/>
+        <DbType Name="int8" To="BigInteger"/>
+        <DbType Name="float4" To="Float"/>
+        <DbType Name="float8" To="Double"/>
         <DbType Name="numeric" To="BigDecimal"/>
         <DbType Name="money" To="BigDecimal"/>
         <DbType Name="text" To="String"/>

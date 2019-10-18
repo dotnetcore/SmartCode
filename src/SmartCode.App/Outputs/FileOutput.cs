@@ -25,11 +25,16 @@ namespace SmartCode.App.Outputs
 
         public void Initialize(IDictionary<string, object> parameters)
         {
-            if (parameters == null) { return; }
-            if (parameters.Value("Name", out string name))
+            if (parameters == null)
+            {
+                return;
+            }
+
+            if (parameters.Value(nameof(Name), out string name))
             {
                 Name = name;
             }
+
             Initialized = true;
         }
 
@@ -37,17 +42,24 @@ namespace SmartCode.App.Outputs
         {
             if (output == null)
             {
-                 output = context.Output;
+                output = context.Output;
             }
+
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} Start! ------");
 
             var outputPath = Handlebars.Compile(output.Path)(context);
             outputPath = Path.Combine(context.Project.OutputPath, outputPath);
+            if (output.DotSplit == true)
+            {
+                outputPath = outputPath.Replace('.', '/');
+            }
+
             if (!Directory.Exists(outputPath))
             {
                 Directory.CreateDirectory(outputPath);
                 _logger.LogWarning($"------ Directory:{outputPath} is not Exists,Created! ------");
             }
+
             var fileName = Handlebars.Compile(output.Name)(context) + output.Extension;
             var filePath = Path.Combine(outputPath, fileName);
             var fileExists = File.Exists(filePath);
@@ -57,22 +69,25 @@ namespace SmartCode.App.Outputs
                 {
                     case Configuration.CreateMode.None:
                     case Configuration.CreateMode.Incre:
-                        {
-                            _logger.LogWarning($"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
-                            return;
-                        }
+                    {
+                        _logger.LogWarning(
+                            $"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
+                        return;
+                    }
                     case Configuration.CreateMode.Full:
-                        {
-                            File.Delete(filePath);
-                            _logger.LogWarning($"------ Mode:{output.Mode},FilePath:{filePath} Exists Deleted ! ------");
-                            break;
-                        }
+                    {
+                        File.Delete(filePath);
+                        _logger.LogWarning($"------ Mode:{output.Mode},FilePath:{filePath} Exists Deleted ! ------");
+                        break;
+                    }
                 }
             }
+
             using (StreamWriter streamWriter = new StreamWriter(filePath))
             {
                 await streamWriter.WriteAsync(context.Result);
             }
+
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} -> {filePath} End! ------");
         }
     }
