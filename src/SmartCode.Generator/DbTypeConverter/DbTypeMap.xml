@@ -384,12 +384,12 @@
         <DbType Name="text" To="String"/>
         <DbType Name="varchar" To="String"/>
         <DbType Name="date" To="Date"/>
-        <DbType Name="datetime" To="Timestamp"/>
+        <DbType Name="datetime" To="Date"/>
         <DbType Name="time" To="Time"/>
-        <DbType Name="tinyint" To="int"/>
-        <DbType Name="smallint" To="int"/>
+        <DbType Name="tinyint" To="short"/>
+        <DbType Name="smallint" To="short"/>
         <DbType Name="int" To="int"/>
-        <DbType Name="bigint" To="BigInteger"/>
+        <DbType Name="bigint" To="long"/>
         <DbType Name="bit" To="boolean"/>
         <DbType Name="char" To="String"/>
         <DbType Name="integer" To="long"/>

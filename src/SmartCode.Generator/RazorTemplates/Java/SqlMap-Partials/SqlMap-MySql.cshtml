@@ -18,7 +18,7 @@
 
 @section QueryByPage
 {
-    <select id="queryByPage" resultType="@resultMapName">
+    <select id="queryByPage" resultMap="@resultMapName">
         select * from @table.Name
         <include refid="queryParams"/>
         limit #{page.offset},#{page.limit}

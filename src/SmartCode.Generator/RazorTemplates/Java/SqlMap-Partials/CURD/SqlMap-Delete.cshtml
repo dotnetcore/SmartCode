@@ -13,7 +13,7 @@
 @if (logicalDeleteKey != null)
 {
     <update id="deleteById">
-        update from @table.Name
+        update @table.Name
         set @logicalDeleteKey =1
         where @pkCol.Name=#{@pkCol.ConvertedName}
     </update>
@@ -22,6 +22,6 @@ else
 {
     <delete id="deleteById">
         delete from @table.Name
-        where @pkCol.Name=#{@pkCol.ConvertedName} 
+        where @pkCol.Name=#{@pkCol.ConvertedName}
     </delete>
 }

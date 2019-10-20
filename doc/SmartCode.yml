@@ -12,11 +12,11 @@ TemplateEngine:
    Root: CSharp
 Output: 
   Type: File
-  Path: 'E:\SmartSql-Starter'
+  Path: 'D:\SmartSql-Starter'
 Parameters:
   SmartSqlVersion: '4.1.23'
   SmartSqlSchemaVersion: '4.1.16'
-  BuildDir: 'E:\SmartSql-Starter\build'
+  BuildDir: 'D:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
   
 NamingConverter:

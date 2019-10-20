@@ -24,17 +24,14 @@
     var entityName = $"{project.Module}.{entityModule}.{table.ConvertedName}";
 }
 
-@if (table.HasColNameNotEqConvertedName)
-{
-    <resultMap id="@resultMapName" type="@entityName">
-        <id column="@pkCol.Name" property="@pkCol.ConvertedName"></id>
-        @foreach (var col in table.Columns)
+<resultMap id="@resultMapName" type="@entityName">
+    <id column="@pkCol.Name" property="@pkCol.ConvertedName"></id>
+    @foreach (var col in table.Columns)
+    {
+        if (col.IsPrimaryKey)
         {
-            if (col.IsPrimaryKey)
-            {
-                continue;
-            }
-            <result column="@col.Name" property="@col.ConvertedName"/>
+            continue;
         }
-    </resultMap>
-}
+        <result column="@col.Name" property="@col.ConvertedName"/>
+    }
+</resultMap>

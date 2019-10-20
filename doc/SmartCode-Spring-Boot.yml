@@ -3,9 +3,9 @@ Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
-    DbName: smartsql_db
+    DbName: user_db
     DbProvider: MySql
-    ConnectionString: Data Source=serverAddress;database=smartsql_db;uid=root;pwd=smartsql_db;Charset=utf8;SslMode=none
+    ConnectionString: Data Source=**;database=smartsql_db;uid=root;pwd=**;Charset=utf8;SslMode=none
 Language: Java
 TemplateEngine:
   Name: Razor
@@ -94,7 +94,9 @@ Build:
     TemplateEngine:
       Path: SqlMap.cshtml
     Output:
-      Path: 'server/src/main/resources/mappers/{{Project.Module}}.{{Build.Module}}'
+      Path: 'server/src/main/resources/mappers/'
       DotSplit: true
       Name: '{{Items.CurrentTable.ConvertedName}}Mapper'
       Extension: '.xml'
+    Parameters:
+      LogicalDelete: deleted

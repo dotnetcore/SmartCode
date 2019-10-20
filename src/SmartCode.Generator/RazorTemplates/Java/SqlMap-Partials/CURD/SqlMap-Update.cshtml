@@ -12,7 +12,6 @@
     }
 }
 
-<!--更新-->
 <update id="update">
     update @table.Name
     <set>
@@ -23,7 +22,8 @@
             {
                 continue;
             }
-            @Html.PadLeft(6)<text>@col.Name = #{@col.ConvertedName}</text>@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @Html.PadLeft(6)<text>@col.Name = #{@col.ConvertedName}</text>
+            @(colIndex == table.Columns.Count() - 1 ? "" : ",")
             @Html.NewLine()
         }
     </set>

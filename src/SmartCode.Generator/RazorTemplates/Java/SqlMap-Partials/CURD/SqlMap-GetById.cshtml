@@ -9,7 +9,7 @@
     var resultMapName = $"{table.ConvertedName}ResultMap";
 }
 
-<select id="getById" resultType="@resultMapName">
+<select id="getById" resultMap="@resultMapName">
     select * from @table.Name
     where @pkCol.Name=#{@pkCol.ConvertedName}
     limit 1

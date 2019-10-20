@@ -9,7 +9,7 @@
     var resultMapName = $"{table.ConvertedName}ResultMap";
 }
 
-<select id="getEntity" resultType="@resultMapName">
+<select id="getEntity" resultMap="@resultMapName">
     select * from @table.Name
     <include refid="queryParams"/>
     limit 1
