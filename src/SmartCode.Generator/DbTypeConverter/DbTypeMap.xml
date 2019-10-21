@@ -382,6 +382,7 @@
     <!-- Java-Language Start-->
     <Database DbProvider="MySql" Language="Java">
         <DbType Name="text" To="String"/>
+        <DbType Name="json" To="String"/>
         <DbType Name="varchar" To="String"/>
         <DbType Name="date" To="Date"/>
         <DbType Name="datetime" To="Date"/>
@@ -396,6 +397,7 @@
         <DbType Name="decimal" To="BigDecimal"/>
         <DbType Name="float" To="float"/>
         <DbType Name="timestamp" To="Timestamp"/>
+        <DbType Name="blob" To="byte[]"/>
     </Database>
     <Database DbProvider="PostgreSql" Language="Java">
         <DbType Name="bool" To="Boolean"/>

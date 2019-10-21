@@ -3,7 +3,7 @@ Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
-    DbName: user_db
+    DbName: smartsql_db
     DbProvider: MySql
     ConnectionString: Data Source=**;database=smartsql_db;uid=root;pwd=**;Charset=utf8;SslMode=none
 Language: Java
@@ -87,6 +87,15 @@ Build:
       DotSplit: true
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.java'
+    Parameters:
+      AbstractEntity:
+        Name: AbstractEntity
+        Package: net.smartsql.code
+        Properties:
+          - id
+          - createTime
+          - modifiedTime
+          - deleted
       
   SqlMap:
     Type: Table

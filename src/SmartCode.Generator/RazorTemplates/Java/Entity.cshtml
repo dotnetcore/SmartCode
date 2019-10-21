@@ -6,6 +6,34 @@
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
+
+    bool useAbstractEntity = false;
+    String abstractEntityName = "";
+    String abstractEntityPackage = "";
+    ISet<String> abstractEntityProperties = new HashSet<string>();
+    if (buildTask.Parameters.TryGetValue("AbstractEntity", out var abstractEntity))
+    {
+        useAbstractEntity = true;
+        var abstractEntityParams = (Dictionary<Object, Object>) abstractEntity;
+        if (!abstractEntityParams.TryGetValue("Name", out Object _abstractEntityName))
+        {
+            throw new ArgumentException("AbstractEntity.Name can not be null.");
+        }
+        abstractEntityName = _abstractEntityName.ToString();
+        if (!abstractEntityParams.TryGetValue("Package", out var _abstractEntityPackage))
+        {
+            throw new ArgumentException("AbstractEntity.Package can not be null.");
+        }
+        abstractEntityPackage = _abstractEntityPackage.ToString();
+        if (!abstractEntityParams.TryGetValue("Properties", out var _abstractEntityProperties))
+        {
+            throw new ArgumentException("AbstractEntity.Properties can not be null.");
+        }
+        ((List<Object>) _abstractEntityProperties).ForEach(p =>
+        {
+            abstractEntityProperties.Add(p.ToString());
+        });
+    }
 }
 
 @functions {
@@ -37,19 +65,29 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.Date;
+@if (useAbstractEntity)
+{
+    <text>import @abstractEntityPackage;</text>
+}
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
 @table.GetJavaSummary()
 @@Data
-@@Builder
 @@ToString
 public class @table.ConvertedName
+@if (useAbstractEntity)
+{
+    <text>extends @abstractEntityName</text>
+}
 {
 @foreach (var column in table.Columns)
 {
+    if (useAbstractEntity && abstractEntityProperties.Contains(column.ConvertedName))
+    {
+        continue;
+    }
     <text>
         @column.GetJavaSummary()
         private @(ConvertLangType(column)) @column.ConvertedName;
