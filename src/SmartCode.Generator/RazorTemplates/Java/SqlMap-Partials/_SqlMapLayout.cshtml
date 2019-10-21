@@ -1,0 +1,95 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+
+    var repositoryName = $"{project.Module}.{buildTask.Module}.{table.ConvertedName}Repository";
+}
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="@repositoryName">
+    @{ await Html.RenderPartialAsync("SqlMap-ResultMaps.cshtml", Model); }
+    @{ await Html.RenderPartialAsync("SqlMap-Columns.cshtml", Model); }
+    @{ await Html.RenderPartialAsync("SqlMap-WhereQueryParams.cshtml", Model); }
+    
+    @if (IsSectionDefined("Insert"))
+    {
+        await RenderSectionAsync("Insert", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-Insert.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("Delete"))
+    {
+        await RenderSectionAsync("Delete", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-Delete.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("Update"))
+    {
+        await RenderSectionAsync("Update", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-Update.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("Query"))
+    {
+        await RenderSectionAsync("Query", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-Query.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("QueryByPage"))
+    {
+        await RenderSectionAsync("QueryByPage", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-QueryByPage.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("GetTotal"))
+    {
+        await RenderSectionAsync("GetTotal", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-GetTotal.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("GetEntity"))
+    {
+        await RenderSectionAsync("GetEntity", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-GetEntity.cshtml", Model);
+    }
+
+    @if (IsSectionDefined("GetById"))
+    {
+        await RenderSectionAsync("GetById", required: false);
+    }
+    else
+    {
+        await Html.RenderPartialAsync("./CURD/SqlMap-GetById.cshtml", Model);
+    }
+</mapper>

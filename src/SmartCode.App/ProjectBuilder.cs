@@ -15,7 +15,7 @@ namespace SmartCode.App
         private readonly ILogger<ProjectBuilder> _logger;
 
         public ProjectBuilder(
-             Project project
+            Project project
             , IPluginManager pluginManager
             , ILogger<ProjectBuilder> logger)
         {
@@ -23,6 +23,7 @@ namespace SmartCode.App
             _pluginManager = pluginManager;
             _logger = logger;
         }
+
         public event OnProjectBuildStartupHandler OnStartup;
         public event OnProjectBuildSucceedHandler OnSucceed;
         public event OnProjectBuildFailedHandler OnFailed;
@@ -35,7 +36,7 @@ namespace SmartCode.App
             {
                 var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
                 if (OnStartup != null)
-                    await OnStartup.Invoke(this, new OnProjectBuildStartupEventArgs { Project = _project });
+                    await OnStartup.Invoke(this, new OnProjectBuildStartupEventArgs {Project = _project});
                 await dataSource.InitData();
                 foreach (var buildKV in _project.BuildTasks)
                 {
@@ -48,14 +49,7 @@ namespace SmartCode.App
                         DataSource = dataSource,
                         BuildKey = buildKV.Key,
                         Build = buildKV.Value,
-                        Output = output == null ? null : new Output
-                        {
-                            Type = output.Type,
-                            Path = output.Path,
-                            Name = output.Name,
-                            Mode = output.Mode,
-                            Extension = output.Extension
-                        }
+                        Output = output?.Copy()
                     };
                     await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
                     _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
@@ -79,6 +73,5 @@ namespace SmartCode.App
                 throw;
             }
         }
-
     }
 }

@@ -1,0 +1,28 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    Model.Build.Parameters.TryGetValue("LogicalDelete", out var logicalDeleteKey);
+}
+
+<sql id="queryParams">
+    <where>
+        @if (logicalDeleteKey != null)
+        {
+            <text>@logicalDeleteKey=0</text>
+        }
+        @foreach (var col in table.Columns)
+        {
+            if (logicalDeleteKey != null && logicalDeleteKey.ToString().Equals(col.Name))
+            {
+                continue;
+            }
+            <if test="@col.ConvertedName != null">
+                and @col.Name = #{@col.ConvertedName}
+            </if>
+        }
+    </where>
+</sql>

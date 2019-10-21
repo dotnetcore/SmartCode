@@ -1,18 +1,50 @@
-Module: smartcode.starter
+Module: net.smartsql.code
 Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
-    DbName: SmartSqlDB
-    DbProvider: SqlServer
-    ConnectionString: Data Source=.;Initial Catalog=SmartSqlDB;Integrated Security=True
+    DbName: smartsql_db
+    DbProvider: MySql
+    ConnectionString: Data Source=**;database=smartsql_db;uid=root;pwd=**;Charset=utf8;SslMode=none
 Language: Java
-TemplateEngine: 
-   Name: Razor
-   Root: Java
-Output: 
+TemplateEngine:
+  Name: Razor
+  Root: Java
+Output:
   Type: File
-  Path: 'E://SmartSql-Java'
+  Path: 'D://SmartSql-Java'
+Parameters:
+  BuildDir: 'D:\SmartSql-Java\build'
+
+NamingConverter:
+  Table:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 't_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+      Parameters: { }
+  View:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        IgnorePrefix: 'v_'
+        Delimiter: '_'
+    Converter:
+      Type: Pascal
+  Column:
+    Tokenizer:
+      Type: Default
+      Parameters:
+        Delimiter: '_'
+    Converter:
+      Type: Camel
+
+TableFilter:
+  IgnoreNoPKTable: true
+  IgnoreView: true
 
 # 构建任务
 Build:
@@ -22,38 +54,58 @@ Build:
     Parameters:
       Dirs: '.'
 
+  MakeBuildDir:
+    Type: Process
+    Parameters:
+      FileName: powershell
+      Args: mkdir '{{Project.Parameters.BuildDir}}'
+  Copy:
+    Type: Process
+    Parameters:
+      FileName: powershell
+      Args:  cp '{{Project.ConfigPath}}' '{{Project.Parameters.BuildDir}}'
+
+  Scaffolding:
+    Type: MultiTemplate
+    Output:
+      Path: '.'
+    Parameters:
+      Templates: [
+      {Key: 'Pom-Parent.cshtml',Output: {Name: 'pom',Extension: '.xml'}},
+      {Key: 'Pom-Api.cshtml',Output: {Path: "api",Name: 'pom',Extension: '.xml'}},
+      {Key: 'Pom-Server.cshtml',Output: {Path: "server",Name: 'pom',Extension: '.xml'}},
+      {Key: 'Resources/Application-YAML.cshtml',Output: {Path: "server/src/main/resources",Name: 'application',Extension: '.yml'}}
+      ]
 
   Entity:
     Type: Table
     Module: entity
-    TemplateEngine: 
+    TemplateEngine:
       Path: Entity.cshtml
-    Output: 
-      Path: '{{Project.Module}}.{{Build.Module}}'
+    Output:
+      Path: 'server/src/main/java/{{Project.Module}}.{{Build.Module}}'
+      DotSplit: true
       Name: '{{Items.CurrentTable.ConvertedName}}'
       Extension: '.java'
-    NamingConverter:
-      Table:
-        Tokenizer: 
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'T_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-          Parameters: { }
-      View:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            IgnorePrefix: 'V_'
-            Delimiter: '_'
-        Converter:
-          Type: Pascal
-      Column:
-        Tokenizer:
-          Type: Default
-          Parameters: 
-            Delimiter: '_'
-        Converter:
-          Type: Camel
+    Parameters:
+      AbstractEntity:
+        Name: AbstractEntity
+        Package: net.smartsql.code
+        Properties:
+          - id
+          - createTime
+          - modifiedTime
+          - deleted
+      
+  SqlMap:
+    Type: Table
+    Module: repository
+    TemplateEngine:
+      Path: SqlMap.cshtml
+    Output:
+      Path: 'server/src/main/resources/mappers/'
+      DotSplit: true
+      Name: '{{Items.CurrentTable.ConvertedName}}Mapper'
+      Extension: '.xml'
+    Parameters:
+      LogicalDelete: deleted

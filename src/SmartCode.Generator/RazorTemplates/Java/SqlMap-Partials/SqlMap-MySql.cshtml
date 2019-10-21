@@ -1,0 +1,26 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    Layout = "_SqlMapLayout.cshtml";
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+    
+    var resultMapName = $"{table.ConvertedName}ResultMap";
+}
+
+@section QueryByPage
+{
+    <select id="queryByPage" resultMap="@resultMapName">
+        select * from @table.Name
+        <include refid="queryParams"/>
+        limit #{page.offset},#{page.limit}
+    </select>
+}

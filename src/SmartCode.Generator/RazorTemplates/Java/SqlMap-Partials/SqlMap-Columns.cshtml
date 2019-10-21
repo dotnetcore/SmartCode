@@ -1,0 +1,17 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+}
+
+<sql id="allCols">
+    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+    {
+        var col = table.Columns.ElementAt(colIndex);
+        @($"{col.Name}")@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+    }
+    @Html.NewLine()
+</sql>

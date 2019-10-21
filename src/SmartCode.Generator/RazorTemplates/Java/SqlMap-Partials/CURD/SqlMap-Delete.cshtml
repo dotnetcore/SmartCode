@@ -1,0 +1,27 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var buildTask = Model.Build;
+    buildTask.Parameters.TryGetValue("LogicalDelete", out var logicalDeleteKey);
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+}
+
+@if (logicalDeleteKey != null)
+{
+    <update id="deleteById">
+        update @table.Name
+        set @logicalDeleteKey =1
+        where @pkCol.Name=#{@pkCol.ConvertedName}
+    </update>
+}
+else
+{
+    <delete id="deleteById">
+        delete from @table.Name
+        where @pkCol.Name=#{@pkCol.ConvertedName}
+    </delete>
+}

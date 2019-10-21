@@ -17,6 +17,43 @@ namespace SmartCode.Generator.Extensions
             var summary = table.GetSummary();
             return GetCSharpSummary(summary);
         }
+
+        public static string GetJavaSummary(this Column column)
+        {
+            var summary = column.GetSummary();
+            return GetJavaSummary(summary);
+        }
+        
+        public static string GetJavaSummary(this Table table)
+        {
+            var summary = table.GetSummary();
+            return GetJavaSummary(summary);
+        }
+        
+        public static string GetJavaSummary(this string summary)
+        {
+            StringBuilder csharpSummary = new StringBuilder();
+            csharpSummary.AppendLine("/**");
+            if (summary.Contains(Environment.NewLine))
+            {
+                foreach (var summaryLine in summary.Split(Environment.NewLine.ToCharArray()))
+                {
+                    if (String.IsNullOrEmpty(summaryLine))
+                    {
+                        continue;
+                    }
+                    csharpSummary.AppendLine($"* {summaryLine}");
+                }
+            }
+            else
+            {
+                csharpSummary.AppendLine($"* {summary}");
+            }
+
+            csharpSummary.Append("*/");
+            return csharpSummary.ToString();
+        }
+
         public static string GetCSharpSummary(this string summary)
         {
             StringBuilder csharpSummary = new StringBuilder();

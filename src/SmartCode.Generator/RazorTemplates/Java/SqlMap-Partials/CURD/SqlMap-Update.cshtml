@@ -1,0 +1,31 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+}
+
+<update id="update">
+    update @table.Name
+    <set>
+        @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+        {
+            var col = table.Columns.ElementAt(colIndex);
+            @if (col.IsPrimaryKey)
+            {
+                continue;
+            }
+            @Html.PadLeft(6)<text>@col.Name = #{@col.ConvertedName}</text>
+            @(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @Html.NewLine()
+        }
+    </set>
+    where @pkCol.Name=#{@pkCol.Name}
+</update>
