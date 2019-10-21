@@ -31,23 +31,27 @@ namespace SmartCode.App.BuildTasks
             _pluginManager = pluginManager;
             _logger = logger;
         }
+
         public async Task Build(BuildContext context)
         {
             if (context.Build.Parameters.Value(TEMPLATES_KEY, out IEnumerable templates))
             {
                 foreach (var templateKVs in templates)
                 {
-                    var _templateKVs = (Dictionary<object, object>)templateKVs;
+                    var _templateKVs = (Dictionary<object, object>) templateKVs;
                     if (!_templateKVs.Value(TEMPLATE_KEY, out string templateKey))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Can not find TemplateKey!");
                     }
+
                     context.Build.TemplateEngine.Path = templateKey;
-                    context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name).Render(context);
+                    context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name)
+                        .Render(context);
                     if (!_templateKVs.Value(TEMPLATE_OUTPUT_KEY, out Dictionary<object, object> outputKVs))
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Can not find Output!");
                     }
+
                     if (context.Output == null)
                     {
                         throw new SmartCodeException($"Build:{context.BuildKey},Output can not be null!");
@@ -57,6 +61,7 @@ namespace SmartCode.App.BuildTasks
                     {
                         Path = context.Output.Path,
                         Mode = context.Output.Mode,
+                        DotSplit = context.Output.DotSplit,
                         Name = context.Output.Name,
                         Extension = context.Output.Extension
                     };
@@ -64,24 +69,36 @@ namespace SmartCode.App.BuildTasks
                     {
                         output.Path = outputPath;
                     }
+
                     if (outputKVs.Value(nameof(Output.Mode), out CreateMode outputMode))
                     {
                         output.Mode = outputMode;
                     }
+
+                    if (outputKVs.Value(nameof(Output.DotSplit), out string dotSplit))
+                    {
+                        output.DotSplit = Convert.ToBoolean(dotSplit);
+                    }
+
                     if (String.IsNullOrEmpty(output.Path))
                     {
-                        throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Path!");
+                        throw new SmartCodeException(
+                            $"Build:{context.BuildKey},Template:{templateKey},can not find Output.Path!");
                     }
+
                     if (!outputKVs.Value(nameof(Output.Name), out string outputName))
                     {
-                        throw new SmartCodeException($"Build:{context.BuildKey},Template:{templateKey},can not find Output.Name!");
+                        throw new SmartCodeException(
+                            $"Build:{context.BuildKey},Template:{templateKey},can not find Output.Name!");
                     }
+
                     output.Name = outputName;
 
                     if (outputKVs.Value(nameof(Output.Extension), out string extension))
                     {
                         output.Extension = extension;
                     }
+
                     await _pluginManager.Resolve<IOutput>(context.Output.Type).Output(context, output);
                 }
             }
@@ -89,7 +106,6 @@ namespace SmartCode.App.BuildTasks
 
         public void Initialize(IDictionary<string, object> parameters)
         {
-
         }
     }
 }

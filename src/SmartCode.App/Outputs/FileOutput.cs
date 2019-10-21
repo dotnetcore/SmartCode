@@ -85,7 +85,7 @@ namespace SmartCode.App.Outputs
 
             using (StreamWriter streamWriter = new StreamWriter(filePath))
             {
-                await streamWriter.WriteAsync(context.Result);
+                await streamWriter.WriteAsync(context.Result.Trim());
             }
 
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} -> {filePath} End! ------");

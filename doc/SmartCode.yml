@@ -14,8 +14,8 @@ Output:
   Type: File
   Path: 'D:\SmartSql-Starter'
 Parameters:
-  SmartSqlVersion: '4.1.23'
-  SmartSqlSchemaVersion: '4.1.16'
+  SmartSqlVersion: '4.1.32'
+  SmartSqlSchemaVersion: '4.1.29'
   BuildDir: 'D:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
   

@@ -67,7 +67,7 @@ import java.util.UUID;
 import java.util.Date;
 @if (useAbstractEntity)
 {
-    <text>import @abstractEntityPackage;</text>
+    <text>import @($"{abstractEntityPackage}.{abstractEntityName}");</text>
 }
 
 import lombok.Data;

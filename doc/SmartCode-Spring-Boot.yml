@@ -1,11 +1,11 @@
-Module: net.smartsql.code
+Module: net.smartsql.demo
 Author: Ahoo Wang
 DataSource:
   Name: DbTable
   Parameters:
     DbName: smartsql_db
     DbProvider: MySql
-    ConnectionString: Data Source=**;database=smartsql_db;uid=root;pwd=**;Charset=utf8;SslMode=none
+    ConnectionString: Data Source=serverAddress;database=smartsql_db;uid=root;pwd=smartsql;Charset=utf8;SslMode=none
 Language: Java
 TemplateEngine:
   Name: Razor
@@ -15,7 +15,7 @@ Output:
   Path: 'D://SmartSql-Java'
 Parameters:
   BuildDir: 'D:\SmartSql-Java\build'
-
+  ApplicationName: Demo
 NamingConverter:
   Table:
     Tokenizer:
@@ -74,7 +74,31 @@ Build:
       {Key: 'Pom-Parent.cshtml',Output: {Name: 'pom',Extension: '.xml'}},
       {Key: 'Pom-Api.cshtml',Output: {Path: "api",Name: 'pom',Extension: '.xml'}},
       {Key: 'Pom-Server.cshtml',Output: {Path: "server",Name: 'pom',Extension: '.xml'}},
-      {Key: 'Resources/Application-YAML.cshtml',Output: {Path: "server/src/main/resources",Name: 'application',Extension: '.yml'}}
+      {Key: 'Resources/Application-YAML.cshtml',Output: {Path: "server/src/main/resources",Name: 'application',Extension: '.yml'}},
+      {Key: 'Application.cshtml',Output:
+        {
+          Path: "server/src/main/java/{{Project.Module}}/",
+          DotSplit: true,
+          Name: '{{Project.Parameters.ApplicationName}}Application',
+          Extension: '.java'
+        }
+      },
+      {Key: 'Test/Application-Test.cshtml',Output:
+        {
+          Path: "server/src/test/java/{{Project.Module}}/",
+          DotSplit: true,
+          Name: '{{Project.Parameters.ApplicationName}}ApplicationTests',
+          Extension: '.java'
+        }
+      },
+      {Key: 'AppConfig.cshtml',Output:
+        {
+          Path: "server/src/main/java/{{Project.Module}}/config",
+          DotSplit: true,
+          Name: 'AppConfig',
+          Extension: '.java'
+        }
+      }
       ]
 
   Entity:
@@ -90,13 +114,13 @@ Build:
     Parameters:
       AbstractEntity:
         Name: AbstractEntity
-        Package: net.smartsql.code
+        Package: net.smartsql.entity
         Properties:
           - id
           - createTime
           - modifiedTime
           - deleted
-      
+
   SqlMap:
     Type: Table
     Module: repository
@@ -109,3 +133,39 @@ Build:
       Extension: '.xml'
     Parameters:
       LogicalDelete: deleted
+
+  Repository:
+    Type: Table
+    Module: repository
+    TemplateEngine:
+      Path: Repository.cshtml
+    Output:
+      Path: 'server/src/main/java/{{Project.Module}}.{{Build.Module}}'
+      DotSplit: true
+      Name: '{{Items.CurrentTable.ConvertedName}}Repository'
+      Extension: '.java'
+    Parameters:
+      GenericRepository:
+        Package: net.smartsql.repository
+
+  Service:
+    Type: Table
+    Module: service
+    TemplateEngine:
+      Path: Service.cshtml
+    Output:
+      Path: 'server/src/main/java/{{Project.Module}}.{{Build.Module}}'
+      DotSplit: true
+      Name: '{{Items.CurrentTable.ConvertedName}}Service'
+      Extension: '.java'
+
+  Controller:
+    Type: Table
+    Module: controller
+    TemplateEngine:
+      Path: Controller.cshtml
+    Output:
+      Path: 'server/src/main/java/{{Project.Module}}.{{Build.Module}}'
+      DotSplit: true
+      Name: '{{Items.CurrentTable.ConvertedName}}Controller'
+      Extension: '.java'

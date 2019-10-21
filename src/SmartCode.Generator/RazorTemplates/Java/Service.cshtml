@@ -1,0 +1,42 @@
+@using SmartCode
+@model BuildContext
+@{
+    Layout = "_JavaLayout.cshtml";
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"Service Template can not find PKColumn,Table:{table.Name}.");
+    }
+    var pkType = pkCol.LanguageType;
+    var insertRetType = table.AutoIncrement ? pkType : "int";
+    var entityName = table.ConvertedName;
+    var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
+    var serviceName = $"{table.ConvertedName}Service";
+    var repositoryName = $"{table.ConvertedName}Repository";
+    var repositoryCamelName = NamingUtil.CamelCase(repositoryName);
+}
+
+
+
+package @(project.Module).@buildTask.Module;
+
+import lombok.var;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import javax.validation.Valid;
+import java.util.Date;
+import java.util.stream.Collectors;
+import @(project.Module).repository.@repositoryName;
+
+
+@Html.NewLine()
+@@Service
+public class @serviceName {
+@@Autowired
+@repositoryName @repositoryCamelName;
+
+}

@@ -1,0 +1,41 @@
+@using SmartCode
+@model BuildContext
+@{
+    Layout = "_JavaLayout.cshtml";
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"Service Template can not find PKColumn,Table:{table.Name}.");
+    }
+    var pkType = pkCol.LanguageType;
+    var insertRetType = table.AutoIncrement ? pkType : "int";
+    var entityName = table.ConvertedName;
+    var entityCamelName = NamingUtil.CamelCase(table.ConvertedName);
+    var serviceName = $"{table.ConvertedName}Service";
+    var serviceCamelName = NamingUtil.CamelCase(serviceName);
+    var controllerName = $"{table.ConvertedName}Controller";
+}
+
+
+
+package @(project.Module).@buildTask.Module;
+
+import lombok.var;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import @(project.Module).service.@serviceName;
+
+@Html.NewLine()
+@@RestController
+@@RequestMapping("@entityCamelName")
+public class @controllerName {
+@@Autowired
+@serviceName @serviceCamelName;
+
+}
