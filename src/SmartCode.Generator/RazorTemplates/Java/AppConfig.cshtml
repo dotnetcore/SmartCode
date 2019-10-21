@@ -1,0 +1,14 @@
+@using SmartCode
+@model BuildContext
+@{
+    Layout = "_JavaLayout.cshtml";
+    var project = Model.Project;
+    var buildTask = Model.Build;
+}
+
+
+package @(project.Module).config;
+
+public class AppConfig {
+
+}

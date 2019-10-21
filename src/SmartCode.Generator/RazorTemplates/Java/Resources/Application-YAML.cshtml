@@ -1,0 +1,30 @@
+@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var appName = "Demo";
+    if (project.Parameters.TryGetValue("ApplicationName", out var _appName))
+    {
+      appName = _appName.ToString();
+    }
+    var appClassName = $"{appName}Application";
+    var dbSource = Model.GetDataSource<DbSource>();
+    
+}
+
+spring:
+  application:
+    name: @appName-service
+
+  datasource:
+    url: 
+    username: 
+    password: 
+
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: @(project.Module).server.entity
+  configuration:
+    map-underscore-to-camel-case: true

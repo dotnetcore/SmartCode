@@ -1,4 +1,19 @@
-package me.ahoo.demo;
+@using SmartCode
+@model BuildContext
+@{
+    Layout = "../_JavaLayout.cshtml";
+    var project = Model.Project;
+    
+    var appName = "Demo";
+
+    if (project.Parameters.TryGetValue("ApplicationName", out var _appName))
+    {
+        appName = _appName.ToString();
+    }
+    var appClassTestsName = $"{appName}ApplicationTests";
+}
+
+package @(project.Module);
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @@RunWith(SpringRunner.class)
 @@SpringBootTest
-public class ApiApplicationTests {
+public class @appClassTestsName {
 
 @@Test
 public void contextLoads() {
