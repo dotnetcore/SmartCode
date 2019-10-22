@@ -7,6 +7,9 @@
     String GetPGSqlType(SmartCode.Generator.Entity.Column col)
     {
         var sqlDbType = col.LanguageType;
+        if (string.IsNullOrEmpty(sqlDbType)) {
+            return "NAType";
+        }
         if (sqlDbType.StartsWith("varchar"))
         {
             if (col.DataLength == -1) {

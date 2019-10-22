@@ -53,7 +53,7 @@ DataSource:
   Name: Extract
   Parameters:
     DbProvider: @dbSource.DbRepository.DbProviderName
-    ConnectionString: "@extractConnectionString"
+    ConnectionString: @extractConnectionString
     Query: 'Select * From @table.Name @GetExtractWhere()'
     PKColumn: @PKColumn.Name
     AutoIncrement: @(PKColumn.AutoIncrement ? "true" : "false")
@@ -77,7 +77,7 @@ Build:
     Type: Load
     Parameters:
       DbProvider: @loadDbProvider
-      ConnectionString: "@loadConnectionString"
+      ConnectionString: @loadConnectionString
       Table: @loadTable
     @switch (extractMode)
     {

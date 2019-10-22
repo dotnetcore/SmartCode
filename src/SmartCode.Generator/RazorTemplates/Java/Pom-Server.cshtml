@@ -1,9 +1,11 @@
 @using SmartCode
+@using SmartCode.Db
 @model BuildContext
 
 @{
     Layout = null;
     var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
 }
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -40,11 +42,27 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        @switch (dbSource.DbProvider.Name)
+        {
+            case SmartSql.DataSource.DbProvider.MYSQL:
+            {
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                break;
+            }
+            case SmartSql.DataSource.DbProvider.POSTGRESQL:
+            {
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                break;
+            }
+        }
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

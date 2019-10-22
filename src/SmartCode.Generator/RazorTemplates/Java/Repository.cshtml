@@ -37,6 +37,11 @@
         }
         genericRepositoryPackageName = _genericRepositoryPackage.ToString();
     }
+    
+    if (!project.BuildTasks.TryGetValue("Entity", out var entityBuild))
+    {
+        throw new ArgumentException("can not find Project -> BuildTasks -> [Entity] .");
+    }
 }
 
 package @(project.Module).@buildTask.Module;
@@ -44,7 +49,7 @@ package @(project.Module).@buildTask.Module;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import @(genericRepositoryPackageName).GenericRepository;
-import @(project.Module).entity.@table.ConvertedName;
+import @(project.Module).@(entityBuild.Module).@table.ConvertedName;
 
 @Html.NewLine()
 @@Repository

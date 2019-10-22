@@ -1,3 +1,6 @@
+@using System.Text
+@using MySql.Data.MySqlClient
+@using Npgsql
 @using SmartCode
 @using SmartCode.Db
 @model BuildContext
@@ -11,7 +14,46 @@
     }
     var appClassName = $"{appName}Application";
     var dbSource = Model.GetDataSource<DbSource>();
-    
+    if (!project.BuildTasks.TryGetValue("Entity", out var entityBuild))
+    {
+      throw new ArgumentException("can not find Project -> BuildTasks -> [Entity] .");
+    }
+
+  var driveName = "mysql";
+  var host = "localhost";
+  uint port = 3306;
+  var userName = "root";
+  var pwd = "root";
+  var database = "smartsql_db";
+  var appendUrl = new StringBuilder();
+  
+  switch (dbSource.DbProvider.Name)
+  {
+    case SmartSql.DataSource.DbProvider.MYSQL:
+    {
+      driveName = "mysql";
+      var builder= new MySqlConnectionStringBuilder(dbSource.WriteDataSource.ConnectionString);
+      host = builder.Server;
+      database= builder.Database;
+      userName= builder.UserID;
+      pwd = builder.Password;
+      port = builder.Port;
+      appendUrl.Append("?");
+      appendUrl.Append("serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8");
+      break;
+    }
+    case SmartSql.DataSource.DbProvider.POSTGRESQL:
+    {
+      driveName = "postgresql";
+      var builder= new NpgsqlConnectionStringBuilder(dbSource.WriteDataSource.ConnectionString);
+      host = builder.Host;
+      database= builder.Database;
+      userName= builder.Username;
+      pwd = builder.Password;
+      port = (uint)builder.Port;
+      break;
+    }
+  }
 }
 
 spring:
@@ -19,12 +61,12 @@ spring:
     name: @appName-service
 
   datasource:
-    url: 
-    username: 
-    password: 
+    url: jdbc:@(driveName)://@host:@port/@database@appendUrl.ToString()
+    username: @userName
+    password: @pwd
 
 mybatis:
   mapper-locations: classpath:/mappers/*.xml
-  type-aliases-package: @(project.Module).server.entity
+  type-aliases-package: @(project.Module).@(entityBuild.Module)
   configuration:
     map-underscore-to-camel-case: true

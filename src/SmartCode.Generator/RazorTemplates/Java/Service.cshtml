@@ -17,6 +17,10 @@
     var serviceName = $"{table.ConvertedName}Service";
     var repositoryName = $"{table.ConvertedName}Repository";
     var repositoryCamelName = NamingUtil.CamelCase(repositoryName);
+    if (!project.BuildTasks.TryGetValue("Repository", out var repositoryBuild))
+    {
+        throw new ArgumentException("can not find Project -> BuildTasks -> [Repository] .");
+    }
 }
 
 
@@ -30,7 +34,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.stream.Collectors;
-import @(project.Module).repository.@repositoryName;
+import @(project.Module).@(repositoryBuild.Module).@repositoryName;
 
 
 @Html.NewLine()

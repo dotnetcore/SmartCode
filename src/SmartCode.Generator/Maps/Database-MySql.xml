@@ -24,7 +24,8 @@
       Col.Column_Comment AS `Description`
       FROM
       Information_Schema.COLUMNS AS Col
-      Where Table_Schema=?DbName and Table_Name=?TableName;
+      Where Table_Schema=?DbName and Table_Name=?TableName
+      Order By Col.ORDINAL_POSITION asc;
     </Statement>
   </Statements>
 </SmartSqlMap>
