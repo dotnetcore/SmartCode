@@ -11,7 +11,10 @@
     }
     var appClassName = $"{appName}Application";
     var dbSource = Model.GetDataSource<DbSource>();
-    
+    if (!project.BuildTasks.TryGetValue("Entity", out var entityBuild))
+    {
+      throw new ArgumentException("can not find Project -> BuildTasks -> [Entity] .");
+    }
 }
 
 spring:
@@ -25,6 +28,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:/mappers/*.xml
-  type-aliases-package: @(project.Module).server.entity
+  type-aliases-package: @(project.Module).@(entityBuild.Module)
   configuration:
     map-underscore-to-camel-case: true

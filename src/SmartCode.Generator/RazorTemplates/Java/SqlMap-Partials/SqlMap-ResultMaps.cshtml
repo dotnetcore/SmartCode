@@ -16,12 +16,12 @@
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
     
-    if (!buildTask.Parameters.TryGetValue("EntityModule", out var entityModule))
+    if (!project.BuildTasks.TryGetValue("Entity", out var entityBuild))
     {
-        entityModule = "entity";
+        throw new ArgumentException("can not find Project -> BuildTasks -> [Entity] .");
     }
 
-    var entityName = $"{project.Module}.{entityModule}.{table.ConvertedName}";
+    var entityName = $"{project.Module}.{entityBuild.Module}.{table.ConvertedName}";
 }
 
 <resultMap id="@resultMapName" type="@entityName">
