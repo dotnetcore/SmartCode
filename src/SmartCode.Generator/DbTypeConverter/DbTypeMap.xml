@@ -386,6 +386,7 @@
     <!-- Java-Language Start-->
     <Database DbProvider="MySql" Language="Java">
         <DbType Name="text" To="String"/>
+        <DbType Name="longtext" To="String"/>
         <DbType Name="json" To="String"/>
         <DbType Name="varchar" To="String"/>
         <DbType Name="date" To="Date"/>

@@ -1,0 +1,53 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    Layout = "_JavaLayout.cshtml";
+    var project = Model.Project;
+}
+
+
+package @(project.Module).entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public abstract class AbstractEntity@("<TKey>") implements Serializable {
+    private TKey id;
+    private Date createTime = new Date();
+    private Date modifiedTime = new Date();
+    private boolean deleted;
+
+    @@Override
+    public TKey getId() {
+        return id;
+    }
+
+    @@Override
+    public void setId(TKey id) {
+        this.id = id;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(Date modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+}
