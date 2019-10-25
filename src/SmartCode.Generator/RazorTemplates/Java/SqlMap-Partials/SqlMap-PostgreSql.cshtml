@@ -13,6 +13,13 @@
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
 
-
+    var resultMapName = $"{table.ConvertedName}ResultMap";
 }
-
+@section QueryByPage
+{
+    <select id="queryByPage" resultMap="@resultMapName">
+        select * from @table.Name
+        <include refid="queryParams"/>
+        Limit #{pageSize} Offset #{pageIndex}
+    </select>
+}
