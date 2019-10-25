@@ -1,0 +1,20 @@
+﻿@using SmartCode
+@using SmartCode.Db;
+@using SmartCode.Generator.Extensions
+@model BuildContext
+@{
+    Layout = "_JavaLayout.cshtml";
+    var project = Model.Project;
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"Repository Template can not find PKColumn,Table:{table.Name}.");
+    }
+    var primaryKeyType = pkCol.LanguageType ?? "int";
+    var autoIncrement = table.AutoIncrement;
+    var dbSource = Model.GetDataSource<DbSource>();
+
+}
+
