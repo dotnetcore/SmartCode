@@ -1,0 +1,80 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@using System.Text.RegularExpressions
+@model BuildContext
+@{
+    Layout = "_SqlMapLayout.cshtml";
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var versionNo = 2008;
+    var sqlServerVersion = dbSource.DbRepository.SqlMapper.ExecuteScalar<String>(new SmartSql.RequestContext
+    {
+        RealSql = "Select @@Version;"
+    });
+    var versionRegex = new Regex(@"^Microsoft SQL Server (\d*)", RegexOptions.Singleline);
+    var versionNoStr = versionRegex.Match(sqlServerVersion).Groups[1].Value;
+    int.TryParse(versionNoStr, out versionNo);
+    var buildTask = Model.Build;
+    var table = Model.GetCurrentTable();
+    var pkCol = table.PKColumn;
+    if (pkCol == null)
+    {
+        throw new SmartCodeException($"{table.Name} can not find PKColumn！");
+    }
+    var primaryKeyType = pkCol?.LanguageType ?? "int";
+    var autoIncrement = table.AutoIncrement;
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
+    var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
+    var resultMapName = $"{table.ConvertedName}ResultMap";
+    var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
+}
+
+@section QueryByPage
+{
+    <!--获取分页数据-->
+    <select id="queryByPage" resultMap="@resultMapName">
+        @if (versionNo >= 2012)
+        {
+            <text>
+                Select
+                T.*
+                From @table.Name T With(NoLock)
+                <include refid="queryParams"/>
+                Order By T.@pkCol.Name Desc
+                Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
+            </text>
+        }
+        else
+        {
+            <text>
+                Select TT.* From
+                (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
+                <include refid="queryParams"/>) TT
+                Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize);
+            </text>
+        }
+    </select>
+}
+
+@section GetEntity
+{
+    <!--获取表映射实体-->
+    <select id="getEntity" resultMap="@resultMapName">
+        Select Top 1
+        *
+        From @table.Name T With(NoLock)
+        <include refid="queryParams"/>
+    </select>
+}
+
+@section Query
+{
+    <!--获取数据列-->
+    <select id="query" resultMap="@resultMapName">
+        Select
+        T.*
+        From @table.Name T With(NoLock)
+        <include refid="queryParams"/>
+        Order By T.@pkCol.Name Desc
+    </select>
+}
