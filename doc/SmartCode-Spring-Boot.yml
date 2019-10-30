@@ -49,10 +49,10 @@ TableFilter:
 # 构建任务
 Build:
 
-  ClearDir:
-    Type: Clear
-    Parameters:
-      Dirs: '.'
+#  ClearDir:
+#    Type: Clear
+#    Parameters:
+#      Dirs: '.'
 
   MakeBuildDir:
     Type: Process

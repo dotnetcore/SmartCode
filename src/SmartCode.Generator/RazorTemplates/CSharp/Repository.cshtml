@@ -16,7 +16,8 @@
     var autoIncrement = table.AutoIncrement;
     var dbSource = Model.GetDataSource<DbSource>();
 
-    var PKNameEQId = pkCol.ConvertedName == "Id";
+    var pkNameEqId = pkCol.ConvertedName == "Id";
+    var genericParameterKey = $"{table.ConvertedName},{primaryKeyType}";
 }
 
 using System;
@@ -31,11 +32,10 @@ using @(project.Module).Entity;
 namespace @(project.Module).@buildTask.Module
 {
 @table.GetCSharpSummary()
-public interface I@(table.ConvertedName)Repository : IRepository<@(table.ConvertedName), @(primaryKeyType)>
-    ,IRepositoryAsync<@(table.ConvertedName), @(primaryKeyType)>
+public interface I@(table.ConvertedName)Repository : IRepository<@genericParameterKey>
+    ,IRepositoryAsync<@genericParameterKey>
         {
-        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql
-&& autoIncrement)
+        @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql && autoIncrement)
         {
             <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
             @Html.NewLine()
@@ -56,7 +56,7 @@ public interface I@(table.ConvertedName)Repository : IRepository<@(table.Convert
             @Html.NewLine()
         }
 
-        @if (!PKNameEQId)
+        @if (!pkNameEqId)
         {
             <text>[Statement(Id = "GetEntity")]</text>
             @Html.NewLine()

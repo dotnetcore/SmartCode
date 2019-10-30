@@ -42,6 +42,7 @@
     {
         throw new ArgumentException("can not find Project -> BuildTasks -> [Entity] .");
     }
+    var genericParameterKey = $"{table.ConvertedName},{primaryKeyType}";
 }
 
 package @(project.Module).@buildTask.Module;
@@ -54,6 +55,6 @@ import @(project.Module).@(entityBuild.Module).@table.ConvertedName;
 @Html.NewLine()
 @@Repository
 @@Mapper
-public interface @(table.ConvertedName)Repository extends GenericRepository<@(table.ConvertedName), @(primaryKeyType)> {
+public interface @(table.ConvertedName)Repository extends GenericRepository<@genericParameterKey> {
 
 }

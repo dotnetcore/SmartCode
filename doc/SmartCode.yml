@@ -14,8 +14,8 @@ Output:
   Type: File
   Path: 'D:\SmartSql-Starter'
 Parameters:
-  SmartSqlVersion: '4.1.32'
-  SmartSqlSchemaVersion: '4.1.29'
+  SmartSqlVersion: '4.1.38'
+  SmartSqlSchemaVersion: '4.1.30'
   BuildDir: 'D:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
   
@@ -52,10 +52,10 @@ TableFilter:
 # 构建任务
 Build:
 
-  ClearDir:
-    Type: Clear
-    Parameters:
-      Dirs: '.'
+#  ClearDir:
+#    Type: Clear
+#    Parameters:
+#      Dirs: '.'
 
   MakeBuildDir:
     Type: Process

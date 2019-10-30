@@ -18,19 +18,16 @@
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
 
-@section QueryByPage
-    {
-    <!--获取分页数据-->
-    <Statement Id="QueryByPage" @queryStatementResultMap>
-        Select 
-        <Include RefId="AllCols"/>
-        From @table.Name As T
-        <Include RefId="QueryParams" />
-        <Switch Prepend="Order By" Property="OrderBy">
-            <Default>
-                T.@pkCol.Name Desc
-            </Default>
-        </Switch>
-        Limit  @(dbPrefix)PageSize Offset @(dbPrefix)Offset
-    </Statement>
-}
+<!--获取分页数据-->
+<Statement Id="QueryByPage" @queryStatementResultMap>
+    Select 
+    <Include RefId="AllCols"/>
+    From @table.Name As T
+    <Include RefId="QueryParams" />
+    <Switch Prepend="Order By" Property="OrderBy">
+        <Default>
+            T.@pkCol.Name Desc
+        </Default>
+    </Switch>
+    Limit  @(dbPrefix)PageSize Offset @(dbPrefix)Offset
+</Statement>

@@ -21,33 +21,6 @@
     <select id="queryByPage" resultMap="@resultMapName">
         select * from @table.Name
         <include refid="queryParams"/>
-        Limit #{pageSize} Offset #{pageIndex}
-    </select>
-
-
-}
-
-
-@section GetEntity
-{
-    <!--获取表映射实体-->
-    <select id="getEntity" resultMap="@resultMapName">
-        Select *
-        From @table.Name
-        <include refid="queryParams"/>
-        limit 1
-    </select>
-}
-
-@section Query
-{
-    <!--获取数据列-->
-    <select id="query" resultMap="@resultMapName">
-        SELECT *
-        From @table.Name T
-        <include refid="queryParams"/>
-        <if test="taken!=null">
-            limit #{taken}
-        </if>
+        limit #{page.limit} offset #{page.offset}
     </select>
 }

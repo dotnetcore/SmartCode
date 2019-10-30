@@ -13,11 +13,8 @@
     var resultMapName = $"{table.ConvertedName}ResultMap";
 }
 
-@section QueryByPage
-{
-    <select id="queryByPage" resultMap="@resultMapName">
-        select * from @table.Name
-        <include refid="queryParams"/>
-        limit #{page.offset} offset #{page.limit}
-    </select>
-}
+<select id="queryByPage" resultMap="@resultMapName">
+    select * from @table.Name
+    <include refid="queryParams"/>
+    limit #{page.offset} offset #{page.limit}
+</select>

@@ -12,7 +12,7 @@
     {
         throw new SmartCodeException($"{table.Name} can not find PKColumn！");
     }
-    
+
     var resultMapName = $"{table.ConvertedName}ResultMap";
 }
 
@@ -21,6 +21,6 @@
     <select id="queryByPage" resultMap="@resultMapName">
         select * from @table.Name
         <include refid="queryParams"/>
-        limit #{pageIndex},#{pageSize}
+        limit #{page.offset} offset #{page.limit}
     </select>
 }
