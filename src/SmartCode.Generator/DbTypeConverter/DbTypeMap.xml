@@ -535,6 +535,27 @@
         <DbType Name="longtext" To="String"/>
         <DbType Name="timestamp" To="Timestamp"/>
     </Database>
+
+    <Database DbProvider="MySql" Language="Jdbc">
+        <DbType Name="longtext" To="LONGVARCHAR"/>
+        <DbType Name="text" To="VARCHAR"/>
+        <DbType Name="json" To="VARCHAR"/>
+        <DbType Name="varchar" To="VARCHAR"/>
+        <DbType Name="date" To="DATE"/>
+        <DbType Name="datetime" To="TIMESTAMP"/>
+        <DbType Name="time" To="TIME"/>
+        <DbType Name="tinyint" To="BYTE"/>
+        <DbType Name="smallint" To="SMALLINT"/>
+        <DbType Name="int" To="INTEGER"/>
+        <DbType Name="bigint" To="BIGINT"/>
+        <DbType Name="bit" To="BOOLEAN"/>
+        <DbType Name="char" To="CHAR"/>
+        <DbType Name="integer" To="INTEGER"/>
+        <DbType Name="decimal" To="DECIMAL"/>
+        <DbType Name="float" To="FLOAT"/>
+        <DbType Name="timestamp" To="TIMESTAMP"/>
+        <DbType Name="blob" To="BLOB"/>
+    </Database>
     <!-- Java-Language End-->
 
     <!-- TypeScript-Language Start-->
