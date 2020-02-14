@@ -1,6 +1,7 @@
 ﻿@using SmartCode
 @using SmartCode.Db
 @using SmartCode.Generator
+@using SmartCode.Generator.Entity
 @model BuildContext
 
 @{
@@ -30,25 +31,29 @@
 @functions
 {
 
-    String GetJdbcType(IDbTypeConverter dbTypeConverter, DbSource dbSource, String dbType)
+    String GetJdbcType(IDbTypeConverter dbTypeConverter, DbSource dbSource, Column column)
     {
+        var dbType = column.DbType;
         var dbProvider = dbSource.DbRepository.DbProvider;
         var jdbcType = dbTypeConverter.LanguageType(dbProvider, "Jdbc", dbType);
+        if (dbType.Equals("tinyint", StringComparison.OrdinalIgnoreCase)
+            && column.DataLength <= 4)
+        {
+            jdbcType = "BOOLEAN";
+        }
         return String.IsNullOrEmpty(jdbcType) ? "" : $" jdbcType=\"{jdbcType}\"";
     }
-
 }
 
 
 <resultMap id="@resultMapName" type="@entityName">
-    <id column="@pkCol.Name" property="@pkCol.ConvertedName" javaType="@pkCol.LanguageType" @GetJdbcType(dbTypeConverter, dbSource, pkCol.DbType)></id>
+    <id column="@pkCol.Name" property="@pkCol.ConvertedName" javaType="@pkCol.LanguageType" @GetJdbcType(dbTypeConverter, dbSource, pkCol)></id>
     @foreach (var col in table.Columns)
     {
         if (col.IsPrimaryKey)
         {
             continue;
         }
-
-        <result column="@col.Name" property="@col.ConvertedName" javaType="@col.LanguageType" @GetJdbcType(dbTypeConverter, dbSource, col.DbType)/>
+        <result column="@col.Name" property="@col.ConvertedName" javaType="@col.LanguageType" @GetJdbcType(dbTypeConverter, dbSource, col)/>
     }
 </resultMap>
