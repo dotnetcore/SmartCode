@@ -47,13 +47,13 @@
 
 
 <resultMap id="@resultMapName" type="@entityName">
-    <id column="@pkCol.Name" property="@pkCol.ConvertedName" javaType="@pkCol.LanguageType" @GetJdbcType(dbTypeConverter, dbSource, pkCol)></id>
+    <id column="@pkCol.Name" property="@pkCol.ConvertedName" @GetJdbcType(dbTypeConverter, dbSource, pkCol)></id>
     @foreach (var col in table.Columns)
     {
         if (col.IsPrimaryKey)
         {
             continue;
         }
-        <result column="@col.Name" property="@col.ConvertedName" javaType="@col.LanguageType" @GetJdbcType(dbTypeConverter, dbSource, col)/>
+        <result column="@col.Name" property="@col.ConvertedName" @GetJdbcType(dbTypeConverter, dbSource, col)/>
     }
 </resultMap>
