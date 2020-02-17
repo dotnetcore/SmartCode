@@ -7,6 +7,7 @@ namespace SmartCode.Utilities
 {
     public static class IDictionaryExtensions
     {
+        [Obsolete("please use SmartSql.DictionaryExtensions")]
         public static bool Value<TKey, TValue, TTypedValue>(this IDictionary<TKey, TValue> dic, TKey key, out TTypedValue value)
         {
             value = default;
@@ -33,6 +34,7 @@ namespace SmartCode.Utilities
             }
             return true;
         }
+        [Obsolete("please use SmartSql.DictionaryExtensions")]
         public static void EnsureValue<TKey, TValue, TTypedValue>(this IDictionary<TKey, TValue> dic, TKey key, out TTypedValue value)
         {
             if (!dic.Value(key, out value))

@@ -27,6 +27,7 @@ namespace SmartCode.ETL.BuildTasks
 
         public bool Initialized => true;
         public string Name => "Load";
+
         public LoadBuildTask(ILoggerFactory loggerFactory
             , Project project
             , IPluginManager pluginManager
@@ -53,6 +54,7 @@ namespace SmartCode.ETL.BuildTasks
                 });
                 return;
             }
+
             var batchTable = dataSource.TransformData;
             batchTable.TableName = tableName;
 
@@ -61,9 +63,9 @@ namespace SmartCode.ETL.BuildTasks
             var lastExtract = _project.GetETLLastExtract();
             var queryParams = new Dictionary<string, object>
             {
-                { "LastMaxId",lastExtract.MaxId},
-                { "LastQueryTime",lastExtract.QueryTime},
-                { "LastMaxModifyTime",lastExtract.MaxModifyTime},
+                {"LastMaxId", lastExtract.MaxId},
+                {"LastQueryTime", lastExtract.QueryTime},
+                {"LastMaxModifyTime", lastExtract.MaxModifyTime},
             };
             Stopwatch stopwatch = Stopwatch.StartNew();
             var loadEntity = new Entity.ETLLoad
@@ -73,7 +75,9 @@ namespace SmartCode.ETL.BuildTasks
             try
             {
                 sqlMapper.SessionStore.Open();
+
                 #region PreCmd
+
                 if (!String.IsNullOrEmpty(preCmd))
                 {
                     stopwatch.Restart();
@@ -90,9 +94,12 @@ namespace SmartCode.ETL.BuildTasks
                         Taken = stopwatch.ElapsedMilliseconds
                     };
                 }
+
                 #endregion
+
                 #region BatchInsert
-                var batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider);
+
+                var batchInsert = BatchInsertFactory.Create(sqlMapper, dbProvider, context);
                 InitColumnMapping(batchTable, context);
                 batchInsert.Table = batchTable;
                 stopwatch.Restart();
@@ -100,9 +107,13 @@ namespace SmartCode.ETL.BuildTasks
                 stopwatch.Stop();
                 loadEntity.Size = batchTable.Rows.Count;
                 loadEntity.Taken = stopwatch.ElapsedMilliseconds;
-                _logger.LogWarning($"Build:{context.BuildKey},BatchInsert.Size:{loadEntity.Size},Taken:{loadEntity.Taken}ms!");
+                _logger.LogWarning(
+                    $"Build:{context.BuildKey},BatchInsert.Size:{loadEntity.Size},Taken:{loadEntity.Taken}ms!");
+
                 #endregion
+
                 #region PostCmd
+
                 if (context.Build.Parameters.Value(POST_COMMAND, out string postCmd) && !String.IsNullOrEmpty(postCmd))
                 {
                     stopwatch.Restart();
@@ -119,7 +130,9 @@ namespace SmartCode.ETL.BuildTasks
                         Taken = stopwatch.ElapsedMilliseconds
                     };
                 }
+
                 #endregion
+
                 await etlRepository.Load(_project.GetETKTaskId(), loadEntity);
             }
             finally
@@ -130,7 +143,6 @@ namespace SmartCode.ETL.BuildTasks
 
         public void Initialize(IDictionary<string, object> parameters)
         {
-
         }
 
         private void InitColumnMapping(DataTable bulkTable, BuildContext context)
@@ -163,6 +175,5 @@ namespace SmartCode.ETL.BuildTasks
                 .UseAlias(alias_name)
                 .Build().SqlMapper;
         }
-
     }
 }
