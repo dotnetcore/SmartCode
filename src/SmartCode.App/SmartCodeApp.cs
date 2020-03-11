@@ -70,7 +70,14 @@ namespace SmartCode.App
             }
             else
             {
-                Services.AddSingleton<IProjectBuilder, GeneratorProjectBuilder>();
+                if (Project.DataSource.Parameters.ContainsKey("Query"))
+                {
+                    Services.AddSingleton<IProjectBuilder, ETLProjectBuilder>();
+                }
+                else
+                {
+                    Services.AddSingleton<IProjectBuilder, GeneratorProjectBuilder>();
+                }
             }
             ServiceProvider = Services.BuildServiceProvider();
             Logger = ServiceProvider.GetRequiredService<ILogger<SmartCodeApp>>();

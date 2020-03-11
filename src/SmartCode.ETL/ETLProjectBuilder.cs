@@ -23,7 +23,7 @@ namespace SmartCode.ETL
 
         public Task Build()
         {
-            var extractData = (IExtractData) _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
+            var extractData = _pluginManager.Resolve<IExtractData>(_project.DataSource.Name);
             return extractData.Run();
         }
     }

@@ -6,8 +6,8 @@ DataSource:
   Parameters:
     DbProvider: SqlServer
     ConnectionString: Data Source=.;Initial Catalog=SmartSqlTestDB;Integrated Security=True
-    Query: " SELECT * FROM [T_ModifyTime] Where ModifyTime>@LastMaxModifyTime
-            Order By Id Desc Offset @Offset Rows Fetch Next @BulkSize Rows Only; "
+    Query: "SELECT * FROM [T_ModifyTime] Where ModifyTime>@LastMaxModifyTime"
+            Order By Id Desc Offset @Offset Rows Fetch Next @BulkSize Rows Only;"
     Total: Select Count(*) From T_ModifyTime Where ModifyTime>@LastMaxModifyTime
     BulkSize: 1000
     PKColumn: Id

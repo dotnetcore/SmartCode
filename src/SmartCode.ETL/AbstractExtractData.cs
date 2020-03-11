@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using SmartCode.Configuration;
@@ -12,11 +9,11 @@ using SmartSql;
 
 namespace SmartCode.ETL
 {
-    public abstract class AbstractExtractDataSource : IDataSource, IExtractData
+    public abstract class AbstractExtractData : IExtractData
     {
         private readonly Project _project;
         private readonly ILoggerFactory _loggerFactory;
-        private readonly ILogger<ExtractDataSource> _logger;
+        private readonly ILogger<AbstractExtractData> _logger;
         private readonly IPluginManager _pluginManager;
         public abstract string Name { get; }
         protected ISqlMapper SqlMapper { get; private set; }
@@ -25,9 +22,9 @@ namespace SmartCode.ETL
 
         private IETLTaskRepository _etlRepository;
 
-        protected AbstractExtractDataSource(Project project
+        protected AbstractExtractData(Project project
             , ILoggerFactory loggerFactory
-            , ILogger<ExtractDataSource> logger
+            , ILogger<AbstractExtractData> logger
             , IPluginManager pluginManager)
         {
             _project = project;
@@ -35,11 +32,6 @@ namespace SmartCode.ETL
             _logger = logger;
             _pluginManager = pluginManager;
             _etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
-        }
-
-        public Task InitData()
-        {
-            return Task.CompletedTask;
         }
 
         private async Task Extract()
@@ -106,7 +98,7 @@ namespace SmartCode.ETL
             Initialized = true;
         }
 
-        public long Total { get; private set; }
+        public int Total { get; private set; }
         public int BulkSize { get; private set; }
         public int Offset { get; private set; }
 
@@ -120,9 +112,10 @@ namespace SmartCode.ETL
 
         public async Task Run()
         {
+            InitParameters();
+
             LastExtract = await _etlRepository.GetLastExtract(_project.GetETLCode());
             _project.SetETLLastExtract(LastExtract);
-            InitParameters();
 
             var queryParams = new Dictionary<string, object>
             {
@@ -131,20 +124,22 @@ namespace SmartCode.ETL
                 {"LastMaxModifyTime", LastExtract.MaxModifyTime}
             };
 
-            if (!String.IsNullOrEmpty(TotalCmd))
+            Total = await SqlMapper.ExecuteScalarAsync<int>(new RequestContext
             {
-                Total = await SqlMapper.ExecuteScalarAsync<long>(new RequestContext
-                {
-                    RealSql = TotalCmd,
-                    Request = queryParams
-                });
-                if (Total == 0)
-                {
-                    _logger.LogInformation("can not find any record.");
-                    return;
-                }
+                RealSql = TotalCmd,
+                Request = queryParams
+            });
+
+            if (Total == 0)
+            {
+                _logger.LogInformation("can not find any record.");
+                return;
             }
 
+            if (BulkSize == 0)
+            {
+                BulkSize = Total;
+            }
 
             BuildContext buildContext = null;
             while (Offset < Total)
@@ -155,6 +150,12 @@ namespace SmartCode.ETL
                     var etlTaskId = await _etlRepository.Startup(_project.ConfigPath, _project.GetETLCode());
                     _project.SetETKTaskId(etlTaskId);
                     await Extract();
+                    if (String.IsNullOrEmpty(TotalCmd))
+                    {
+                        Total = GetCount();
+                        BulkSize = Total;
+                    }
+
                     foreach (var buildKV in _project.BuildTasks)
                     {
                         _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
@@ -162,12 +163,12 @@ namespace SmartCode.ETL
                         buildContext = new BuildContext
                         {
                             PluginManager = _pluginManager,
-                            DataSource = this,
                             Project = _project,
                             BuildKey = buildKV.Key,
                             Build = buildKV.Value,
                             Output = output?.Copy()
                         };
+                        buildContext.SetExtractData(this);
                         await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
                         _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
                     }
@@ -198,10 +199,6 @@ namespace SmartCode.ETL
             AutoIncrement = autoIncrement;
             dataSource.Parameters.EnsureValue("Query", out string queryCmd);
             QueryCmd = queryCmd;
-            dataSource.Parameters.Value("Total", out String totalCmd);
-            TotalCmd = totalCmd;
-            _project.DataSource.Parameters.EnsureValue("BulkSize", out int bulkSize);
-            BulkSize = bulkSize;
 
             #region CreateSqlMapper
 
@@ -212,6 +209,13 @@ namespace SmartCode.ETL
                 .Build().SqlMapper;
 
             #endregion
+
+            TotalCmd = dataSource.Parameters.Value("Total", out String totalCmd)
+                ? totalCmd
+                : $"Select Count(*) From ({QueryCmd.TrimEnd(';')}) as t;";
+
+            _project.DataSource.Parameters.Value("BulkSize", out int bulkSize);
+            BulkSize = bulkSize;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace SmartCode.ETL.LoadToES
         {
             ESOptions esOptions = InitOptions(context);
             var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
-            var dataSource = context.GetDataSource<ExtractDictionaryDataSource>();
+            var dataSource = context.GetExtractData<ExtractDictionaryData>();
             var loadEntity = new Entity.ETLLoad
             {
                 Size = 0,

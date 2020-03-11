@@ -44,7 +44,7 @@ namespace SmartCode.ETL.BuildTasks
             context.Build.Parameters.EnsureValue(TABLE_NAME, out string tableName);
             context.Build.Parameters.EnsureValue(DB_PROVIDER, out DbProvider dbProvider);
             var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
-            var dataSource = context.GetDataSource<ExtractDataSource>();
+            var dataSource = context.GetExtractData<ExtractData>();
             if (dataSource.TransformData.Rows.Count == 0)
             {
                 await etlRepository.Load(_project.GetETKTaskId(), new Entity.ETLLoad

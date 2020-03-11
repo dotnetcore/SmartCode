@@ -10,6 +10,5 @@ namespace SmartCode
         {
             return (TDataSource)context.DataSource;
         }
-
     }
 }

@@ -28,7 +28,7 @@ namespace SmartCode.ETL.BuildTasks
         {
             var etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
             Stopwatch stopwatch = Stopwatch.StartNew();
-            var dataSource = context.GetDataSource<AbstractExtractDataSource>();
+            var dataSource = context.GetExtractData<AbstractExtractData>();
             if (dataSource.GetCount()> 0)
             {
                 await _pluginManager.Resolve<ITransformEngine>(DEFAULT_SCRIPT_ENGINE).Transform(context);

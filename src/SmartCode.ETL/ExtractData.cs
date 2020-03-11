@@ -8,9 +8,9 @@ using SmartSql;
 
 namespace SmartCode.ETL
 {
-    public class ExtractDataSource : AbstractExtractDataSource
+    public class ExtractData : AbstractExtractData
     {
-        public ExtractDataSource(Project project, ILoggerFactory loggerFactory, ILogger<ExtractDataSource> logger,
+        public ExtractData(Project project, ILoggerFactory loggerFactory, ILogger<ExtractData> logger,
             IPluginManager pluginManager) : base(project, loggerFactory, logger, pluginManager)
         {
         }

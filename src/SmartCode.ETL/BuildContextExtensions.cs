@@ -7,14 +7,14 @@ namespace SmartCode.ETL
 {
     public static class BuildContextExtensions
     {
-        //public const String ETL_DB_TABLE = "ETLDbTable";
-        //public static DbTable GetETLDbTable(this BuildContext context)
-        //{
-        //    return context.GetItem<DbTable>(ETL_DB_TABLE);
-        //}
-        //public static void SetETLDbTable(this BuildContext context, DbTable dbTable)
-        //{
-        //    context.SetItem(ETL_DB_TABLE, dbTable);
-        //}
+        public const String ETL_EXTRACT_DATA = "ETL_ExtractData";
+        public static TExtractData GetExtractData<TExtractData>(this BuildContext context)where TExtractData : IExtractData
+        {
+            return context.GetItem<TExtractData>(ETL_EXTRACT_DATA);
+        }
+        public static void SetExtractData(this BuildContext context, IExtractData extractData)
+        {
+            context.SetItem(ETL_EXTRACT_DATA, extractData);
+        }
     }
 }
