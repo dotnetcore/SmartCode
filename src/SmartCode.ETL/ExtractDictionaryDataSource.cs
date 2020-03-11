@@ -12,8 +12,7 @@ namespace SmartCode.ETL
     {
         public ExtractDictionaryDataSource(Project project, ILoggerFactory loggerFactory,
             ILogger<ExtractDataSource> logger,
-            IProjectBuilder projectBuilder, IPluginManager pluginManager) : base(project, loggerFactory, logger,
-            projectBuilder, pluginManager)
+            IPluginManager pluginManager) : base(project, loggerFactory, logger, pluginManager)
         {
         }
 

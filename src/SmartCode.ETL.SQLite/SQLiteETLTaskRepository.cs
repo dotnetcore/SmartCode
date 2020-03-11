@@ -27,7 +27,7 @@ namespace SmartCode.ETL.SQLite
         public void Initialize(IDictionary<string, object> paramters)
         {
             var connectionString = $"Data Source={AppPath.Relative(DB_NAME)};Version=3;";
-            if (IDictionaryExtensions.Value(paramters, CONNECTION_STRING, out string connStr))
+            if (paramters.Value(CONNECTION_STRING, out string connStr))
             {
                 connectionString = connStr;
             }

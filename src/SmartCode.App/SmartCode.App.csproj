@@ -8,6 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SmartCode.ETL\SmartCode.ETL.csproj" />
+    <ProjectReference Include="..\SmartCode.Generator\SmartCode.Generator.csproj" />
     <ProjectReference Include="..\SmartCode.TemplateEngine\SmartCode.TemplateEngine.csproj" />
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
   </ItemGroup>

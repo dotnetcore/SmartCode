@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using SmartCode.Utilities;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using SmartCode.Db;
 
 namespace SmartCode.Generator.DbTypeConverter
@@ -30,6 +27,7 @@ namespace SmartCode.Generator.DbTypeConverter
             DbTypeMap = XmlConvert.Deserialize<DbTypeMap>(_xmlPath);
             _logger.LogDebug($"DbTypeConverter Load DbTypeMap:{_xmlPath} End!");
         }
+
         public string LanguageType(DbProvider dbProvider, string lang, string dbType)
         {
             var databaseMap = DbTypeMap.Databases.FirstOrDefault(m => m.DbProvider == dbProvider && m.Language == lang);
@@ -37,12 +35,14 @@ namespace SmartCode.Generator.DbTypeConverter
             {
                 _logger.LogError($"Can not find DatabaseMap:DbProvider:{dbProvider},Language:{lang}!");
             }
+
             var dbTypeMap = databaseMap?.DbTypes?.FirstOrDefault(m => m.Name == dbType);
 
             if (dbTypeMap == null)
             {
                 _logger.LogError($"Can not find DatabaseMap:DbProvider:{dbProvider},Language:{lang},DbType:{dbType}!");
             }
+
             return dbTypeMap?.To;
         }
 
@@ -53,12 +53,15 @@ namespace SmartCode.Generator.DbTypeConverter
             {
                 _logger.LogError($"Can not find DatabaseMap:DbProvider:{dbProvider},Language:{lang}!");
             }
+
             var dbTypeMap = databaseMap?.DbTypes?.FirstOrDefault(m => m.To == languageType);
 
             if (dbTypeMap == null)
             {
-                _logger.LogError($"Can not find DatabaseMap:DbProvider:{dbProvider},Language:{lang},LanguageType:{languageType}!");
+                _logger.LogError(
+                    $"Can not find DatabaseMap:DbProvider:{dbProvider},Language:{lang},LanguageType:{languageType}!");
             }
+
             return dbTypeMap?.To;
         }
 
@@ -66,7 +69,7 @@ namespace SmartCode.Generator.DbTypeConverter
         {
             if (parameters != null)
             {
-                if (IDictionaryExtensions.Value(parameters, "XmlPath", out string xmlPath))
+                if (parameters.Value("XmlPath", out string xmlPath))
                 {
                     _xmlPath = xmlPath;
                 }

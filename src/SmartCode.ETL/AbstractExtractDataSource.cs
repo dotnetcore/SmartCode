@@ -12,122 +12,90 @@ using SmartSql;
 
 namespace SmartCode.ETL
 {
-    public abstract class AbstractExtractDataSource : IDataSource
+    public abstract class AbstractExtractDataSource : IDataSource, IExtractData
     {
         private readonly Project _project;
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<ExtractDataSource> _logger;
-        private readonly IProjectBuilder _projectBuilder;
         private readonly IPluginManager _pluginManager;
-        protected ISqlMapper SqlMapper { get; set; }
-        public bool Initialized { get; private set; }
         public abstract string Name { get; }
+        protected ISqlMapper SqlMapper { get; private set; }
+
+        public bool Initialized { get; private set; }
 
         private IETLTaskRepository _etlRepository;
+
         protected AbstractExtractDataSource(Project project
             , ILoggerFactory loggerFactory
             , ILogger<ExtractDataSource> logger
-            , IProjectBuilder projectBuilder
             , IPluginManager pluginManager)
         {
             _project = project;
             _loggerFactory = loggerFactory;
             _logger = logger;
-            _projectBuilder = projectBuilder;
             _pluginManager = pluginManager;
             _etlRepository = _pluginManager.Resolve<IETLTaskRepository>(_project.GetETLRepository());
-
-        }
-        private void InitProjectBuilderEvent()
-        {
-            _projectBuilder.OnStartup += _projectBuilder_OnStartup;
-            _projectBuilder.OnFailed += _projectBuilder_OnFailed;
-            _projectBuilder.OnSucceed += _projectBuilder_OnSucceed;
         }
 
-        private async Task _projectBuilder_OnSucceed(object sender, OnProjectBuildSucceedEventArgs eventArgs)
+        public Task InitData()
         {
-            await _etlRepository.Success(_project.GetETKTaskId());
+            return Task.CompletedTask;
         }
 
-        private async Task _projectBuilder_OnStartup(object sender, OnProjectBuildStartupEventArgs eventArgs)
+        private async Task Extract()
         {
-            var etlTaskId = await _etlRepository.Startup(_project.ConfigPath, _project.GetETLCode());
-            _project.SetETKTaskId(etlTaskId);
-        }
-
-        private async Task _projectBuilder_OnFailed(object sender, OnProjectBuildFailedEventArgs eventArgs)
-        {
-            await _etlRepository.Fail(_project.GetETKTaskId(), eventArgs.ErrorException);
-        }
-
-        public async Task InitData()
-        {
-            var dataSource = _project.DataSource;
-            dataSource.Parameters.EnsureValue("DbProvider", out string dbProvider);
-            dataSource.Parameters.EnsureValue("ConnectionString", out string connString);
-            dataSource.Parameters.Value("PKColumn", out string pkColumn);
-            dataSource.Parameters.Value("ModifyTime", out string modifyTime);
-            dataSource.Parameters.EnsureValue("Query", out string queryCmd);
-            #region CreateSqlMapper
-            SqlMapper = new SmartSqlBuilder()
-                .UseAlias(Name)
-                .UseLoggerFactory(_loggerFactory)
-                .UseDataSource(dbProvider, connString)
-                .Build().SqlMapper;
-            #endregion
-            var lastExtract = await _etlRepository.GetLastExtract(_project.GetETLCode());
-            _project.SetETLLastExtract(lastExtract);
             var queryParams = new Dictionary<string, object>
             {
-                { "LastMaxId",lastExtract.MaxId},
-                { "LastQueryTime",lastExtract.QueryTime},
-                { "LastMaxModifyTime",lastExtract.MaxModifyTime},
+                {"LastMaxId", LastExtract.MaxId},
+                {"LastQueryTime", LastExtract.QueryTime},
+                {"LastMaxModifyTime", LastExtract.MaxModifyTime},
+                {nameof(Offset), Offset},
+                {nameof(BulkSize), BulkSize},
             };
+
             var extractEntity = new ETLExtract
             {
                 QueryTime = DateTime.Now,
-                PKColumn = pkColumn,
+                PKColumn = PKColumn,
                 QueryCommand = new ETLDbCommand
                 {
-                    Command = queryCmd,
+                    Command = QueryCmd,
                     Parameters = queryParams
                 },
                 Count = -1,
                 MaxId = -1
             };
             Stopwatch stopwatch = Stopwatch.StartNew();
-            await LoadData(new RequestContext { RealSql = queryCmd, Request = queryParams });
+            await LoadData(new RequestContext {RealSql = QueryCmd, Request = queryParams});
             stopwatch.Stop();
             extractEntity.Count = GetCount();
             extractEntity.QueryCommand.Taken = stopwatch.ElapsedMilliseconds;
             _logger.LogWarning($"InitData,Data.Size:{extractEntity.Count},Taken:{extractEntity.QueryCommand.Taken}ms!");
 
-            dataSource.Parameters.Value("PkIsNumeric", out bool pkIsNumeric);
-            dataSource.Parameters.Value("AutoIncrement", out bool autoIncrement);
-
-            if (!String.IsNullOrEmpty(pkColumn)
-                && (pkIsNumeric || autoIncrement)
+            if (!String.IsNullOrEmpty(PKColumn)
+                && (PkIsNumeric || AutoIncrement)
                 && extractEntity.Count > 0)
             {
-                extractEntity.MaxId = GetMaxId(pkColumn);
+                extractEntity.MaxId = GetMaxId(PKColumn);
             }
             else
             {
-                extractEntity.MaxId = lastExtract.MaxId;
+                extractEntity.MaxId = LastExtract.MaxId;
             }
 
-            if (!String.IsNullOrEmpty(modifyTime)
+            if (!String.IsNullOrEmpty(ModifyTime)
                 && extractEntity.Count > 0)
             {
-                extractEntity.MaxModifyTime = GetMaxModifyTime(modifyTime);
+                extractEntity.MaxModifyTime = GetMaxModifyTime(ModifyTime);
             }
             else
             {
-                extractEntity.MaxModifyTime = lastExtract.MaxModifyTime;
+                extractEntity.MaxModifyTime = LastExtract.MaxModifyTime;
             }
+
             await _etlRepository.Extract(_project.GetETKTaskId(), extractEntity);
         }
+
         protected abstract Task LoadData(RequestContext requestContext);
         public abstract int GetCount();
         public abstract long GetMaxId(string pkColumn);
@@ -136,10 +104,114 @@ namespace SmartCode.ETL
         public void Initialize(IDictionary<string, object> parameters)
         {
             Initialized = true;
-            if (Name == _project.DataSource.Name)
+        }
+
+        public long Total { get; private set; }
+        public int BulkSize { get; private set; }
+        public int Offset { get; private set; }
+
+        public String PKColumn { get; private set; }
+        public String ModifyTime { get; private set; }
+        public String QueryCmd { get; private set; }
+        public String TotalCmd { get; private set; }
+        public bool PkIsNumeric { get; private set; }
+        public bool AutoIncrement { get; private set; }
+        protected ETLExtract LastExtract { get; private set; }
+
+        public async Task Run()
+        {
+            LastExtract = await _etlRepository.GetLastExtract(_project.GetETLCode());
+            _project.SetETLLastExtract(LastExtract);
+            InitParameters();
+
+            var queryParams = new Dictionary<string, object>
             {
-                InitProjectBuilderEvent();
+                {"LastMaxId", LastExtract.MaxId},
+                {"LastQueryTime", LastExtract.QueryTime},
+                {"LastMaxModifyTime", LastExtract.MaxModifyTime}
+            };
+
+            if (!String.IsNullOrEmpty(TotalCmd))
+            {
+                Total = await SqlMapper.ExecuteScalarAsync<long>(new RequestContext
+                {
+                    RealSql = TotalCmd,
+                    Request = queryParams
+                });
+                if (Total == 0)
+                {
+                    _logger.LogInformation("can not find any record.");
+                    return;
+                }
             }
+
+
+            BuildContext buildContext = null;
+            while (Offset < Total)
+            {
+                _logger.LogInformation($"-------- Offset:[{Offset}]  ---------");
+                try
+                {
+                    var etlTaskId = await _etlRepository.Startup(_project.ConfigPath, _project.GetETLCode());
+                    _project.SetETKTaskId(etlTaskId);
+                    await Extract();
+                    foreach (var buildKV in _project.BuildTasks)
+                    {
+                        _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
+                        var output = buildKV.Value.Output;
+                        buildContext = new BuildContext
+                        {
+                            PluginManager = _pluginManager,
+                            DataSource = this,
+                            Project = _project,
+                            BuildKey = buildKV.Key,
+                            Build = buildKV.Value,
+                            Output = output?.Copy()
+                        };
+                        await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
+                        _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
+                    }
+
+                    await _etlRepository.Success(_project.GetETKTaskId());
+                    Offset += BulkSize;
+                }
+                catch (Exception e)
+                {
+                    await _etlRepository.Fail(_project.GetETKTaskId(), e);
+                    throw;
+                }
+            }
+        }
+
+        private void InitParameters()
+        {
+            var dataSource = _project.DataSource;
+            dataSource.Parameters.EnsureValue("DbProvider", out string dbProvider);
+            dataSource.Parameters.EnsureValue("ConnectionString", out String connString);
+            dataSource.Parameters.Value("PKColumn", out string pkColumn);
+            PKColumn = pkColumn;
+            dataSource.Parameters.Value("ModifyTime", out string modifyTime);
+            ModifyTime = modifyTime;
+            dataSource.Parameters.Value("PkIsNumeric", out bool pkIsNumeric);
+            PkIsNumeric = pkIsNumeric;
+            dataSource.Parameters.Value("AutoIncrement", out bool autoIncrement);
+            AutoIncrement = autoIncrement;
+            dataSource.Parameters.EnsureValue("Query", out string queryCmd);
+            QueryCmd = queryCmd;
+            dataSource.Parameters.Value("Total", out String totalCmd);
+            TotalCmd = totalCmd;
+            _project.DataSource.Parameters.EnsureValue("BulkSize", out int bulkSize);
+            BulkSize = bulkSize;
+
+            #region CreateSqlMapper
+
+            SqlMapper = new SmartSqlBuilder()
+                .UseAlias(Name)
+                .UseLoggerFactory(_loggerFactory)
+                .UseDataSource(dbProvider, connString)
+                .Build().SqlMapper;
+
+            #endregion
         }
     }
 }

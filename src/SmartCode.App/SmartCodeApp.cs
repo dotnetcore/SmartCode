@@ -8,6 +8,8 @@ using SmartCode.Configuration.ConfigBuilders;
 using System.Reflection;
 using HandlebarsDotNet;
 using Newtonsoft.Json;
+using SmartCode.ETL;
+using SmartCode.Generator;
 
 namespace SmartCode.App
 {
@@ -62,7 +64,14 @@ namespace SmartCode.App
             Services.AddSingleton<Project>(Project);
             RegisterPlugins();
             Services.AddSingleton<IPluginManager, PluginManager>();
-            Services.AddSingleton<IProjectBuilder, ProjectBuilder>();
+            if (Project.Mode == Project.ProjectMode.ETL)
+            {
+                Services.AddSingleton<IProjectBuilder, ETLProjectBuilder>();
+            }
+            else
+            {
+                Services.AddSingleton<IProjectBuilder, GeneratorProjectBuilder>();
+            }
             ServiceProvider = Services.BuildServiceProvider();
             Logger = ServiceProvider.GetRequiredService<ILogger<SmartCodeApp>>();
         }
