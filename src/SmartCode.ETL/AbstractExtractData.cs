@@ -144,7 +144,7 @@ namespace SmartCode.ETL
             BuildContext buildContext = null;
             while (Offset < Total)
             {
-                _logger.LogInformation($"-------- Offset:[{Offset}]  ---------");
+                _logger.LogInformation($"--------Total:[{Total}] , Offset:[{Offset}]  ---------");
                 try
                 {
                     var etlTaskId = await _etlRepository.Startup(_project.ConfigPath, _project.GetETLCode());

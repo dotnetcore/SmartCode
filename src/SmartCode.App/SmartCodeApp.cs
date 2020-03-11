@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -7,7 +8,6 @@ using System.IO;
 using SmartCode.Configuration.ConfigBuilders;
 using System.Reflection;
 using HandlebarsDotNet;
-using Newtonsoft.Json;
 using SmartCode.ETL;
 using SmartCode.Generator;
 
@@ -115,10 +115,11 @@ namespace SmartCode.App
             {
                 Handlebars.Configuration.TextEncoder = NullTextEncoder.Instance;
                 var projectBuilder = ServiceProvider.GetRequiredService<IProjectBuilder>();
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 Logger.LogInformation($"------- Build ConfigPath:{ConfigPath} Start! --------");
                 await projectBuilder.Build();
                 Logger.LogInformation(
-                    $"-------- Build ConfigPath:{ConfigPath},Output:{Project.Output?.Path} End! --------");
+                    $"-------- Build ConfigPath:[{ConfigPath}],Output:[{Project.Output?.Path}],Taken:[{stopwatch.ElapsedMilliseconds}ms] End! --------");
             }
             catch (SmartCodeException scEx)
             {
