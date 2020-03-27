@@ -23,22 +23,38 @@ namespace SmartCode.CLI
         [Argument(0, Description = "Config Path")]
         [FileExists]
         public String ConfigPath { get; set; }
+        
+        [Option("-ci|--culture-info", Description = "CultureInfo")]
+        public String CultureInfo { get; set; }
 
         private async Task OnExecute()
         {
+            if (!String.IsNullOrEmpty(CultureInfo))
+            {
+                System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.GetCultureInfo(CultureInfo);
+                System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+            }
+
             if (String.IsNullOrEmpty(ConfigPath))
             {
-                var useDefaultConfig = Prompt.GetYesNo($"If you do not enter ConfigPath, you will use the default configuration:{DEFAULT_CONFIG_PATH}", true);
-                ConfigPath = useDefaultConfig ? DEFAULT_CONFIG_PATH
+                var useDefaultConfig =
+                    Prompt.GetYesNo(
+                        $"If you do not enter ConfigPath, you will use the default configuration:{DEFAULT_CONFIG_PATH}",
+                        true);
+                ConfigPath = useDefaultConfig
+                    ? DEFAULT_CONFIG_PATH
                     : Prompt.GetString("Please enter the path to build configuration file:");
             }
 
             SmartCodeApp app = new DefaultSmartCodeAppBuilder().Build(ConfigPath);
             await app.Run();
         }
+
         private static string GetVersion()
-            => typeof(SmartCodeCommand).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-        [Command(name: "pull",Description = "Pull Git Template.")]
+            => typeof(SmartCodeCommand).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                .InformationalVersion;
+
+        [Command(name: "pull", Description = "Pull Git Template.")]
         public class MarketCommand
         {
             private readonly IConsole _console;
@@ -48,10 +64,8 @@ namespace SmartCode.CLI
                 _console = console;
             }
 
-            [Option(Description = "Source Path")]
-            public String Source { get; set; }
-            [Option(Description = "Target Path")]
-            public String Target { get; set; }
+            [Option(Description = "Source Path")] public String Source { get; set; }
+            [Option(Description = "Target Path")] public String Target { get; set; }
 
             private string ParseGitArgs()
             {
@@ -59,7 +73,7 @@ namespace SmartCode.CLI
                 return $"clone --progress -v \"{Source}\" \"{toPath}\"";
             }
 
-            private  void OnExecute(IConsole console)
+            private void OnExecute(IConsole console)
             {
                 var startInfo = new ProcessStartInfo("git")
                 {
@@ -74,8 +88,10 @@ namespace SmartCode.CLI
 
                 using (var process = Process.Start(startInfo))
                 {
-                    process.OutputDataReceived += Process_OutputDataReceived; ;
-                    process.ErrorDataReceived += Process_ErrorDataReceived; ;
+                    process.OutputDataReceived += Process_OutputDataReceived;
+                    ;
+                    process.ErrorDataReceived += Process_ErrorDataReceived;
+                    ;
                     process.BeginOutputReadLine();
                     process.BeginErrorReadLine();
                     process.WaitForExit();

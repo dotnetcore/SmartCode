@@ -361,6 +361,39 @@
         <DbType Name="geography" To="geography"/>
     </Database>
 
+    <Database DbProvider="SqlServer" Language="MySql">
+        <DbType Name="text" To="text"/>
+        <DbType Name="varchar" To="varchar"/>
+        <DbType Name="nvarchar" To="varchar"/>
+        <DbType Name="uniqueidentifier" To="char(36)"/>
+        <DbType Name="date" To="datetime"/>
+        <DbType Name="smalldatetime" To="datetime"/>
+        <DbType Name="datetime" To="datetime"/>
+        <DbType Name="datetime2" To="datetime"/>
+        <DbType Name="time" To="datetime"/>
+        <DbType Name="datetimeoffset" To="datetime"/>
+        <DbType Name="tinyint" To="int"/>
+        <DbType Name="smallint" To="int"/>
+        <DbType Name="int" To="int"/>
+        <DbType Name="bigint" To="bigint"/>
+        <DbType Name="bit" To="bool"/>
+        <DbType Name="char" To="char"/>
+        <DbType Name="uniqueide" To="char(36)"/>
+        <DbType Name="numeric" To="int"/>
+        <DbType Name="integer" To="int"/>
+        <DbType Name="money" To="decimal(10,2)"/>
+        <DbType Name="real" To="decimal(10,2)"/>
+        <DbType Name="single" To="int"/>
+        <DbType Name="smallmoney" To="decimal(10,2)"/>
+        <DbType Name="decimal" To="decimal(10,2)"/>
+        <DbType Name="float" To="float"/>
+        <DbType Name="number" To="decimal(10,2)"/>
+        <DbType Name="boolean" To="bool"/>
+        <DbType Name="long" To="bigint"/>
+        <DbType Name="longtext" To="text"/>
+        <DbType Name="timestamp" To="datetime"/>
+    </Database>
+
     <Database DbProvider="MySql" Language="PostgreSql">
         <DbType Name="text" To="text"/>
         <DbType Name="varchar" To="varchar"/>

@@ -1,0 +1,114 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@model BuildContext
+@{
+    var project = Model.Project;
+    var dbSource = Model.GetDataSource<DbSource>();
+    var buildTask = Model.Build;
+    project.Parameters.Value("ExtractMode", out string extractMode);//Last: Full,LastMaxModifyTime,LastQueryTime,LastMaxId
+    bool extractModeUseTime = extractMode == "LastMaxModifyTime" || extractMode == "LastQueryTime";
+    project.Parameters.Value("ExtractConnectionString", out string extractConnectionString);
+    extractConnectionString = extractConnectionString ?? dbSource.Database.Write.ConnectionString;
+    project.Parameters.Value("LoadDbProvider", out string loadDbProvider);
+    project.Parameters.Value("LoadConnectionString", out string loadConnectionString);
+    project.Parameters.Value("SecureFilePriv", out string secureFilePriv);
+    Model.Project.Parameters.Value("ModifyTime", out string modifyTime);
+    var table = Model.GetCurrentTable();
+    var loadTable = extractModeUseTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
+    var PKColumn = Model.GetCurrentTable().PKColumn;
+}
+
+@functions{
+    string GetExtractWhere()
+    {
+        string sql = String.Empty;
+        Model.Project.Parameters.Value("ExtractMode", out string extractMode);
+        switch (extractMode)
+        {
+            case "Full": { return ""; }
+            case "LastMaxModifyTime":
+                {
+                    Model.Project.Parameters.Value("ModifyTime", out string modifyTime);
+                    sql = $"{modifyTime}>@LastMaxModifyTime";
+                    break;
+                }
+            case "LastQueryTime":
+                {
+                    Model.Project.Parameters.Value("ModifyTime", out string modifyTime);
+                    sql = $"{modifyTime}>@LastQueryTime";
+                    break;
+                }
+            case "LastMaxId":
+            default:
+                {
+                    sql = $"{Model.GetCurrentTable().PKColumn.Name}>@LastMaxId";
+                    break;
+                }
+        }
+        return $"Where {sql}";
+    }
+}
+
+Author: Rocher Kong
+DataSource:
+  Name: Extract
+  Parameters:
+    DbProvider: @dbSource.DbRepository.DbProviderName
+    ConnectionString: @extractConnectionString
+    Query: 'Select * From @table.Name @GetExtractWhere()'
+    PKColumn: @PKColumn.Name
+    AutoIncrement: @(PKColumn.AutoIncrement ? "true" : "false")
+    @if (!String.IsNullOrEmpty(modifyTime))
+    {
+        <text>@Html.PadLeft(4)ModifyTime: @modifyTime</text>
+    }
+
+
+Parameters:
+    ETLCode: @(project.Module).@table.Name
+    ETLRepository: MySql
+
+Build:
+  Transform:
+    Type: Transform
+    Parameters:
+      Script:
+
+  Load:
+    Type: Load
+    Parameters:
+      DbProvider: @loadDbProvider
+      SecureFilePriv: @secureFilePriv
+      ConnectionString: @loadConnectionString
+      Table: @loadTable
+    @switch (extractMode)
+    {
+        case "LastMaxModifyTime":
+        case "LastQueryTime":
+            {
+                <text>
+      PreCommand: create TEMPORARY table @(loadTable) select * from @table.ConvertedName where 1=0;
+      PostCommand: "delete from @table.ConvertedName where EXISTS(select * from @(loadTable) as temp where temp.@(PKColumn.ConvertedName)=t_payment.@(PKColumn.ConvertedName));
+                    insert into @table.ConvertedName select * from @loadTable;"
+                </text>
+                break;
+            }
+        case "Full":
+            {
+                <text>
+      PreCommand: TRUNCATE TABLE  @(loadTable);
+                </text>
+                break;
+            }
+    }
+
+      ColumnMapping: [
+    @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+    {
+        var col = table.Columns.ElementAt(colIndex);
+        <text>{Column: @col.Name,Mapping: @col.ConvertedName}</text>
+        if (colIndex < table.Columns.Count() - 1)
+        {@(",")}
+    @Html.NewLine()
+}
+    ]

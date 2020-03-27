@@ -1,0 +1,45 @@
+﻿@using SmartCode
+@model BuildContext
+@{
+    var all_table = Model.GetCurrentAllTable();
+}
+@functions {
+    String GetPGSqlType(SmartCode.Generator.Entity.Column col)
+    {
+        var sqlDbType = col.LanguageType;
+        if (string.IsNullOrEmpty(sqlDbType)) {
+            return "NAType";
+        }
+        if (sqlDbType.StartsWith("varchar"))
+        {
+            if (col.DataLength == -1) {
+                return "text";
+            }
+            return $"varchar({col.DataLength})";
+        }
+        return sqlDbType;
+    }
+}
+
+@foreach (var table in all_table)
+{
+    <text>
+        /*==============================================================*/
+        /* Table: @table.ConvertedName                                  */
+        /*==============================================================*/
+        create table @table.ConvertedName  (
+
+        @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
+        {
+            var col = table.Columns.ElementAt(colIndex);
+            @col.ConvertedName @Html.PadLeft(4) @GetPGSqlType(col) @Html.PadLeft(4) @(col.IsNullable ? "null" : "not null")  @(col.IsPrimaryKey?" primary key":"")  @if (!String.IsNullOrEmpty(col.Description))
+                                                                                                                            {
+                                                                                                                                <text> comment  '@col.Description';</text>
+                                                                                                                            }  if (colIndex < table.Columns.Count() - 1)
+                                                                                                                            {@(",")}
+            @Html.NewLine()
+        }
+        );
+        
+        </text>
+    }
