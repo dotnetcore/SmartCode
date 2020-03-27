@@ -381,13 +381,13 @@
         <DbType Name="uniqueide" To="char(36)"/>
         <DbType Name="numeric" To="int"/>
         <DbType Name="integer" To="int"/>
-        <DbType Name="money" To="decimal(10,2)"/>
-        <DbType Name="real" To="decimal(10,2)"/>
+        <DbType Name="money" To="decimal(18,2)"/>
+        <DbType Name="real" To="decimal(18,2)"/>
         <DbType Name="single" To="int"/>
-        <DbType Name="smallmoney" To="decimal(10,2)"/>
-        <DbType Name="decimal" To="decimal(10,2)"/>
+        <DbType Name="smallmoney" To="decimal(18,2)"/>
+        <DbType Name="decimal" To="decimal(18,2)"/>
         <DbType Name="float" To="float"/>
-        <DbType Name="number" To="decimal(10,2)"/>
+        <DbType Name="number" To="decimal(18,2)"/>
         <DbType Name="boolean" To="bool"/>
         <DbType Name="long" To="bigint"/>
         <DbType Name="longtext" To="text"/>

@@ -12,6 +12,7 @@
     project.Parameters.Value("LoadDbProvider", out string loadDbProvider);
     project.Parameters.Value("LoadConnectionString", out string loadConnectionString);
     project.Parameters.Value("SecureFilePriv", out string secureFilePriv);
+    project.Parameters.Value("DateTimeFormat", out string dateTimeFormat);
     Model.Project.Parameters.Value("ModifyTime", out string modifyTime);
     var table = Model.GetCurrentTable();
     var loadTable = extractModeUseTime ? $"{table.ConvertedName}__temp" : table.ConvertedName;
@@ -55,7 +56,9 @@ DataSource:
   Parameters:
     DbProvider: @dbSource.DbRepository.DbProviderName
     ConnectionString: @extractConnectionString
-    Query: 'Select * From @table.Name @GetExtractWhere()'
+    Query: 'Select * From @table.Name @GetExtractWhere() Order By @PKColumn.Name Asc Offset @@Offset Rows Fetch Next @@BulkSize Rows Only;'
+    Total: 'Select Count(*) From @table.Name With(NoLock) @GetExtractWhere()'
+    BulkSize: 1000
     PKColumn: @PKColumn.Name
     AutoIncrement: @(PKColumn.AutoIncrement ? "true" : "false")
     @if (!String.IsNullOrEmpty(modifyTime))
@@ -79,6 +82,7 @@ Build:
     Parameters:
       DbProvider: @loadDbProvider
       SecureFilePriv: @secureFilePriv
+      DateTimeFormat: @dateTimeFormat
       ConnectionString: @loadConnectionString
       Table: @loadTable
     @switch (extractMode)
