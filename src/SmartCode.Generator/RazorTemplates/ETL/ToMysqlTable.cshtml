@@ -88,7 +88,7 @@ Build:
             {
                 <text>
       PreCommand: create TEMPORARY table @(loadTable) select * from @table.ConvertedName where 1=0;
-      PostCommand: "delete from @table.ConvertedName where EXISTS(select * from @(loadTable) as temp where temp.@(PKColumn.ConvertedName)=t_payment.@(PKColumn.ConvertedName));
+      PostCommand: "delete from @table.ConvertedName where EXISTS(select * from @(loadTable) as temp where temp.@(PKColumn.ConvertedName)=@table.@(PKColumn.ConvertedName));
                     insert into @table.ConvertedName select * from @loadTable;"
                 </text>
                 break;
