@@ -10,7 +10,8 @@
 }
 
 <select id="getById" resultMap="@resultMapName">
+    <bind name="id" value="_parameter"/>
     select * from @table.Name
-    where @pkCol.Name=#{@pkCol.ConvertedName}
+    where @pkCol.Name=#{id}
     limit 1
 </select>

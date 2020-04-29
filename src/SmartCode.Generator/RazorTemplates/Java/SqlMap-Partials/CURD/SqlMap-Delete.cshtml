@@ -13,15 +13,17 @@
 @if (logicalDeleteKey != null)
 {
     <update id="deleteById">
+        <bind name="id" value="_parameter"/>
         update @table.Name
         set @logicalDeleteKey =1
-        where @pkCol.Name=#{@pkCol.ConvertedName}
+        where @pkCol.Name=#{id}
     </update>
 }
 else
 {
     <delete id="deleteById">
+        <bind name="id" value="_parameter"/>
         delete from @table.Name
-        where @pkCol.Name=#{@pkCol.ConvertedName}
+        where @pkCol.Name=#{id}
     </delete>
 }
