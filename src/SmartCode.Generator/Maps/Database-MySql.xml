@@ -4,7 +4,8 @@
     <Statement Id="QueryTable">
       SELECT
       T.TABLE_NAME Name,
-      ( CASE WHEN T.TABLE_TYPE = 'VIEW' THEN 'V' ELSE 'T' END ) AS TypeName
+      ( CASE WHEN T.TABLE_TYPE = 'VIEW' THEN 'V' ELSE 'T' END ) AS TypeName,
+      T.TABLE_COMMENT AS `Description`
       FROM
       Information_Schema.TABLES AS T
       WHERE
