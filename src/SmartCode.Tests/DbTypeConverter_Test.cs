@@ -15,7 +15,7 @@ namespace SmartCode.Tests
         [Fact]
         public void Convert()
         {
-            var xmlPath = @"E:\Ahoo\SmartCode\src\SmartCode\DbTypeConverter\DbTypeMap.xml";
+            var xmlPath = @"E:\projects\SmartCode\src\SmartCode\DbTypeConverter\DbTypeMap.xml";
             var patamters = new Dictionary<string, object> {
                 { "XmlPath",xmlPath}
             };
