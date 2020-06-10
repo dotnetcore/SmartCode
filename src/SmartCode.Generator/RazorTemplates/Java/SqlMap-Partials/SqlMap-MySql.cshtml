@@ -21,6 +21,6 @@
     <select id="queryByPage" resultMap="@resultMapName">
         select * from @table.Name
         <include refid="queryParams"/>
-        limit #{page.offset} offset #{page.limit}
+        limit #{page.limit} offset #{page.offset}
     </select>
 }
