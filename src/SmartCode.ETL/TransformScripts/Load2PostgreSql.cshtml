@@ -1,6 +1,6 @@
 ﻿@using SmartCode
 @using SmartCode.ETL;
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var dataSource = Model.GetExtractData<ExtractData>();
 }
