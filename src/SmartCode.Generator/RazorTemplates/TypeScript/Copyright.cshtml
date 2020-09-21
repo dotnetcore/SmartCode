@@ -1,5 +1,6 @@
 @using SmartCode
-@model BuildContext
+@using System;
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
 }

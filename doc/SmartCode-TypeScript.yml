@@ -59,6 +59,7 @@ Build:
     Type: Table
     Module: Data
     TemplateEngine:
+      Name: RazorCore
       Path: Model.cshtml
     Output:
       Path: '{{Items.CurrentTable.Name}}/services'

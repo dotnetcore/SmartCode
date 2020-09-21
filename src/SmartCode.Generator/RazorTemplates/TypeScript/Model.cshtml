@@ -2,19 +2,21 @@
 @using SmartCode
 @using SmartCode.Db
 @using SmartCode.Generator.Entity;
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
+
 @{
-    Layout = "_Layout.cshtml";
     var project = Model.Project;
     var task = Model.Build;
     var table = Model.GetCurrentTable();
 }
 @functions { }
 
+@Include("Copyright.cshtml", Model)
+
 /** interface for @table.GetSummary() */
 export interface @(table.ConvertedName) {
     @foreach (var col in table.Columns) {
-        @($"{Html.PadLeft(4)}/** {col.GetSummary()} */{Html.NewLine()}")
-        @($"{Html.PadLeft(4)}{col.ConvertedName}: {col.LanguageType};{Html.NewLine()}")
+        @($"{PadLeft(4)}/** {col.GetSummary()} */{NewLine()}")
+        @($"{PadLeft(4)}{col.ConvertedName}: {col.LanguageType};{NewLine()}")
     }
 }
