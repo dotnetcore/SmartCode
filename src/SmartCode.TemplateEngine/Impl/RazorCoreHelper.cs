@@ -19,6 +19,7 @@ namespace SmartCode.TemplateEngine.Impl {
             if (!File.Exists(viewPath)) {
                 throw new FileNotFoundException($"Razor file {viewPath} does not exists!");
             }
+            System.Console.WriteLine($"Compile and run file: {viewPath}");
             var template = engine.Compile<RazorCoreTemplate<BuildContext>>(
                 File.ReadAllText(viewPath),
                 builder => {
