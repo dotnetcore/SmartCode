@@ -51,16 +51,22 @@
     {
     <!--获取数据列-->
     <Statement Id="Query" @queryStatementResultMap>
-        SELECT
-        <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(dbPrefix)Taken)
+        
+        select * from (
+
+            SELECT
+            
+            T.* From @table.Name T
+            <Include RefId="QueryParams"/>
+            <Switch Prepend="Order By" Property="OrderBy">
+                <Default>
+                    T.@pkCol.Name Desc
+                </Default>
+            </Switch>
+            
+        ) 
+        <IsNotEmpty Prepend="where" Property="Taken">
+            ROWNUM  < (@(dbPrefix)Taken)
         </IsNotEmpty>
-        T.* From @table.Name T
-        <Include RefId="QueryParams" />
-        <Switch Prepend="Order By" Property="OrderBy">
-            <Default>
-                T.@pkCol.Name Desc
-            </Default>
-        </Switch>
     </Statement>
 }
