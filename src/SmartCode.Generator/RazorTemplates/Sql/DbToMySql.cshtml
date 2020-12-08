@@ -1,5 +1,5 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var all_table = Model.GetCurrentAllTable();
 }
@@ -32,14 +32,14 @@
         @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
         {
             var col = table.Columns.ElementAt(colIndex);
-            @col.ConvertedName @Html.PadLeft(4) @GetPGSqlType(col) @Html.PadLeft(4) @(col.IsNullable ? "null" : "not null")  @(col.IsPrimaryKey?" primary key":"") @(col.AutoIncrement?" AUTO_INCREMENT":"")  @if (!String.IsNullOrEmpty(col.Description))
+            @col.ConvertedName @PadLeft(4) @GetPGSqlType(col) @PadLeft(4) @(col.IsNullable ? "null" : "not null")  @(col.IsPrimaryKey?" primary key":"") @(col.AutoIncrement?" AUTO_INCREMENT":"")  @if (!String.IsNullOrEmpty(col.Description))
                                                                                                                             {
                                                                                                                                 <text> comment  '@col.Description'</text>
                                                                                                                             }  if (colIndex < table.Columns.Count() - 1)
                                                                                                                             {@(",")}
-            @Html.NewLine()
+            @NewLine()
         }
         );
-        
+
         </text>
     }

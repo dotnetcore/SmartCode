@@ -1,5 +1,5 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var all_table = Model.GetCurrentAllTable();
 }
@@ -31,8 +31,8 @@
 
         @foreach (var col in table.Columns)
         {
-            @col.ConvertedName @Html.PadLeft(4) @GetPGSqlType(col) @Html.PadLeft(4) @(col.IsNullable ? "null" : "not null") @(",")
-            @Html.NewLine()
+            @col.ConvertedName @PadLeft(4) @GetPGSqlType(col) @PadLeft(4) @(col.IsNullable ? "null" : "not null") @(",")
+            @NewLine()
         }
         @if (table.PKColumn != null)
         {
@@ -44,14 +44,14 @@
         {
             <text>comment on table @table.ConvertedName is '@table.Description';</text>
         }
-        @Html.NewLine()
+        @NewLine()
         @foreach (var col in table.Columns)
         {
             @if (!String.IsNullOrEmpty(col.Description))
             {
                 <text>comment on column @($"{table.ConvertedName}.{col.ConvertedName}") is '@col.Description';</text>
             }
-            @Html.NewLine()
+            @NewLine()
         }
         </text>
     }

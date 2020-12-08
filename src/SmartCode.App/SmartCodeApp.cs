@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,7 @@ using SmartCode.Configuration;
 using System.IO;
 using SmartCode.Configuration.ConfigBuilders;
 using System.Reflection;
+using System.Text;
 using HandlebarsDotNet;
 using SmartCode.ETL;
 using SmartCode.Generator;
@@ -136,6 +138,25 @@ namespace SmartCode.App
             {
                 return value;
             }
+
+            public void Encode(StringBuilder text, TextWriter target)
+            {
+                target.Write(text.ToString());
+            }
+
+            public void Encode(string text, TextWriter target)
+            {
+                target.Write(text);
+            }
+
+            public void Encode<T>(T text, TextWriter target) where T : IEnumerator<char>
+            {
+                while (text.MoveNext())
+                {
+                    target.Write(text.Current);
+                }
+            }
+
         }
     }
 }
