@@ -4,7 +4,6 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Handlebars.Net" Version="2.0.1" />
     <PackageReference Include="RazorEngineCore" Version="2020.10.1" />
   </ItemGroup>
   <ItemGroup>
