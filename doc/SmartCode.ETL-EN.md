@@ -84,11 +84,7 @@ I believe that many students who have already landed the microservices architect
       },
       {
         "Type": "SmartCode.TemplateEngine.ITemplateEngine,SmartCode.TemplateEngine",
-        "ImplType": "SmartCode.TemplateEngine.Impl.HandlebarsTemplateEngine,SmartCode.TemplateEngine"
-      },
-      {
-        "Type": "SmartCode.TemplateEngine.ITemplateEngine,SmartCode.TemplateEngine",
-        "ImplType": "SmartCode.TemplateEngine.Impl.OfficialRazorTemplateEngine,SmartCode.TemplateEngine"
+        "ImplType": "SmartCode.TemplateEngine.Impl.RazorCoreTemplateEngine,SmartCode.TemplateEngine"
       },
       {
         "Type": "SmartCode.Generator.IDbTypeConverter,SmartCode.Generator",

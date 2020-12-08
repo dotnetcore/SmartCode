@@ -67,11 +67,7 @@ SmartCode 插件机制拥有非常灵活的扩展能力，SmartCode 中一切都
       },
       {
         "Type": "SmartCode.TemplateEngine.ITemplateEngine,SmartCode.TemplateEngine",
-        "ImplType": "SmartCode.TemplateEngine.Impl.HandlebarsTemplateEngine,SmartCode.TemplateEngine"
-      },
-      {
-        "Type": "SmartCode.TemplateEngine.ITemplateEngine,SmartCode.TemplateEngine",
-        "ImplType": "SmartCode.TemplateEngine.Impl.OfficialRazorTemplateEngine,SmartCode.TemplateEngine"
+        "ImplType": "SmartCode.TemplateEngine.Impl.RazorCoreTemplateEngine,SmartCode.TemplateEngine"
       },
       {
         "Type": "SmartCode.Generator.IDbTypeConverter,SmartCode.Generator",
@@ -111,7 +107,7 @@ SmartCode 插件机制拥有非常灵活的扩展能力，SmartCode 中一切都
 
 ## 如何自定义模板
 
-目前SmartCode支持俩种模板引擎 **Razor** & **Handlebars** 。
+目前SmartCode支持模板引擎 **Razor**  。
 Razor 模板引擎使用的是官方版本，这一点上.NETer同学可以很轻松的自定义SmartCode模板，需要注意的是Razor模板的Model为BuildContext,具体方法可以参考源代码中的模板。编写完成之后放到RazorTemplates，构建时指定好即可。
 
 ## 代码生成器支持多少种数据库
