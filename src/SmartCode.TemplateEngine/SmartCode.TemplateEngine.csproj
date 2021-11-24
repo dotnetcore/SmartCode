@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RazorEngineCore" Version="2020.10.1" />
+    <PackageReference Include="RazorEngineCore" Version="2021.7.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartCode\SmartCode.csproj" />
