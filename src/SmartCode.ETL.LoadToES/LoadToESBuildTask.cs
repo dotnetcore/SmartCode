@@ -80,7 +80,7 @@ namespace SmartCode.ETL.LoadToES
                          if (colMapping.TryGetValue(itemKey, out string mapping))
                          {
                              itemKey = mapping;
-                         }                        
+                         }
                      }
                      newItem.Add(itemKey,item.Value);
                  }
@@ -90,16 +90,15 @@ namespace SmartCode.ETL.LoadToES
             #endregion
             #region BatchInsert
             var esClient = GetElasticClient(esOptions);
-            var indexExResp = await esClient.IndexExistsAsync(esOptions.Index);
+            var indexExResp = await esClient.Indices.ExistsAsync(esOptions.Index);
             if (!indexExResp.Exists)
             {
-                var createIndexResp = await esClient.CreateIndexAsync(esOptions.Index);
+                var createIndexResp = await esClient.Indices.CreateAsync(esOptions.Index);
             }
-            var esSyncResp = await esClient.BulkAsync((bulkRequest) =>
-            {
-                var bulkReqDesc = bulkRequest
-                  .Index(esOptions.Index)
-                  .Type(esOptions.TypeName);
+            var esSyncResp = await esClient.BulkAsync((bulkRequest) => {
+                    var bulkReqDesc = bulkRequest
+                        .Index(esOptions.Index);
+                  // .Type(esOptions.TypeName);
                 if (context.Build.Parameters.Value(ID_MAPPING, out string es_id))
                 {
                     return bulkReqDesc.IndexMany(dataSource.TransformData, (bulkIdxDesc, item) =>
@@ -150,7 +149,7 @@ namespace SmartCode.ETL.LoadToES
             Uri node = new Uri(esOptions.Host);
             ConnectionSettings settings = new ConnectionSettings(node);
             settings.DefaultIndex(esOptions.Index);
-            settings.DefaultTypeName(esOptions.TypeName);
+            // settings.DefaultTypeName(esOptions.TypeName);
             #region Auth
             if (!String.IsNullOrEmpty(esOptions.UserName))
             {

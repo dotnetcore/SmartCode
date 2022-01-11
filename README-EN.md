@@ -261,7 +261,7 @@ Build:
 | Author | Author |
 | DataSource | Data Source |
 | Language | Language: CSharp/Java/.... |
-| TemplateEngine | Template Engine: Currently Built: Razor/Handlebars |
+| TemplateEngine | Template Engine: Currently Built: Razor |
 | Output | Output |
 | Build | Task Build |
 

@@ -261,7 +261,7 @@ Build:
 | Author | 作者 |
 | DataSource | 数据源 |
 | Language | 语言：CSharp/Java/.... |
-| TemplateEngine | 模板引擎：目前内置：Razor/Handlebars |
+| TemplateEngine | 模板引擎：目前内置：Razor |
 | Output | 输出 |
 | Build | 任务构建s |
 
