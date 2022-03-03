@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HandlebarsDotNet;
 using SmartCode.Configuration;
 using SmartCode.Utilities;
+using System.Text.RegularExpressions;
 
 namespace SmartCode.App.Outputs
 {
@@ -69,23 +70,26 @@ namespace SmartCode.App.Outputs
                 {
                     case Configuration.CreateMode.None:
                     case Configuration.CreateMode.Incre:
-                    {
-                        _logger.LogWarning(
-                            $"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
-                        return;
-                    }
+                        {
+                            _logger.LogWarning(
+                                $"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
+                            return;
+                        }
                     case Configuration.CreateMode.Full:
-                    {
-                        File.Delete(filePath);
-                        _logger.LogWarning($"------ Mode:{output.Mode},FilePath:{filePath} Exists Deleted ! ------");
-                        break;
-                    }
+                        {
+                            File.Delete(filePath);
+                            _logger.LogWarning($"------ Mode:{output.Mode},FilePath:{filePath} Exists Deleted ! ------");
+                            break;
+                        }
                 }
             }
 
-            using (StreamWriter streamWriter = new StreamWriter(filePath))
+            //采购VS默认的UTF-8 WITH BOM 编码
+            using (StreamWriter streamWriter = new StreamWriter(filePath, false, new UTF8Encoding(true)))
             {
-                await streamWriter.WriteAsync(context.Result.Trim());
+                //强制行尾为 \r\n
+                var result = Regex.Replace(context.Result.Trim(), @"[\r\n]+", "\r\n", RegexOptions.Multiline);
+                await streamWriter.WriteAsync(result);
             }
 
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} -> {filePath} End! ------");
