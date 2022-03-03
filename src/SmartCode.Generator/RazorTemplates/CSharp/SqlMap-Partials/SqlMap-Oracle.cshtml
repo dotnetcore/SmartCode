@@ -27,7 +27,7 @@
         Select TT.* From
         (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T
         <Include RefId="QueryParams" />) TT
-        Where TT.Row_Index Between ((@@PageIndex-1)*@@PageSize+1) And (@@PageIndex*@@PageSize)
+        Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize)
     </Statement>
 }
 @section GetEntity
@@ -51,16 +51,21 @@
     {
     <!--获取数据列-->
     <Statement Id="Query" @queryStatementResultMap>
-        SELECT
-        <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(dbPrefix)Taken)
+        select * from (
+
+            SELECT
+            T.* From @table.Name T
+            <Include RefId="QueryParams"/>
+            <Switch Prepend="Order By" Property="OrderBy">
+                <Default>
+                    T.@pkCol.Name Desc
+                </Default>
+            </Switch>
+        )
+        <IsNotEmpty Prepend="where" Property="Taken">
+        <![CDATA[
+        ROWNUM <= @(dbPrefix)Taken
+        ]]>
         </IsNotEmpty>
-        T.* From @table.Name T
-        <Include RefId="QueryParams" />
-        <Switch Prepend="Order By" Property="OrderBy">
-            <Default>
-                T.@pkCol.Name Desc
-            </Default>
-        </Switch>
     </Statement>
 }
