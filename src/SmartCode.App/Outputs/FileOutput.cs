@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HandlebarsDotNet;
 using SmartCode.Configuration;
 using SmartCode.Utilities;
+using System.Text.RegularExpressions;
 
 namespace SmartCode.App.Outputs
 {
@@ -83,9 +84,12 @@ namespace SmartCode.App.Outputs
                 }
             }
 
+            //采购VS默认的UTF-8 WITH BOM 编码
             using (StreamWriter streamWriter = new StreamWriter(filePath, false, new UTF8Encoding(true)))
             {
-                await streamWriter.WriteAsync(context.Result.Trim());
+                //强制行尾为 \r\n
+                var result = Regex.Replace(context.Result.Trim(), @"[\r\n]+", "\r\n", RegexOptions.Multiline);
+                await streamWriter.WriteAsync(result);
             }
 
             _logger.LogInformation($"------ Mode:{output.Mode},Build:{context.BuildKey} -> {filePath} End! ------");
