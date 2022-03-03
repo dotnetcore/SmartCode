@@ -69,21 +69,21 @@ namespace SmartCode.App.Outputs
                 {
                     case Configuration.CreateMode.None:
                     case Configuration.CreateMode.Incre:
-                    {
-                        _logger.LogWarning(
-                            $"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
-                        return;
-                    }
+                        {
+                            _logger.LogWarning(
+                                $"------ Mode:{output.Mode},Build:{context.BuildKey},FilePath:{filePath} Exists ignore output End! ------");
+                            return;
+                        }
                     case Configuration.CreateMode.Full:
-                    {
-                        File.Delete(filePath);
-                        _logger.LogWarning($"------ Mode:{output.Mode},FilePath:{filePath} Exists Deleted ! ------");
-                        break;
-                    }
+                        {
+                            File.Delete(filePath);
+                            _logger.LogWarning($"------ Mode:{output.Mode},FilePath:{filePath} Exists Deleted ! ------");
+                            break;
+                        }
                 }
             }
 
-            using (StreamWriter streamWriter = new StreamWriter(filePath))
+            using (StreamWriter streamWriter = new StreamWriter(filePath, false, new UTF8Encoding(true)))
             {
                 await streamWriter.WriteAsync(context.Result.Trim());
             }
