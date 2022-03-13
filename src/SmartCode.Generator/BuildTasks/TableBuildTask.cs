@@ -28,6 +28,11 @@ namespace SmartCode.Generator.BuildTasks
             var filterTables = FilterTable(context.GetDataSource<ITableSource>().Tables, context.BuildKey,
                 context.Build);
             context.SetCurrentAllTable(filterTables);
+
+            var nameConverter = _pluginManager.Resolve<INamingConverter>();
+            var templateEngine = _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name);
+            var output = _pluginManager.Resolve<IOutput>(context.Build.Output.Type);
+
             var tasks = filterTables.Select(table =>
             {
                 BuildContext newContext = new BuildContext();
@@ -40,20 +45,20 @@ namespace SmartCode.Generator.BuildTasks
                 newContext.Output = context.Output;
                 newContext.SetCurrentTable(table);
 
-                return BuildTable(newContext);
+                return Task.Factory.StartNew(BuildTable,(newContext, nameConverter, templateEngine, output), TaskCreationOptions.LongRunning);
             }).ToArray();
 
             await Task.WhenAll(tasks);
         }
 
-        private async Task BuildTable(BuildContext context)
+        private async void BuildTable(object obj)
         {
-            var table = context.GetCurrentTable();
+            var p=((BuildContext context, INamingConverter nameConverter, ITemplateEngine templateEngine, IOutput output)) obj;
+            var table = p.context.GetCurrentTable();
             _logger.LogInformation($"BuildTable:{table.Name} Start!");
-            _pluginManager.Resolve<INamingConverter>().Convert(context);
-            context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name)
-                .Render(context);
-            await _pluginManager.Resolve<IOutput>(context.Build.Output.Type).Output(context);
+            p.nameConverter.Convert(p.context);
+            p.context.Result = await p.templateEngine.Render(p.context);
+            await p.output.Output(p.context);
             _logger.LogInformation($"BuildTable:{table.Name} End!");
         }
 
