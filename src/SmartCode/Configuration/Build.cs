@@ -21,10 +21,6 @@ namespace SmartCode.Configuration
         public bool? IgnoreView { get; set; }
         public NamingConverter NamingConverter { get; set; }
         /// <summary>
-        /// 是否等待前序任务
-        /// </summary>
-        public bool WaitPre { get; set; } = true;
-        /// <summary>
         /// 自定义构建参数
         /// </summary>
         public IDictionary<String, object> Parameters { get; set; }

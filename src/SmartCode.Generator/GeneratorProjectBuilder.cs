@@ -32,43 +32,20 @@ namespace SmartCode.Generator
             this.countdown.Reset();
             foreach (var buildKV in _project.BuildTasks)
             {
-                if (!buildKV.Value.WaitPre)
+                _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
+                var output = buildKV.Value.Output;
+                var buildContext = new BuildContext
                 {
-                    this.countdown.AddCount();
-                    Thread t = new Thread((obj) =>
-                    {
-                        var p = ((KeyValuePair<string, Build> buildKV, IDataSource dataSource))obj;
-                        BuildTask(buildKV, dataSource);
-                        this.countdown.Signal();
-                    });
-
-                    t.Start((buildKV, dataSource));
-                    continue;
-                }
-
-                this.countdown.Signal();
-                this.countdown.Wait();
-                this.countdown.Reset();
-
-                BuildTask(buildKV, dataSource);
+                    PluginManager = _pluginManager,
+                    Project = _project,
+                    DataSource = dataSource,
+                    BuildKey = buildKV.Key,
+                    Build = buildKV.Value,
+                    Output = output?.Copy()
+                };
+                await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
+                _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
             }
-        }
-
-        private void BuildTask(KeyValuePair<string, Build> buildKV, IDataSource dataSource)
-        {
-            _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
-            var output = buildKV.Value.Output;
-            BuildContext buildContext = new BuildContext
-            {
-                PluginManager = _pluginManager,
-                Project = _project,
-                DataSource = dataSource,
-                BuildKey = buildKV.Key,
-                Build = buildKV.Value,
-                Output = output?.Copy()
-            };
-            _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext).Wait();
-            _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
         }
     }
 }

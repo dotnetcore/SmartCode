@@ -28,16 +28,33 @@ namespace SmartCode.Generator.BuildTasks
             var filterTables = FilterTable(context.GetDataSource<ITableSource>().Tables, context.BuildKey,
                 context.Build);
             context.SetCurrentAllTable(filterTables);
-            foreach (var table in filterTables)
+            var tasks = filterTables.Select(table =>
             {
-                _logger.LogInformation($"BuildTable:{table.Name} Start!");
-                context.SetCurrentTable(table);
-                _pluginManager.Resolve<INamingConverter>().Convert(context);
-                context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name)
-                    .Render(context);
-                await _pluginManager.Resolve<IOutput>(context.Build.Output.Type).Output(context);
-                _logger.LogInformation($"BuildTable:{table.Name} End!");
-            }
+                BuildContext newContext = new BuildContext();
+                newContext.Project = context.Project;
+                newContext.DataSource = context.DataSource;
+                newContext.PluginManager = context.PluginManager;
+                newContext.BuildKey = context.BuildKey;
+                newContext.Build = context.Build;
+                newContext.Result = context.Result;
+                newContext.Output = context.Output;
+                newContext.SetCurrentTable(table);
+
+                return BuildTable(newContext);
+            }).ToArray();
+
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task BuildTable(BuildContext context)
+        {
+            var table = context.GetCurrentTable();
+            _logger.LogInformation($"BuildTable:{table.Name} Start!");
+            _pluginManager.Resolve<INamingConverter>().Convert(context);
+            context.Result = await _pluginManager.Resolve<ITemplateEngine>(context.Build.TemplateEngine.Name)
+                .Render(context);
+            await _pluginManager.Resolve<IOutput>(context.Build.Output.Type).Output(context);
+            _logger.LogInformation($"BuildTable:{table.Name} End!");
         }
 
         public override void Initialize(IDictionary<string, object> parameters)
