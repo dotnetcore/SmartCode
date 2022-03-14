@@ -29,7 +29,6 @@ namespace SmartCode
         }
 
         public IEnumerable<BuildContext> DependOn { get; set; }
-        public IEnumerable<BuildContext> Next { get; set; }
         public Task BuildTask { get; set; }
     }
 }

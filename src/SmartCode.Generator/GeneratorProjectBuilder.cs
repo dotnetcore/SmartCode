@@ -30,22 +30,6 @@ namespace SmartCode.Generator
             var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
             await dataSource.InitData();
 
-            //foreach (var buildKV in _project.BuildTasks)
-            //{
-            //    _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
-            //    var output = buildKV.Value.Output;
-            //    var buildContext = new BuildContext
-            //    {
-            //        PluginManager = _pluginManager,
-            //        Project = _project,
-            //        DataSource = dataSource,
-            //        BuildKey = buildKV.Key,
-            //        Build = buildKV.Value,
-            //        Output = output?.Copy()
-            //    };
-            //    await _pluginManager.Resolve<IBuildTask>(buildKV.Value.Type).Build(buildContext);
-            //    _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
-            //}
             BuildContext[] contexts = _project.BuildTasks.Select(d => new BuildContext
             {
                 PluginManager = _pluginManager,
@@ -57,21 +41,24 @@ namespace SmartCode.Generator
             }).ToArray();
             foreach (var context in contexts)
             {
-                context.DependOn = contexts.Where(d => d.Build.DependOn.Contains(d.BuildKey)).ToArray();
+                context.DependOn = contexts.Where(d => context.Build.DependOn != null && context.Build.DependOn.Contains(d.BuildKey)).ToArray();
             }
+
             countdown.Reset();
             foreach (var context in contexts)
             {
-                context.BuildTask = Task.Factory.StartNew(this.BuildTask, null, TaskCreationOptions.LongRunning);
+                context.BuildTask = Task.Factory.StartNew(this.BuildTask, context, TaskCreationOptions.LongRunning);
             }
 
             countdown.Signal();
+
+            await Task.WhenAll(contexts.Select(d => d.BuildTask).ToArray());
         }
         private async void BuildTask(object obj)
         {
-            countdown.Wait();
             var context = (BuildContext)obj;
             _logger.LogInformation($"-------- BuildTask:{context.BuildKey} Wait! ---------");
+            countdown.Wait();
             //µ»¥˝“¿¿µ»ŒŒÒ
             if (context.DependOn != null)
             {
