@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using SmartCode.Configuration;
 
 namespace SmartCode
@@ -26,5 +27,9 @@ namespace SmartCode
         {
             Items[key] = item;
         }
+
+        public IEnumerable<BuildContext> DependOn { get; set; }
+        public IEnumerable<BuildContext> Next { get; set; }
+        public Task BuildTask { get; set; }
     }
 }
