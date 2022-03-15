@@ -11,6 +11,7 @@ namespace SmartCode.Configuration
         public String ConfigPath { get; set; }
         public String Module { get; set; }
         public String Author { get; set; }
+        public bool AllowParallel { get; set; } = false;
         public ProjectMode? Mode { get; set; }
         public DataSource DataSource { get; set; }
         public TemplateEngine TemplateEngine { get; set; } = TemplateEngine.Default;

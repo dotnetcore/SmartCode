@@ -32,6 +32,41 @@ namespace SmartCode.Generator
             var dataSource = _pluginManager.Resolve<IDataSource>(_project.DataSource.Name);
             await dataSource.InitData();
 
+            if (_project.AllowParallel)
+            {
+                await this.ParallelBuild(dataSource);
+            }
+            else
+            {
+                await this.SerialBuild(dataSource);
+            }
+        }
+
+        public async Task SerialBuild(IDataSource dataSource)
+        {
+            foreach (var buildKV in _project.BuildTasks)
+            {
+                _logger.LogInformation($"-------- BuildTask:{buildKV.Key} Start! ---------");
+                var context = new BuildContext
+                {
+                    PluginManager = _pluginManager,
+                    Project = _project,
+                    DataSource = dataSource,
+                    BuildKey = buildKV.Key,
+                    Build = buildKV.Value,
+                    Output = buildKV.Value.Output?.Copy(),
+                };
+
+                //执行自身任务
+                await _pluginManager.Resolve<IBuildTask>(context.Build.Type).Build(context);
+
+                _logger.LogInformation($"-------- BuildTask:{buildKV.Key} End! ---------");
+            }
+        }
+
+        private Task ParallelBuild(IDataSource dataSource)
+        {
+
             IList<BuildContext> allContexts = _project.BuildTasks.Select(d => new BuildContext
             {
                 PluginManager = _pluginManager,
@@ -57,8 +92,8 @@ namespace SmartCode.Generator
                 {
                     context.CountDown.AddCount(context.DependOn.Count);
                 }
-                
-                ThreadPool.QueueUserWorkItem(this.BuildTask, (context, allContexts));
+
+                ThreadPool.QueueUserWorkItem((obj) => _ = this.BuildTask(obj), (context, allContexts));
             }
 
             foreach (var context in allContexts)
@@ -68,9 +103,11 @@ namespace SmartCode.Generator
 
             countdown.Signal();
             countdown.Wait();
+
+            return Task.CompletedTask;
         }
 
-        private async void BuildTask(object obj)
+        private async Task BuildTask(object obj)
         {
             var p = ((BuildContext context, IList<BuildContext> allContexts))obj;
 
@@ -87,7 +124,7 @@ namespace SmartCode.Generator
 
             foreach (var c in p.allContexts)
             {
-                if(c.DependOn==null || c.DependOn.Count == 0)
+                if (c.DependOn == null || c.DependOn.Count == 0)
                 {
                     continue;
                 }
