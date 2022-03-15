@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SmartCode.Configuration;
 
@@ -8,6 +9,7 @@ namespace SmartCode
 {
     public class BuildContext
     {
+
         public Project Project { get; set; }
         public IDataSource DataSource { get; set; }
         public IPluginManager PluginManager { get; set; }
@@ -28,7 +30,8 @@ namespace SmartCode
             Items[key] = item;
         }
 
-        public IEnumerable<BuildContext> DependOn { get; set; }
-        public Task BuildTask { get; set; }
+        public IList<BuildContext> DependOn { get; set; }
+        //public Task BuildTask { get; set; }
+        public CountdownEvent CountDown { get; } = new CountdownEvent(1);
     }
 }
