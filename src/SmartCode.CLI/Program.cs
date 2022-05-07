@@ -12,9 +12,11 @@ namespace SmartCode.CLI
 {
     class Program
     {
-        static async Task  Main(string[] args)
+        static async Task Main(string[] args)
         {
-           await CommandLineApplication.ExecuteAsync<SmartCodeCommand>(args);
+            ThreadPool.SetMinThreads(1000, 1000);
+            ThreadPool.SetMaxThreads(1000, 1000);
+            await CommandLineApplication.ExecuteAsync<SmartCodeCommand>(args);
         }
     }
 }

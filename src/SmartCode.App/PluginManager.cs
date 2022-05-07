@@ -56,19 +56,23 @@ namespace SmartCode.App
             var plugins = _serviceProvider.GetServices<TPlugin>();
             foreach (var plugin in plugins)
             {
-                if (!plugin.Initialized)
+                lock (this)
                 {
-                    var pluginType = plugin.GetType();
-                    var names = pluginType.AssemblyQualifiedName.Split(',');
-                    var typeName = names[0].Trim();
-                    var assName = names[1].Trim();
-                    var pluginConfig = _smartCodeOptions
-                        .Plugins
-                        .FirstOrDefault(m => m.ImplAssemblyName == assName && m.ImplTypeName == typeName);
-                    plugin.Initialize(pluginConfig.Parameters);
+                    if (!plugin.Initialized)
+                    {
+                        var pluginType = plugin.GetType();
+                        var names = pluginType.AssemblyQualifiedName.Split(',');
+                        var typeName = names[0].Trim();
+                        var assName = names[1].Trim();
+                        var pluginConfig = _smartCodeOptions
+                            .Plugins
+                            .FirstOrDefault(m => m.ImplAssemblyName == assName && m.ImplTypeName == typeName);
+                        plugin.Initialize(pluginConfig.Parameters);
+                    }
                 }
             }
             return plugins;
+
         }
     }
 }
