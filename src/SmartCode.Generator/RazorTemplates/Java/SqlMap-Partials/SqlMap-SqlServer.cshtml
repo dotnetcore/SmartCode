@@ -1,9 +1,10 @@
-﻿@using SmartCode
+﻿@using System
+@using System.Linq
+@using SmartCode
 @using SmartCode.Db
 @using System.Text.RegularExpressions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var versionNo = 2008;
@@ -27,10 +28,28 @@
     var notEqCols = table.Columns.Where(m => m.ConvertedName != m.Name);
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
+
+    var repositoryName = $"{project.Module}.{buildTask.Module}.{table.ConvertedName}Repository";
 }
 
-@section QueryByPage
-{
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="@repositoryName">
+    @Include("SqlMap-ResultMaps.cshtml", Model)
+    @Include("SqlMap-Columns.cshtml", Model)
+    @Include("SqlMap-WhereQueryParams.cshtml", Model)
+    @Include("./CURD/SqlMap-Insert.cshtml", Model)
+    @Include("./CURD/SqlMap-Delete.cshtml", Model)
+    @Include("./CURD/SqlMap-Update.cshtml", Model)
+    
+    <!--获取数据列-->
+    <select id="query" resultMap="@resultMapName">
+        Select
+        T.*
+        From @table.Name T With(NoLock)
+        <include refid="queryParams"/>
+        Order By T.@pkCol.Name Desc
+    </select>
+    
     <!--获取分页数据-->
     <select id="queryByPage" resultMap="@resultMapName">
         @if (versionNo >= 2012)
@@ -54,10 +73,8 @@
             </text>
         }
     </select>
-}
-
-@section GetEntity
-{
+    @Include("./CURD/SqlMap-GetTotal.cshtml", Model)
+    
     <!--获取表映射实体-->
     <select id="getEntity" resultMap="@resultMapName">
         Select Top 1
@@ -65,16 +82,5 @@
         From @table.Name T With(NoLock)
         <include refid="queryParams"/>
     </select>
-}
-
-@section Query
-{
-    <!--获取数据列-->
-    <select id="query" resultMap="@resultMapName">
-        Select
-        T.*
-        From @table.Name T With(NoLock)
-        <include refid="queryParams"/>
-        Order By T.@pkCol.Name Desc
-    </select>
-}
+    @Include("./CURD/SqlMap-GetById.cshtml", Model)
+</mapper>

@@ -1,6 +1,6 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
@@ -16,5 +16,5 @@
 <select id="queryByPage" resultMap="@resultMapName">
     select * from @table.Name
     <include refid="queryParams"/>
-    limit #{page.offset} offset #{page.limit}
+    limit #{page.limit} offset #{page.offset}
 </select>

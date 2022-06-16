@@ -1,0 +1,19 @@
+﻿@using SmartCode
+@using SmartCode.Db
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
+@{
+    var dbSource = Model.GetDataSource<DbSource>();
+    var table = Model.GetCurrentTable();
+    var dbPrefix = dbSource.DbProvider.ParameterPrefix;
+}
+
+<Statement Id="QueryParams">
+    <Where>
+        @foreach (var col in table.Columns)
+        {
+            <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                T.@col.Name = @dbPrefix@col.ConvertedName
+            </IsNotEmpty>
+        }
+    </Where>
+</Statement>

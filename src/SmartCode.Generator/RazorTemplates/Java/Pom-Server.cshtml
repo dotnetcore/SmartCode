@@ -1,9 +1,8 @@
 @using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 
 @{
-    Layout = null;
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
 }

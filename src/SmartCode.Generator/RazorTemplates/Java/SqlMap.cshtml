@@ -1,12 +1,12 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
 }
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
+    @Include("Copyright.cshtml", Model)
 -->
-@{ await Html.RenderPartialAsync($"./SqlMap-Partials/SqlMap-{dbSource.DbProvider.Name}.cshtml", Model); }
+@Include($"./SqlMap-Partials/SqlMap-{dbSource.DbProvider.Name}.cshtml", Model)

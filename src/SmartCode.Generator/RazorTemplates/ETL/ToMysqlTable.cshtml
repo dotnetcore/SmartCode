@@ -1,6 +1,9 @@
-﻿@using SmartCode
+﻿@using System
+@using System.Collections.Generic
+@using System.Linq
+@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
@@ -63,7 +66,7 @@ DataSource:
     AutoIncrement: @(PKColumn.AutoIncrement ? "true" : "false")
     @if (!String.IsNullOrEmpty(modifyTime))
     {
-        <text>@Html.PadLeft(4)ModifyTime: @modifyTime</text>
+        <text>@PadLeft(4)ModifyTime: @modifyTime</text>
     }
 
 
@@ -113,6 +116,6 @@ Build:
         <text>{Column: @col.Name,Mapping: @col.ConvertedName}</text>
         if (colIndex < table.Columns.Count() - 1)
         {@(",")}
-    @Html.NewLine()
+    @NewLine()
 }
     ]

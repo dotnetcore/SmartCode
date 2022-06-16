@@ -1,4 +1,5 @@
-﻿@using SmartCode
+﻿@using System
+@using SmartCode
 @inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var all_table = Model.GetCurrentAllTable();
@@ -47,7 +48,7 @@
         @NewLine()
         @foreach (var col in table.Columns)
         {
-            @if (!String.IsNullOrEmpty(col.Description))
+            if (!String.IsNullOrEmpty(col.Description))
             {
                 <text>comment on column @($"{table.ConvertedName}.{col.ConvertedName}") is '@col.Description';</text>
             }

@@ -1,9 +1,10 @@
+@using System
 @using System.Text
 @using MySql.Data.MySqlClient
 @using Npgsql
 @using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var buildTask = Model.Build;

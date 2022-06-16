@@ -1,8 +1,9 @@
+@using System
+@using System.Collections.Generic
 @using SmartCode
 @using SmartCode.Db;
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_JavaLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -44,6 +45,7 @@
     }
     var genericParameterKey = $"{table.ConvertedName},{primaryKeyType}";
 }
+@Include("Copyright.cshtml", Model)
 
 package @(project.Module).@buildTask.Module;
 
@@ -52,7 +54,7 @@ import org.springframework.stereotype.Repository;
 import @(genericRepositoryPackageName).GenericRepository;
 import @(project.Module).@(entityBuild.Module).@table.ConvertedName;
 
-@Html.NewLine()
+@NewLine()
 @@Repository
 @@Mapper
 public interface @(table.ConvertedName)Repository extends GenericRepository<@genericParameterKey> {

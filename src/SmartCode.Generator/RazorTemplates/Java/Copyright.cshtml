@@ -1,11 +1,12 @@
-﻿@using SmartCode
-@model BuildContext
+﻿@using System
+@using SmartCode
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
 }
 /*******************************
-* @@author @project.Author
-* @@date @DateTime.Now.ToString("yyyy-MM-dd HH:mm")
-* Code Generate By SmartCode
-* Code Generate Github : https://github.com/Ahoo-Wang/SmartCode
-*******************************/
+ * @@author @project.Author
+ * @@date @DateTime.Now.ToString("yyyy-MM-dd HH:mm")
+ * Code Generate By SmartCode
+ * Code Generate Github : https://github.com/Ahoo-Wang/SmartCode
+ *******************************/

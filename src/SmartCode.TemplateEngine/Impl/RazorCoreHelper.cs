@@ -25,6 +25,8 @@ namespace SmartCode.TemplateEngine.Impl {
                 builder => {
                     builder.AddAssemblyReferenceByName("System.Data.Common");
                     builder.AddAssemblyReferenceByName("System.Text.RegularExpressions");
+                    builder.AddAssemblyReferenceByName("MySql.Data");
+                    builder.AddAssemblyReferenceByName("Npgsql");
                     builder.AddAssemblyReferenceByName("SmartCode");
                     builder.AddAssemblyReferenceByName("SmartCode.App");
                     builder.AddAssemblyReferenceByName("SmartCode.Db");

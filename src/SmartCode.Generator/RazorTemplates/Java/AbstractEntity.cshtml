@@ -1,10 +1,9 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_JavaLayout.cshtml";
     var project = Model.Project;
 }
-
+@Include("Copyright.cshtml", Model)
 
 package @(project.Module).entity;
 

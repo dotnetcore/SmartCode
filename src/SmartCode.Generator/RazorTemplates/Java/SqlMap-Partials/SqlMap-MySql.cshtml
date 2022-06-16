@@ -1,8 +1,7 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
@@ -14,13 +13,21 @@
     }
 
     var resultMapName = $"{table.ConvertedName}ResultMap";
+
+    var repositoryName = $"{project.Module}.{buildTask.Module}.{table.ConvertedName}Repository";
 }
 
-@section QueryByPage
-{
-    <select id="queryByPage" resultMap="@resultMapName">
-        select * from @table.Name
-        <include refid="queryParams"/>
-        limit #{page.limit} offset #{page.offset}
-    </select>
-}
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="@repositoryName">
+    @Include("SqlMap-ResultMaps.cshtml", Model)
+    @Include("SqlMap-Columns.cshtml", Model)
+    @Include("SqlMap-WhereQueryParams.cshtml", Model)
+    @Include("./CURD/SqlMap-Insert.cshtml", Model)
+    @Include("./CURD/SqlMap-Delete.cshtml", Model)
+    @Include("./CURD/SqlMap-Update.cshtml", Model)
+    @Include("./CURD/SqlMap-Query.cshtml", Model)
+    @Include("./CURD/SqlMap-QueryByPage.cshtml", Model)
+    @Include("./CURD/SqlMap-GetTotal.cshtml", Model)
+    @Include("./CURD/SqlMap-GetEntity.cshtml", Model)
+    @Include("./CURD/SqlMap-GetById.cshtml", Model)
+</mapper>

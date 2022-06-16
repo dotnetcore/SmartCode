@@ -1,7 +1,6 @@
 @using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_JavaLayout.cshtml";
     var project = Model.Project;
     
     var appName = "Demo";
@@ -12,6 +11,7 @@
     }
     var appClassName = $"{appName}Application";
 }
+@Include("Copyright.cshtml", Model)
 
 package @(project.Module).server;
 
