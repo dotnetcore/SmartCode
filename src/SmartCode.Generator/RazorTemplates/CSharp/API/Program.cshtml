@@ -1,37 +1,71 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "../_CSharpLayout.cshtml";
     var project = Model.Project;
 }
+@Include("../Copyright.cshtml", Model)
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using System.Reflection;
+using @(project.Module).API.Filters;
+using Microsoft.OpenApi.Models;
 
-namespace @(project.Module).API
+const string SERVICE_NAME = "@(project.Module).API";
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+options.Filters.Add@("<GlobalExceptionFilter>")();
+options.Filters.Add@("<GlobalValidateModelFilter>")();
+});
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
 
-        public static IWebHost BuildWebHost(string[] args)
-        {
-            var config = new ConfigurationBuilder()
-                        .AddCommandLine(args)
-                        .Build();
-            return WebHost.CreateDefaultBuilder(args)
-                  .UseConfiguration(config)
-                  .UseStartup@("<Startup>")().Build();
-    }
-    }
-    }
+builder.Services.AddSmartSql()
+.AddRepositoryFromAssembly(options =>
+{
+options.AssemblyString = "@(project.Module).Repository";
+});
+
+var assembly = Assembly.Load("@(project.Module).Service");
+var allTypes = assembly.GetTypes();
+foreach (var type in allTypes.Where(t =>
+             !new[] { "EmbeddedAttribute", "NullableAttribute", "NullableContextAttribute" }.Contains(t.Name)))
+{
+builder.Services.AddSingleton(type);
+}
+
+builder.Services.AddSwaggerGen(c =>
+{
+c.SwaggerDoc("v1", new OpenApiInfo
+{
+Title = SERVICE_NAME,
+Version = "v1",
+Description = "https://github.com/Smart-Kit/SmartCode"
+});
+c.CustomSchemaIds(type => type.FullName);
+var filePath = Path.Combine(AppContext.BaseDirectory, $"{SERVICE_NAME}.xml");
+if (File.Exists(filePath))
+{
+c.IncludeXmlComments(filePath);
+}
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+c.SwaggerEndpoint("/swagger/v1/swagger.json", SERVICE_NAME);
+});
+}
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

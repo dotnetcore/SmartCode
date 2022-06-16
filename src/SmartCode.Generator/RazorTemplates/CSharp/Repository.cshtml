@@ -1,9 +1,8 @@
 ﻿@using SmartCode
 @using SmartCode.Db;
 @using SmartCode.Generator.Extensions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -19,6 +18,7 @@
     var pkNameEqId = pkCol.ConvertedName == "Id";
     var genericParameterKey = $"{table.ConvertedName},{primaryKeyType}";
 }
+@Include("Copyright.cshtml", Model)
 
 using System;
 using System.Collections.Generic;
@@ -38,46 +38,46 @@ public interface I@(table.ConvertedName)Repository : IRepository<@genericParamet
         @if (dbSource.DbRepository.DbProvider == DbProvider.PostgreSql && autoIncrement)
         {
             <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
-            @Html.NewLine()
-            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
-            @Html.NewLine()
+            @NewLine()
+            @PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @NewLine()
 
             <text>[Statement(Execute = ExecuteBehavior.QuerySingle)]</text>
-            @Html.NewLine()
-            @Html.PadLeft(8) <text>new Task<@primaryKeyType> InsertAsync(@table.ConvertedName entity);</text>
-            @Html.NewLine()
+            @NewLine()
+            @PadLeft(8) <text>new Task<@primaryKeyType> InsertAsync(@table.ConvertedName entity);</text>
+            @NewLine()
         }
         else if (autoIncrement && primaryKeyType != "int")
         {
-            @Html.PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
-            @Html.NewLine()
+            @PadLeft(8) <text>new @primaryKeyType Insert(@table.ConvertedName entity);</text>
+            @NewLine()
 
-            @Html.PadLeft(8) <text>new Task<@primaryKeyType> InsertAsync(@table.ConvertedName entity);</text>
-            @Html.NewLine()
+            @PadLeft(8) <text>new Task<@primaryKeyType> InsertAsync(@table.ConvertedName entity);</text>
+            @NewLine()
         }
 
         @if (!pkNameEqId)
         {
             <text>[Statement(Id = "GetEntity")]</text>
-            @Html.NewLine()
-            @Html.PadLeft(8) <text>new @table.ConvertedName GetById([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
-            @Html.NewLine()
+            @NewLine()
+            @PadLeft(8) <text>new @table.ConvertedName GetById([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
+            @NewLine()
 
             <text>[Statement(Id = "GetEntity")]</text>
-            @Html.NewLine()
-            @Html.PadLeft(8) <text>new Task<@table.ConvertedName> GetByIdAsync([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
-            @Html.NewLine()
+            @NewLine()
+            @PadLeft(8) <text>new Task<@table.ConvertedName> GetByIdAsync([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
+            @NewLine()
 
             <text>[Statement(Id = "Delete")]</text>
-            @Html.NewLine()
-            @Html.PadLeft(8) <text>new int DeleteById([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
-            @Html.NewLine()
+            @NewLine()
+            @PadLeft(8) <text>new int DeleteById([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
+            @NewLine()
 
             <text>[Statement(Id = "Delete")]</text>
-            @Html.NewLine()
-            @Html.PadLeft(8) <text>new Task<@("int")> DeleteByIdAsync([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
-            @Html.NewLine()
+            @NewLine()
+            @PadLeft(8) <text>new Task<@("int")> DeleteByIdAsync([Param("@pkCol.ConvertedName")]@primaryKeyType id);</text>
+            @NewLine()
 
         }
-        }
-        }
+    }
+}

@@ -1,5 +1,5 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
 
     var project = Model.Project;
@@ -7,6 +7,8 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 </Project>

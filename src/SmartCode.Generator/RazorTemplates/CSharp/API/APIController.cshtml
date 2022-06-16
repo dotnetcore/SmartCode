@@ -1,8 +1,7 @@
 ﻿@using SmartCode
 @using SmartCode.Generator.Extensions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "../_CSharpLayout.cshtml";
     var project = Model.Project;
     var table = Model.GetCurrentTable();
     var pkType = table.PKColumn.LanguageType;
@@ -14,6 +13,7 @@
     var repositoryName = $"{table.ConvertedName}Repository";
     var repositoryCamelName = NamingUtil.CamelCase(repositoryName);
 }
+@Include("../Copyright.cshtml", Model)
 
 using System;
 using System.Collections;

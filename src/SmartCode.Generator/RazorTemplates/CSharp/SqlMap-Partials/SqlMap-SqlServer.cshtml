@@ -1,16 +1,17 @@
-﻿@using SmartCode
+﻿@using System
+@using System.Linq
+@using SmartCode
 @using SmartCode.Db
 @using System.Text.RegularExpressions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var versionNo = 2008;
     var sqlServerVersion = dbSource.DbRepository.SqlMapper.ExecuteScalar<String>(new SmartSql.RequestContext
-    {
-        RealSql = "Select @@Version;"
-    });
+            {
+                RealSql = "Select @@Version;"
+            });
     var versionRegex = new Regex(@"^Microsoft SQL Server (\d*)", RegexOptions.Singleline);
     var versionNoStr = versionRegex.Match(sqlServerVersion).Groups[1].Value;
     int.TryParse(versionNoStr, out versionNo);
@@ -29,66 +30,81 @@
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
 
-@section QueryByPage
-{
-    <!--获取分页数据-->
-    <Statement Id="QueryByPage" @queryStatementResultMap>
-        @if (versionNo >= 2012)
-        {
-            <text>
-                Select 
-                <Include RefId="AllCols"/>
-                From @table.Name T With(NoLock)
-                <Include RefId="QueryParams"/>
-                Order By T.@pkCol.Name Desc
-                Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
-            </text>
-        }
-        else
-        {
-            <text>
-                Select TT.* From
-                (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
-                <Include RefId="QueryParams"/>) TT
-                Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize);
-            </text>
-        }
-    </Statement>
-}
+<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+    @Include("SqlMap-ResultMaps.cshtml", Model)
+    <Statements>
+        @Include("SqlMap-Columns.cshtml", Model)
 
-@section GetEntity
-{
-    <!--获取表映射实体-->
-    <Statement Id="GetEntity" @queryStatementResultMap>
-        Select Top 1 
-        <Include RefId="AllCols"/>
-        From @table.Name T With(NoLock)
-        <Where Min="1">
-            @foreach (var col in table.Columns)
+        <Statement Id="QueryParams">
+            <Where>
+                @foreach (var col in table.Columns)
+                {
+                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                        T.@col.Name = @dbPrefix@col.ConvertedName
+                    </IsNotEmpty>
+                }
+            </Where>
+        </Statement>
+        @Include("./CURD/SqlMap-Insert.cshtml", Model)
+        @Include("./CURD/SqlMap-Delete.cshtml", Model)
+        @Include("./CURD/SqlMap-Update.cshtml", Model)
+
+        <!--获取数据列-->
+        <Statement Id="Query" @queryStatementResultMap>
+            SELECT
+            <IsNotEmpty Prepend="Top" Property="Taken">
+                (@(dbPrefix)Taken)
+            </IsNotEmpty>
+            <Include RefId="AllCols" />
+            From @table.Name T
+            <Include RefId="QueryParams" />
+            <Switch Prepend="Order By" Property="OrderBy">
+                <Default>
+                    T.@pkCol.Name Desc
+                </Default>
+            </Switch>
+        </Statement>
+
+        <!--获取分页数据-->
+        <Statement Id="QueryByPage" @queryStatementResultMap>
+            @if (versionNo >= 2012)
             {
-                <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
-                    T.@col.Name= @($"{dbPrefix}{col.ConvertedName}")
-                </IsNotEmpty>
+                <text>
+                    Select
+                    <Include RefId="AllCols" />
+                    From @table.Name T With(NoLock)
+                    <Include RefId="QueryParams" />
+                    Order By T.@pkCol.Name Desc
+                    Offset ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize) Rows Fetch Next @(dbPrefix)PageSize Rows Only;
+                </text>
             }
-        </Where>
-    </Statement>
-}
+            else
+            {
+                <text>
+                    Select TT.* From
+                    (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T With(NoLock)
+                    <Include RefId="QueryParams" />) TT
+                    Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize);
+                </text>
+            }
+        </Statement>
+        @Include("./CURD/SqlMap-GetRecord.cshtml", Model)
 
-@section Query
-{
-    <!--获取数据列-->
-    <Statement Id="Query" @queryStatementResultMap>
-        SELECT
-        <IsNotEmpty Prepend="Top" Property="Taken">
-            (@(dbPrefix)Taken)
-        </IsNotEmpty>
-        <Include RefId="AllCols"/>
-        From @table.Name T
-        <Include RefId="QueryParams"/>
-        <Switch Prepend="Order By" Property="OrderBy">
-            <Default>
-                T.@pkCol.Name Desc
-            </Default>
-        </Switch>
-    </Statement>
-}
+        <!--获取表映射实体-->
+        <Statement Id="GetEntity" @queryStatementResultMap>
+            Select Top 1
+            <Include RefId="AllCols" />
+            From @table.Name T With(NoLock)
+            <Where Min="1">
+                @foreach (var col in table.Columns)
+                {
+                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                        T.@col.Name= @($"{dbPrefix}{col.ConvertedName}")
+                    </IsNotEmpty>
+                }
+            </Where>
+        </Statement>
+        @Include("./CURD/SqlMap-IsExist.cshtml", Model)
+    </Statements>
+
+</SmartSqlMap>

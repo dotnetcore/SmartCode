@@ -1,4 +1,4 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{ await Html.RenderPartialAsync("Copyright.cshtml", Model); }
 @RenderBody()

@@ -58,8 +58,8 @@ Output:
   Type: File
   Path: 'E:\SmartSql-Starter'
 Parameters:
-  SmartSqlVersion: '4.0.46'
-  SmartSqlSchemaVersion: '4.0.42'
+  SmartSqlVersion: '4.1.64'
+  SmartSqlSchemaVersion: '4.1.30'
   BuildDir: 'E:\SmartSql-Starter\build'
   DockerImage: 'smartsql.starter'
   
@@ -127,7 +127,7 @@ Build:
         {Key: "API/AppSettings.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'appsettings',Extension: '.json'}},
         {Key: "API/AppSettings-Development.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'appsettings.Development',Extension: '.json'}},
         {Key: "API/Program.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'Program',Extension: '.cs'}},
-        {Key: "API/Startup.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
+        # {Key: "API/Startup.cshtml",Output: {Path: 'src/{{Project.Module}}.API',Name: 'Startup',Extension: '.cs'}},
         {Key: "API/APIException.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Exceptions',Name: 'APIException',Extension: '.cs'}},
         {Key: "API/GlobalExceptionFilter.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Filters',Name: 'GlobalExceptionFilter',Extension: '.cs'}},
         {Key: "API/GlobalValidateModelFilter.cshtml",Output: {Path: 'src/{{Project.Module}}.API/Filters',Name: 'GlobalValidateModelFilter',Extension: '.cs'}},
@@ -196,6 +196,34 @@ Build:
       Extension: .xml
     IgnoreNoPKTable: true
     IgnoreView: true
+
+  AddEntityProj:
+    Type: Process
+    Parameters: 
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet sln add -s API src/{{Project.Module}}.Entity/{{Project.Module}}.Entity.csproj
+
+  AddRepositryProj:
+    Type: Process
+    Parameters: 
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet sln add -s API src/{{Project.Module}}.Repository/{{Project.Module}}.Repository.csproj
+
+  AddServiceProj:
+    Type: Process
+    Parameters: 
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet sln add -s API src/{{Project.Module}}.Service/{{Project.Module}}.Service.csproj
+
+  AddApiProj:
+    Type: Process
+    Parameters: 
+      FileName: powershell
+      WorkingDirectory: '{{Project.Output.Path}}'
+      Args: dotnet sln add -s API src/{{Project.Module}}.API/{{Project.Module}}.API.csproj
 
 # Please install dotnet-format first!
 # dotnet tool install -g dotnet-format

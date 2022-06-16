@@ -1,6 +1,6 @@
 ﻿@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
@@ -15,9 +15,9 @@
 }
 
 <SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
-    @{ await Html.RenderPartialAsync("SqlMap-ResultMaps.cshtml", Model); }
+    @Include("SqlMap-ResultMaps.cshtml", Model)
     <Statements>
-        @{ await Html.RenderPartialAsync("SqlMap-Columns.cshtml", Model); }
+        @Include("SqlMap-Columns.cshtml", Model); }
         <Statement Id="QueryParams">
             <Where>
                 @foreach (var col in table.Columns)
@@ -35,7 +35,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-Insert.cshtml", Model);
+            Include("./CURD/SqlMap-Insert.cshtml", Model);
         }
 
         @if (IsSectionDefined("Delete"))
@@ -44,7 +44,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-Delete.cshtml", Model);
+            Include("./CURD/SqlMap-Delete.cshtml", Model);
         }
 
         @if (IsSectionDefined("Update"))
@@ -53,7 +53,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-Update.cshtml", Model);
+            Include("./CURD/SqlMap-Update.cshtml", Model);
         }
 
         @if (IsSectionDefined("Query"))
@@ -62,7 +62,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-Query.cshtml", Model);
+            Include("./CURD/SqlMap-Query.cshtml", Model);
         }
 
         @if (IsSectionDefined("QueryByPage"))
@@ -71,7 +71,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-QueryByPage.cshtml", Model);
+            Include("./CURD/SqlMap-QueryByPage.cshtml", Model);
         }
 
         @if (IsSectionDefined("GetRecord"))
@@ -80,7 +80,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-GetRecord.cshtml", Model);
+            Include("./CURD/SqlMap-GetRecord.cshtml", Model);
         }
 
         @if (IsSectionDefined("GetEntity"))
@@ -89,7 +89,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-GetEntity.cshtml", Model);
+            Include("./CURD/SqlMap-GetEntity.cshtml", Model);
         }
 
         @if (IsSectionDefined("IsExist"))
@@ -98,7 +98,7 @@
         }
         else
         {
-            await Html.RenderPartialAsync("./CURD/SqlMap-IsExist.cshtml", Model);
+            Include("./CURD/SqlMap-IsExist.cshtml", Model);
         }
 
     </Statements>
