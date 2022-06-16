@@ -1,6 +1,7 @@
-﻿@using SmartCode
+﻿@using System.Linq
+@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
@@ -20,10 +21,10 @@
     @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
         var col = table.Columns.ElementAt(colIndex);
-        @if (!col.AutoIncrement)
+        if (!col.AutoIncrement)
         {
-            @Html.PadLeft(6)@col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
-            @Html.NewLine()
+            @PadLeft(6)@col.Name@(colIndex == table.Columns.Count() - 1 ? "" : ",")
+            @NewLine()
         }
     }
     )
@@ -32,11 +33,11 @@
     @for (var colIndex = 0; colIndex < table.Columns.Count(); colIndex++)
     {
         var col = table.Columns.ElementAt(colIndex);
-        @if (!col.AutoIncrement)
+        if (!col.AutoIncrement)
         {
-            @Html.PadLeft(6)<text>#{@col.ConvertedName}</text>
+            @PadLeft(6)<text>#{@col.ConvertedName}</text>
             @(colIndex == table.Columns.Count() - 1 ? "" : ",")
-            @Html.NewLine()
+            @NewLine()
         }
     }
     )

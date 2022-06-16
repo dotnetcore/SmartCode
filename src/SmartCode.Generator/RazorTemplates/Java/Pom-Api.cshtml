@@ -1,8 +1,7 @@
 @using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 
 @{
-    Layout = null;
     var project = Model.Project;
 }
 

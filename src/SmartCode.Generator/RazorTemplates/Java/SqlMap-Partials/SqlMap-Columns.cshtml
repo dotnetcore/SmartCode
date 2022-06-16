@@ -1,6 +1,7 @@
-﻿@using SmartCode
+﻿@using System.Linq
+@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
@@ -13,5 +14,5 @@
         var col = table.Columns.ElementAt(colIndex);
         @($"{col.Name}")@(colIndex == table.Columns.Count() - 1 ? "" : ",")
     }
-    @Html.NewLine()
+    @NewLine()
 </sql>

@@ -1,7 +1,7 @@
+@using System
 @using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_JavaLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -22,8 +22,7 @@
         throw new ArgumentException("can not find Project -> BuildTasks -> [Repository] .");
     }
 }
-
-
+@Include("Copyright.cshtml", Model)
 
 package @(project.Module).@buildTask.Module;
 
@@ -37,7 +36,7 @@ import java.util.stream.Collectors;
 import @(project.Module).@(repositoryBuild.Module).@repositoryName;
 
 
-@Html.NewLine()
+@NewLine()
 @@Service
 public class @serviceName {
 @@Autowired

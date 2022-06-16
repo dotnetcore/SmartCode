@@ -1,8 +1,9 @@
-﻿@using SmartCode
+﻿@using System
+@using SmartCode
 @using SmartCode.Db
 @using SmartCode.Generator
 @using SmartCode.Generator.Entity
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 
 @{
     var project = Model.Project;
@@ -44,8 +45,6 @@
         return String.IsNullOrEmpty(jdbcType) ? "" : $" jdbcType=\"{jdbcType}\"";
     }
 }
-
-
 <resultMap id="@resultMapName" type="@entityName">
     <id column="@pkCol.Name" property="@pkCol.ConvertedName" @GetJdbcType(dbTypeConverter, dbSource, pkCol)></id>
     @foreach (var col in table.Columns)

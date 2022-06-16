@@ -24,17 +24,7 @@
     @Include("SqlMap-ResultMaps.cshtml", Model)
     <Statements>
         @Include("SqlMap-Columns.cshtml", Model)
-
-        <Statement Id="QueryParams">
-            <Where>
-                @foreach (var col in table.Columns)
-                {
-                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
-                        T.@col.Name = @dbPrefix@col.ConvertedName
-                    </IsNotEmpty>
-                }
-            </Where>
-        </Statement>
+        @Include("SqlMap-WhereQueryParams.cshtml", Model)
         @Include("./CURD/SqlMap-Insert.cshtml", Model)
         @Include("./CURD/SqlMap-Delete.cshtml", Model)
         @Include("./CURD/SqlMap-Update.cshtml", Model)

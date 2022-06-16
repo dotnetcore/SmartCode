@@ -21,8 +21,8 @@
 
 <!--获取分页数据-->
 <Statement Id="QueryByPage" @queryStatementResultMap>
-    Select 
-    <Include RefId="AllCols"/>
+    Select
+    <Include RefId="AllCols" />
     From @table.Name As T
     <Include RefId="QueryParams" />
     <Switch Prepend="Order By" Property="OrderBy">
@@ -30,5 +30,5 @@
             T.@pkCol.Name Desc
         </Default>
     </Switch>
-    Limit  @(dbPrefix)PageSize Offset @(dbPrefix)Offset
+    Limit @(dbPrefix)PageSize Offset @(dbPrefix)Offset
 </Statement>

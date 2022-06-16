@@ -1,9 +1,8 @@
 ﻿@using SmartCode
 @using SmartCode.Db;
 @using SmartCode.Generator.Extensions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_JavaLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -17,4 +16,5 @@
     var dbSource = Model.GetDataSource<DbSource>();
 
 }
+@Include("Copyright.cshtml", Model)
 

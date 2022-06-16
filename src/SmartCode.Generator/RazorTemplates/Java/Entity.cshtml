@@ -1,8 +1,9 @@
-﻿@using SmartCode
+﻿@using System
+@using System.Collections.Generic
+@using SmartCode
 @using SmartCode.Generator.Extensions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_JavaLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -57,7 +58,7 @@
     }
 
 }
-
+@Include("Copyright.cshtml", Model)
 
 package @(project.Module).@buildTask.Module;
 
