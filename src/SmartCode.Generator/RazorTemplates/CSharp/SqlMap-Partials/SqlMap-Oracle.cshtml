@@ -1,8 +1,8 @@
-﻿@using SmartCode
+﻿@using System.Linq
+@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
@@ -20,52 +20,66 @@
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
 
-@section QueryByPage
-    {
-    <!--获取分页数据-->
-    <Statement Id="QueryByPage" @queryStatementResultMap>
-        Select TT.* From
-        (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T
-        <Include RefId="QueryParams" />) TT
-        Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize)
-    </Statement>
-}
-@section GetEntity
-    {
-    <!--获取表映射实体-->
-    <Statement Id="GetEntity" @queryStatementResultMap>
-        Select T.* From @table.Name T
-        <Where Min="1">
-            ROWNUM = 1
-        @foreach (var col in table.Columns)
-        {
-            <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
-                T.@col.Name= @($"{dbPrefix}{col.ConvertedName}")
-            </IsNotEmpty>
-        }
-        </Where>
-    </Statement>
-}
+<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+    @Include("SqlMap-ResultMaps.cshtml", Model)
+    <Statements>
+        @Include("SqlMap-Columns.cshtml", Model)
 
-@section Query
-    {
-    <!--获取数据列-->
-    <Statement Id="Query" @queryStatementResultMap>
-        select * from (
+        <Statement Id="QueryParams">
+            <Where>
+                @foreach (var col in table.Columns)
+                {
+                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                        T.@col.Name = @dbPrefix@col.ConvertedName
+                    </IsNotEmpty>
+                }
+            </Where>
+        </Statement>
+        @Include("./CURD/SqlMap-Insert.cshtml", Model)
+        @Include("./CURD/SqlMap-Delete.cshtml", Model)
+        @Include("./CURD/SqlMap-Update.cshtml", Model)
+
+        <!--获取数据列-->
+        <Statement Id="Query" @queryStatementResultMap>
+            select * from (
 
             SELECT
             T.* From @table.Name T
-            <Include RefId="QueryParams"/>
+            <Include RefId="QueryParams" />
             <Switch Prepend="Order By" Property="OrderBy">
                 <Default>
                     T.@pkCol.Name Desc
                 </Default>
             </Switch>
-        )
-        <IsNotEmpty Prepend="where" Property="Taken">
-        <![CDATA[
-        ROWNUM <= @(dbPrefix)Taken
-        ]]>
-        </IsNotEmpty>
-    </Statement>
-}
+            )
+            <IsNotEmpty Prepend="where" Property="Taken">
+                <![CDATA[ ROWNUM <= @(dbPrefix)Taken ]]>
+            </IsNotEmpty>
+        </Statement>
+
+        <!--获取分页数据-->
+        <Statement Id="QueryByPage" @queryStatementResultMap>
+            Select TT.* From
+            (Select ROW_NUMBER() Over(Order By T.@pkCol.Name Desc) Row_Index,T.* From @table.Name T
+            <Include RefId="QueryParams" />) TT
+            Where TT.Row_Index Between ((@(dbPrefix)PageIndex-1)*@(dbPrefix)PageSize+1) And (@(dbPrefix)PageIndex*@(dbPrefix)PageSize)
+        </Statement>
+        @Include("./CURD/SqlMap-GetRecord.cshtml", Model)
+
+        <!--获取表映射实体-->
+        <Statement Id="GetEntity" @queryStatementResultMap>
+            Select T.* From @table.Name T
+            <Where Min="1">
+                ROWNUM = 1
+                @foreach (var col in table.Columns)
+                {
+                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                        T.@col.Name= @($"{dbPrefix}{col.ConvertedName}")
+                    </IsNotEmpty>
+                }
+            </Where>
+        </Statement>
+        @Include("./CURD/SqlMap-IsExist.cshtml", Model)
+    </Statements>
+
+</SmartSqlMap>

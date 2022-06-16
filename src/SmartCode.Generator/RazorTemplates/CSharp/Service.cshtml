@@ -1,8 +1,7 @@
 ﻿@using SmartCode
 @using SmartCode.Generator.Extensions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var table = Model.GetCurrentTable();
     var pkCol = table.PKColumn;
@@ -18,6 +17,7 @@
     var repositoryName = $"{table.ConvertedName}Repository";
     var repositoryCamelName = NamingUtil.CamelCase(repositoryName);
 }
+@Include("Copyright.cshtml", Model)
 
 using System;
 using System.Linq;
@@ -26,14 +26,14 @@ using @(project.Module).Repository;
 
 namespace @(project.Module).Service
 {
-    @table.GetCSharpSummary()
+@table.GetCSharpSummary()
     public class @serviceName
     {
     public I@(repositoryName) @repositoryName { get; }
 
     public @serviceName (I@(repositoryName) @repositoryCamelName)
     {
-    @repositoryName = @repositoryCamelName;
+@repositoryName = @repositoryCamelName;
     }
 
     public @insertRetType Insert(@entityName @entityCamelName)

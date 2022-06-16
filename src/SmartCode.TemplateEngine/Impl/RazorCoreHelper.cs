@@ -23,12 +23,15 @@ namespace SmartCode.TemplateEngine.Impl {
             var template = engine.Compile<RazorCoreTemplate<BuildContext>>(
                 File.ReadAllText(viewPath),
                 builder => {
+                    builder.AddAssemblyReferenceByName("System.Data.Common");
+                    builder.AddAssemblyReferenceByName("System.Text.RegularExpressions");
                     builder.AddAssemblyReferenceByName("SmartCode");
                     builder.AddAssemblyReferenceByName("SmartCode.App");
                     builder.AddAssemblyReferenceByName("SmartCode.Db");
                     builder.AddAssemblyReferenceByName("SmartCode.ETL");
                     builder.AddAssemblyReferenceByName("SmartCode.Generator");
                     builder.AddAssemblyReferenceByName("SmartCode.TemplateEngine");
+                    builder.AddAssemblyReferenceByName("SmartSql");
                 }
             );
             return template.RunAsync(instance => {

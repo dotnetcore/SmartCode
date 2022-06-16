@@ -1,8 +1,8 @@
-﻿@using SmartCode
+﻿@using System
+@using SmartCode
 @using SmartCode.Generator.Extensions
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_CSharpLayout.cshtml";
     var project = Model.Project;
     var buildTask = Model.Build;
     var table = Model.GetCurrentTable();
@@ -28,6 +28,7 @@ public string ConvertLangType(SmartCode.Generator.Entity.Column column)
 }
 
 }
+@Include("Copyright.cshtml", Model)
 
 using System;
 namespace @(project.Module).@buildTask.Module
@@ -40,9 +41,9 @@ namespace @(project.Module).@buildTask.Module
     {
 
         @column.GetCSharpSummary()
-        @Html.NewLine()     
+        @NewLine()     
         <text>public virtual</text> <text>@(ConvertLangType(column))</text> <text>@column.ConvertedName</text> <text>{ get; set; }</text>
-        @Html.NewLine()                                                                                                                 
+        @NewLine()                                                                                                                 
     }
     }
     }

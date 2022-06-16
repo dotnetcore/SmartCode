@@ -1,8 +1,8 @@
-﻿@using SmartCode
+﻿@using System.Linq
+@using SmartCode
 @using SmartCode.Db
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "_SqlMapLayout.cshtml";
     var project = Model.Project;
     var dbSource = Model.GetDataSource<DbSource>();
     var buildTask = Model.Build;
@@ -19,19 +19,43 @@
     var resultMapName = $"{table.ConvertedName}ResultMap";
     var queryStatementResultMap = table.HasColNameNotEqConvertedName ? $"ResultMap=\"{resultMapName}\"" : "";
 }
-@section QueryByPage
-    {
-    <!--获取分页数据-->
-    <Statement Id="QueryByPage" @queryStatementResultMap>
-        Select 
-        <Include RefId="AllCols"/>
-        From @table.Name As T
-        <Include RefId="QueryParams" />
-        <Switch Prepend="Order By" Property="OrderBy">
-            <Default>
-                T.@pkCol.Name Desc
-            </Default>
-        </Switch>
-        Limit @(dbPrefix)PageSize Offset @(dbPrefix)Offset
-    </Statement>
-}
+
+<SmartSqlMap Scope="@table.ConvertedName" xmlns="http://SmartSql.net/schemas/SmartSqlMap.xsd">
+    @Include("SqlMap-ResultMaps.cshtml", Model)
+    <Statements>
+        @Include("SqlMap-Columns.cshtml", Model)
+
+        <Statement Id="QueryParams">
+            <Where>
+                @foreach (var col in table.Columns)
+                {
+                    <IsNotEmpty Prepend="And" Property="@col.ConvertedName">
+                        T.@col.Name = @dbPrefix@col.ConvertedName
+                    </IsNotEmpty>
+                }
+            </Where>
+        </Statement>
+        @Include("./CURD/SqlMap-Insert.cshtml", Model)
+        @Include("./CURD/SqlMap-Delete.cshtml", Model)
+        @Include("./CURD/SqlMap-Update.cshtml", Model)
+        @Include("./CURD/SqlMap-Query.cshtml", Model)
+
+        <!--获取分页数据-->
+        <Statement Id="QueryByPage" @queryStatementResultMap>
+            Select
+            <Include RefId="AllCols" />
+            From @table.Name As T
+            <Include RefId="QueryParams" />
+            <Switch Prepend="Order By" Property="OrderBy">
+                <Default>
+                    T.@pkCol.Name Desc
+                </Default>
+            </Switch>
+            Limit @(dbPrefix)PageSize Offset @(dbPrefix)Offset
+        </Statement>
+        @Include("./CURD/SqlMap-GetRecord.cshtml", Model)
+        @Include("./CURD/SqlMap-GetEntity.cshtml", Model)
+        @Include("./CURD/SqlMap-IsExist.cshtml", Model)
+    </Statements>
+
+</SmartSqlMap>

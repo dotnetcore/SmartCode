@@ -1,58 +1,45 @@
 ﻿@using SmartCode
-@model BuildContext
+@inherits SmartCode.TemplateEngine.Impl.RazorCoreTemplate<BuildContext>
 @{
-    Layout = "../_CSharpLayout.cshtml";
     var project = Model.Project;
 }
+@Include("../Copyright.cshtml", Model)
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
+using System.Net;
 using @(project.Module).API.Exceptions;
 using @(project.Module).API.Messages;
-using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace  @(project.Module).API.Filters
 {
     public class GlobalExceptionFilter : IExceptionFilter
     {
-        private readonly IHostingEnvironment env;
         private readonly ILogger@("<GlobalExceptionFilter>") logger;
 
-        public GlobalExceptionFilter(IHostingEnvironment env, ILogger@("<GlobalExceptionFilter>") logger)
+        public GlobalExceptionFilter(ILogger@("<GlobalExceptionFilter>") logger)
         {
-        this.env = env;
-        this.logger = logger;
+            this.logger = logger;
         }
 
         public void OnException(ExceptionContext context)
         {
-        context.ExceptionHandled = true;
-        var exception = context.Exception;
-        logger.LogError(
-        new EventId(exception.HResult),
-        exception,
-        exception.Message);
-        string errorCode = "0001";
-        if (exception is APIException) { errorCode = (exception as APIException).ErrorCode; }
-        var errorResp = new ResponseMessage
-        {
-        Message = exception.Message,
-        ErrorCode = errorCode,
-        IsSuccess = false
-        };
-        var result = new JsonResult(errorResp)
-        {
-        StatusCode = (int)HttpStatusCode.OK
-        };
-        context.Result = result;
-
+            context.ExceptionHandled = true;
+            var exception = context.Exception;
+            logger.LogError(new EventId(exception.HResult), exception, exception.Message);
+            string errorCode = "0001";
+            if (exception is APIException apiException) { errorCode = apiException.ErrorCode; }
+            var errorResp = new ResponseMessage
+            {
+                Message = exception.Message,
+                ErrorCode = errorCode,
+                IsSuccess = false
+            };
+            var result = new JsonResult(errorResp)
+            {
+                StatusCode = (int)HttpStatusCode.OK
+            };
+            context.Result = result;
         }
-        }
-        }
-
-
-
-
-
+    }
+}
